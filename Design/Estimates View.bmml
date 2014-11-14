@@ -1,0 +1,14 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="699" measuredH="232" mockupW="593" mockupH="119">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::ButtonBar" x="109" y="113" w="-1" h="-1" measuredW="97" measuredH="27" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Create</text>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::DataGrid" x="106" y="151" w="-1" h="-1" measuredW="593" measuredH="81" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Name%2C%20Total%20Tasks%2C%20Total%20Hours%2C%20Contingency%20Hours%2C%20Total%20Weeks%2C%20Contingency%20Weeks%0AProject%20Name%2C%2012%2C%20100%2C%20120%2C%204%2C%204.6%20%0AProject%20Two%2C%205%2C%20100%2C%20120%2C%204%2C%204.6</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

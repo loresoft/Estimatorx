@@ -1,0 +1,36 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="770" measuredH="262" mockupW="626" mockupH="213">
+  <controls>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::LinkBar" x="264" y="53" w="-1" h="-1" measuredW="289" measuredH="19" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Home%20v%2C%20Estimates%20v%2C%20Factors%20v%2C%20Settings%20v</text>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::Title" x="144" y="49" w="-1" h="-1" measuredW="105" measuredH="27" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>Estimator</text>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::SearchBox" x="645" y="50" w="-1" h="-1" measuredW="120" measuredH="25" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>search</text>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::HRule" x="144" y="77" w="626" h="-1" measuredW="100" measuredH="10" zOrder="3" locked="false" isInGroup="-1"/>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::BreadCrumbs" x="145" y="93" w="-1" h="-1" measuredW="168" measuredH="24" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Home%2C%20Estimates%2C%20Project</text>
+      </controlProperties>
+    </control>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::ButtonBar" x="147" y="143" w="-1" h="-1" measuredW="97" measuredH="27" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Create</text>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::DataGrid" x="144" y="181" w="623" h="81" measuredW="593" measuredH="81" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Name%2C%20Total%20Tasks%2C%20Total%20Hours%2C%20Contingency%20Hours%2C%20Total%20Weeks%2C%20Contingency%20Weeks%0AProject%20Name%2C%2012%2C%20100%2C%20120%2C%204%2C%204.6%20%0AProject%20Two%2C%205%2C%20100%2C%20120%2C%204%2C%204.6</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

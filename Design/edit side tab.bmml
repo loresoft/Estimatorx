@@ -1,0 +1,9 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="989" measuredH="771" mockupW="844" mockupH="618">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="145" y="153" w="844" h="618" measuredW="200" measuredH="182" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Project%0AFactors%0AEstimate%0AFinal</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

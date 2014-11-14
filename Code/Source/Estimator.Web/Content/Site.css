@@ -1,0 +1,71 @@
+﻿body {
+    padding-top: 70px;
+    padding-bottom: 20px;
+}
+
+footer, #footer {
+    color: #999;
+    text-align: center;
+    line-height: normal;
+    margin: 0 0 1em 0;
+    font-size: .9em;
+}
+
+#section-main {
+    min-height: 300px;
+}
+
+
+
+
+
+
+.carousel, .nav, .pagination, .panel-title a {
+    cursor: pointer;
+}
+
+
+.tab-container .tab-content {
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #d5d5d5;
+    border-top-width: 0;
+    border-radius: 0 0 5px 5px;
+}
+
+.nav-tabs {
+    border-color: #d5d5d5;
+}
+
+.nopadding {
+    padding: 0 !important;
+}
+
+
+.table-hover tr td .btn-group-hover {
+    display:none;
+}
+.table-hover tr:hover td .btn-group-hover {
+    display:inline-block;
+}
+.table-hover tr:hover td .btn-group-hover > .btn {
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 100%
+}
+.table-toolbar {
+    height: 50px;
+}
+
+
+.table-edit .form-control {
+    border-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.table-edit .form-control:focus {
+    border-color: #66afe9;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
+    outline: 0 none;
+}
