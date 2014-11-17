@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimator.Web", "Estimator.Web\Estimator.Web.csproj", "{5370612B-D6A5-4DEA-8C26-3E8E974CD1DA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimator.Core", "Estimator.Core\Estimator.Core.csproj", "{C5F768AA-8DC4-4AC2-A4AF-7726383C279C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimator.Core.Tests", "Estimator.Core.Tests\Estimator.Core.Tests.csproj", "{4113A43D-C54D-419A-93BB-B2165538E1F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C5F768AA-8DC4-4AC2-A4AF-7726383C279C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5F768AA-8DC4-4AC2-A4AF-7726383C279C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5F768AA-8DC4-4AC2-A4AF-7726383C279C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4113A43D-C54D-419A-93BB-B2165538E1F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4113A43D-C54D-419A-93BB-B2165538E1F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4113A43D-C54D-419A-93BB-B2165538E1F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4113A43D-C54D-419A-93BB-B2165538E1F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

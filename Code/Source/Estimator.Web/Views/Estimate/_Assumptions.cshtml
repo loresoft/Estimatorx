@@ -1,0 +1,31 @@
+﻿<table class="table table-edit">
+    <colgroup>
+        <col style="" />
+        <col style="width: 80px" />
+    </colgroup>
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="assumption in viewModel.project.Assumptions">
+            <td><input type="text" class="form-control" ng-model="assumption.Text" /></td>
+            <td>
+                <div class="btn-group pull-right">
+                    <button class="btn btn-link btn-sm" ng-click="viewModel.removeAssumption(assumption)"><i class="glyphicon glyphicon-remove"></i></button>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="7">
+                <div class="btn-group">
+                    <button class="btn btn-link btn-sm" ng-click="viewModel.addAssumption()"><i class="glyphicon glyphicon-plus"></i> Add Assumption</button>
+                </div>
+            </th>
+        </tr>
+    </tfoot>
+</table>

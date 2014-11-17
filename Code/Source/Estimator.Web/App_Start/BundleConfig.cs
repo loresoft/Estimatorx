@@ -12,6 +12,7 @@ namespace Estimator.Web
                     "~/Content/bootstrap.css",
                     //"~/Content/bootstrap-theme.css",
                     "~/Content/font-awesome.css",
+                    "~/Scripts/ui-select/select.css",
                     "~/Content/site.css"
                 )
             );
@@ -25,6 +26,9 @@ namespace Estimator.Web
             bundles.Add(new ScriptBundle("~/bundles/bootstrap")
                 .Include(
                     "~/Scripts/jquery-{version}.js",
+                    "~/Scripts/moment.js",
+                    "~/Scripts/underscore.js",
+                    "~/Scripts/linq.js",
                     "~/Scripts/bootstrap.js"
                 )
             );
@@ -36,8 +40,12 @@ namespace Estimator.Web
                     "~/Scripts/angular-messages.js",
                     "~/Scripts/angular-resource.js",
                     "~/Scripts/angular-sanitize.js",
-                    "~/Scripts/angular-ui/ui-bootstrap.js",
-                    "~/Scripts/angular-ui/ui-bootstrap-tpls.js"
+                    /* addon */
+                    "~/Scripts/angular-moment.js",
+                    "~/Scripts/ui-router/angular-ui-router.js",
+                    "~/Scripts/ui-utils/ui-utils.js",
+                    "~/Scripts/ui-select/select.js",
+                    "~/Scripts/angular-ui/ui-bootstrap.js"
                 )
             );
 

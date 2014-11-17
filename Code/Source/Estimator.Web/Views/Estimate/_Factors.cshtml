@@ -1,0 +1,46 @@
+﻿<table class="table table-edit">
+    <colgroup>
+        <col style="" />
+        <col style="width: 120px" />
+        <col style="width: 120px" />
+        <col style="width: 120px" />
+        <col style="width: 120px" />
+        <col style="width: 120px" />
+        <col style="width: 80px" />
+    </colgroup>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Very Simple</th>
+            <th>Simple</th>
+            <th>Mediumn</th>
+            <th>Complex</th>
+            <th>Very Complex</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="factor in viewModel.project.Factors">
+            <td><input type="text" class="form-control" ng-model="factor.Name" /></td>
+            <td><input type="number" class="form-control" ng-model="factor.VerySimple" /></td>
+            <td><input type="number" class="form-control" ng-model="factor.Simple" /></td>
+            <td><input type="number" class="form-control" ng-model="factor.Medium" /></td>
+            <td><input type="number" class="form-control" ng-model="factor.Complex" /></td>
+            <td><input type="number" class="form-control" ng-model="factor.VeryComplex" /></td>
+            <td>
+                <div class="btn-group pull-right">
+                    <button class="btn btn-link btn-sm" ng-click="viewModel.removeFactor(factor)"><i class="glyphicon glyphicon-remove"></i></button>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="7">
+                <div class="btn-group">
+                    <button class="btn btn-link btn-sm" ng-click="viewModel.addFactor()"><i class="glyphicon glyphicon-plus"></i> Add Factor</button>
+                </div>
+            </th>
+        </tr>
+    </tfoot>
+</table>

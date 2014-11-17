@@ -10,7 +10,11 @@ module Estimator {
         [
             'ngAnimate',
             'ngResource',
-            'ngSanitize'
+            'ngSanitize',
+            'angularMoment',
+            'ui.bootstrap',
+            'ui.router',
+            'ui.select'
         ]
     );
 }

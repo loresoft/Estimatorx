@@ -3,14 +3,14 @@ using System.Linq;
 
 namespace Estimator.Core.Extensions
 {
-    public static class ProjectExtensions
+    public static class ProjectCalculator
     {
         /// <summary>
         /// Updates all the totals the specified <paramref name="project"/>.
         /// </summary>
         /// <param name="project">The project to total.</param>
         /// <returns></returns>
-        public static Project UpdateTotals(this Project project)
+        public static Project UpdateTotals(Project project)
         {
             var hoursPerWeek = (double)project.HoursPerWeek;
 

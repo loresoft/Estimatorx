@@ -39,8 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assumption.cs" />
+    <Compile Include="ProjectSummary.cs" />
     <Compile Include="Section.cs" />
-    <Compile Include="Extensions\ProjectExtensions.cs" />
+    <Compile Include="ProjectCalculator.cs" />
     <Compile Include="Estimate.cs" />
     <Compile Include="Factor.cs" />
     <Compile Include="ModelBase.cs" />

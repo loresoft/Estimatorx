@@ -1,4 +1,4 @@
-﻿ /// <reference path="../_ref.ts" />
+﻿/// <reference path="../_ref.ts" />
 
 module Estimator {
     "use strict";
@@ -10,7 +10,23 @@ module Estimator {
         TotalTasks: number;
         TotalHours: number;
         TotalWeeks: number;
-        
+
         Estimates: IEstimate[];
     }
+
+    export class Section extends ModelBase implements ISection {
+        constructor() {
+            super();
+        }
+
+        Name: string = '';
+        Description: string;
+
+        TotalTasks: number = 0;
+        TotalHours: number = 0;
+        TotalWeeks: number = 0;
+
+        Estimates: IEstimate[] = [];
+    }
+
 }

@@ -1,0 +1,77 @@
+﻿<table class="table table-edit" ng-repeat="section in viewModel.project.Sections">
+    <colgroup>
+        <col style="" />
+        <col style="width: 180px" />
+        <col style="width: 80px" />
+        <col style="width: 80px" />
+        <col style="width: 80px" />
+        <col style="width: 80px" />
+        <col style="width: 80px" />
+        <col style="width: 80px" />
+        <col style="width: 80px" />
+        <col style="width: 50px" />
+    </colgroup>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Factor</th>
+            <th>Very Simple</th>
+            <th>Simple</th>
+            <th>Mediumn</th>
+            <th>Complex</th>
+            <th>Very Complex</th>
+            <th>Total Tasks</th>
+            <th>Total Hours</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="info">
+            <td colspan="7"><input type="text" class="form-control section-control" ng-model="section.Name" /></td>
+            <td>{{section.TotalTasks}}</td>
+            <td>{{section.TotalHours}}</td>
+            <td>
+                <div class="btn-group pull-right">
+                    <button class="btn btn-link btn-sm" ng-click="viewModel.removeSection(section)"><i class="glyphicon glyphicon-remove"></i></button>
+                </div>
+            </td>
+        </tr>
+        <tr ng-repeat="estimate in section.Estimates">
+            <td><input type="text" class="form-control" ng-model="estimate.Name" /></td>
+            <td>
+                <select class="form-control" ng-model="estimate.FactorId" ng-options="factor.Id as factor.Name for factor in viewModel.project.Factors">
+                    <option value="">-- select --</option>
+                </select>
+            </td>
+            <td><input type="number" class="form-control" ng-model="estimate.VerySimple" /></td>
+            <td><input type="number" class="form-control" ng-model="estimate.Simple" /></td>
+            <td><input type="number" class="form-control" ng-model="estimate.Medium" /></td>
+            <td><input type="number" class="form-control" ng-model="estimate.Complex" /></td>
+            <td><input type="number" class="form-control" ng-model="estimate.VeryComplex" /></td>
+            <td>{{estimate.TotalTasks}}</td>
+            <td>{{estimate.TotalHours}}</td>
+            <td>
+                <div class="btn-group pull-right">
+                    <button class="btn btn-link btn-sm" ng-click="viewModel.removeEstimate(section, estimate)"><i class="glyphicon glyphicon-remove"></i></button>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="10">
+                <div class="btn-group">
+                    <button class="btn btn-link btn-sm" ng-click="viewModel.addEstimate(section)"><i class="glyphicon glyphicon-plus"></i> Add Estimate</button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-link btn-sm" ng-click="viewModel.addSection()"><i class="glyphicon glyphicon-plus"></i> Add Section</button>
+                </div>
+            </th>
+        </tr>
+    </tfoot>
+</table>
+
+<div class="btn-group">
+    <button class="btn btn-link btn-sm" ng-click="viewModel.addSection()"><i class="glyphicon glyphicon-plus"></i> Add Section</button>
+</div>
+

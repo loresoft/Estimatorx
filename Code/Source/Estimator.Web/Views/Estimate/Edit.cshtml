@@ -9,178 +9,46 @@
         <li class="active">Edit</li>
     </ol>
 
-    <div class="page-header">
-        <h1>Example page header <small>Subtext for header</small></h1>
-    </div>
-
-    <form role="form">
+    <form role="form" ng-cloak>
         <div class="panel panel-default">
-            <div class="panel-heading"><i class="fa fa-calculator"></i> Estimate</div>
+            <div class="panel-heading">
+                <i class="fa fa-calculator"></i> Estimate
+                <span ng-show="viewModel.project.Name">- <strong>{{ viewModel.project.Name}}</strong></span>
+                <div class="pull-right">
+                    <label style="padding: 0 5px;">Total Hours:</label>
+                    <span style="padding: 0 5px; width: 80px; display: inline-block;">{{ viewModel.project.TotalHours}}</span>
+                    <label style="padding: 0 5px;">Total Weeks:</label>
+                    <span style="padding: 0 5px; width: 80px; display: inline-block;">{{ viewModel.project.TotalWeeks | number:2}}</span>
+                </div>
+            </div>
             <div class="panel-body">
                 <div class="tab-container">
                     <!-- Nav tabs -->
                     <div role="tabpanel">
                         <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" class="active"><a href="#project" aria-controls="project" role="tab" data-toggle="tab">Project</a></li>
+                            <li role="presentation"><a href="#assumptions" aria-controls="assumptions" role="tab" data-toggle="tab">Assumptions</a></li>
                             <li role="presentation"><a href="#factors" aria-controls="factors" role="tab" data-toggle="tab">Factors</a></li>
                             <li role="presentation"><a href="#estimates" aria-controls="estimates" role="tab" data-toggle="tab">Estimates</a></li>
+                            <li role="presentation"><a href="#summary" aria-controls="summary" role="tab" data-toggle="tab">Summary</a></li>
                         </ul>
                     </div>
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="project">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="projectName">Project Name:</label>
-                                        <input type="text" class="form-control" id="projectName" name="projectName" placeholder="Project Name" required="required">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="projectDescription">Description:</label>
-                                        <textarea class="form-control" rows="5" id="projectDescription" name="projectDescription"></textarea>
-                                    </div>
-
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="hoursPerWeek">Hours Per Week:</label>
-                                        <input type="number" class="form-control" id="hoursPerWeek" name="hoursPerWeek" required="required">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="contingencyRate">Contingency Rate:</label>
-                                        <input type="number" class="form-control" id="contingencyRate" name="contingencyRate" required="required">
-                                    </div>
-
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Created:</label>
-                                        <p class="form-control-static">4 days ago</p>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Creator:</label>
-                                        <p class="form-control-static">pwelter@loresoft.com</p>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Updated:</label>
-                                        <p class="form-control-static">4 days ago</p>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Updator:</label>
-                                        <p class="form-control-static">pwelter@loresoft.com</p>
-                                    </div>
-                                </div>
-                            </div>
+                            @Html.Partial("_Project")
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="assumptions">
+                            @Html.Partial("_Assumptions")
                         </div>
                         <div role="tabpanel" class="tab-pane" id="factors">
-                            <table class="table table-edit">
-                                <colgroup>
-                                    <col style="" />
-                                    <col style="width: 120px" />
-                                    <col style="width: 120px" />
-                                    <col style="width: 120px" />
-                                    <col style="width: 120px" />
-                                    <col style="width: 120px" />
-                                    <col style="width: 80px" />
-                                </colgroup>
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Very Simple</th>
-                                        <th>Simple</th>
-                                        <th>Mediumn</th>
-                                        <th>Complex</th>
-                                        <th>Very Complex</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><input type="text" value="ASP.NET MVC View" class="form-control" /></td>
-                                        <td><input type="text" value="1" class="form-control" /></td>
-                                        <td><input type="text" value="2" class="form-control" /></td>
-                                        <td><input type="text" value="4" class="form-control" /></td>
-                                        <td><input type="text" value="8" class="form-control" /></td>
-                                        <td><input type="text" value="16" class="form-control" /></td>
-                                        <td>
-                                            <div class="btn-group pull-right">
-                                                <a class="btn btn-sm" href="#"><i class="glyphicon glyphicon-remove"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="text" value="ASP.NET MVC View" class="form-control" /></td>
-                                        <td><input type="text" value="1" class="form-control" /></td>
-                                        <td><input type="text" value="2" class="form-control" /></td>
-                                        <td><input type="text" value="4" class="form-control" /></td>
-                                        <td><input type="text" value="8" class="form-control" /></td>
-                                        <td><input type="text" value="16" class="form-control" /></td>
-                                        <td>
-                                            <div class="btn-group pull-right">
-                                                <a class="btn btn-sm" href="#"><i class="glyphicon glyphicon-remove"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="text" value="ASP.NET MVC View" class="form-control" /></td>
-                                        <td><input type="text" value="1" class="form-control" /></td>
-                                        <td><input type="text" value="2" class="form-control" /></td>
-                                        <td><input type="text" value="4" class="form-control" /></td>
-                                        <td><input type="text" value="8" class="form-control" /></td>
-                                        <td><input type="text" value="16" class="form-control" /></td>
-                                        <td>
-                                            <div class="btn-group pull-right">
-                                                <a class="btn btn-sm" href="#"><i class="glyphicon glyphicon-remove"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="7">
-                                            <div class="btn-group">
-                                                <a class="btn btn-sm" href="#"><i class="glyphicon glyphicon-plus"></i> Add Factor</a>
-                                            </div>
-                                        </th>                                        
-                                    </tr>
-                                </tfoot>
-                            </table>
+                            @Html.Partial("_Factors")
                         </div>
                         <div role="tabpanel" class="tab-pane" id="estimates">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Username</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td rowspan="2">1</td>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td colspan="2">Larry the Bird</td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            @Html.Partial("_Estimates")
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="summary">
+                            @Html.Partial("_Summary")
                         </div>
                     </div>
                 </div>

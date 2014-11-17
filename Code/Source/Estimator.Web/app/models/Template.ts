@@ -9,5 +9,17 @@ module Estimator {
 
         Factors: IFactor[];        
     }
+
+    export class Template extends ModelBase implements ITemplate {
+        constructor() {
+            super();
+        }
+
+        Name: string = '';
+        Description: string;
+
+        Factors: IFactor[] = [];
+    }
+
 }
  
