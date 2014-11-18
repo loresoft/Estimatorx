@@ -54,9 +54,11 @@ namespace Estimator.Web
                 .IncludeDirectory("~/app/common/", "*.js")
 
                 .Include("~/app/app.js")
+                .Include("~/app/app.config.js")
 
                 .IncludeDirectory("~/app/services/", "*.js")
-                
+
+                .IncludeDirectory("~/app/home/", "*.js")                
                 .IncludeDirectory("~/app/estimate/", "*.js")
                 .IncludeDirectory("~/app/factor/", "*.js")
             );

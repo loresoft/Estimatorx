@@ -5,9 +5,8 @@ module Estimator {
 
     export var applicationName: string = 'app';
 
-    export var application: ng.IModule = angular.module(
-        Estimator.applicationName,
-        [
+    export var application: ng.IModule = angular
+        .module(Estimator.applicationName, [
             'ngAnimate',
             'ngResource',
             'ngSanitize',
@@ -15,6 +14,5 @@ module Estimator {
             'ui.bootstrap',
             'ui.router',
             'ui.select'
-        ]
-    );
+        ]);
 }

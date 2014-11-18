@@ -1,0 +1,41 @@
+﻿<div class="container">
+    <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Estimates</a></li>
+        <li class="active">Edit</li>
+    </ol>
+
+    <form role="form" ng-cloak>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-calculator"></i> Estimate
+                <span ng-show="viewModel.project.Name">- <strong>{{ viewModel.project.Name}}</strong></span>
+                <div class="pull-right">
+                    <label style="padding: 0 5px;">Total Hours:</label>
+                    <span style="padding: 0 5px; width: 80px; display: inline-block;">{{ viewModel.project.TotalHours}}</span>
+                    <label style="padding: 0 5px;">Total Weeks:</label>
+                    <span style="padding: 0 5px; width: 80px; display: inline-block;">{{ viewModel.project.TotalWeeks | number:2}}</span>
+                </div>
+            </div>
+            <div class="panel-body">
+                <tabset>
+                    <tab ng-repeat="t in tabs"
+                         heading="{{t.heading}}"
+                         select="go(t.route)"
+                         active="t.active">
+                    </tab>
+                </tabset>
+            </div>
+
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <button class="btn btn-primary">Save</button>
+                        <button class="btn btn-default">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+

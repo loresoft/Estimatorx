@@ -167,6 +167,7 @@
     <Compile Include="Controllers\EstimateController.cs" />
     <Compile Include="Controllers\FactorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -176,6 +177,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\estimate\edit-assumptions.html" />
+    <Content Include="app\estimate\edit-estimate.html" />
+    <Content Include="app\estimate\edit-factors.html" />
+    <Content Include="app\estimate\edit-project.html" />
+    <Content Include="app\estimate\edit-summary.html" />
+    <Content Include="app\estimate\edit.html" />
+    <Content Include="app\estimate\list.html" />
+    <Content Include="app\home\home.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -294,9 +303,12 @@
     <Content Include="Views\Estimate\_Estimates.cshtml" />
     <Content Include="Views\Estimate\_Assumptions.cshtml" />
     <Content Include="Views\Estimate\_Summary.cshtml" />
+    <Content Include="Views\Main\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="app\app.config.ts" />
     <TypeScriptCompile Include="app\app.ts" />
+    <TypeScriptCompile Include="app\home\HomeController.ts" />
     <TypeScriptCompile Include="app\models\Assumption.ts" />
     <TypeScriptCompile Include="app\services\IdentityService.ts" />
     <TypeScriptCompile Include="app\estimate\EstimateEditController.ts" />

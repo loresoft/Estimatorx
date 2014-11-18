@@ -13,13 +13,13 @@ namespace Estimator.Web.Controllers
         // GET: api/Project
         public IEnumerable<Project> Get()
         {
-            return new string[] { "value1", "value2" };
+            return null;
         }
 
         // GET: api/Project/5
         public Project Get(Guid id)
         {
-            return "value";
+            return null;
         }
 
         // POST: api/Project
