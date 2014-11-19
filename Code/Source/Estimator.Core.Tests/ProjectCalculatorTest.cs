@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentAssertions;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace Estimator.Core.Tests
@@ -10,34 +12,37 @@ namespace Estimator.Core.Tests
     public class ProjectCalculatorTest
     {
         [Fact]
-        public void MyFact()
+        public void UpdateTotals()
         {
-            var project = new Project
-            {
-                Id = Guid.NewGuid(),
-                Name = "Unit Test",
-                Description = "Unit Test",
-                ContingencyRate = .10,
-                HoursPerWeek = 30,
-                IsActive = true,
-                Sections = new List<Section>
-                {
-                    new Section
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Edit Estimate Page",
-                        Estimates = new List<Estimate>
-                        {
-                            new Estimate
-                            {
-                                Id = Guid.NewGuid(),
-                                Name = "Create Web View",
-                                Simple = 1
-                            },
-                        }
-                    }
-                }
-            };
+            var project = ProjectFactory.Create();
+            project.Should().NotBeNull();
+            project.Sections.Should().NotBeNullOrEmpty();
+            project.Factors.Should().NotBeNullOrEmpty();
+
+            var estimate = project.Sections[0].Estimates[0];
+            estimate.Simple = 1;
+            estimate.Medium = 1;
+
+            estimate = project.Sections[0].Estimates[1];
+            estimate.Simple = 1;
+
+            ProjectCalculator.UpdateTotals(project);
+
+            project.TotalTasks.Should().Be(3);
+            project.TotalHours.Should().Be(16);
+            project.TotalWeeks.Should().Be(0.53);
+
+            project.ContingencyHours.Should().Be(18);
+            project.ContingencyWeeks.Should().Be(0.6);
+
+            var section = project.Sections.First();
+            section.TotalTasks.Should().Be(3);
+            section.TotalHours.Should().Be(16);
+            section.TotalWeeks.Should().Be(0.53);
+
+
+            var json = JsonConvert.SerializeObject(project, Formatting.Indented);
+            Console.WriteLine(json);
         }
     }
 }

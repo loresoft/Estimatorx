@@ -45,10 +45,10 @@ footer, #footer {
     margin: 0;
 }
 
-.panel-heading .table > tbody > tr > th, 
-.panel-heading .table > tbody > tr > td {
-    border: 0 none;
-}
+    .panel-heading .table > tbody > tr > th,
+    .panel-heading .table > tbody > tr > td {
+        border: 0 none;
+    }
 
 .table-hover tr td .btn-group-hover {
     display: none;
@@ -84,6 +84,11 @@ footer, #footer {
         outline: 0 none;
     }
 
+.table-property > tbody > tr > th {
+    background-color: #f9f9f9;
+    text-align: right;
+}
+
 .section-control {
     background-color: transparent;
 }
@@ -92,7 +97,7 @@ footer, #footer {
         background-color: #fff;
     }
 
-    
+
 /* Hide Spinner */
 input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {
@@ -101,11 +106,16 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 input[type=number] {
-    -moz-appearance:textfield;
+    -moz-appearance: textfield;
 }
 
 select {
     -moz-appearance: none;
     text-indent: 0.01px;
     text-overflow: '';
+}
+
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
 }

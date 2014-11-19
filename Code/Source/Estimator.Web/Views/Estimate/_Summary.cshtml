@@ -1,1 +1,88 @@
-﻿
+﻿<div class="row">
+    <div class="col-md-6">
+        <table class="table table-bordered table-property">
+            <colgroup>
+                <col style="width: 160px;" />
+                <col />
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>Total Tasks:</th>
+                    <td>{{viewModel.project.TotalTasks}}</td>
+                </tr>
+
+                <tr>
+                    <th>Total Hours:</th>
+                    <td>{{viewModel.project.TotalHours}}</td>
+                </tr>
+                <tr>
+                    <th>
+                        Contingency Hours:
+                    </th>
+                    <td>
+                        <abbr title="Contingency of {{viewModel.project.ContingencyRate }}%">
+                            {{viewModel.project.ContingencyHours}}
+                        </abbr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Total Weeks:
+                    </th>
+                    <td>
+                        <abbr title="Using {{viewModel.project.HoursPerWeek}} hrs per week">
+                            {{viewModel.project.TotalWeeks | number:2}}
+                        </abbr>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Contingency Weeks:
+                    </th>
+                    <td>
+                        <abbr title="Contingency of {{viewModel.project.ContingencyRate }}%">
+                            {{viewModel.project.ContingencyWeeks | number:2}}
+                        </abbr>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <table class="table table-bordered table-property">
+            <colgroup>
+                <col style="width: 160px;" />
+                <col />
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>Created:</th>
+                    <td>
+                        <abbr title="{{viewModel.project.SysCreateDate | date:'fullDate'}}">
+                            <span am-time-ago="viewModel.project.SysCreateDate"></span>
+                        </abbr>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Creator:</th>
+                    <td>{{viewModel.project.SysCreateUser}}</td>
+                </tr>
+                <tr>
+                    <th>Updated:</th>
+                    <td>
+                        <abbr title="{{viewModel.project.SysUpdateDate | date:'fullDate'}}">
+                            <span am-time-ago="viewModel.project.SysUpdateDate"></span>
+                        </abbr>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Updator:</th>
+                    <td>{{viewModel.project.SysUpdateUser}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

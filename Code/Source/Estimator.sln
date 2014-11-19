@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimator.Core", "Estimator
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimator.Core.Tests", "Estimator.Core.Tests\Estimator.Core.Tests.csproj", "{4113A43D-C54D-419A-93BB-B2165538E1F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimator.Data.Mongo", "Estimator.Data.Mongo\Estimator.Data.Mongo.csproj", "{0CBD65D2-9627-41E6-AAD1-D12B33D19946}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimator.Data.Mongo.Tests", "Estimator.Data.Mongo.Tests\Estimator.Data.Mongo.Tests.csproj", "{3D1557AF-EC2D-4C5B-A2F8-456834F8BA9F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{4113A43D-C54D-419A-93BB-B2165538E1F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4113A43D-C54D-419A-93BB-B2165538E1F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4113A43D-C54D-419A-93BB-B2165538E1F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CBD65D2-9627-41E6-AAD1-D12B33D19946}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CBD65D2-9627-41E6-AAD1-D12B33D19946}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CBD65D2-9627-41E6-AAD1-D12B33D19946}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CBD65D2-9627-41E6-AAD1-D12B33D19946}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D1557AF-EC2D-4C5B-A2F8-456834F8BA9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D1557AF-EC2D-4C5B-A2F8-456834F8BA9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D1557AF-EC2D-4C5B-A2F8-456834F8BA9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D1557AF-EC2D-4C5B-A2F8-456834F8BA9F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

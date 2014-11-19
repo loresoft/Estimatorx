@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Estimator.Core.Extensions
+namespace Estimator.Core
 {
     public static class ProjectCalculator
     {
@@ -24,7 +24,12 @@ namespace Estimator.Core.Extensions
             }
 
                 // calculate weeks after children total
-            project.TotalWeeks = project.TotalHours / hoursPerWeek;
+            project.TotalWeeks = Math.Round(project.TotalHours / hoursPerWeek, 2);
+
+            double contingencyPercent = project.ContingencyRate / 100;
+            double contingencyHours = project.TotalHours * (1 + contingencyPercent);
+            project.ContingencyHours = Convert.ToInt32(Math.Round(contingencyHours, 0));
+            project.ContingencyWeeks = Math.Round(project.ContingencyHours / hoursPerWeek, 2);
 
             return project;
         }
@@ -42,7 +47,7 @@ namespace Estimator.Core.Extensions
 
             // calculate weeks after children total
             var hoursPerWeek = (double)project.HoursPerWeek;
-            section.TotalWeeks = section.TotalHours / hoursPerWeek;
+            section.TotalWeeks = Math.Round(section.TotalHours / hoursPerWeek, 2);
         }
 
         private static void UpdateEstimate(Project project, Estimate estimate)

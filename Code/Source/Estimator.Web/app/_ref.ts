@@ -8,6 +8,7 @@
 /// <reference path="../scripts/typings/underscore/underscore.d.ts" />
 /// <reference path="../scripts/typings/linq/linq.d.ts" />
 /// <reference path="../scripts/typings/bootstrap/bootstrap.d.ts" />
+/// <reference path="../scripts/typings/bootstrap-dialog/bootstrap-dialog.d.ts" />
 /// <reference path="models/modelbase.ts" />
 /// <reference path="models/estimate.ts" />
 /// <reference path="models/assumption.ts" />

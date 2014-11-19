@@ -5,9 +5,9 @@ module Estimator {
 
     export class EstimateEditController {
 
-        // project for minification, must match contructor signiture.
-        static $inject = ['$scope', '$location', 'identityService', 'projectCalculator'];
-        constructor($scope, $location: ng.ILocationService, identityService: IdentityService, projectCalculator: ProjectCalculator) {
+        // protect for minification, must match contructor signiture.
+        static $inject = ['$scope', '$location', 'identityService', 'projectCalculator', 'modelFactory'];
+        constructor($scope, $location: ng.ILocationService, identityService: IdentityService, projectCalculator: ProjectCalculator, modelFactory: ModelFactory) {
             // assign viewModel to controller
             $scope.viewModel = this;
             this.$scope = $scope;
@@ -15,38 +15,39 @@ module Estimator {
 
             this.identityService = identityService;
             this.projectCalculator = projectCalculator;
+            this.modelFactory = modelFactory;
 
             this.project = <IProject>{};
             var self = this;
 
+            // calculate on project change
             $scope.$watch(
                 s => angular.toJson(s.viewModel.project),
                 _.debounce($.proxy(self.calculate, self), 500));
+
+            self.loadProject();
         }
 
         $scope: ng.IScope;
         $location: ng.ILocationService;
         identityService: IdentityService;
         projectCalculator: ProjectCalculator;
+        modelFactory: ModelFactory;
         project: IProject;
+        estimateId: string;
 
         loadProject() {
             // get project id
+            if (this.estimateId) {
 
-            this.project = <IProject>{
-                Id: this.identityService.newUUID(),
-                Name: 'New Project',
-                HoursPerWeek: 30,
-                ContingencyRate: .10,
-                SysCreateDate: new Date,
-                SysCreateUser: 'paul.welter',
-                SysUpdateDate: new Date,
-                SysUpdateUser: 'paul.welter',
-            };
+            }
+            else {
+                this.project = this.modelFactory.createProject();
+            }
         }
 
         saveProject() {
-            
+
         }
 
         calculate() {
@@ -61,12 +62,7 @@ module Estimator {
             if (!this.project.Assumptions)
                 this.project.Assumptions = [];
 
-            var assumption = <IAssumption>{
-                Id: this.identityService.newUUID(),
-                Description: 'Assumption ' + this.project.Assumptions.length,
-                IsActive: true
-            };
-
+            var assumption = this.modelFactory.createAssumption();
             this.project.Assumptions.push(assumption);
         }
 
@@ -74,12 +70,18 @@ module Estimator {
             if (!assumption)
                 return;
 
-            for (var i = 0; i < this.project.Assumptions.length; i++) {
-                if (this.project.Assumptions[i].Id == assumption.Id) {
-                    this.project.Assumptions.splice(i, 1);
-                    break;
+            BootstrapDialog.confirm("Are you sure you want to remove this assumption?", (result) => {
+                if (!result)
+                    return;
+
+                for (var i = 0; i < this.project.Assumptions.length; i++) {
+                    if (this.project.Assumptions[i].Id == assumption.Id) {
+                        this.project.Assumptions.splice(i, 1);
+                        break;
+                    }
                 }
-            }
+                this.$scope.$apply();
+            });
         }
 
 
@@ -87,30 +89,25 @@ module Estimator {
             if (!this.project.Factors)
                 this.project.Factors = [];
 
-            var factor = <IFactor>{
-                Id: this.identityService.newUUID(),
-                Name: 'Factor ' + this.project.Factors.length,
-                VerySimple: 2,
-                Simple: 4,
-                Medium: 8,
-                Complex: 16,
-                VeryComplex: 32,
-                IsActive: true
-            };
-
+            var factor = this.modelFactory.createFactor();
             this.project.Factors.push(factor);
         }
 
         removeFactor(factor: IFactor) {
             if (!factor)
                 return;
+            BootstrapDialog.confirm("Are you sure you want to remove this assumption?", (result) => {
+                if (!result)
+                    return;
 
-            for (var i = 0; i < this.project.Factors.length; i++) {
-                if (this.project.Factors[i].Id == factor.Id) {
-                    this.project.Factors.splice(i, 1);
-                    break;
+                for (var i = 0; i < this.project.Factors.length; i++) {
+                    if (this.project.Factors[i].Id == factor.Id) {
+                        this.project.Factors.splice(i, 1);
+                        break;
+                    }
                 }
-            }
+                this.$scope.$apply();
+            });
         }
 
 
@@ -118,12 +115,7 @@ module Estimator {
             if (!this.project.Sections)
                 this.project.Sections = [];
 
-            var section = <ISection>{
-                Id: this.identityService.newUUID(),
-                Name: 'Section ' + this.project.Sections.length,
-                IsActive: true
-            };
-
+            var section = this.modelFactory.createSection();
             this.project.Sections.push(section);
         }
 
@@ -131,18 +123,27 @@ module Estimator {
             if (!section)
                 return;
 
-            if (section.Estimates && section.Estimates.length)
-                return; 
-
             if (!this.project.Sections)
                 return;
 
-            for (var i = 0; i < this.project.Sections.length; i++) {
-                if (this.project.Sections[i].Id == section.Id) {
-                    this.project.Sections.splice(i, 1);
-                    break;
-                }
+            if (section.Estimates && section.Estimates.length) {
+                BootstrapDialog.alert("Section not empty. Remove all estimates before removing section.");
+                return;
             }
+
+
+            BootstrapDialog.confirm("Are you sure you want to remove this section?", (result) => {
+                if (!result)
+                    return;
+
+                for (var i = 0; i < this.project.Sections.length; i++) {
+                    if (this.project.Sections[i].Id == section.Id) {
+                        this.project.Sections.splice(i, 1);
+                        break;
+                    }
+                }
+                this.$scope.$apply();
+            });
         }
 
 
@@ -169,12 +170,18 @@ module Estimator {
             if (!section.Estimates)
                 return;
 
-            for (var i = 0; i < section.Estimates.length; i++) {
-                if (section.Estimates[i].Id == estimate.Id) {
-                    section.Estimates.splice(i, 1);
-                    break;
+            BootstrapDialog.confirm("Are you sure you want to remove this estimate?", (result) => {
+                if (!result)
+                    return;
+
+                for (var i = 0; i < section.Estimates.length; i++) {
+                    if (section.Estimates[i].Id == estimate.Id) {
+                        section.Estimates.splice(i, 1);
+                        break;
+                    }
                 }
-            }
+                this.$scope.$apply();
+            });
         }
     }
 
@@ -185,6 +192,7 @@ module Estimator {
             '$location',
             'identityService',
             'projectCalculator',
+            'modelFactory',
 
             EstimateEditController // controller must be last
         ]);

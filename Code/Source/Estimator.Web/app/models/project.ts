@@ -31,7 +31,7 @@ module Estimator {
         Description: string;
 
         HoursPerWeek: number = 30;
-        ContingencyRate: number = .10;
+        ContingencyRate: number = 10;
 
         TotalTasks: number = 0;
         TotalHours: number = 0;

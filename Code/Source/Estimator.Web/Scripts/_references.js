@@ -22,3 +22,4 @@
 /// <reference path="ui-select/select.js" />
 /// <reference path="ui-utils/ui-utils-ieshiv.js" />
 /// <reference path="ui-utils/ui-utils.js" />
+/// <reference path="bootstrap-dialog.js" />

@@ -13,6 +13,9 @@ namespace Estimator.Core
         /// </summary>
         public Project()
         {
+            HoursPerWeek = 30;
+            ContingencyRate = 10;
+
             Assumptions = new List<Assumption>();
             Factors = new List<Factor>();
             Sections = new List<Section>();

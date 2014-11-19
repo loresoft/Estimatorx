@@ -11,6 +11,7 @@ namespace Estimator.Web
                 .Include(
                     "~/Content/bootstrap.css",
                     //"~/Content/bootstrap-theme.css",
+                    "~/Content/bootstrap-dialog.css",
                     "~/Content/font-awesome.css",
                     "~/Scripts/ui-select/select.css",
                     "~/Content/site.css"
@@ -29,7 +30,8 @@ namespace Estimator.Web
                     "~/Scripts/moment.js",
                     "~/Scripts/underscore.js",
                     "~/Scripts/linq.js",
-                    "~/Scripts/bootstrap.js"
+                    "~/Scripts/bootstrap.js",
+                    "~/Scripts/bootstrap-dialog.js"
                 )
             );
 
@@ -56,6 +58,7 @@ namespace Estimator.Web
                 .Include("~/app/app.js")
 
                 .IncludeDirectory("~/app/services/", "*.js")
+                .IncludeDirectory("~/app/filters/", "*.js")
                 
                 .IncludeDirectory("~/app/estimate/", "*.js")
                 .IncludeDirectory("~/app/factor/", "*.js")

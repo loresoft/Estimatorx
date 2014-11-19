@@ -7,6 +7,15 @@ namespace Estimator.Core
     /// </summary>
     public class Factor : ModelBase
     {
+        public Factor()
+        {
+            VerySimple = 2;
+            Simple = 4;
+            Medium = 8;
+            Complex = 16;
+            VeryComplex = 32;
+        }
+
         /// <summary>
         /// Gets or sets the name of the factor.
         /// </summary>

@@ -1,0 +1,56 @@
+﻿<form role="form">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-calculator"></i> Estimate
+            <span ng-show="viewModel.project.Name">- <strong>{{ viewModel.project.Name}}</strong></span>
+            <div class="pull-right">
+                <label style="padding: 0 5px;">Total Hours:</label>
+                <span style="padding: 0 5px; width: 80px; display: inline-block;">{{ viewModel.project.TotalHours}}</span>
+                <label style="padding: 0 5px;">Total Weeks:</label>
+                <span style="padding: 0 5px; width: 80px; display: inline-block;">{{ viewModel.project.TotalWeeks | number:2}}</span>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="tab-container">
+                <!-- Nav tabs -->
+                <div role="tabpanel">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#project" aria-controls="project" role="tab" data-toggle="tab">Project</a></li>
+                        <li role="presentation"><a href="#assumptions" aria-controls="assumptions" role="tab" data-toggle="tab">Assumptions</a></li>
+                        <li role="presentation"><a href="#factors" aria-controls="factors" role="tab" data-toggle="tab">Factors</a></li>
+                        <li role="presentation"><a href="#estimates" aria-controls="estimates" role="tab" data-toggle="tab">Estimates</a></li>
+                        <li role="presentation"><a href="#summary" aria-controls="summary" role="tab" data-toggle="tab">Summary</a></li>
+                    </ul>
+                </div>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="project">
+                        @Html.Partial("_Project")
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="assumptions">
+                        @Html.Partial("_Assumptions")
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="factors">
+                        @Html.Partial("_Factors")
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="estimates">
+                        @Html.Partial("_Estimates")
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="summary">
+                        @Html.Partial("_Summary")
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-8">
+                    <button class="btn btn-primary">Save</button>
+                    <button class="btn btn-default">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

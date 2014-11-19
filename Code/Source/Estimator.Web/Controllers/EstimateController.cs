@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Estimator.Web.Controllers
 {
+    [Authorize]
     public class EstimateController : Controller
     {
         public ActionResult Index()
@@ -13,7 +14,12 @@ namespace Estimator.Web.Controllers
             return View();
         }
 
-        public ActionResult Edit(Guid? id)
+        public ActionResult Create()
+        {
+            return View();
+        }
+        
+        public ActionResult Edit(Guid id)
         {
             return View(id);
         }

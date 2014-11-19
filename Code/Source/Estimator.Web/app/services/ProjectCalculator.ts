@@ -28,7 +28,12 @@
             });
 
             // calculate weeks after children total
-            project.TotalWeeks = project.TotalHours / hoursPerWeek;
+            project.TotalWeeks = this.round(project.TotalHours / hoursPerWeek, 2);
+
+            var contingencyPercent = project.ContingencyRate / 100;
+            var contingencyHours = project.TotalHours * (1 + contingencyPercent);
+            project.ContingencyHours = Number(this.round(contingencyHours, 0));
+            project.ContingencyWeeks = this.round(project.ContingencyHours / hoursPerWeek, 2);
 
             return project;
         }
@@ -49,7 +54,7 @@
 
             // calculate weeks after children total
             var hoursPerWeek = project.HoursPerWeek;
-            section.TotalWeeks = section.TotalHours / hoursPerWeek;
+            section.TotalWeeks = this.round(section.TotalHours / hoursPerWeek, 2);
         }
 
         updateEstimate(project: IProject, estimate: IEstimate) {
@@ -80,6 +85,13 @@
 
         }
 
+        round(value: number, decimals: number = 2): number {
+            if (decimals <= 0)
+                return Math.round(value);
+
+            var m: number = Math.pow(10, decimals);
+            return Math.round(value * m) / m;
+        }
     }
 
 

@@ -15,7 +15,9 @@ namespace Estimator.Core
             Id = Guid.NewGuid();
             IsActive = true;
             SysCreateDate = DateTime.Now;
+            SysCreateUser = UserName.Current();
             SysUpdateDate = DateTime.Now;
+            SysUpdateUser = UserName.Current();
         }
 
         /// <summary>

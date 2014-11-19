@@ -1,5 +1,5 @@
 ﻿<div class="row">
-    <div class="col-md-6">
+    <div class="col-md-9">
         <div class="form-group">
             <label for="projectName">Project Name:</label>
             <input type="text" class="form-control" id="projectName" name="projectName" placeholder="Project Name" required="required" ng-model="viewModel.project.Name">
@@ -13,35 +13,12 @@
     <div class="col-md-3">
         <div class="form-group">
             <label for="hoursPerWeek">Hours Per Week:</label>
-            <input type="number" class="form-control" id="hoursPerWeek" name="hoursPerWeek" ng-model="viewModel.project.HoursPerWeek">
+            <input type="number" min="0" max="100" class="form-control" id="hoursPerWeek" name="hoursPerWeek" ng-model="viewModel.project.HoursPerWeek" required="required">
         </div>
         <div class="form-group">
-            <label for="contingencyRate">Contingency Rate:</label>
-            <input type="number" class="form-control" id="contingencyRate" name="contingencyRate" ng-model="viewModel.project.ContingencyRate">
+            <label for="contingencyRate">Contingency Rate (Percentage):</label>
+            <input type="number" min="0" max="200" class="form-control" id="contingencyRate" name="contingencyRate" ng-model="viewModel.project.ContingencyRate" required="required">
         </div>
-
-    </div>
-    <div class="col-md-3">
-        <table>
-            <tbody>
-                <tr>
-                    <th>Created:</th>
-                    <td><span am-time-ago="viewModel.project.SysCreateDate"></span></td>
-                </tr>
-                <tr>
-                    <th>Creator:</th>
-                    <td>{{viewModel.project.SysCreateUser}}</td>
-                </tr>
-                <tr>
-                    <th>Updated:</th>
-                    <td><span am-time-ago="viewModel.project.SysUpdateDate"></span></td>
-                </tr>
-                <tr>
-                    <th>Updator:</th>
-                    <td>{{viewModel.project.SysUpdateUser}}</td>
-                </tr>
-            </tbody>
-        </table>
     </div>
 </div>
 

@@ -32,7 +32,7 @@
             <td>{{section.TotalHours}}</td>
             <td>
                 <div class="btn-group pull-right">
-                    <button class="btn btn-link btn-sm" ng-click="viewModel.removeSection(section)"><i class="glyphicon glyphicon-remove"></i></button>
+                    <a class="btn btn-link btn-sm" ng-click="viewModel.removeSection(section)"><i class="glyphicon glyphicon-remove"></i></a>
                 </div>
             </td>
         </tr>
@@ -52,7 +52,7 @@
             <td>{{estimate.TotalHours}}</td>
             <td>
                 <div class="btn-group pull-right">
-                    <button class="btn btn-link btn-sm" ng-click="viewModel.removeEstimate(section, estimate)"><i class="glyphicon glyphicon-remove"></i></button>
+                    <a class="btn btn-link btn-sm" ng-click="viewModel.removeEstimate(section, estimate)"><i class="glyphicon glyphicon-remove"></i></a>
                 </div>
             </td>
         </tr>
@@ -61,10 +61,10 @@
         <tr>
             <th colspan="10">
                 <div class="btn-group">
-                    <button class="btn btn-link btn-sm" ng-click="viewModel.addEstimate(section)"><i class="glyphicon glyphicon-plus"></i> Add Estimate</button>
+                    <a class="btn btn-link btn-sm" ng-click="viewModel.addEstimate(section)"><i class="glyphicon glyphicon-plus"></i> Add Estimate</a>
                 </div>
                 <div class="btn-group">
-                    <button class="btn btn-link btn-sm" ng-click="viewModel.addSection()"><i class="glyphicon glyphicon-plus"></i> Add Section</button>
+                    <a class="btn btn-link btn-sm" ng-click="viewModel.addSection()"><i class="glyphicon glyphicon-plus"></i> Add Section</a>
                 </div>
             </th>
         </tr>
@@ -72,6 +72,6 @@
 </table>
 
 <div class="btn-group">
-    <button class="btn btn-link btn-sm" ng-click="viewModel.addSection()"><i class="glyphicon glyphicon-plus"></i> Add Section</button>
+    <a class="btn btn-link btn-sm" ng-click="viewModel.addSection()"><i class="glyphicon glyphicon-plus"></i> Add Section</a>
 </div>
 
