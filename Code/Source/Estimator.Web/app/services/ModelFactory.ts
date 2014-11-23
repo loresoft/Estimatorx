@@ -15,7 +15,7 @@
         identityService: IdentityService;
 
         createProject(): IProject {
-            var project = this.createModel<Project>();
+            var project = this.createModel<IProject>();
             project.Name = 'New Project';
             project.HoursPerWeek = 30;
             project.ContingencyRate = 10;
@@ -29,7 +29,7 @@
         }
 
         createSection(): ISection {
-            var section = this.createModel<Section>();
+            var section = this.createModel<ISection>();
             section.Name = 'Section' + (this.sectionCounter++);
             section.TotalTasks = 0;
             section.TotalHours = 0;
@@ -39,7 +39,7 @@
         }
 
         createFactor(): IFactor {
-            var factor = this.createModel<Factor>();
+            var factor = this.createModel<IFactor>();
             factor.Name = 'Factor ' + (this.factorCounter++);
             factor.VerySimple = 2;
             factor.Simple = 4;
@@ -51,7 +51,7 @@
         }
 
         createEstimate(): IEstimate {
-            var estimate = this.createModel<Estimate>();
+            var estimate = this.createModel<IEstimate>();
             estimate.Name = 'Estimate ' + (this.estimateCounter++);
             estimate.TotalTasks = 0;
             estimate.TotalHours = 0;

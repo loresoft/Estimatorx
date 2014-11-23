@@ -3,23 +3,11 @@
 module Estimator {
     "use strict";
 
-    export interface ITemplate extends IModelBase {
+    export interface ITemplate extends IModelResource<ITemplate> {
         Name: string;
         Description?: string;
 
         Factors: IFactor[];        
     }
-
-    export class Template extends ModelBase implements ITemplate {
-        constructor() {
-            super();
-        }
-
-        Name: string = '';
-        Description: string;
-
-        Factors: IFactor[] = [];
-    }
-
 }
  

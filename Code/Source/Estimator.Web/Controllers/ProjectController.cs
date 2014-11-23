@@ -40,10 +40,10 @@ namespace Estimator.Web.Controllers
         }
 
         // POST: api/Project
-        public HttpResponseMessage Post([FromBody]Project value)
+        public Project Post([FromBody]Project value)
         {
-            _repository.Update(value);
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            var project = _repository.Update(value);
+            return project;
         }
 
         // DELETE: api/Project/5

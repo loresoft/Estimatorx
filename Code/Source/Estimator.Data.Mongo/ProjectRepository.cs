@@ -38,6 +38,7 @@ namespace Estimator.Data.Mongo
         protected override void BeforeInsert(Project entity)
         {
             entity.SysCreateDate = DateTime.Now;
+            entity.SysCreateUser = UserName.Current();
 
             base.BeforeInsert(entity);
         }
@@ -47,7 +48,12 @@ namespace Estimator.Data.Mongo
             if (entity.SysCreateDate == DateTime.MinValue)
                 entity.SysCreateDate = DateTime.Now;
 
+            if (string.IsNullOrEmpty(entity.SysCreateUser))
+                entity.SysCreateUser = UserName.Current();
+
             entity.SysUpdateDate = DateTime.Now;
+            entity.SysUpdateUser = UserName.Current();
+
             base.BeforeUpdate(entity);
         }
 

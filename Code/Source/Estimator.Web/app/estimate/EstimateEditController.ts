@@ -6,48 +6,80 @@ module Estimator {
     export class EstimateEditController {
 
         // protect for minification, must match contructor signiture.
-        static $inject = ['$scope', '$location', 'identityService', 'projectCalculator', 'modelFactory'];
-        constructor($scope, $location: ng.ILocationService, identityService: IdentityService, projectCalculator: ProjectCalculator, modelFactory: ModelFactory) {
+        static $inject = [
+            '$scope',
+            '$location',
+            'identityService',
+            'modelFactory',
+            'projectCalculator',
+            'projectRepository'
+        ];
+        constructor(
+            $scope,
+            $location: ng.ILocationService,
+            identityService: IdentityService,
+            modelFactory: ModelFactory,
+            projectCalculator: ProjectCalculator,
+            projectRepository: ProjectRepository)
+        {
+            var self = this;
+
             // assign viewModel to controller
             $scope.viewModel = this;
-            this.$scope = $scope;
-            this.$location = $location;
+            self.$scope = $scope;
+            self.$location = $location;
 
-            this.identityService = identityService;
-            this.projectCalculator = projectCalculator;
-            this.modelFactory = modelFactory;
-
-            this.project = <IProject>{};
-            var self = this;
+            self.identityService = identityService;
+            self.modelFactory = modelFactory;
+            self.projectCalculator = projectCalculator;
+            self.projectRepository = projectRepository
+            self.project = <IProject>{};
 
             // calculate on project change
             $scope.$watch(
                 s => angular.toJson(s.viewModel.project),
                 _.debounce($.proxy(self.calculate, self), 500));
 
-            self.loadProject();
+            self.load();
         }
 
         $scope: ng.IScope;
         $location: ng.ILocationService;
         identityService: IdentityService;
-        projectCalculator: ProjectCalculator;
         modelFactory: ModelFactory;
+        projectCalculator: ProjectCalculator;
+        projectRepository: ProjectRepository;
         project: IProject;
         estimateId: string;
 
-        loadProject() {
+        load() {
+            var self = this;
+
             // get project id
             if (this.estimateId) {
-
+                this.projectRepository.find(self.estimateId)
+                    .success((data, status, headers, config) => {
+                        self.project = data;
+                    })
+                    .error((data, status, headers, config) => {
+                        
+                    });
             }
             else {
-                this.project = this.modelFactory.createProject();
+                self.project = self.modelFactory.createProject();
             }
         }
 
-        saveProject() {
+        save() {
+            var self = this;
 
+            this.projectRepository.save(this.project)
+                .success((data, status, headers, config) => {
+                    self.project = data;
+                })
+                .error((data, status, headers, config) => {
+
+                });
         }
 
         calculate() {
@@ -191,10 +223,12 @@ module Estimator {
             '$scope',
             '$location',
             'identityService',
-            'projectCalculator',
             'modelFactory',
+            'projectCalculator',
+            'projectRepository',
 
             EstimateEditController // controller must be last
         ]);
+
 }
 
