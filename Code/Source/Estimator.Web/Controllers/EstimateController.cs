@@ -16,9 +16,10 @@ namespace Estimator.Web.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            var routeValues = new { id = Guid.NewGuid() };
+            return RedirectToAction("Edit", routeValues);
         }
-        
+
         public ActionResult Edit(Guid id)
         {
             return View(id);

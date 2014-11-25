@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Linq.Expressions;
 using Estimator.Core;
 using Estimator.Core.Providers;
 using MongoDB.Bson;
@@ -25,6 +27,12 @@ namespace Estimator.Data.Mongo
         {
         }
 
+
+        public IQueryable<ProjectSummary> Summaries()
+        {
+            return All().Select(SelectSummary());
+        }
+        
         public override Guid EntityKey(Project entity)
         {
             return entity.Id;
@@ -67,5 +75,29 @@ namespace Estimator.Data.Mongo
                     .Descending(s => s.SysUpdateDate)
             );
         }
+
+
+        public static Expression<Func<Project, ProjectSummary>> SelectSummary()
+        {
+            return p => new ProjectSummary
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                HoursPerWeek = p.HoursPerWeek,
+                ContingencyRate = p.ContingencyRate,
+                TotalTasks = p.TotalTasks,
+                TotalHours = p.TotalHours,
+                TotalWeeks = p.TotalWeeks,
+                ContingencyHours = p.ContingencyHours,
+                ContingencyWeeks = p.ContingencyWeeks,
+                IsActive = p.IsActive,
+                SysCreateDate = p.SysCreateDate,
+                SysCreateUser = p.SysCreateUser,
+                SysUpdateDate = p.SysUpdateDate,
+                SysUpdateUser = p.SysUpdateUser
+            };
+        }
+
     }
 }

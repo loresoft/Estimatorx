@@ -53,6 +53,7 @@
     <Compile Include="Mapping\ProjectMap.cs" />
     <Compile Include="Mapping\SectionMap.cs" />
     <Compile Include="Mapping\TemplateMap.cs" />
+    <Compile Include="MongoQuery.cs" />
     <Compile Include="MongoRepository.cs" />
     <Compile Include="MongoUtility.cs" />
     <Compile Include="ProjectRepository.cs" />

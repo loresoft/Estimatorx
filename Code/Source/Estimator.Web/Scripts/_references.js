@@ -10,7 +10,6 @@
 /// <reference path="angular-messages.min.js" />
 /// <reference path="angular-resource.min.js" />
 /// <reference path="angular-sanitize.min.js" />
-/// <reference path="npm.js" />
 /// <reference path="bootstrap.min.js" />
 /// <reference path="angular-animate.min.js" />
 /// <reference path="moment-with-locales.min.js" />

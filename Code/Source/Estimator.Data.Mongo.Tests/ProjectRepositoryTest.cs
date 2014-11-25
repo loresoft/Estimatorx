@@ -37,5 +37,25 @@ namespace Estimator.Data.Mongo.Tests
             var repo = new ProjectRepository();
             repo.Insert(project);
         }
+
+        [Fact]
+        public void LoadAll()
+        {
+            var repo = new ProjectRepository();
+            var projects = repo.All().ToList();
+            projects.Should().NotBeNull();
+
+
+        }
+
+        [Fact]
+        public void LoadSummary()
+        {
+            var repo = new ProjectRepository();
+            var projects = repo.All().Where(p => p.Name.StartsWith("New")).Select(ProjectRepository.SelectSummary()).ToList();
+            projects.Should().NotBeNull();
+
+
+        }
     }
 }

@@ -47,7 +47,8 @@ namespace Estimator.Web
                     "~/Scripts/ui-router/angular-ui-router.js",
                     "~/Scripts/ui-utils/ui-utils.js",
                     "~/Scripts/ui-select/select.js",
-                    "~/Scripts/angular-ui/ui-bootstrap.js"
+                    "~/Scripts/angular-ui/ui-bootstrap.js",
+                    "~/Scripts/angular-ui/ui-bootstrap-tpls.js"
                 )
             );
 
@@ -59,6 +60,7 @@ namespace Estimator.Web
 
                 .IncludeDirectory("~/app/services/", "*.js")
                 .IncludeDirectory("~/app/filters/", "*.js")
+                .IncludeDirectory("~/app/directives/", "*.js")
                 
                 .IncludeDirectory("~/app/estimate/", "*.js")
                 .IncludeDirectory("~/app/factor/", "*.js")

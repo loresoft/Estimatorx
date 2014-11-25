@@ -27,30 +27,33 @@ namespace Estimator.Web.Controllers
             _repository = repository;
         }
 
-        // GET: api/Project
         public IEnumerable<Project> Get()
-        {
+        {            
             return _repository.All();
         }
 
-        // GET: api/Project/5
-        public Project Get(Guid id)
+        public IHttpActionResult Get(Guid id)
         {
-            return _repository.Find(id);
+            var project = _repository.Find(id);
+            if (project == null)
+                return NotFound();
+                 
+            return Ok(project);
         }
 
-        // POST: api/Project
-        public Project Post([FromBody]Project value)
+        public IHttpActionResult Post([FromBody]Project value)
         {
-            var project = _repository.Update(value);
-            return project;
+            var project = _repository.Save(value);
+            if (project == null)
+                return NotFound();
+
+            return Ok(project);
         }
 
-        // DELETE: api/Project/5
-        public HttpResponseMessage Delete(Guid id)
+        public IHttpActionResult Delete(Guid id)
         {
             _repository.Delete(id);
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            return StatusCode(HttpStatusCode.NoContent);           
         }
     }
 }

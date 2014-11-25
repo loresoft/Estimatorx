@@ -50,6 +50,11 @@ footer, #footer {
         border: 0 none;
     }
 
+.panel-heading > .btn-group {
+    margin-top: -5px;
+}
+
+
 .table-hover tr td .btn-group-hover {
     display: none;
 }
@@ -87,6 +92,15 @@ footer, #footer {
 .table-property > tbody > tr > th {
     background-color: #f9f9f9;
     text-align: right;
+}
+
+.table > thead > tr > th > a,
+.table > thead > tr > th > a:link,
+.table > thead > tr > th > a:visited,
+.table > thead > tr > th > a:hover {
+    cursor: pointer;
+    color: #333;
+    text-decoration: none;
 }
 
 .section-control {

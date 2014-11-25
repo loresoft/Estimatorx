@@ -3,7 +3,7 @@
 module Estimator {
     "use strict";
 
-    export interface IProject {
+    export interface IProject extends IModelBase {
         Name: string;
         Description?: string;
 

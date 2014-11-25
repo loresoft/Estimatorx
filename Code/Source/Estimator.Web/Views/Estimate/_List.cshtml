@@ -1,0 +1,132 @@
+﻿<table class="table table-striped table-hover">
+    <colgroup>
+        <col />
+        <col style="width: 100px" />
+        <col style="width: 100px" />
+        <col style="width: 90px" />
+        <col style="width: 90px" />
+        <col style="width: 90px" />
+        <col style="width: 100px" />
+        <col style="width: 100px" />
+        <col style="width: 100px" />
+        <col style="width: 100px" />
+    </colgroup>
+    <thead>
+        <tr>
+            <th>
+                <sort-by on-sort="viewModel.sort"
+                         sort="viewModel.result.Sort"
+                         descending="viewModel.result.Descending"
+                         sort-value="Name">
+                    Name
+                </sort-by>
+            </th>
+            <th>
+                <sort-by on-sort="viewModel.sort"
+                         sort="viewModel.result.Sort"
+                         descending="viewModel.result.Descending"
+                         sort-value="HoursPerWeek">
+                    Hours Per<br /> Week
+                </sort-by>
+            </th>
+            <th>
+                <sort-by on-sort="viewModel.sort"
+                         sort="viewModel.result.Sort"
+                         descending="viewModel.result.Descending"
+                         sort-value="ContingencyRate">
+                    Contingency<br />Rate
+                </sort-by>
+            </th>
+            <th>
+                <sort-by on-sort="viewModel.load"
+                         sort="viewModel.result.Sort"
+                         descending="viewModel.result.Descending"
+                         sort-value="TotalTasks">
+                    Total<br /> Tasks
+                </sort-by>
+            </th>
+            <th>
+                <sort-by on-sort="viewModel.sort"
+                         sort="viewModel.result.Sort"
+                         descending="viewModel.result.Descending"
+                         sort-value="TotalHours">
+                    Total<br /> Hours
+                </sort-by>
+            </th>
+            <th>
+                <sort-by on-sort="viewModel.sort"
+                         sort="viewModel.result.Sort"
+                         descending="viewModel.result.Descending"
+                         sort-value="TotalWeeks">
+                    Total<br /> Weeks
+                </sort-by>
+            </th>
+            <th>
+                <sort-by on-sort="viewModel.sort"
+                         sort="viewModel.result.Sort"
+                         descending="viewModel.result.Descending"
+                         sort-value="ContingencyHours">
+                    Contingency<br />Hours
+                </sort-by>
+            </th>
+            <th>
+                <sort-by on-sort="viewModel.sort"
+                         sort="viewModel.result.Sort"
+                         descending="viewModel.result.Descending"
+                         sort-value="ContingencyWeeks">
+                    Contingency<br />Weeks
+                </sort-by>
+            </th>
+            <th>
+                <sort-by on-sort="viewModel.sort"
+                         sort="viewModel.result.Sort"
+                         descending="viewModel.result.Descending"
+                         sort-value="SysUpdateDate">
+                    Updated
+                </sort-by>
+            </th>
+            <th>
+                <sort-by on-sort="viewModel.sort"
+                         sort="viewModel.result.Sort"
+                         descending="viewModel.result.Descending"
+                         sort-value="SysUpdateUser">
+                    Updator
+                </sort-by>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="estimate in viewModel.result.Data">
+            <td>
+                <a style="display: block" href="Estimate/Edit/{{estimate.Id}}" title="{{estimate.Name}}">{{estimate.Name}}</a>
+            </td>
+            <td>{{estimate.HoursPerWeek}}</td>
+            <td>{{estimate.ContingencyRate}}%</td>
+            <td>{{estimate.TotalTasks}}</td>
+            <td>{{estimate.TotalHours}}</td>
+            <td>{{estimate.TotalWeeks | number:2}}</td>
+            <td>{{estimate.ContingencyHours}}</td>
+            <td>{{estimate.ContingencyWeeks | number:2}}</td>
+            <td>
+                <abbr title="{{estimate.SysUpdateDate | date:'fullDate'}}">
+                    <span am-time-ago="estimate.SysUpdateDate"></span>
+                </abbr>
+            </td>
+            <td>{{estimate.SysUpdateUser}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<pagination ng-model="viewModel.result.Page"
+            total-items="viewModel.result.Total"
+            items-per-page="viewModel.result.PageSize"
+            max-size="10"
+            class="pagination"
+            boundary-links="true"
+            rotate="false"
+            previous-text="&lsaquo;"
+            next-text="&rsaquo;"
+            first-text="&laquo;"
+            last-text="&raquo;"
+            ng-change="viewModel.load()">
+</pagination>

@@ -64,6 +64,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Linq.Dynamic">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.3\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -174,7 +177,7 @@
     <Compile Include="Controllers\FactorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\ProjectSummaryController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -261,7 +264,6 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
-    <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -307,11 +309,14 @@
     <Content Include="Views\Estimate\_Assumptions.cshtml" />
     <Content Include="Views\Estimate\_Summary.cshtml" />
     <Content Include="Views\Estimate\_Estimate.cshtml" />
-    <Content Include="Views\Estimate\Create.cshtml" />
+    <Content Include="Views\Estimate\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app\app.ts" />
+    <TypeScriptCompile Include="app\directives\SortBy.ts" />
     <TypeScriptCompile Include="app\models\Assumption.ts" />
+    <TypeScriptCompile Include="app\models\QueryRequest.ts" />
+    <TypeScriptCompile Include="app\models\QueryResult.ts" />
     <TypeScriptCompile Include="app\services\IdentityService.ts" />
     <TypeScriptCompile Include="app\estimate\EstimateEditController.ts" />
     <TypeScriptCompile Include="app\estimate\EstimateListController.ts" />
@@ -327,6 +332,7 @@
     <TypeScriptCompile Include="app\services\ProjectCalculator.ts" />
     <TypeScriptCompile Include="app\services\ModelFactory.ts" />
     <TypeScriptCompile Include="app\services\ProjectRepository.ts" />
+    <TypeScriptCompile Include="app\services\ProjectSummaryRepository.ts" />
     <TypeScriptCompile Include="app\_ref.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />

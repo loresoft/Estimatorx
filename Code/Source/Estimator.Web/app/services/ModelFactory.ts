@@ -1,4 +1,6 @@
-﻿module Estimator {
+﻿/// <reference path="../_ref.ts" />
+
+module Estimator {
     "use strict";
 
     export class ModelFactory {
@@ -14,8 +16,8 @@
 
         identityService: IdentityService;
 
-        createProject(): IProject {
-            var project = this.createModel<IProject>();
+        createProject(id?: string): IProject {
+            var project = this.createModel<IProject>(id);
             project.Name = 'New Project';
             project.HoursPerWeek = 30;
             project.ContingencyRate = 10;
@@ -30,7 +32,7 @@
 
         createSection(): ISection {
             var section = this.createModel<ISection>();
-            section.Name = 'Section' + (this.sectionCounter++);
+            section.Name = 'Section ' + (this.sectionCounter++);
             section.TotalTasks = 0;
             section.TotalHours = 0;
             section.TotalWeeks = 0;
@@ -64,9 +66,9 @@
             return assumption;
         }
 
-        createModel<T extends IModelBase>(): T {
+        createModel<T extends IModelBase>(id?: string): T {
             var model = <T>{
-                Id: this.identityService.newUUID(),
+                Id: id ? id : this.identityService.newUUID(),
                 IsActive: true,
                 SysCreateDate: new Date,
                 SysUpdateDate: new Date,

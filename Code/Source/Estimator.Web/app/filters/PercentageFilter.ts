@@ -1,4 +1,5 @@
-﻿module Estimator {
+﻿/// <reference path="../_ref.ts" />
+module Estimator {
     "use strict";
 
     // register service

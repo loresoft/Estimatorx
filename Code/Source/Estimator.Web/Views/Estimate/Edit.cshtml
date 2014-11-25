@@ -3,7 +3,7 @@
     ViewBag.Title = "Edit Estimate";
 }
 
-<div class="container" ng-controller="estimateEditController" ng-init="viewModel.estimateId = '@Model'">
+<div class="container" ng-controller="estimateEditController" ng-init="viewModel.load('@Model')">
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index", "Home")">Home</a></li>
         <li><a href="@Url.Action("Index")">Estimates</a></li>

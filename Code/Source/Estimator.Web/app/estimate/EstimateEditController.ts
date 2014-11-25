@@ -40,7 +40,7 @@ module Estimator {
                 s => angular.toJson(s.viewModel.project),
                 _.debounce($.proxy(self.calculate, self), 500));
 
-            self.load();
+            //self.load();
         }
 
         $scope: ng.IScope;
@@ -52,22 +52,29 @@ module Estimator {
         project: IProject;
         estimateId: string;
 
-        load() {
+        load(id?: string) {
             var self = this;
 
+            self.estimateId = id;
+
             // get project id
-            if (this.estimateId) {
-                this.projectRepository.find(self.estimateId)
-                    .success((data, status, headers, config) => {
-                        self.project = data;
-                    })
-                    .error((data, status, headers, config) => {
-                        
-                    });
-            }
-            else {
+            if (!self.estimateId) {
                 self.project = self.modelFactory.createProject();
+                return;
             }
+
+            this.projectRepository.find(self.estimateId)
+                .success((data, status, headers, config) => {
+                    self.project = data;
+                })
+                .error((data, status, headers, config) => {
+                    if (status == 404) {
+                        self.project = self.modelFactory.createProject(self.estimateId);
+                        return;
+                    }
+                        
+                    // TODO show error
+                });
         }
 
         save() {
@@ -78,7 +85,7 @@ module Estimator {
                     self.project = data;
                 })
                 .error((data, status, headers, config) => {
-
+                    // TODO show error
                 });
         }
 

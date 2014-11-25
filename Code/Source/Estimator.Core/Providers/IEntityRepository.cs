@@ -44,6 +44,19 @@ namespace Estimator.Core.Providers
         void Update(IEnumerable<TEntity> entities);
 
         /// <summary>
+        /// Saves the specified entity in the underlying data repository by inserting if doesn't exist, or updating if it does.
+        /// </summary>
+        /// <param name="entity">The entity to be updated.</param>
+        /// <returns>The entity that was updated.</returns>
+        TEntity Save(TEntity entity);
+
+        /// <summary>
+        /// Saves the specified entities in the underlying data repository by inserting if doesn't exist, or updating if it does.
+        /// </summary>
+        /// <param name="entities">The entities to be updated.</param>
+        void Save(IEnumerable<TEntity> entities);
+
+        /// <summary>
         /// Deletes an entity with the specified key from the underlying data repository.
         /// </summary>
         /// <param name="key">The key of the entity to delete.</param>
