@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using Estimator.Core;
 using Estimator.Core.Providers;
 using Estimator.Data.Mongo;
 
-namespace Estimator.Web.Controllers
+namespace Estimator.Web.Services
 {
-    public class ProjectController : ApiController
+    public class TemplateController : ApiController
     {
-        private readonly IProjectRepository _repository;
+        private readonly ITemplateRepository _repository;
 
-        public ProjectController()
-            : this(new ProjectRepository())
+        public TemplateController()
+            : this(new TemplateRepository())
         {
         }
 
-        public ProjectController(IProjectRepository repository)
+        public TemplateController(ITemplateRepository repository)
         {
             if (repository == null)
                 throw new ArgumentNullException("repository");
@@ -27,8 +25,8 @@ namespace Estimator.Web.Controllers
             _repository = repository;
         }
 
-        public IEnumerable<Project> Get()
-        {            
+        public IEnumerable<Template> Get()
+        {
             return _repository.All();
         }
 
@@ -37,11 +35,11 @@ namespace Estimator.Web.Controllers
             var project = _repository.Find(id);
             if (project == null)
                 return NotFound();
-                 
+
             return Ok(project);
         }
 
-        public IHttpActionResult Post([FromBody]Project value)
+        public IHttpActionResult Post([FromBody]Template value)
         {
             var project = _repository.Save(value);
             if (project == null)
@@ -53,7 +51,7 @@ namespace Estimator.Web.Controllers
         public IHttpActionResult Delete(Guid id)
         {
             _repository.Delete(id);
-            return StatusCode(HttpStatusCode.NoContent);           
+            return StatusCode(HttpStatusCode.NoContent);
         }
     }
 }

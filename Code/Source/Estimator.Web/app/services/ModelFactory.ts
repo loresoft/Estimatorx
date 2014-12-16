@@ -16,6 +16,14 @@ module Estimator {
 
         identityService: IdentityService;
 
+        createTemplate(id?: string): ITemplate {
+            var template = this.createModel<ITemplate>(id);
+            template.Name = 'New Template';
+
+            return template;
+        }
+
+
         createProject(id?: string): IProject {
             var project = this.createModel<IProject>(id);
             project.Name = 'New Project';

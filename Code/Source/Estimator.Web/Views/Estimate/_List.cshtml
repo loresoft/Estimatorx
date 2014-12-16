@@ -14,84 +14,114 @@
     <thead>
         <tr>
             <th>
-                <sort-by on-sort="viewModel.sort"
-                         sort="viewModel.result.Sort"
-                         descending="viewModel.result.Descending"
-                         sort-value="Name">
+                <a ng-click="viewModel.sortClick('Name')"
+                   style="display: block;">
                     Name
-                </sort-by>
+                    <span class="ng-hide dropdown"
+                          ng-show="viewModel.result.Sort == 'Name'"
+                          ng-class="{true:'dropdown', false:'dropup'}[viewModel.result.Descending]">
+                        <span class="caret" style="margin: 5px 5px;"></span>
+                    </span>
+                </a>
             </th>
             <th>
-                <sort-by on-sort="viewModel.sort"
-                         sort="viewModel.result.Sort"
-                         descending="viewModel.result.Descending"
-                         sort-value="HoursPerWeek">
+                <a ng-click="viewModel.sortClick('HoursPerWeek')"
+                   style="display: block;">
                     Hours Per<br /> Week
-                </sort-by>
+                    <span class="ng-hide dropdown"
+                          ng-show="viewModel.result.Sort == 'HoursPerWeek'"
+                          ng-class="{true:'dropdown', false:'dropup'}[viewModel.result.Descending]">
+                        <span class="caret" style="margin: 5px 5px;"></span>
+                    </span>
+                </a>
             </th>
             <th>
-                <sort-by on-sort="viewModel.sort"
-                         sort="viewModel.result.Sort"
-                         descending="viewModel.result.Descending"
-                         sort-value="ContingencyRate">
+                <a ng-click="viewModel.sortClick('ContingencyRate')"
+                   style="display: block;">
                     Contingency<br />Rate
-                </sort-by>
+                    <span class="ng-hide dropdown"
+                          ng-show="viewModel.result.Sort == 'ContingencyRate'"
+                          ng-class="{true:'dropdown', false:'dropup'}[viewModel.result.Descending]">
+                        <span class="caret" style="margin: 5px 5px;"></span>
+                    </span>
+                </a>
             </th>
             <th>
-                <sort-by on-sort="viewModel.load"
-                         sort="viewModel.result.Sort"
-                         descending="viewModel.result.Descending"
-                         sort-value="TotalTasks">
+                <a ng-click="viewModel.sortClick('TotalTasks')"
+                   style="display: block;">
                     Total<br /> Tasks
-                </sort-by>
+                    <span class="ng-hide dropdown"
+                          ng-show="viewModel.result.Sort == 'TotalTasks'"
+                          ng-class="{true:'dropdown', false:'dropup'}[viewModel.result.Descending]">
+                        <span class="caret" style="margin: 5px 5px;"></span>
+                    </span>
+                </a>
             </th>
             <th>
-                <sort-by on-sort="viewModel.sort"
-                         sort="viewModel.result.Sort"
-                         descending="viewModel.result.Descending"
-                         sort-value="TotalHours">
+                <a ng-click="viewModel.sortClick('TotalHours')"
+                   style="display: block;">
                     Total<br /> Hours
-                </sort-by>
+                    <span class="ng-hide dropdown"
+                          ng-show="viewModel.result.Sort == 'TotalHours'"
+                          ng-class="{true:'dropdown', false:'dropup'}[viewModel.result.Descending]">
+                        <span class="caret" style="margin: 5px 5px;"></span>
+                    </span>
+                </a>
             </th>
             <th>
-                <sort-by on-sort="viewModel.sort"
-                         sort="viewModel.result.Sort"
-                         descending="viewModel.result.Descending"
-                         sort-value="TotalWeeks">
+                <a ng-click="viewModel.sortClick('TotalWeeks')"
+                   style="display: block;">
                     Total<br /> Weeks
-                </sort-by>
+                    <span class="ng-hide dropdown"
+                          ng-show="viewModel.result.Sort == 'TotalWeeks'"
+                          ng-class="{true:'dropdown', false:'dropup'}[viewModel.result.Descending]">
+                        <span class="caret" style="margin: 5px 5px;"></span>
+                    </span>
+                </a>
             </th>
             <th>
-                <sort-by on-sort="viewModel.sort"
-                         sort="viewModel.result.Sort"
-                         descending="viewModel.result.Descending"
-                         sort-value="ContingencyHours">
+                <a ng-click="viewModel.sortClick('ContingencyHours')"
+                   style="display: block;">
                     Contingency<br />Hours
-                </sort-by>
+                    <span class="ng-hide dropdown"
+                          ng-show="viewModel.result.Sort == 'ContingencyHours'"
+                          ng-class="{true:'dropdown', false:'dropup'}[viewModel.result.Descending]">
+                        <span class="caret" style="margin: 5px 5px;"></span>
+                    </span>
+                </a>
             </th>
             <th>
-                <sort-by on-sort="viewModel.sort"
-                         sort="viewModel.result.Sort"
-                         descending="viewModel.result.Descending"
-                         sort-value="ContingencyWeeks">
+                <a ng-click="viewModel.sortClick('ContingencyWeeks')"
+                   style="display: block;">
                     Contingency<br />Weeks
-                </sort-by>
+                    <span class="ng-hide dropdown"
+                          ng-show="viewModel.result.Sort == 'ContingencyWeeks'"
+                          ng-class="{true:'dropdown', false:'dropup'}[viewModel.result.Descending]">
+                        <span class="caret" style="margin: 5px 5px;"></span>
+                    </span>
+                </a>
             </th>
             <th>
-                <sort-by on-sort="viewModel.sort"
-                         sort="viewModel.result.Sort"
-                         descending="viewModel.result.Descending"
-                         sort-value="SysUpdateDate">
+                <a ng-click="viewModel.sortClick('SysUpdateDate')"
+                   style="display: block;">
                     Updated
-                </sort-by>
+                    <span class="ng-hide dropdown"
+                          ng-show="viewModel.result.Sort == 'SysUpdateDate'"
+                          ng-class="{true:'dropdown', false:'dropup'}[viewModel.result.Descending]">
+                        <span class="caret" style="margin: 5px 5px;"></span>
+                    </span>
+                </a>
             </th>
             <th>
-                <sort-by on-sort="viewModel.sort"
-                         sort="viewModel.result.Sort"
-                         descending="viewModel.result.Descending"
-                         sort-value="SysUpdateUser">
+                <a ng-click="viewModel.sortClick('SysUpdateUser')"
+                   style="display: block;">
                     Updator
-                </sort-by>
+                    <span class="ng-hide dropdown"
+                          ng-show="viewModel.result.Sort == 'SysUpdateUser'"
+                          ng-class="{true:'dropdown', false:'dropup'}[viewModel.result.Descending]">
+                        <span class="caret" style="margin: 5px 5px;"></span>
+                    </span>
+                </a>
             </th>
         </tr>
     </thead>
@@ -109,7 +139,7 @@
             <td>{{estimate.ContingencyWeeks | number:2}}</td>
             <td>
                 <abbr title="{{estimate.SysUpdateDate | date:'fullDate'}}">
-                    <span am-time-ago="estimate.SysUpdateDate"></span>
+                    <span>{{estimate.SysUpdateDate | date:'MM/dd/yyyy'}}</span>
                 </abbr>
             </td>
             <td>{{estimate.SysUpdateUser}}</td>

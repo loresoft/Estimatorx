@@ -9,18 +9,22 @@ module Estimator {
         static $inject = [
             '$scope',
             '$location',
+            '$modal',
             'identityService',
             'modelFactory',
             'projectCalculator',
-            'projectRepository'
+            'projectRepository',
+            'templateRepository'
         ];
         constructor(
             $scope,
             $location: ng.ILocationService,
+            $modal: any,
             identityService: IdentityService,
             modelFactory: ModelFactory,
             projectCalculator: ProjectCalculator,
-            projectRepository: ProjectRepository)
+            projectRepository: ProjectRepository,
+            templateRepository: TemplateRepository)
         {
             var self = this;
 
@@ -28,29 +32,48 @@ module Estimator {
             $scope.viewModel = this;
             self.$scope = $scope;
             self.$location = $location;
+            self.$modal = $modal;
 
             self.identityService = identityService;
             self.modelFactory = modelFactory;
             self.projectCalculator = projectCalculator;
-            self.projectRepository = projectRepository
+            self.projectRepository = projectRepository;
+            self.templateRepository = templateRepository;
+
             self.project = <IProject>{};
 
             // calculate on project change
             $scope.$watch(
-                s => angular.toJson(s.viewModel.project),
+                s => angular.toJson(s.viewModel.template),
                 _.debounce($.proxy(self.calculate, self), 500));
 
-            //self.load();
+            self.init();
         }
 
         $scope: ng.IScope;
         $location: ng.ILocationService;
+        $modal: any;
         identityService: IdentityService;
         modelFactory: ModelFactory;
         projectCalculator: ProjectCalculator;
         projectRepository: ProjectRepository;
         project: IProject;
         estimateId: string;
+
+        template: ITemplate;
+        templates: ITemplate[];
+        templateRepository: TemplateRepository;
+
+        init() {
+            var self = this;
+            self.templateRepository.all()
+                .success((data, status, headers, config) => {
+                    self.templates = data;
+                })
+                .error((data, status, headers, config) => {
+                    // TODO show error
+                });
+        }
 
         load(id?: string) {
             var self = this;
@@ -135,7 +158,7 @@ module Estimator {
         removeFactor(factor: IFactor) {
             if (!factor)
                 return;
-            BootstrapDialog.confirm("Are you sure you want to remove this assumption?", (result) => {
+            BootstrapDialog.confirm("Are you sure you want to remove this factor?", (result) => {
                 if (!result)
                     return;
 
@@ -222,6 +245,29 @@ module Estimator {
                 this.$scope.$apply();
             });
         }
+
+        addTemplate() {
+            var self = this;
+
+            console.log('Add Template');
+
+            var modalInstance = self.$modal.open({
+                templateUrl: 'templateModal.html',
+                controller: 'templateModalController',
+                resolve: {
+                    items: () => self.templates
+                }
+            });
+
+            modalInstance.result.then((item: ITemplate) => {
+                console.log('Select Template: ' + angular.toJson(item));
+
+                angular.forEach(item.Factors, (value, key) => {
+                    self.project.Factors.push(value);
+                });
+            });
+
+        }
     }
 
     // register controller
@@ -229,10 +275,12 @@ module Estimator {
         .controller('estimateEditController', [
             '$scope',
             '$location',
+            '$modal',
             'identityService',
             'modelFactory',
             'projectCalculator',
             'projectRepository',
+            'templateRepository',
 
             EstimateEditController // controller must be last
         ]);

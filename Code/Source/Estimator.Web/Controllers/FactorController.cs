@@ -13,7 +13,14 @@ namespace Estimator.Web.Controllers
             return View();
         }
 
-        public ActionResult Edit(Guid? id)
+        public ActionResult Create()
+        {
+            var routeValues = new { id = Guid.NewGuid() };
+            return RedirectToAction("Edit", routeValues);
+        }
+
+
+        public ActionResult Edit(Guid id)
         {
             return View(id);
         }

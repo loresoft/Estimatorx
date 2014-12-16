@@ -12,9 +12,7 @@ module Estimator {
             'ngResource',
             'ngSanitize',
             'angularMoment',
-            'ui.bootstrap',
-            'ui.router',
-            'ui.select'
+            'ui.bootstrap'
         ]
     );
 }

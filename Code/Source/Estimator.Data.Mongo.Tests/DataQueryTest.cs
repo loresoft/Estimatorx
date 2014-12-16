@@ -8,6 +8,11 @@ namespace Estimator.Data.Mongo.Tests
 {
     public class DataQueryTest
     {
+        public DataQueryTest()
+        {
+            Bootstrap.Start();
+        }
+
         [Fact]
         public void ProjectToSummaryFromRequest()
         {

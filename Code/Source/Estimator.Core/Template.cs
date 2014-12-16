@@ -9,24 +9,8 @@ namespace Estimator.Core
     /// <summary>
     /// A template of factors
     /// </summary>
-    public class Template : ModelBase
+    public class Template : TemplateSummary
     {
-        /// <summary>
-        /// Gets or sets the name of the template.
-        /// </summary>
-        /// <value>
-        /// The name of the template.
-        /// </value>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets the description for the template.
-        /// </summary>
-        /// <value>
-        /// The description for the template.
-        /// </value>
-        public string Description { get; set; }
-
         /// <summary>
         /// Gets or sets the factors for the template.
         /// </summary>

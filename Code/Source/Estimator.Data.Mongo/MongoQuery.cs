@@ -109,7 +109,7 @@ namespace Estimator.Data.Mongo
             if (Guid.Empty == key)
                 throw new ArgumentNullException("key");
 
-            return new BsonBinaryData(key);
+            return new BsonString(key.ToString());
         }
 
 

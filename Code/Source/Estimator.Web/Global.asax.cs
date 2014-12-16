@@ -6,6 +6,9 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Estimator.Core;
+using Estimator.Data.Mongo;
+using KickStart;
 
 namespace Estimator.Web
 {
@@ -13,6 +16,13 @@ namespace Estimator.Web
     {
         protected void Application_Start()
         {
+            Kick.Start(c => c
+                .IncludeAssemblyFor<Project>()
+                .IncludeAssemblyFor<ProjectRepository>()
+                .UseMongoDB()
+                .UseStartupTask()
+            );
+
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

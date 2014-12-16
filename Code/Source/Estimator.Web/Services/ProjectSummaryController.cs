@@ -5,7 +5,7 @@ using Estimator.Core.Providers;
 using Estimator.Core.Query;
 using Estimator.Data.Mongo;
 
-namespace Estimator.Web.Controllers
+namespace Estimator.Web.Services
 {
     public class ProjectSummaryController : ApiController
     {

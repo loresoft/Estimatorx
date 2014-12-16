@@ -6,14 +6,60 @@ module Estimator {
     export class FactorListController {
 
         // project for minification, must match contructor signiture.
-        static $inject = ['$scope'];
+        static $inject = ['$scope', 'templateSummaryRepository'];
 
-        constructor($scope) {
+        constructor($scope, templateSummaryRepository: TemplateSummaryRepository) {
             // assign viewModel to controller
             $scope.viewModel = this;
+            this.repository = templateSummaryRepository;
+
+            // default
+            this.result = <IQueryResult<ITemplate>>{
+                Page: 1,
+                PageSize: 10,
+                Sort: 'SysUpdateDate',
+                Descending: true
+            };
+
+            this.load();
         }
 
-        count: number = 21;
+        repository: TemplateSummaryRepository;
+
+        result: IQueryResult<ITemplate>;
+        sort = angular.bind(this, this.load);
+
+        load() {
+            var self = this;
+
+            var request = <IQueryRequest>{
+                Page: self.result.Page,
+                PageSize: self.result.PageSize,
+                Sort: self.result.Sort,
+                Descending: self.result.Descending
+            };
+
+            this.repository.query(request)
+                .success((data, status, headers, config) => {
+                    self.result = data;
+                })
+                .error((data, status, headers, config) => {
+                    // TODO show error
+                });
+        }
+
+        sortClick(column: string) {
+            var self = this;
+
+            if (self.result.Sort == column)
+                self.result.Descending = !self.result.Descending;
+            else
+                self.result.Descending = false;
+
+            self.result.Sort = column;
+
+            self.load();
+        }
 
     }
 
@@ -22,6 +68,7 @@ module Estimator {
         .controller('factorListController',
         [
             '$scope',
+            'templateSummaryRepository',
             FactorListController
         ]
     );

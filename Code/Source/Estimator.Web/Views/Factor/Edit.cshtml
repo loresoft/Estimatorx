@@ -1,8 +1,99 @@
 ﻿@{
-    ViewBag.Title = "Edit Factor";
+    ViewBag.Title = "Edit Factor Template";
 }
 
-<div class="container" ng-controller="factorEditController">
-    {{viewModel.count}}
+
+<div class="container" ng-controller="factorEditController" ng-init="viewModel.load('@Model')">
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+        <li><a href="@Url.Action("Index")">Factors</a></li>
+        <li class="active">Edit</li>
+    </ol>
+    <form role="form">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-calculator"></i> Factor Template 
+                <span ng-show="viewModel.template.Name">- <strong>{{ viewModel.template.Name}}</strong></span>
+            </div>
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="templateName">Name:</label>
+                            <input type="text" class="form-control" id="templateName" name="templateName" placeholder="Name" required="required" ng-model="viewModel.template.Name">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="templateDescription">Description:</label>
+                            <input type="text" class="form-control" id="templateDescription" name="templateDescription" placeholder="Description" ng-model="viewModel.template.Description">
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-edit">
+                            <colgroup>
+                                <col style="" />
+                                <col style="width: 120px" />
+                                <col style="width: 120px" />
+                                <col style="width: 120px" />
+                                <col style="width: 120px" />
+                                <col style="width: 120px" />
+                                <col style="width: 80px" />
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Very Simple</th>
+                                    <th>Simple</th>
+                                    <th>Mediumn</th>
+                                    <th>Complex</th>
+                                    <th>Very Complex</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="factor in viewModel.template.Factors">
+                                    <td><input type="text" class="form-control" ng-model="factor.Name" /></td>
+                                    <td><input type="number" class="form-control" ng-model="factor.VerySimple" /></td>
+                                    <td><input type="number" class="form-control" ng-model="factor.Simple" /></td>
+                                    <td><input type="number" class="form-control" ng-model="factor.Medium" /></td>
+                                    <td><input type="number" class="form-control" ng-model="factor.Complex" /></td>
+                                    <td><input type="number" class="form-control" ng-model="factor.VeryComplex" /></td>
+                                    <td>
+                                        <div class="btn-group pull-right">
+                                            <a class="btn btn-link btn-sm" ng-click="viewModel.removeFactor(factor)"><i class="glyphicon glyphicon-remove"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="7">
+                                        <div class="btn-group">
+                                            <a class="btn btn-link btn-sm" ng-click="viewModel.addFactor()"><i class="glyphicon glyphicon-plus"></i> Add Factor</a>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <button class="btn btn-primary" ng-click="viewModel.save()">Save</button>
+                        <button class="btn btn-default">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
 </div>
 

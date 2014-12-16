@@ -10,10 +10,8 @@ namespace Estimator.Web
             bundles.Add(new StyleBundle("~/Content/css")
                 .Include(
                     "~/Content/bootstrap.css",
-                    //"~/Content/bootstrap-theme.css",
                     "~/Content/bootstrap-dialog.css",
                     "~/Content/font-awesome.css",
-                    "~/Scripts/ui-select/select.css",
                     "~/Content/site.css"
                 )
             );
@@ -45,8 +43,6 @@ namespace Estimator.Web
                     /* addon */
                     "~/Scripts/angular-moment.js",
                     "~/Scripts/ui-router/angular-ui-router.js",
-                    "~/Scripts/ui-utils/ui-utils.js",
-                    "~/Scripts/ui-select/select.js",
                     "~/Scripts/angular-ui/ui-bootstrap.js",
                     "~/Scripts/angular-ui/ui-bootstrap-tpls.js"
                 )

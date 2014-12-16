@@ -1,7 +1,23 @@
 ﻿@{
-    ViewBag.Title = "Factors";
+    ViewBag.Title = "Factor Templates";
 }
 
+
 <div class="container" ng-controller="factorListController">
-    {{viewModel.count}}
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+        <li class="active">Factors</li>
+    </ol>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-list"></i> Factor Templates
+
+            <div class="btn-group pull-right ">
+                <a class="btn btn-sm btn-primary" href="~/Factor/Create">Create</a>
+            </div>
+        </div>
+        <div class="panel-body">
+            @Html.Partial("_List")
+        </div>
+    </div>
 </div>
