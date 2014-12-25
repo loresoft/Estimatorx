@@ -1,13 +1,13 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using Estimator.Core;
-using Estimator.Core.Providers;
+using Estimatorx.Core;
+using Estimatorx.Core.Providers;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 
-namespace Estimator.Data.Mongo
+namespace Estimatorx.Data.Mongo
 {
     public class TemplateRepository
     : MongoRepository<Template, Guid>, ITemplateRepository

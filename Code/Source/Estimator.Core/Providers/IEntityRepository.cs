@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Estimator.Core.Providers
+namespace Estimatorx.Core.Providers
 {
     /// <summary>
     /// An interface for common data opertions.

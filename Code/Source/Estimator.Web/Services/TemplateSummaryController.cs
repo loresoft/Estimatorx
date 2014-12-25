@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Web.Http;
-using Estimator.Core;
-using Estimator.Core.Providers;
-using Estimator.Core.Query;
 using Estimator.Data.Mongo;
+using Estimatorx.Core;
+using Estimatorx.Core.Providers;
+using Estimatorx.Core.Query;
+using Estimatorx.Data.Mongo;
 
-namespace Estimator.Web.Services
+namespace Estimatorx.Web.Services
 {
     public class TemplateSummaryController : ApiController
     {

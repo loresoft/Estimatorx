@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Estimator.Core.Providers
+namespace Estimatorx.Core.Providers
 {
     public interface IProjectRepository : IEntityRepository<Project, Guid>
     {

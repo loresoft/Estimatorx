@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Estimator.Core
+namespace Estimatorx.Core
 {
     public class TemplateSummary : ModelBase
     {

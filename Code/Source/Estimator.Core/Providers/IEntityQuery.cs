@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Estimator.Core.Providers
+namespace Estimatorx.Core.Providers
 {
     /// <summary>
     /// An interface for common query operations.

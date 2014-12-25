@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace Estimator.Core.Query
+namespace Estimatorx.Core.Query
 {
     public class QueryOptions<TSource, TResult>
     {

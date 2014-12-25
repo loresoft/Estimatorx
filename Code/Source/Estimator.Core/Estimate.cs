@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Estimator.Core
+namespace Estimatorx.Core
 {
     /// <summary>
     /// An estimate based on number of tasks for a project <see cref="Factor"/>.

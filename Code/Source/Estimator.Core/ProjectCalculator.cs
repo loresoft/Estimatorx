@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Estimator.Core
+namespace Estimatorx.Core
 {
     public static class ProjectCalculator
     {

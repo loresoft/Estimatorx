@@ -1,6 +1,6 @@
 using System;
 
-namespace Estimator.Core.Providers
+namespace Estimatorx.Core.Providers
 {
     public interface ITemplateRepository : IEntityRepository<Template, Guid>
     {

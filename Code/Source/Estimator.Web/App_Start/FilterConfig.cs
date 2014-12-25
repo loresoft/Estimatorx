@@ -1,7 +1,7 @@
-﻿using System.Web;
+﻿using System;
 using System.Web.Mvc;
 
-namespace Estimator.Web
+namespace Estimatorx.Web
 {
     public class FilterConfig
     {

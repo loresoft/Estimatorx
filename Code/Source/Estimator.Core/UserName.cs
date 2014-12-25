@@ -3,7 +3,7 @@ using System.Security.Principal;
 using System.Web;
 using System.Web.Hosting;
 
-namespace Estimator.Core
+namespace Estimatorx.Core
 {
     public static class UserName
     {

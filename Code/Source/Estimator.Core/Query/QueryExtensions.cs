@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Linq.Dynamic;
 
-namespace Estimator.Core.Query
+namespace Estimatorx.Core.Query
 {
     public static class QueryExtensions
     {

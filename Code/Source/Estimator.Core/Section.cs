@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Estimator.Core
+namespace Estimatorx.Core
 {
     /// <summary>
     /// A group of estimates for a section of the application being estimated.

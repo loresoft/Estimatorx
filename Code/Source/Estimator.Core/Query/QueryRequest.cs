@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Estimator.Core.Query
+namespace Estimatorx.Core.Query
 {
     public class QueryRequest
     {

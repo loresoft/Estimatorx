@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Estimator.Core
+namespace Estimatorx.Core
 {
     /// <summary>
     /// A base class for the estimator models

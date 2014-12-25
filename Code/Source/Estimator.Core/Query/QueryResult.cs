@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Estimator.Core.Query
+namespace Estimatorx.Core.Query
 {
     public class QueryResult<T>
     {

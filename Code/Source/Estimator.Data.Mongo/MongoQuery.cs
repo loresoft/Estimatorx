@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using Estimator.Core.Providers;
+using Estimatorx.Core.Providers;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
-namespace Estimator.Data.Mongo
+namespace Estimatorx.Data.Mongo
 {
     public abstract class MongoQuery<TEntity, TKey> : IEntityQuery<TEntity, TKey>
         where TEntity : class

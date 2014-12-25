@@ -3,7 +3,7 @@ using System.Configuration;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace Estimator.Data.Mongo
+namespace Estimatorx.Data.Mongo
 {
     public static class MongoUtility
     {

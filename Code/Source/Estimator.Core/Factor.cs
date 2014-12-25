@@ -1,6 +1,6 @@
 using System;
 
-namespace Estimator.Core
+namespace Estimatorx.Core
 {
     /// <summary>
     /// A matrix of hours based on the complexity of a task.

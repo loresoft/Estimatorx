@@ -1,11 +1,11 @@
 ﻿using System;
-using Estimator.Core;
+using Estimatorx.Core;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Options;
 
-namespace Estimator.Data.Mongo.Mapping
+namespace Estimatorx.Data.Mongo.Mapping
 {
     public class ModelBaseMap : BsonClassMap<ModelBase>
     {

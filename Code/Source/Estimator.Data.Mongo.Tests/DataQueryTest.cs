@@ -1,10 +1,11 @@
 using System;
-using Estimator.Core;
-using Estimator.Core.Query;
+using Estimator.Data.Mongo;
+using Estimatorx.Core;
+using Estimatorx.Core.Query;
 using FluentAssertions;
 using Xunit;
 
-namespace Estimator.Data.Mongo.Tests
+namespace Estimatorx.Data.Mongo.Tests
 {
     public class DataQueryTest
     {

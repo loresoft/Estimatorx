@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Estimator.Core
+namespace Estimatorx.Core
 {
     /// <summary>
     /// A project estimate model

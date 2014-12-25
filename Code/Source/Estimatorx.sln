@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimator.Web", "Estimator.Web\Estimator.Web.csproj", "{5370612B-D6A5-4DEA-8C26-3E8E974CD1DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimatorx.Web", "Estimator.Web\Estimatorx.Web.csproj", "{5370612B-D6A5-4DEA-8C26-3E8E974CD1DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimator.Core", "Estimator.Core\Estimator.Core.csproj", "{C5F768AA-8DC4-4AC2-A4AF-7726383C279C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimatorx.Core", "Estimator.Core\Estimatorx.Core.csproj", "{C5F768AA-8DC4-4AC2-A4AF-7726383C279C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimator.Core.Tests", "Estimator.Core.Tests\Estimator.Core.Tests.csproj", "{4113A43D-C54D-419A-93BB-B2165538E1F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimatorx.Core.Tests", "Estimator.Core.Tests\Estimatorx.Core.Tests.csproj", "{4113A43D-C54D-419A-93BB-B2165538E1F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimator.Data.Mongo", "Estimator.Data.Mongo\Estimator.Data.Mongo.csproj", "{0CBD65D2-9627-41E6-AAD1-D12B33D19946}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimatorx.Data.Mongo", "Estimator.Data.Mongo\Estimatorx.Data.Mongo.csproj", "{0CBD65D2-9627-41E6-AAD1-D12B33D19946}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimator.Data.Mongo.Tests", "Estimator.Data.Mongo.Tests\Estimator.Data.Mongo.Tests.csproj", "{3D1557AF-EC2D-4C5B-A2F8-456834F8BA9F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimatorx.Data.Mongo.Tests", "Estimator.Data.Mongo.Tests\Estimatorx.Data.Mongo.Tests.csproj", "{3D1557AF-EC2D-4C5B-A2F8-456834F8BA9F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

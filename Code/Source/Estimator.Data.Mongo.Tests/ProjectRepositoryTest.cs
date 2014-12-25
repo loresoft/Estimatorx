@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Estimator.Core;
+using Estimator.Data.Mongo;
+using Estimatorx.Core;
 using FluentAssertions;
-using MongoDB.Driver.Linq;
 using Xunit;
 
-namespace Estimator.Data.Mongo.Tests
+namespace Estimatorx.Data.Mongo.Tests
 {
     public class ProjectRepositoryTest
     {

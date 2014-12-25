@@ -1,8 +1,8 @@
 ﻿using System;
-using Estimator.Core;
+using Estimatorx.Core;
 using MongoDB.Bson.Serialization;
 
-namespace Estimator.Data.Mongo.Mapping
+namespace Estimatorx.Data.Mongo.Mapping
 {
     public class FactorMap : BsonClassMap<Factor>
     {

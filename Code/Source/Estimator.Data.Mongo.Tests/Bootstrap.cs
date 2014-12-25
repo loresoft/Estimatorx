@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Estimator.Core;
+using Estimator.Data.Mongo;
+using Estimatorx.Core;
 using KickStart;
 
-namespace Estimator.Data.Mongo.Tests
+namespace Estimatorx.Data.Mongo.Tests
 {
     public static class Bootstrap
     {

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Estimator.Core.Providers;
+using Estimatorx.Core.Providers;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 
-namespace Estimator.Data.Mongo
+namespace Estimatorx.Data.Mongo
 {
     public abstract class MongoRepository<TEntity, TKey> : MongoQuery<TEntity, TKey>, IEntityRepository<TEntity, TKey>
         where TEntity : class
