@@ -1,4 +1,5 @@
 using System;
+using Estimatorx.Core.Security;
 
 namespace Estimatorx.Core
 {

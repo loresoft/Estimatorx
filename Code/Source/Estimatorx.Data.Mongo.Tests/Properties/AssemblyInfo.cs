@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Estimator.Data.Mongo.Tests")]
+[assembly: AssemblyTitle("Estimatorx.Data.Mongo.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Estimator.Data.Mongo.Tests")]
+[assembly: AssemblyProduct("Estimatorx.Data.Mongo.Tests")]
 [assembly: AssemblyCopyright("Copyright © LoreSoft 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Estimator.Core")]
+[assembly: AssemblyTitle("Estimatorx.Core")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("LoreSoft")]
-[assembly: AssemblyProduct("Estimator.Core")]
+[assembly: AssemblyProduct("Estimatorx.Core")]
 [assembly: AssemblyCopyright("Copyright © LoreSoft 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

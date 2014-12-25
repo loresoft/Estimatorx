@@ -61,7 +61,7 @@
     <Compile Include="TemplateRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Estimator.Core\Estimatorx.Core.csproj">
+    <ProjectReference Include="..\Estimatorx.Core\Estimatorx.Core.csproj">
       <Project>{c5f768aa-8dc4-4ac2-a4af-7726383c279c}</Project>
       <Name>Estimatorx.Core</Name>
     </ProjectReference>

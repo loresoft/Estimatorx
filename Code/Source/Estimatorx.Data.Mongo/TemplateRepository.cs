@@ -3,6 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Estimatorx.Core;
 using Estimatorx.Core.Providers;
+using Estimatorx.Core.Security;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
@@ -13,7 +14,7 @@ namespace Estimatorx.Data.Mongo
     : MongoRepository<Template, Guid>, ITemplateRepository
     {
         public TemplateRepository()
-            : this("EstimatorMongoDB")
+            : this("EstimatorxMongo")
         {
         }
 

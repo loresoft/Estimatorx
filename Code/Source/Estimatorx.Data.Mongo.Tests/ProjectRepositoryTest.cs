@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Estimator.Data.Mongo;
+using Estimatorx.Data.Mongo;
 using Estimatorx.Core;
 using FluentAssertions;
 using Xunit;

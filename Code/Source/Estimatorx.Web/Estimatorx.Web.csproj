@@ -264,11 +264,11 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Estimator.Core\Estimatorx.Core.csproj">
+    <ProjectReference Include="..\Estimatorx.Core\Estimatorx.Core.csproj">
       <Project>{c5f768aa-8dc4-4ac2-a4af-7726383c279c}</Project>
       <Name>Estimatorx.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Estimator.Data.Mongo\Estimatorx.Data.Mongo.csproj">
+    <ProjectReference Include="..\Estimatorx.Data.Mongo\Estimatorx.Data.Mongo.csproj">
       <Project>{0cbd65d2-9627-41e6-aad1-d12b33d19946}</Project>
       <Name>Estimatorx.Data.Mongo</Name>
     </ProjectReference>
