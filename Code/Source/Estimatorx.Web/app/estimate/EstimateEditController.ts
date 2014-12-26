@@ -1,6 +1,6 @@
 ﻿/// <reference path="../_ref.ts" />
 
-module Estimator {
+module Estimatorx {
     "use strict";
 
     export class EstimateEditController {
@@ -44,7 +44,7 @@ module Estimator {
 
             // calculate on project change
             $scope.$watch(
-                s => angular.toJson(s.viewModel.template),
+                s => angular.toJson(s.viewModel.project),
                 _.debounce($.proxy(self.calculate, self), 500));
 
             self.init();
@@ -271,7 +271,7 @@ module Estimator {
     }
 
     // register controller
-    angular.module(Estimator.applicationName)
+    angular.module(Estimatorx.applicationName)
         .controller('estimateEditController', [
             '$scope',
             '$location',

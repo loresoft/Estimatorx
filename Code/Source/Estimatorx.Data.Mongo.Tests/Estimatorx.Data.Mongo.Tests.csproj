@@ -38,11 +38,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\FluentAssertions.3.2.2\lib\net45\FluentAssertions.Core.dll</HintPath>
     </Reference>
-    <Reference Include="KickStart">
-      <HintPath>..\packages\KickStart.1.0.4\lib\net45\KickStart.dll</HintPath>
+    <Reference Include="KickStart, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\KickStart.2.0.0.38\lib\net45\KickStart.dll</HintPath>
     </Reference>
-    <Reference Include="KickStart.MongoDB">
-      <HintPath>..\packages\KickStart.MongoDB.1.0.4\lib\net45\KickStart.MongoDB.dll</HintPath>
+    <Reference Include="KickStart.MongoDB, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\KickStart.MongoDB.2.0.0.38\lib\net45\KickStart.MongoDB.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Bson">
       <HintPath>..\packages\mongocsharpdriver.1.9.2\lib\net35\MongoDB.Bson.dll</HintPath>

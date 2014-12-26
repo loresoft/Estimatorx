@@ -1,6 +1,6 @@
 ﻿/// <reference path="../_ref.ts" />
 
-module Estimator {
+module Estimatorx {
     "use strict";
 
     export class FactorListController {
@@ -64,7 +64,7 @@ module Estimator {
     }
 
     // register controller
-    angular.module(Estimator.applicationName)
+    angular.module(Estimatorx.applicationName)
         .controller('factorListController',
         [
             '$scope',

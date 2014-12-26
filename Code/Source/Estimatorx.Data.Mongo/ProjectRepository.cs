@@ -48,6 +48,8 @@ namespace Estimatorx.Data.Mongo
         {
             entity.SysCreateDate = DateTime.Now;
             entity.SysCreateUser = UserName.Current();
+            entity.SysUpdateDate = DateTime.Now;
+            entity.SysUpdateUser = UserName.Current();
 
             base.BeforeInsert(entity);
         }

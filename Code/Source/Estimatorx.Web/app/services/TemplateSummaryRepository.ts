@@ -1,6 +1,6 @@
 ﻿/// <reference path="../_ref.ts" />
 
-module Estimator {
+module Estimatorx {
     "use strict";
 
 
@@ -24,7 +24,7 @@ module Estimator {
     }
 
     // register service
-    angular.module(Estimator.applicationName)
+    angular.module(Estimatorx.applicationName)
         .service('templateSummaryRepository', ['$http', TemplateSummaryRepository]);
 
 }  

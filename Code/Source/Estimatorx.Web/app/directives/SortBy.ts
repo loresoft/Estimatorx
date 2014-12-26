@@ -1,9 +1,9 @@
 ﻿/// <reference path="../_ref.ts" />
-module Estimator {
+module Estimatorx {
     "use strict";
 
     // register directive
-    angular.module(Estimator.applicationName)
+    angular.module(Estimatorx.applicationName)
         .directive('sortBy', () => {
         return {
             restrict: 'E',

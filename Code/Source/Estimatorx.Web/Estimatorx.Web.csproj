@@ -21,7 +21,7 @@
     <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
-    <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.1</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,11 +44,13 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="KickStart">
-      <HintPath>..\packages\KickStart.1.0.4\lib\net45\KickStart.dll</HintPath>
+    <Reference Include="KickStart, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\KickStart.2.0.0.38\lib\net45\KickStart.dll</HintPath>
     </Reference>
-    <Reference Include="KickStart.MongoDB">
-      <HintPath>..\packages\KickStart.MongoDB.1.0.4\lib\net45\KickStart.MongoDB.dll</HintPath>
+    <Reference Include="KickStart.MongoDB, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\KickStart.MongoDB.2.0.0.38\lib\net45\KickStart.MongoDB.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MongoDB.Bson">
@@ -59,7 +61,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -164,25 +166,25 @@
     <Content Include="Scripts\angular-messages.js" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-moment.js" />
-    <Content Include="Scripts\angular-resource.js" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="Scripts\angular-resource.js" />
     <Content Include="Scripts\angular-sanitize.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
-    <Content Include="Scripts\angular.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\bootstrap-dialog.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\linq.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\ObjectId.js" />
     <Content Include="Scripts\ui-router\angular-ui-router.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Web.config">
@@ -252,6 +254,7 @@
     <TypeScriptCompile Include="Scripts\typings\linq\linq.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\linq\linq.jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\moment\moment.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\ObjectId\objectid.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\ui-router\angular-ui-router.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\underscore\underscore.d.ts" />
   </ItemGroup>

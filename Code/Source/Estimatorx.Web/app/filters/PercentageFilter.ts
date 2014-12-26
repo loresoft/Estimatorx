@@ -1,9 +1,9 @@
 ﻿/// <reference path="../_ref.ts" />
-module Estimator {
+module Estimatorx {
     "use strict";
 
     // register service
-    angular.module(Estimator.applicationName)
+    angular.module(Estimatorx.applicationName)
         .filter('percentage', ['$filter', $filter =>
             (input, decimals) => $filter('number')(input * 100, decimals) + '%']);
 }

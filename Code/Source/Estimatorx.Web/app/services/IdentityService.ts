@@ -1,6 +1,6 @@
 ﻿/// <reference path="../_ref.ts" />
 
-module Estimator {
+module Estimatorx {
     "use strict";
 
     export class IdentityService {
@@ -37,11 +37,16 @@ module Estimator {
                 + '-' + this.s4()
                 + '-' + this.s4() + this.s4() + this.s4();
         }
+
+        newObjectId(): string {
+            var o = new ObjectId();
+            return o.toString();
+        }
     }
 
 
     // register service
-    angular.module(Estimator.applicationName)
+    angular.module(Estimatorx.applicationName)
         .service('identityService', IdentityService);
 
 }

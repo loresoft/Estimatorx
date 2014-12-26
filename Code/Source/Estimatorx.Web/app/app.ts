@@ -1,12 +1,12 @@
 ﻿/// <reference path="_ref.ts" />
 
-module Estimator {
+module Estimatorx {
     "use strict";
 
     export var applicationName: string = 'app';
 
     export var application: ng.IModule = angular.module(
-        Estimator.applicationName,
+        Estimatorx.applicationName,
         [
             'ngAnimate',
             'ngResource',

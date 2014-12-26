@@ -27,6 +27,7 @@ namespace Estimatorx.Web
                     "~/Scripts/jquery-{version}.js",
                     "~/Scripts/moment.js",
                     "~/Scripts/underscore.js",
+                    "~/Scripts/ObjectId.js",
                     "~/Scripts/linq.js",
                     "~/Scripts/bootstrap.js",
                     "~/Scripts/bootstrap-dialog.js"

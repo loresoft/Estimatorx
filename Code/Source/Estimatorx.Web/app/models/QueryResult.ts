@@ -1,6 +1,6 @@
 ﻿/// <reference path="../_ref.ts" />
 
-module Estimator {
+module Estimatorx {
     "use strict";
 
     export interface IQueryResult<T> extends IQueryRequest {

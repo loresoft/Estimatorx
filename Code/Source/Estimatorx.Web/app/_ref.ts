@@ -6,6 +6,7 @@
 /// <reference path="../scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../scripts/typings/moment/moment.d.ts" />
 /// <reference path="../scripts/typings/underscore/underscore.d.ts" />
+/// <reference path="../scripts/typings/objectid/objectid.d.ts" />
 /// <reference path="../scripts/typings/linq/linq.d.ts" />
 /// <reference path="../scripts/typings/bootstrap/bootstrap.d.ts" />
 /// <reference path="../scripts/typings/bootstrap-dialog/bootstrap-dialog.d.ts" />

@@ -1,6 +1,6 @@
 ﻿/// <reference path="../_ref.ts" />
 
-module Estimator {
+module Estimatorx {
     "use strict";
 
     export class ModelFactory {
@@ -88,7 +88,7 @@ module Estimator {
 
 
     // register service
-    angular.module(Estimator.applicationName)
+    angular.module(Estimatorx.applicationName)
         .service('modelFactory', ['identityService', ModelFactory]);
 
 }
