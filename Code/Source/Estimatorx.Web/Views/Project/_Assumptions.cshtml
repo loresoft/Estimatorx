@@ -10,11 +10,11 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="assumption in viewModel.project.Assumptions">
-            <td><input type="text" class="form-control" ng-model="assumption.Text" /></td>
+        <tr ng-repeat="assumption in viewModel.project.Assumptions track by $index">
+            <td><input type="text" class="form-control" ng-model="viewModel.project.Assumptions[$index]" /></td>
             <td>
                 <div class="btn-group pull-right">
-                    <a class="btn btn-link btn-sm" ng-click="viewModel.removeAssumption(assumption)"><i class="glyphicon glyphicon-remove"></i></a>
+                    <a class="btn btn-link btn-sm" ng-click="viewModel.removeAssumption($index)"><i class="glyphicon glyphicon-remove"></i></a>
                 </div>
             </td>
         </tr>

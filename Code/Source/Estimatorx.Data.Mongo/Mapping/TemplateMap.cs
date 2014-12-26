@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using Estimatorx.Core;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.IdGenerators;
+using MongoDB.Bson.Serialization.Options;
 
 namespace Estimatorx.Data.Mongo.Mapping
 {
@@ -8,7 +12,47 @@ namespace Estimatorx.Data.Mongo.Mapping
     {
         public TemplateMap()
         {
-            AutoMap();
+            MapIdProperty(c => c.Id)
+                .SetRepresentation(BsonType.String)
+                .SetIdGenerator(StringObjectIdGenerator.Instance);
+
+            MapProperty(c => c.Name)
+                .SetElementName("nm")
+                .SetIgnoreIfNull(true);
+
+            MapProperty(c => c.Description)
+                .SetElementName("ds")
+                .SetIgnoreIfNull(true);
+
+            MapProperty(c => c.Created)
+                .SetElementName("cd")
+                .SetSerializationOptions(new DateTimeSerializationOptions { Kind = DateTimeKind.Local });
+            MapProperty(c => c.Creator)
+                .SetElementName("cu")
+                .SetIgnoreIfNull(true);
+
+            MapProperty(c => c.Updated)
+                .SetElementName("ud")
+                .SetSerializationOptions(new DateTimeSerializationOptions { Kind = DateTimeKind.Local });
+            MapProperty(c => c.Updater)
+                .SetElementName("uu")
+                .SetIgnoreIfNull(true);
+
+            MapProperty(c => c.Factors)
+                .SetElementName("_f")
+                .SetShouldSerializeMethod(ShouldSerializeFactors);
+
         }
+
+        private static bool ShouldSerializeFactors(object value)
+        {
+            var template = value as Template;
+            if (template == null)
+                return false;
+
+            var list = template.Factors;
+            return list != null && list.Count > 0;
+        }
+
     }
 }

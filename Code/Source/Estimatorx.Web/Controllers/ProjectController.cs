@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using MongoDB.Bson;
 
 namespace Estimatorx.Web.Controllers
 {
@@ -13,13 +14,13 @@ namespace Estimatorx.Web.Controllers
 
         public ActionResult Create()
         {
-            var routeValues = new { id = Guid.NewGuid() };
+            var routeValues = new { id = ObjectId.GenerateNewId().ToString() };
             return RedirectToAction("Edit", routeValues);
         }
 
-        public ActionResult Edit(Guid id)
+        public ActionResult Edit(string id)
         {
-            return View(id);
+            return View(model: id);
         }
 
     }

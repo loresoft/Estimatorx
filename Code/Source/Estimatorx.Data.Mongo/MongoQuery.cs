@@ -101,7 +101,7 @@ namespace Estimatorx.Data.Mongo
                 throw new ArgumentNullException("key");
 
 
-            return ObjectId.Parse(key);
+            return new BsonString(key);
         }
 
         protected BsonValue ConvertGuid(Guid key)
@@ -110,6 +110,14 @@ namespace Estimatorx.Data.Mongo
                 throw new ArgumentNullException("key");
 
             return new BsonString(key.ToString());
+        }
+        
+        protected BsonValue ConvertObjectId(string key)
+        {
+            if (string.Equals(null, key))
+                throw new ArgumentNullException("key");
+            
+            return ObjectId.Parse(key);
         }
 
 

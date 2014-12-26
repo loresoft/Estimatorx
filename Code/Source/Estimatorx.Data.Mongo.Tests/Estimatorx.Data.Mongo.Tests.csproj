@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Bootstrap.cs" />
     <Compile Include="DataQueryTest.cs" />
+    <Compile Include="ProjectFactory.cs" />
     <Compile Include="ProjectRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

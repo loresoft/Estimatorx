@@ -11,7 +11,7 @@ using MongoDB.Driver.Builders;
 namespace Estimatorx.Data.Mongo
 {
     public class ProjectRepository
-        : MongoRepository<Project, Guid>, IProjectRepository
+        : MongoRepository<Project, string>, IProjectRepository
     {
         public ProjectRepository()
             : this("EstimatorxMongo")
@@ -34,36 +34,36 @@ namespace Estimatorx.Data.Mongo
             return All().Select(SelectSummary());
         }
         
-        public override Guid EntityKey(Project entity)
+        public override string EntityKey(Project entity)
         {
             return entity.Id;
         }
 
-        protected override BsonValue ConvertKey(Guid key)
+        protected override BsonValue ConvertKey(string key)
         {
-            return ConvertGuid(key);
+            return ConvertString(key);
         }
 
         protected override void BeforeInsert(Project entity)
         {
-            entity.SysCreateDate = DateTime.Now;
-            entity.SysCreateUser = UserName.Current();
-            entity.SysUpdateDate = DateTime.Now;
-            entity.SysUpdateUser = UserName.Current();
+            entity.Created = DateTime.Now;
+            entity.Creator = UserName.Current();
+            entity.Updated = DateTime.Now;
+            entity.Updater = UserName.Current();
 
             base.BeforeInsert(entity);
         }
 
         protected override void BeforeUpdate(Project entity)
         {
-            if (entity.SysCreateDate == DateTime.MinValue)
-                entity.SysCreateDate = DateTime.Now;
+            if (entity.Created == DateTime.MinValue)
+                entity.Created = DateTime.Now;
 
-            if (string.IsNullOrEmpty(entity.SysCreateUser))
-                entity.SysCreateUser = UserName.Current();
+            if (string.IsNullOrEmpty(entity.Creator))
+                entity.Creator = UserName.Current();
 
-            entity.SysUpdateDate = DateTime.Now;
-            entity.SysUpdateUser = UserName.Current();
+            entity.Updated = DateTime.Now;
+            entity.Updater = UserName.Current();
 
             base.BeforeUpdate(entity);
         }
@@ -74,8 +74,8 @@ namespace Estimatorx.Data.Mongo
 
             mongoCollection.CreateIndex(
                 IndexKeys<Project>
-                    .Ascending(s => s.SysCreateUser)
-                    .Descending(s => s.SysUpdateDate)
+                    .Ascending(s => s.Creator)
+                    .Descending(s => s.Updated)
             );
         }
 
@@ -94,11 +94,10 @@ namespace Estimatorx.Data.Mongo
                 TotalWeeks = p.TotalWeeks,
                 ContingencyHours = p.ContingencyHours,
                 ContingencyWeeks = p.ContingencyWeeks,
-                IsActive = p.IsActive,
-                SysCreateDate = p.SysCreateDate,
-                SysCreateUser = p.SysCreateUser,
-                SysUpdateDate = p.SysUpdateDate,
-                SysUpdateUser = p.SysUpdateUser
+                Created = p.Created,
+                Creator = p.Creator,
+                Updated = p.Updated,
+                Updater = p.Updater
             };
         }
 

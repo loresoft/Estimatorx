@@ -3,9 +3,10 @@
 module Estimatorx {
     "use strict";
 
-    export interface ITask extends IModelBase {
+    export interface ITask {
+        Id: string;
+
         Name: string;
-        Description?: string;
 
         VerySimple?: number;
         Simple?: number;

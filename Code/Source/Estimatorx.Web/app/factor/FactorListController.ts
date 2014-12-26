@@ -17,7 +17,7 @@ module Estimatorx {
             this.result = <IQueryResult<ITemplate>>{
                 Page: 1,
                 PageSize: 10,
-                Sort: 'SysUpdateDate',
+                Sort: 'Updated',
                 Descending: true
             };
 

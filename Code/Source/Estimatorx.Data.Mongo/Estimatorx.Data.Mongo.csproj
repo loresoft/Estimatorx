@@ -46,10 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mapping\AssumptionMap.cs" />
     <Compile Include="Mapping\TaskMap.cs" />
     <Compile Include="Mapping\FactorMap.cs" />
-    <Compile Include="Mapping\ModelBaseMap.cs" />
     <Compile Include="Mapping\ProjectMap.cs" />
     <Compile Include="Mapping\SectionMap.cs" />
     <Compile Include="Mapping\TemplateMap.cs" />

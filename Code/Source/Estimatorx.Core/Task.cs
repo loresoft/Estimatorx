@@ -5,8 +5,17 @@ namespace Estimatorx.Core
     /// <summary>
     /// An estimate based on number of tasks for a project <see cref="Factor"/>.
     /// </summary>
-    public class Task : ModelBase
+    public class Task
     {
+        /// <summary>
+        /// Gets or sets the identifier for the model.
+        /// </summary>
+        /// <value>
+        /// The identifier for the model.
+        /// </value>
+        public string Id { get; set; }
+
+
         /// <summary>
         /// Gets or sets the name of the estimate .
         /// </summary>
@@ -15,15 +24,7 @@ namespace Estimatorx.Core
         /// </value>
         public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the description for the estimate.
-        /// </summary>
-        /// <value>
-        /// The description for the estimate.
-        /// </value>
-        public string Description { get; set; }
 
-        
         /// <summary>
         /// Gets or sets the number of very simple tasks.
         /// </summary>
@@ -31,7 +32,7 @@ namespace Estimatorx.Core
         /// The number of very simple tasks.
         /// </value>
         public byte? VerySimple { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the number of simple tasks.
         /// </summary>
@@ -39,7 +40,7 @@ namespace Estimatorx.Core
         /// The number of simple tasks.
         /// </value>
         public byte? Simple { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the number of medium tasks.
         /// </summary>
@@ -47,7 +48,7 @@ namespace Estimatorx.Core
         /// The number of medium tasks.
         /// </value>
         public byte? Medium { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the number of complex tasks.
         /// </summary>
@@ -55,7 +56,7 @@ namespace Estimatorx.Core
         /// The number of complex tasks.
         /// </value>
         public byte? Complex { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the number of very complex tasks.
         /// </summary>
@@ -88,6 +89,6 @@ namespace Estimatorx.Core
         /// <value>
         /// The factor identifier for this estimate.
         /// </value>
-        public Guid FactorId { get; set; }
+        public string FactorId { get; set; }
     }
 }

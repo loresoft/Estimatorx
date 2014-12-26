@@ -1,7 +1,9 @@
 using System;
+using Estimatorx.Core;
 using Estimatorx.Core.Security;
+using MongoDB.Bson;
 
-namespace Estimatorx.Core
+namespace Estimatorx.Data.Mongo.Tests
 {
     public static class ProjectFactory
     {
@@ -9,81 +11,62 @@ namespace Estimatorx.Core
         {
             var project = new Project
             {
-                IsActive = true,
                 HoursPerWeek = 30,
                 ContingencyRate = 10,
-                Id = Guid.NewGuid(),
+                Id = ObjectId.GenerateNewId().ToString(),
                 Name = "New Project",
-                SysCreateDate = DateTime.Now,
-                SysCreateUser = UserName.Current(),
-                SysUpdateDate = DateTime.Now,
-                SysUpdateUser = UserName.Current()
+                Created = DateTime.Now,
+                Creator = UserName.Current(),
+                Updated = DateTime.Now,
+                Updater = UserName.Current()
             };
+
+            project.Assumptions.Add("Project Assumption");
 
             var presentationFactor = new Factor
             {
-                Id = Guid.NewGuid(),
+                Id = ObjectId.GenerateNewId().ToString(),
                 Name = "Presentation Factor",
                 VerySimple = 2,
                 Simple = 4,
                 Medium = 8,
                 Complex = 16,
                 VeryComplex = 32,
-                SysCreateDate = DateTime.Now,
-                SysCreateUser = UserName.Current(),
-                SysUpdateDate = DateTime.Now,
-                SysUpdateUser = UserName.Current()
             };
             project.Factors.Add(presentationFactor);
 
             var backendFactor = new Factor
             {
-                Id = Guid.NewGuid(),
+                Id = ObjectId.GenerateNewId().ToString(),
                 Name = "Back-End Logic Factor",
                 VerySimple = 2,
                 Simple = 4,
                 Medium = 8,
                 Complex = 16,
                 VeryComplex = 32,
-                SysCreateDate = DateTime.Now,
-                SysCreateUser = UserName.Current(),
-                SysUpdateDate = DateTime.Now,
-                SysUpdateUser = UserName.Current()
             };
             project.Factors.Add(backendFactor);
 
             var section = new Section
             {
-                Id = Guid.NewGuid(),
+                Id = ObjectId.GenerateNewId().ToString(),
                 Name = "Application Section",
-                SysCreateDate = DateTime.Now,
-                SysCreateUser = UserName.Current(),
-                SysUpdateDate = DateTime.Now,
-                SysUpdateUser = UserName.Current()
             };
             project.Sections.Add(section);
 
             var presentationEstimate = new Task
             {
-                Id = Guid.NewGuid(),
+                Id = ObjectId.GenerateNewId().ToString(),
                 Name = "Presentation Task",
                 FactorId = presentationFactor.Id,
-                SysCreateDate = DateTime.Now,
-                SysCreateUser = UserName.Current(),
-                SysUpdateDate = DateTime.Now,
-                SysUpdateUser = UserName.Current()
             };
             section.Tasks.Add(presentationEstimate);
 
             var backendEstimate = new Task
             {
-                Id = Guid.NewGuid(),
+                Id = ObjectId.GenerateNewId().ToString(),
                 Name = "Back-End Logic Task",
                 FactorId = backendFactor.Id,
-                SysCreateDate = DateTime.Now,
-                SysCreateUser = UserName.Current(),
-                SysUpdateDate = DateTime.Now,
-                SysUpdateUser = UserName.Current()
             };
             section.Tasks.Add(backendEstimate);
 

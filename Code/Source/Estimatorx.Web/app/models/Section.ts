@@ -3,10 +3,11 @@
 module Estimatorx {
     "use strict";
 
-    export interface ISection extends IModelBase {
-        Name: string;
-        Description?: string;
+    export interface ISection {
+        Id: string;
 
+        Name: string;
+        
         TotalTasks: number;
         TotalHours: number;
         TotalWeeks: number;

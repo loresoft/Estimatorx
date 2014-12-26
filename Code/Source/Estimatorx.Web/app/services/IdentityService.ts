@@ -6,9 +6,6 @@ module Estimatorx {
     export class IdentityService {
         static $inject = [];
 
-        constructor() {
-
-        }
 
         private s4(): string {
             return Math

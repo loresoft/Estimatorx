@@ -3,10 +3,11 @@
 module Estimatorx {
     "use strict";
 
-    export interface IFactor extends IModelBase {
-        Name: string;
-        Description?: string;
+    export interface IFactor {
+        Id: string;
 
+        Name: string;
+        
         VerySimple: number;
         Simple: number;
         Medium: number;

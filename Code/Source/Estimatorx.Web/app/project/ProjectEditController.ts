@@ -24,8 +24,7 @@ module Estimatorx {
             modelFactory: ModelFactory,
             projectCalculator: ProjectCalculator,
             projectRepository: ProjectRepository,
-            templateRepository: TemplateRepository)
-        {
+            templateRepository: TemplateRepository) {
             var self = this;
 
             // assign viewModel to controller
@@ -96,7 +95,7 @@ module Estimatorx {
                         self.project = self.modelFactory.createProject(self.projectId);
                         return;
                     }
-                        
+
                     // TODO show error
                 });
         }
@@ -125,24 +124,17 @@ module Estimatorx {
             if (!this.project.Assumptions)
                 this.project.Assumptions = [];
 
-            var assumption = this.modelFactory.createAssumption();
+            var assumption = '';
             this.project.Assumptions.push(assumption);
         }
 
-        removeAssumption(assumption: IAssumption) {
-            if (!assumption)
-                return;
+        removeAssumption(index: number) {
 
             BootstrapDialog.confirm("Are you sure you want to remove this assumption?", (result) => {
                 if (!result)
                     return;
 
-                for (var i = 0; i < this.project.Assumptions.length; i++) {
-                    if (this.project.Assumptions[i].Id == assumption.Id) {
-                        this.project.Assumptions.splice(i, 1);
-                        break;
-                    }
-                }
+                this.project.Assumptions.splice(index, 1);
                 this.$scope.$apply();
             });
         }
@@ -217,11 +209,8 @@ module Estimatorx {
             if (!section.Tasks)
                 section.Tasks = [];
 
-            var task = <ITask>{
-                Id: this.identityService.newUUID(),
-                Name: 'Task ' + section.Tasks.length,
-                IsActive: true
-            };
+            var task = this.modelFactory.createTask();
+            task.Name = 'Task ' + section.Tasks.length;
 
             section.Tasks.push(task);
         }

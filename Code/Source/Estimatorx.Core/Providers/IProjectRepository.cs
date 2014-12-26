@@ -2,7 +2,7 @@
 
 namespace Estimatorx.Core.Providers
 {
-    public interface IProjectRepository : IEntityRepository<Project, Guid>
+    public interface IProjectRepository : IEntityRepository<Project, string>
     {
 
     }

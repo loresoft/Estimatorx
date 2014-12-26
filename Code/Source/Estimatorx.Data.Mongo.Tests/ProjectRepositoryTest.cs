@@ -9,6 +9,11 @@ namespace Estimatorx.Data.Mongo.Tests
 {
     public class ProjectRepositoryTest
     {
+        public ProjectRepositoryTest()
+        {
+            Bootstrap.Start();
+        }
+
         [Fact]
         public void SaveProject()
         {

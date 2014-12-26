@@ -31,7 +31,7 @@ namespace Estimatorx.Web.Services
             return _repository.All();
         }
 
-        public IHttpActionResult Get(Guid id)
+        public IHttpActionResult Get(string id)
         {
             var project = _repository.Find(id);
             if (project == null)
@@ -49,7 +49,7 @@ namespace Estimatorx.Web.Services
             return Ok(project);
         }
 
-        public IHttpActionResult Delete(Guid id)
+        public IHttpActionResult Delete(string id)
         {
             _repository.Delete(id);
             return StatusCode(HttpStatusCode.NoContent);           

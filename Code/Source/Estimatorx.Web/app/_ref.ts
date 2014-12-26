@@ -12,11 +12,10 @@
 /// <reference path="../scripts/typings/bootstrap-dialog/bootstrap-dialog.d.ts" />
 /// <reference path="models/queryrequest.ts" />
 /// <reference path="models/queryresult.ts" />
-/// <reference path="models/modelbase.ts" />
 /// <reference path="models/task.ts" />
-/// <reference path="models/assumption.ts" />
 /// <reference path="models/factor.ts" />
 /// <reference path="models/section.ts" />
+/// <reference path="models/template.ts" />
 /// <reference path="models/project.ts" />
 /// <reference path="app.ts" />
  

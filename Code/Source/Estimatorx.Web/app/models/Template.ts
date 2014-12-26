@@ -3,11 +3,18 @@
 module Estimatorx {
     "use strict";
 
-    export interface ITemplate extends IModelBase  {
-        Name: string;
-        Description?: string;
+    export interface ITemplate {
+        Id: string;
 
-        Factors: IFactor[];        
+        Name: string;
+        Description: string;
+
+        Created: Date;
+        Creator: string;
+
+        Updated: Date;
+        Updater: string;
+
+        Factors: IFactor[];
     }
 }
- 

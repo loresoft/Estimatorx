@@ -3,9 +3,11 @@
 module Estimatorx {
     "use strict";
 
-    export interface IProject extends IModelBase {
+    export interface IProject {
+        Id: string;
+
         Name: string;
-        Description?: string;
+        Description: string;
 
         HoursPerWeek: number;
         ContingencyRate: number;
@@ -17,7 +19,13 @@ module Estimatorx {
         ContingencyHours: number;
         ContingencyWeeks: number;
 
-        Assumptions: IAssumption[];
+        Created: Date;
+        Creator: string;
+
+        Updated: Date;
+        Updater: string;
+
+        Assumptions: string[];
         Factors: IFactor[];
         Sections: ISection[];
     }

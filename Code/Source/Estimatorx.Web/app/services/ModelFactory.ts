@@ -11,21 +11,25 @@ module Estimatorx {
         }
 
         factorCounter: number = 0
-        estimateCounter: number = 0
+        taskCounter: number = 0
         sectionCounter: number = 0
 
         identityService: IdentityService;
 
         createTemplate(id?: string): ITemplate {
-            var template = this.createModel<ITemplate>(id);
+            var template = <ITemplate>{};
+            template.Id = id ? id : this.identityService.newObjectId();
             template.Name = 'New Template';
+            template.Created = new Date();
+            template.Updated = new Date();
 
             return template;
         }
 
 
         createProject(id?: string): IProject {
-            var project = this.createModel<IProject>(id);
+            var project = <IProject>{};
+            project.Id = id ? id : this.identityService.newObjectId();
             project.Name = 'New Project';
             project.HoursPerWeek = 30;
             project.ContingencyRate = 10;
@@ -34,12 +38,15 @@ module Estimatorx {
             project.TotalWeeks = 0;
             project.ContingencyHours = 0;
             project.ContingencyWeeks = 0;
+            project.Created = new Date();
+            project.Updated = new Date();
 
             return project;
         }
 
         createSection(): ISection {
-            var section = this.createModel<ISection>();
+            var section = <ISection>{};
+            section.Id = this.identityService.newObjectId();
             section.Name = 'Section ' + (this.sectionCounter++);
             section.TotalTasks = 0;
             section.TotalHours = 0;
@@ -49,7 +56,8 @@ module Estimatorx {
         }
 
         createFactor(): IFactor {
-            var factor = this.createModel<IFactor>();
+            var factor = <IFactor>{};
+            factor.Id = this.identityService.newObjectId();
             factor.Name = 'Factor ' + (this.factorCounter++);
             factor.VerySimple = 2;
             factor.Simple = 4;
@@ -60,29 +68,14 @@ module Estimatorx {
             return factor;
         }
 
-        createEstimate(): ITask {
-            var estimate = this.createModel<ITask>();
-            estimate.Name = 'Estimate ' + (this.estimateCounter++);
+        createTask(): ITask {
+            var estimate = <ITask>{};
+            estimate.Id = this.identityService.newObjectId();
+            estimate.Name = 'Task ' + (this.taskCounter++);
             estimate.TotalTasks = 0;
             estimate.TotalHours = 0;
 
             return estimate;
-        }
-
-        createAssumption(): IAssumption {
-            var assumption = this.createModel<IAssumption>();
-            return assumption;
-        }
-
-        createModel<T extends IModelBase>(id?: string): T {
-            var model = <T>{
-                Id: id ? id : this.identityService.newUUID(),
-                IsActive: true,
-                SysCreateDate: new Date,
-                SysUpdateDate: new Date,
-            };
-
-            return model;
         }
     }
 

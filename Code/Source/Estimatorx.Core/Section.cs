@@ -1,17 +1,26 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Estimatorx.Core
 {
     /// <summary>
     /// A group of estimates for a section of the application being estimated.
     /// </summary>
-    public class Section : ModelBase
+    public class Section
     {
         public Section()
         {
             Tasks = new List<Task>();
         }
+
+        /// <summary>
+        /// Gets or sets the identifier for the model.
+        /// </summary>
+        /// <value>
+        /// The identifier for the model.
+        /// </value>
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the section.
@@ -20,32 +29,25 @@ namespace Estimatorx.Core
         /// The name of the section.
         /// </value>
         public string Name { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the description for the section.
-        /// </summary>
-        /// <value>
-        /// The description for the section.
-        /// </value>
-        public string Description { get; set; }
 
-        
         /// <summary>
         /// Gets or sets the total number of tasks for this section.
         /// </summary>
         /// <value>
         /// The total number of tasks for this section.
         /// </value>
+        [DefaultValue(0)]
         public int TotalTasks { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the total number hours for this section.
         /// </summary>
         /// <value>
         /// The total number hours for this section.
         /// </value>
+        [DefaultValue(0)]
         public int TotalHours { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the total number of weeks for this section based on the number of hours per week for the project.
         /// </summary>
@@ -53,6 +55,7 @@ namespace Estimatorx.Core
         /// The total number of weeks for this section based on the number of hours per week for the project.
         /// </value>
         /// <seealso cref="P:Project.HoursPerWeek"/>
+        [DefaultValue(0)]
         public double TotalWeeks { get; set; }
 
 

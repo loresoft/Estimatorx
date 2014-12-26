@@ -218,7 +218,6 @@
     <TypeScriptCompile Include="app\app.ts" />
     <TypeScriptCompile Include="app\directives\SortBy.ts" />
     <TypeScriptCompile Include="app\project\TemplateModalController.ts" />
-    <TypeScriptCompile Include="app\models\Assumption.ts" />
     <TypeScriptCompile Include="app\models\QueryRequest.ts" />
     <TypeScriptCompile Include="app\models\QueryResult.ts" />
     <TypeScriptCompile Include="app\services\IdentityService.ts" />
@@ -228,7 +227,6 @@
     <TypeScriptCompile Include="app\factor\FactorListController.ts" />
     <TypeScriptCompile Include="app\models\Task.ts" />
     <TypeScriptCompile Include="app\models\Factor.ts" />
-    <TypeScriptCompile Include="app\models\ModelBase.ts" />
     <TypeScriptCompile Include="app\models\Project.ts" />
     <TypeScriptCompile Include="app\models\Section.ts" />
     <TypeScriptCompile Include="app\models\Template.ts" />

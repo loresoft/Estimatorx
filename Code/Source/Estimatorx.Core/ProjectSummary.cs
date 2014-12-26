@@ -1,12 +1,22 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace Estimatorx.Core
 {
     /// <summary>
     /// A project estimate model
     /// </summary>
-    public class ProjectSummary : ModelBase
+    public class ProjectSummary
     {
+
+        /// <summary>
+        /// Gets or sets the identifier for the model.
+        /// </summary>
+        /// <value>
+        /// The identifier for the model.
+        /// </value>
+        public string Id { get; set; }
+        
         /// <summary>
         /// Gets or sets the name of the project.
         /// </summary>
@@ -29,6 +39,7 @@ namespace Estimatorx.Core
         /// <value>
         /// The hours per week to use when calculating an estimates total number of weeks.
         /// </value>
+        [DefaultValue(0)]
         public int HoursPerWeek { get; set; }
 
         /// <summary>
@@ -38,6 +49,7 @@ namespace Estimatorx.Core
         /// <value>
         /// The contingency percentage rate for the project.
         /// </value>
+        [DefaultValue(0)]
         public double ContingencyRate { get; set; }
 
         /// <summary>
@@ -46,6 +58,7 @@ namespace Estimatorx.Core
         /// <value>
         /// The total number tasks estimated for the project.
         /// </value>
+        [DefaultValue(0)]
         public int TotalTasks { get; set; }
 
         /// <summary>
@@ -54,6 +67,7 @@ namespace Estimatorx.Core
         /// <value>
         /// The total hours number estimated for the project.
         /// </value>
+        [DefaultValue(0)]
         public int TotalHours { get; set; }
 
         /// <summary>
@@ -62,6 +76,7 @@ namespace Estimatorx.Core
         /// <value>
         /// The total number weeks estimated for the project.
         /// </value>
+        [DefaultValue(0)]
         public double TotalWeeks { get; set; }
 
         /// <summary>
@@ -71,6 +86,7 @@ namespace Estimatorx.Core
         /// <value>
         /// The total contingency hours for the project.
         /// </value>
+        [DefaultValue(0)]
         public int ContingencyHours { get; set; }
 
         /// <summary>
@@ -80,6 +96,41 @@ namespace Estimatorx.Core
         /// <value>
         /// The total contingency weeks for the project.
         /// </value>
+        [DefaultValue(0)]
         public double ContingencyWeeks { get; set; }
+
+
+        /// <summary>
+        /// Gets or sets the system create date.
+        /// </summary>
+        /// <value>
+        /// The system create date.
+        /// </value>
+        public DateTime Created { get; set; }
+
+        /// <summary>
+        /// Gets or sets the system create user.
+        /// </summary>
+        /// <value>
+        /// The system create user.
+        /// </value>
+        public string Creator { get; set; }
+
+        /// <summary>
+        /// Gets or sets the system update date.
+        /// </summary>
+        /// <value>
+        /// The system update date.
+        /// </value>
+        public DateTime Updated { get; set; }
+
+        /// <summary>
+        /// Gets or sets the system update user.
+        /// </summary>
+        /// <value>
+        /// The system update user.
+        /// </value>
+        public string Updater { get; set; }
+
     }
 }

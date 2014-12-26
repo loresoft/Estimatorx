@@ -102,22 +102,22 @@
                 </a>
             </th>
             <th>
-                <a ng-click="viewModel.sortClick('SysUpdateDate')"
+                <a ng-click="viewModel.sortClick('Updated')"
                    style="display: block;">
                     Updated
                     <span class="ng-hide dropdown"
-                          ng-show="viewModel.result.Sort == 'SysUpdateDate'"
+                          ng-show="viewModel.result.Sort == 'Updated'"
                           ng-class="{true:'dropdown', false:'dropup'}[viewModel.result.Descending]">
                         <span class="caret" style="margin: 5px 5px;"></span>
                     </span>
                 </a>
             </th>
             <th>
-                <a ng-click="viewModel.sortClick('SysUpdateUser')"
+                <a ng-click="viewModel.sortClick('Updater')"
                    style="display: block;">
                     Updator
                     <span class="ng-hide dropdown"
-                          ng-show="viewModel.result.Sort == 'SysUpdateUser'"
+                          ng-show="viewModel.result.Sort == 'Updater'"
                           ng-class="{true:'dropdown', false:'dropup'}[viewModel.result.Descending]">
                         <span class="caret" style="margin: 5px 5px;"></span>
                     </span>
@@ -138,11 +138,11 @@
             <td>{{project.ContingencyHours}}</td>
             <td>{{project.ContingencyWeeks | number:2}}</td>
             <td>
-                <abbr title="{{project.SysUpdateDate | date:'fullDate'}}">
-                    <span>{{project.SysUpdateDate | date:'MM/dd/yyyy'}}</span>
+                <abbr title="{{project.Updated | date:'fullDate'}}">
+                    <span>{{project.Updated | date:'MM/dd/yyyy'}}</span>
                 </abbr>
             </td>
-            <td>{{project.SysUpdateUser}}</td>
+            <td>{{project.Updater}}</td>
         </tr>
     </tbody>
 </table>
