@@ -126,23 +126,23 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="estimate in viewModel.result.Data">
+        <tr ng-repeat="project in viewModel.result.Data">
             <td>
-                <a style="display: block" href="Estimate/Edit/{{estimate.Id}}" title="{{estimate.Name}}">{{estimate.Name}}</a>
+                <a style="display: block" href="Project/Edit/{{project.Id}}" title="{{project.Name}}">{{project.Name}}</a>
             </td>
-            <td>{{estimate.HoursPerWeek}}</td>
-            <td>{{estimate.ContingencyRate}}%</td>
-            <td>{{estimate.TotalTasks}}</td>
-            <td>{{estimate.TotalHours}}</td>
-            <td>{{estimate.TotalWeeks | number:2}}</td>
-            <td>{{estimate.ContingencyHours}}</td>
-            <td>{{estimate.ContingencyWeeks | number:2}}</td>
+            <td>{{project.HoursPerWeek}}</td>
+            <td>{{project.ContingencyRate}}%</td>
+            <td>{{project.TotalTasks}}</td>
+            <td>{{project.TotalHours}}</td>
+            <td>{{project.TotalWeeks | number:2}}</td>
+            <td>{{project.ContingencyHours}}</td>
+            <td>{{project.ContingencyWeeks | number:2}}</td>
             <td>
-                <abbr title="{{estimate.SysUpdateDate | date:'fullDate'}}">
-                    <span>{{estimate.SysUpdateDate | date:'MM/dd/yyyy'}}</span>
+                <abbr title="{{project.SysUpdateDate | date:'fullDate'}}">
+                    <span>{{project.SysUpdateDate | date:'MM/dd/yyyy'}}</span>
                 </abbr>
             </td>
-            <td>{{estimate.SysUpdateUser}}</td>
+            <td>{{project.SysUpdateUser}}</td>
         </tr>
     </tbody>
 </table>

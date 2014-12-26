@@ -3,7 +3,7 @@
 module Estimatorx {
     "use strict";
 
-    export class EstimateEditController {
+    export class ProjectEditController {
 
         // protect for minification, must match contructor signiture.
         static $inject = [
@@ -57,8 +57,9 @@ module Estimatorx {
         modelFactory: ModelFactory;
         projectCalculator: ProjectCalculator;
         projectRepository: ProjectRepository;
+
         project: IProject;
-        estimateId: string;
+        projectId: string;
 
         template: ITemplate;
         templates: ITemplate[];
@@ -78,21 +79,21 @@ module Estimatorx {
         load(id?: string) {
             var self = this;
 
-            self.estimateId = id;
+            self.projectId = id;
 
             // get project id
-            if (!self.estimateId) {
+            if (!self.projectId) {
                 self.project = self.modelFactory.createProject();
                 return;
             }
 
-            this.projectRepository.find(self.estimateId)
+            this.projectRepository.find(self.projectId)
                 .success((data, status, headers, config) => {
                     self.project = data;
                 })
                 .error((data, status, headers, config) => {
                     if (status == 404) {
-                        self.project = self.modelFactory.createProject(self.estimateId);
+                        self.project = self.modelFactory.createProject(self.projectId);
                         return;
                     }
                         
@@ -188,8 +189,8 @@ module Estimatorx {
             if (!this.project.Sections)
                 return;
 
-            if (section.Estimates && section.Estimates.length) {
-                BootstrapDialog.alert("Section not empty. Remove all estimates before removing section.");
+            if (section.Tasks && section.Tasks.length) {
+                BootstrapDialog.alert("Section not empty. Remove all tasks before removing section.");
                 return;
             }
 
@@ -209,36 +210,36 @@ module Estimatorx {
         }
 
 
-        addEstimate(section: ISection) {
+        addTask(section: ISection) {
             if (!section)
                 return;
 
-            if (!section.Estimates)
-                section.Estimates = [];
+            if (!section.Tasks)
+                section.Tasks = [];
 
-            var estimate = <IEstimate>{
+            var task = <ITask>{
                 Id: this.identityService.newUUID(),
-                Name: 'Task ' + section.Estimates.length,
+                Name: 'Task ' + section.Tasks.length,
                 IsActive: true
             };
 
-            section.Estimates.push(estimate);
+            section.Tasks.push(task);
         }
 
-        removeEstimate(section: ISection, estimate: IEstimate) {
-            if (!section || !estimate)
+        removeTask(section: ISection, task: ITask) {
+            if (!section || !task)
                 return;
 
-            if (!section.Estimates)
+            if (!section.Tasks)
                 return;
 
-            BootstrapDialog.confirm("Are you sure you want to remove this estimate?", (result) => {
+            BootstrapDialog.confirm("Are you sure you want to remove this task?", (result) => {
                 if (!result)
                     return;
 
-                for (var i = 0; i < section.Estimates.length; i++) {
-                    if (section.Estimates[i].Id == estimate.Id) {
-                        section.Estimates.splice(i, 1);
+                for (var i = 0; i < section.Tasks.length; i++) {
+                    if (section.Tasks[i].Id == task.Id) {
+                        section.Tasks.splice(i, 1);
                         break;
                     }
                 }
@@ -272,7 +273,7 @@ module Estimatorx {
 
     // register controller
     angular.module(Estimatorx.applicationName)
-        .controller('estimateEditController', [
+        .controller('projectEditController', [
             '$scope',
             '$location',
             '$modal',
@@ -282,7 +283,7 @@ module Estimatorx {
             'projectRepository',
             'templateRepository',
 
-            EstimateEditController // controller must be last
+            ProjectEditController // controller must be last
         ]);
 
 }

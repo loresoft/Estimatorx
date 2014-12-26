@@ -36,23 +36,23 @@
                 </div>
             </td>
         </tr>
-        <tr ng-repeat="estimate in section.Estimates">
-            <td><input type="text" class="form-control" ng-model="estimate.Name" /></td>
+        <tr ng-repeat="task in section.Tasks">
+            <td><input type="text" class="form-control" ng-model="task.Name" /></td>
             <td>
-                <select class="form-control" ng-model="estimate.FactorId" ng-options="factor.Id as factor.Name for factor in viewModel.project.Factors">
+                <select class="form-control" ng-model="task.FactorId" ng-options="factor.Id as factor.Name for factor in viewModel.project.Factors">
                     <option value="">-- select --</option>
                 </select>
             </td>
-            <td><input type="number" class="form-control" ng-model="estimate.VerySimple" /></td>
-            <td><input type="number" class="form-control" ng-model="estimate.Simple" /></td>
-            <td><input type="number" class="form-control" ng-model="estimate.Medium" /></td>
-            <td><input type="number" class="form-control" ng-model="estimate.Complex" /></td>
-            <td><input type="number" class="form-control" ng-model="estimate.VeryComplex" /></td>
-            <td>{{estimate.TotalTasks}}</td>
-            <td>{{estimate.TotalHours}}</td>
+            <td><input type="number" class="form-control" ng-model="task.VerySimple" /></td>
+            <td><input type="number" class="form-control" ng-model="task.Simple" /></td>
+            <td><input type="number" class="form-control" ng-model="task.Medium" /></td>
+            <td><input type="number" class="form-control" ng-model="task.Complex" /></td>
+            <td><input type="number" class="form-control" ng-model="task.VeryComplex" /></td>
+            <td>{{task.TotalTasks}}</td>
+            <td>{{task.TotalHours}}</td>
             <td>
                 <div class="btn-group pull-right">
-                    <a class="btn btn-link btn-sm" ng-click="viewModel.removeEstimate(section, estimate)"><i class="glyphicon glyphicon-remove"></i></a>
+                    <a class="btn btn-link btn-sm" ng-click="viewModel.removeTask(section, task)"><i class="glyphicon glyphicon-remove"></i></a>
                 </div>
             </td>
         </tr>
@@ -61,7 +61,7 @@
         <tr>
             <th colspan="10">
                 <div class="btn-group">
-                    <a class="btn btn-link btn-sm" ng-click="viewModel.addEstimate(section)"><i class="glyphicon glyphicon-plus"></i> Add Estimate</a>
+                    <a class="btn btn-link btn-sm" ng-click="viewModel.addTask(section)"><i class="glyphicon glyphicon-plus"></i> Add Task</a>
                 </div>
                 <div class="btn-group">
                     <a class="btn btn-link btn-sm" ng-click="viewModel.addSection()"><i class="glyphicon glyphicon-plus"></i> Add Section</a>

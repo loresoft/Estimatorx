@@ -60,8 +60,8 @@ module Estimatorx {
             return factor;
         }
 
-        createEstimate(): IEstimate {
-            var estimate = this.createModel<IEstimate>();
+        createEstimate(): ITask {
+            var estimate = this.createModel<ITask>();
             estimate.Name = 'Estimate ' + (this.estimateCounter++);
             estimate.TotalTasks = 0;
             estimate.TotalHours = 0;

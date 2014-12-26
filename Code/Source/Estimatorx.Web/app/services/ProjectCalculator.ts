@@ -46,7 +46,7 @@ module Estimatorx {
             section.TotalHours = 0;
             section.TotalWeeks = 0;
 
-            angular.forEach(section.Estimates, (estimate) => {
+            angular.forEach(section.Tasks, (estimate) => {
                 this.updateEstimate(project, estimate);
 
                 // update parent totals
@@ -59,18 +59,18 @@ module Estimatorx {
             section.TotalWeeks = this.round(section.TotalHours / hoursPerWeek, 2);
         }
 
-        updateEstimate(project: IProject, estimate: IEstimate) {
-            var verySimple = estimate.VerySimple || 0,
-                simple = estimate.Simple || 0,
-                medium = estimate.Medium || 0,
-                complex = estimate.Complex || 0,
-                veryComplex = estimate.VeryComplex || 0;
+        updateEstimate(project: IProject, task: ITask) {
+            var verySimple = task.VerySimple || 0,
+                simple = task.Simple || 0,
+                medium = task.Medium || 0,
+                complex = task.Complex || 0,
+                veryComplex = task.VeryComplex || 0;
 
 
-            estimate.TotalTasks = verySimple + simple + medium + complex + veryComplex;
+            task.TotalTasks = verySimple + simple + medium + complex + veryComplex;
 
             var factor = <IFactor>Enumerable.From(project.Factors)
-                .Where(f => f.Id == estimate.FactorId)
+                .Where(f => f.Id == task.FactorId)
                 .FirstOrDefault(<IFactor>{});
 
             var factorVerySimple = factor.VerySimple || 0,
@@ -79,7 +79,7 @@ module Estimatorx {
                 factorComplex = factor.Complex || 0,
                 factorVeryComplex = factor.VeryComplex || 0;
 
-            estimate.TotalHours = (verySimple * factorVerySimple)
+            task.TotalHours = (verySimple * factorVerySimple)
                 + (simple * factorSimple)
                 + (medium * factorMedium)
                 + (complex * factorComplex) 

@@ -62,7 +62,7 @@
     <Compile Include="Query\QueryExtensions.cs" />
     <Compile Include="Section.cs" />
     <Compile Include="ProjectCalculator.cs" />
-    <Compile Include="Estimate.cs" />
+    <Compile Include="Task.cs" />
     <Compile Include="Factor.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="Project.cs" />

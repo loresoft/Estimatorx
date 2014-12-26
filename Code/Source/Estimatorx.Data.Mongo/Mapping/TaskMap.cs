@@ -5,9 +5,9 @@ using MongoDB.Bson.Serialization;
 
 namespace Estimatorx.Data.Mongo.Mapping
 {
-    public class EstimateMap : BsonClassMap<Estimate>
+    public class TaskMap : BsonClassMap<Task>
     {
-        public EstimateMap()
+        public TaskMap()
         {
             AutoMap();
 

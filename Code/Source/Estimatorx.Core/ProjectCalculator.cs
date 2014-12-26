@@ -36,13 +36,13 @@ namespace Estimatorx.Core
 
         private static void UpdateSection(Project project, Section section)
         {
-            foreach (var estimate in section.Estimates)
+            foreach (var task in section.Tasks)
             {
-                UpdateEstimate(project, estimate);
+                UpdateEstimate(project, task);
 
                 // update parent totals
-                section.TotalTasks += estimate.TotalTasks;
-                section.TotalHours += estimate.TotalHours;
+                section.TotalTasks += task.TotalTasks;
+                section.TotalHours += task.TotalHours;
             }
 
             // calculate weeks after children total
@@ -50,23 +50,23 @@ namespace Estimatorx.Core
             section.TotalWeeks = Math.Round(section.TotalHours / hoursPerWeek, 2);
         }
 
-        private static void UpdateEstimate(Project project, Estimate estimate)
+        private static void UpdateEstimate(Project project, Task task)
         {
-            byte verySimple = (estimate.VerySimple ?? 0);
-            byte simple = (estimate.Simple ?? 0);
-            byte medium = (estimate.Medium ?? 0);
-            byte complex = (estimate.Complex ?? 0);
-            byte veryComplex = (estimate.VeryComplex ?? 0);
+            byte verySimple = (task.VerySimple ?? 0);
+            byte simple = (task.Simple ?? 0);
+            byte medium = (task.Medium ?? 0);
+            byte complex = (task.Complex ?? 0);
+            byte veryComplex = (task.VeryComplex ?? 0);
 
-            var factor = project.Factors.FirstOrDefault(f => f.Id == estimate.FactorId) ?? new Factor();
+            var factor = project.Factors.FirstOrDefault(f => f.Id == task.FactorId) ?? new Factor();
 
-            estimate.TotalTasks = verySimple
+            task.TotalTasks = verySimple
                 + simple
                 + medium
                 + complex
                 + veryComplex;
 
-            estimate.TotalHours = (verySimple * factor.VerySimple)
+            task.TotalHours = (verySimple * factor.VerySimple)
                 + (simple * factor.Simple)
                 + (medium * factor.Medium)
                 + (complex * factor.Complex)

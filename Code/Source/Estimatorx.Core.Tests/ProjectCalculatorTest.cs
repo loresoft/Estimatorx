@@ -16,11 +16,11 @@ namespace Estimatorx.Core.Tests
             project.Sections.Should().NotBeNullOrEmpty();
             project.Factors.Should().NotBeNullOrEmpty();
 
-            var estimate = project.Sections[0].Estimates[0];
+            var estimate = project.Sections[0].Tasks[0];
             estimate.Simple = 1;
             estimate.Medium = 1;
 
-            estimate = project.Sections[0].Estimates[1];
+            estimate = project.Sections[0].Tasks[1];
             estimate.Simple = 1;
 
             ProjectCalculator.UpdateTotals(project);

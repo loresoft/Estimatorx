@@ -63,7 +63,7 @@ namespace Estimatorx.Core
             };
             project.Sections.Add(section);
 
-            var presentationEstimate = new Estimate
+            var presentationEstimate = new Task
             {
                 Id = Guid.NewGuid(),
                 Name = "Presentation Task",
@@ -73,9 +73,9 @@ namespace Estimatorx.Core
                 SysUpdateDate = DateTime.Now,
                 SysUpdateUser = UserName.Current()
             };
-            section.Estimates.Add(presentationEstimate);
+            section.Tasks.Add(presentationEstimate);
 
-            var backendEstimate = new Estimate
+            var backendEstimate = new Task
             {
                 Id = Guid.NewGuid(),
                 Name = "Back-End Logic Task",
@@ -85,7 +85,7 @@ namespace Estimatorx.Core
                 SysUpdateDate = DateTime.Now,
                 SysUpdateUser = UserName.Current()
             };
-            section.Estimates.Add(backendEstimate);
+            section.Tasks.Add(backendEstimate);
 
             return project;
         }

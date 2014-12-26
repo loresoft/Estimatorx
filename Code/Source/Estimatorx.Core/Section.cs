@@ -10,7 +10,7 @@ namespace Estimatorx.Core
     {
         public Section()
         {
-            Estimates = new List<Estimate>();
+            Tasks = new List<Task>();
         }
 
         /// <summary>
@@ -62,6 +62,6 @@ namespace Estimatorx.Core
         /// <value>
         /// The estimates for this section.
         /// </value>
-        public List<Estimate> Estimates { get; set; }
+        public List<Task> Tasks { get; set; }
     }
 }

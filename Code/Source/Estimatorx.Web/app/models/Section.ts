@@ -11,6 +11,6 @@ module Estimatorx {
         TotalHours: number;
         TotalWeeks: number;
 
-        Estimates: IEstimate[];
+        Tasks: ITask[];
     }
 }

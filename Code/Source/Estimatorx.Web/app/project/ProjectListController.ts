@@ -3,7 +3,7 @@
 module Estimatorx {
     "use strict";
 
-    export class EstimateListController {
+    export class ProjectListController {
 
         // project for minification, must match contructor signiture.
         static $inject = ['$scope', 'projectSummaryRepository'];
@@ -64,11 +64,11 @@ module Estimatorx {
 
     // register controller
     angular.module(Estimatorx.applicationName)
-        .controller('estimateListController',
+        .controller('projectListController',
         [
             '$scope',
             'projectSummaryRepository',
-            EstimateListController
+            ProjectListController
         ]
         );
 }

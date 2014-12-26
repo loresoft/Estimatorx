@@ -4,7 +4,7 @@ using System.Web.Mvc;
 namespace Estimatorx.Web.Controllers
 {
     [Authorize]
-    public class EstimateController : Controller
+    public class ProjectController : Controller
     {
         public ActionResult Index()
         {

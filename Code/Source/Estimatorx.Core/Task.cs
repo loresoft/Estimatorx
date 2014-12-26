@@ -5,7 +5,7 @@ namespace Estimatorx.Core
     /// <summary>
     /// An estimate based on number of tasks for a project <see cref="Factor"/>.
     /// </summary>
-    public class Estimate : ModelBase
+    public class Task : ModelBase
     {
         /// <summary>
         /// Gets or sets the name of the estimate .

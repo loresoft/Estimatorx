@@ -3,7 +3,7 @@
 module Estimatorx {
     "use strict";
 
-    export interface IEstimate extends IModelBase {
+    export interface ITask extends IModelBase {
         Name: string;
         Description?: string;
 
