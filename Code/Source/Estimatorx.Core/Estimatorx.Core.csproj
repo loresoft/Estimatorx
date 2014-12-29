@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -60,6 +63,14 @@
     <Compile Include="Query\QueryExtensions.cs" />
     <Compile Include="Section.cs" />
     <Compile Include="ProjectCalculator.cs" />
+    <Compile Include="Security\Claim.cs" />
+    <Compile Include="Security\IRoleRepository.cs" />
+    <Compile Include="Security\IRoleStore.cs" />
+    <Compile Include="Security\IUserRepository.cs" />
+    <Compile Include="Security\IUserStore.cs" />
+    <Compile Include="Security\Login.cs" />
+    <Compile Include="Security\Role.cs" />
+    <Compile Include="Security\User.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="Factor.cs" />
     <Compile Include="Project.cs" />

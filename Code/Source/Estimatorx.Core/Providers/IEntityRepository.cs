@@ -8,7 +8,8 @@ namespace Estimatorx.Core.Providers
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TKey">The type of the key.</typeparam>
-    public interface IEntityRepository<TEntity, TKey> : IEntityQuery<TEntity, TKey>
+    public interface IEntityRepository<TEntity, TKey> 
+        : IEntityQuery<TEntity, TKey>
         where TEntity : class
     {
         /// <summary>
