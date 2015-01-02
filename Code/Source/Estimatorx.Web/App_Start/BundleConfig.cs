@@ -61,8 +61,8 @@ namespace Estimatorx.Web
                 .IncludeDirectory("~/app/directives/", "*.js")
                 
                 .IncludeDirectory("~/app/project/", "*.js")
-                .IncludeDirectory("~/app/factor/", "*.js")
                 .IncludeDirectory("~/app/profile/", "*.js")
+                .IncludeDirectory("~/app/template/", "*.js")
             );
 
 #if !DEBUG

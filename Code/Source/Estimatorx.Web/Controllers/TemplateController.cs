@@ -5,7 +5,7 @@ using MongoDB.Bson;
 namespace Estimatorx.Web.Controllers
 {
     [Authorize]
-    public class FactorController : Controller
+    public class TemplateController : Controller
     {
         public ActionResult Index()
         {

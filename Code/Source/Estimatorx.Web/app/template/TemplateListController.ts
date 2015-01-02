@@ -3,7 +3,7 @@
 module Estimatorx {
     "use strict";
 
-    export class FactorListController {
+    export class TemplateListController {
 
         // project for minification, must match contructor signiture.
         static $inject = ['$scope', 'templateSummaryRepository'];
@@ -65,11 +65,11 @@ module Estimatorx {
 
     // register controller
     angular.module(Estimatorx.applicationName)
-        .controller('factorListController',
+        .controller('templateListController',
         [
             '$scope',
             'templateSummaryRepository',
-            FactorListController
+            TemplateListController
         ]
     );
 }

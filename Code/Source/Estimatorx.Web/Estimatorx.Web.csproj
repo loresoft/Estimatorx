@@ -207,7 +207,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
-    <Compile Include="Controllers\FactorController.cs" />
+    <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\EmailModel.cs" />
@@ -284,8 +284,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Project\Edit.cshtml" />
-    <Content Include="Views\Factor\Index.cshtml" />
-    <Content Include="Views\Factor\Edit.cshtml" />
+    <Content Include="Views\Template\Index.cshtml" />
+    <Content Include="Views\Template\Edit.cshtml" />
     <Content Include="Views\Project\_Project.cshtml" />
     <Content Include="Views\Project\_Factors.cshtml" />
     <Content Include="Views\Project\_Tasks.cshtml" />
@@ -306,8 +306,8 @@
     <TypeScriptCompile Include="app\services\IdentityService.ts" />
     <TypeScriptCompile Include="app\project\ProjectEditController.ts" />
     <TypeScriptCompile Include="app\project\ProjectListController.ts" />
-    <TypeScriptCompile Include="app\factor\FactorEditController.ts" />
-    <TypeScriptCompile Include="app\factor\FactorListController.ts" />
+    <TypeScriptCompile Include="app\template\TemplateEditController.ts" />
+    <TypeScriptCompile Include="app\template\TemplateListController.ts" />
     <TypeScriptCompile Include="app\models\Task.ts" />
     <TypeScriptCompile Include="app\models\Factor.ts" />
     <TypeScriptCompile Include="app\models\Project.ts" />
@@ -358,7 +358,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Factor\_List.cshtml" />
+    <Content Include="Views\Template\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Account\ForgotPassword.cshtml" />
