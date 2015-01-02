@@ -9,6 +9,7 @@ using Estimatorx.Data.Mongo;
 
 namespace Estimatorx.Web.Services
 {
+    [Authorize]
     public class ProjectController : ApiController
     {
         private readonly IProjectRepository _repository;

@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Profile";
+}
+
+<div class="container" ng-controller="profileEditController" ng-init="viewModel.load('@User.Identity.GetUserId()')">
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+        <li><a href="@Url.Action("Index")">Projects</a></li>
+        <li class="active">Edit</li>
+    </ol>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-user"></i> Profile
+            <span ng-show="viewModel.user.UserName">- <strong>{{ viewModel.user.UserName}}</strong></span>
+        </div>
+        <div class="panel-body">
+            <div class="tab-container">
+                <!-- Nav tabs -->
+                <div role="tabpanel">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile Information</a></li>
+                        <li role="presentation"><a href="#password" aria-controls="password" role="tab" data-toggle="tab">Password</a></li>
+                        <li role="presentation"><a href="#logins" aria-controls="logins" role="tab" data-toggle="tab">External Logins</a></li>
+                    </ul>
+                </div>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="profile">
+                        @Html.Partial("_Profile")
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="password">
+                        @Html.Partial("_Password")
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="logins">
+                        @Html.Partial("_Logins")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

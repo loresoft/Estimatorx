@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Estimatorx.Data.Mongo</RootNamespace>
     <AssemblyName>Estimatorx.Data.Mongo</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="KickStart">
+      <HintPath>..\packages\KickStart.2.0.0.38\lib\net45\KickStart.dll</HintPath>
+    </Reference>
+    <Reference Include="KickStart.Autofac">
+      <HintPath>..\packages\KickStart.Autofac.2.0.0.38\lib\net45\KickStart.Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -38,6 +48,12 @@
     </Reference>
     <Reference Include="MongoDB.Driver">
       <HintPath>..\packages\mongocsharpdriver.1.9.2\lib\net35\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.3.1.0.0\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.Fluent">
+      <HintPath>..\packages\NLog.Fluent.3.1.0.30\lib\net45\NLog.Fluent.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -58,6 +74,10 @@
     <Compile Include="Mapping\SectionMap.cs" />
     <Compile Include="Mapping\TemplateMap.cs" />
     <Compile Include="Mapping\UserMap.cs" />
+    <Compile Include="Modules\MongoModule.cs" />
+    <Compile Include="Modules\ProjectModule.cs" />
+    <Compile Include="Modules\SecurityModule.cs" />
+    <Compile Include="Modules\TemplateModule.cs" />
     <Compile Include="MongoQuery.cs" />
     <Compile Include="MongoRepository.cs" />
     <Compile Include="MongoUtility.cs" />
@@ -76,6 +96,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

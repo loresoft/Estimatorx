@@ -11,6 +11,7 @@ module Estimatorx {
             'ngAnimate',
             'ngResource',
             'ngSanitize',
+            'ngMessages',
             'angularMoment',
             'ui.bootstrap'
         ]

@@ -11,6 +11,7 @@ namespace Estimatorx.Web
                 .Include(
                     "~/Content/bootstrap.css",
                     "~/Content/bootstrap-dialog.css",
+                    "~/Content/bootstrap-social.css",
                     "~/Content/font-awesome.css",
                     "~/Content/site.css"
                 )
@@ -61,6 +62,7 @@ namespace Estimatorx.Web
                 
                 .IncludeDirectory("~/app/project/", "*.js")
                 .IncludeDirectory("~/app/factor/", "*.js")
+                .IncludeDirectory("~/app/profile/", "*.js")
             );
 
 #if !DEBUG

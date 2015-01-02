@@ -5,10 +5,10 @@ using System.Web.Http;
 using Estimatorx.Data.Mongo;
 using Estimatorx.Core;
 using Estimatorx.Core.Providers;
-using Estimatorx.Data.Mongo;
 
 namespace Estimatorx.Web.Services
 {
+    [Authorize]
     public class TemplateController : ApiController
     {
         private readonly ITemplateRepository _repository;

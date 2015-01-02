@@ -18,6 +18,10 @@ namespace Estimatorx.Data.Mongo.Mapping
                 .SetElementName("un")
                 .SetIgnoreIfNull(true);
 
+            MapProperty(c => c.Name)
+                .SetElementName("nm")
+                .SetIgnoreIfNull(true);
+
             MapProperty(c => c.Email)
                 .SetElementName("em")
                 .SetIgnoreIfNull(true);
@@ -62,6 +66,9 @@ namespace Estimatorx.Data.Mongo.Mapping
             MapProperty(c => c.Logins)
                 .SetElementName("_l")
                 .SetShouldSerializeMethod(ShouldSerializeLogins);
+            MapProperty(c => c.Organizations)
+                .SetElementName("_o")
+                .SetShouldSerializeMethod(ShouldSerializeOrganizations);
         }
 
         private static bool ShouldSerializeRoles(object value)
@@ -91,6 +98,15 @@ namespace Estimatorx.Data.Mongo.Mapping
                 return false;
 
             var list = user.Logins;
+            return list != null && list.Count > 0;
+        }
+        private static bool ShouldSerializeOrganizations(object value)
+        {
+            var user = value as User;
+            if (user == null)
+                return false;
+
+            var list = user.Organizations;
             return list != null && list.Count > 0;
         }
 

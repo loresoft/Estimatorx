@@ -19,6 +19,8 @@ namespace Estimatorx.Core.Security
 
         public string UserName { get; set; }
 
+        public string Name { get; set; }
+
 
         public string Email { get; set; }
 
@@ -55,5 +57,7 @@ namespace Estimatorx.Core.Security
         public ICollection<Claim> Claims { get; set; }
 
         public ICollection<Login> Logins { get; set; }
+
+        public ICollection<string> Organizations { get; set; }
     }
 }

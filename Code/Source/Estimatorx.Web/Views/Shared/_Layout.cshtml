@@ -46,6 +46,29 @@
                         </ul>
                     </li>
                 </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">LoreSoft <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="fa fa-user fa-fw"></i> Personal</a></li>
+                            <li class="divider"></li>
+                            <li class="dropdown-header">Organizations</li>
+                            <li class="active"><a href="#"><i class="fa fa-group fa-fw"></i> LoreSoft</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">@User.Identity.Name <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("Index", "Profile")"><i class="fa fa-user fa-fw"></i> Edit Profile</a></li>
+                            <li class="divider"></li>
+                            <li><a href="@Url.Action("LogOut", "Account")"><i class="fa fa-power-off fa-fw"></i> Logout</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
             </div>
         </div>
     </div>
@@ -57,8 +80,7 @@
     <div id="footer-container" class="container">
         <hr />
         <footer id="footer">
-            <span class="pull-left">@User.Identity.Name</span>
-            <p> </p>
+            <span>© Copyright @System.DateTime.Now.Year LoreSoft. All Rights Reserved.</span>
             <span class="pull-right">Version 1.0.0.0</span>
         </footer>
     </div>

@@ -16,6 +16,7 @@
 /// <reference path="models/factor.ts" />
 /// <reference path="models/section.ts" />
 /// <reference path="models/template.ts" />
+/// <reference path="models/user.ts" />
 /// <reference path="models/project.ts" />
 /// <reference path="app.ts" />
  
