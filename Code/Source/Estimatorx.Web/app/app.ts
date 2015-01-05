@@ -13,7 +13,8 @@ module Estimatorx {
             'ngSanitize',
             'ngMessages',
             'angularMoment',
-            'ui.bootstrap'
+            'ui.bootstrap',
+            'ui.select'
         ]
     );
 }

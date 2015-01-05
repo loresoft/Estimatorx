@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Mapping\ClaimMap.cs" />
     <Compile Include="Mapping\LoginMap.cs" />
+    <Compile Include="Mapping\OrganizationMap.cs" />
     <Compile Include="Mapping\RoleMap.cs" />
     <Compile Include="Mapping\TaskMap.cs" />
     <Compile Include="Mapping\FactorMap.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="MongoUtility.cs" />
     <Compile Include="ProjectRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\OrganizationRepository.cs" />
     <Compile Include="Security\RoleRepository.cs" />
     <Compile Include="Security\RoleStore.cs" />
     <Compile Include="Security\UserRepository.cs" />

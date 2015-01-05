@@ -88,6 +88,8 @@
     <Compile Include="ProjectFactory.cs" />
     <Compile Include="ProjectRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\UserRepositoryTest.cs" />
+    <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

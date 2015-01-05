@@ -7,12 +7,8 @@ using Xunit;
 
 namespace Estimatorx.Data.Mongo.Tests
 {
-    public class DataQueryTest
+    public class DataQueryTest : TestBase
     {
-        public DataQueryTest()
-        {
-            Bootstrap.Start();
-        }
 
         [Fact]
         public void ProjectToSummaryFromRequest()

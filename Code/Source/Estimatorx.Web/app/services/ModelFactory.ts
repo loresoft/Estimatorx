@@ -77,6 +77,19 @@ module Estimatorx {
 
             return estimate;
         }
+
+        createOrganization(id?: string, ownerId?: string): IOrganization {
+            var organization = <IOrganization>{};
+            organization.Id = id ? id : this.identityService.newObjectId();
+
+            organization.Name = 'New Organization';
+            organization.Created = new Date();
+            organization.Updated = new Date();
+            organization.Owners = [ownerId];
+
+            return organization;
+        }
+
     }
 
 

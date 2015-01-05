@@ -17,10 +17,17 @@ namespace Estimatorx.Core.Security
         {
             var claimIdenity = await base.CreateUserIdentityAsync(user);
 
-            var loreSoftClaim = new System.Security.Claims.Claim("Organization", "LoreSoft");
-            claimIdenity.AddClaim(loreSoftClaim);
-            var novusClaim = new System.Security.Claims.Claim("Organization", "Novus");
-            claimIdenity.AddClaim(novusClaim);
+            var displayClaim = new System.Security.Claims.Claim(Claim.DisplayName, user.Name ?? user.UserName);
+            claimIdenity.AddClaim(displayClaim);
+
+            if (user.Organizations == null)
+                return claimIdenity;
+
+            foreach (var claim in user.Organizations)
+            {
+                var orgClaim = new System.Security.Claims.Claim(Claim.Organization, claim);
+                claimIdenity.AddClaim(orgClaim);
+            }
 
             return claimIdenity;
         }

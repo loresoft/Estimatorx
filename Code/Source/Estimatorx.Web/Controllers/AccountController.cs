@@ -82,7 +82,12 @@ namespace Estimatorx.Web.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            var user = new User { UserName = model.Email, Email = model.Email };
+            var user = new User
+            {
+                UserName = model.Email,
+                Name = model.Name,
+                Email = model.Email
+            };
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
@@ -202,14 +207,21 @@ namespace Estimatorx.Web.Controllers
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new EmailModel { Email = loginInfo.Email });
+
+                    var model = new ExternalRegisterModel()
+                    {
+                        Name = loginInfo.DefaultUserName,
+                        Email = loginInfo.Email
+                    };
+                    
+                    return View("ExternalLoginConfirmation", model);
             }
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ExternalLoginConfirmation(EmailModel model, string returnUrl)
+        public async Task<ActionResult> ExternalLoginConfirmation(ExternalRegisterModel model, string returnUrl)
         {
             if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Profile");
@@ -225,7 +237,13 @@ namespace Estimatorx.Web.Controllers
             if (info == null)
                 return View("ExternalLoginFailure");
 
-            var user = new User { UserName = model.Email, Email = model.Email };
+            var user = new User
+            {
+                UserName = model.Email,
+                Name = model.Name,
+                Email = model.Email
+            };
+
             var result = await _userManager.CreateAsync(user);
             if (result.Succeeded)
             {

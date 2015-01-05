@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -15,18 +16,23 @@ namespace Estimatorx.Web.Services
     [RoutePrefix("api/User")]
     public class UserController : ApiController
     {
-        private readonly IUserRepository _repository;
+        private readonly IUserRepository _userRepository;
+        private readonly IOrganizationRepository _organizationRepository;
+
         private readonly UserManager _userManager;
         private readonly SignInManager _signInManager;
         private readonly IAuthenticationManager _authenticationManager;
 
         public UserController(
-            IUserRepository repository,
+            IUserRepository userRepository,
+            IOrganizationRepository organizationRepository,
             UserManager userManager,
             SignInManager signInManager,
-            IAuthenticationManager authenticationManager)
+            IAuthenticationManager authenticationManager
+        )
         {
-            _repository = repository;
+            _userRepository = userRepository;
+            _organizationRepository = organizationRepository;
             _userManager = userManager;
             _signInManager = signInManager;
             _authenticationManager = authenticationManager;
@@ -35,12 +41,12 @@ namespace Estimatorx.Web.Services
 
         public IEnumerable<User> Get()
         {
-            return _repository.All();
+            return _userRepository.All();
         }
 
         public IHttpActionResult Get(string id)
         {
-            var project = _repository.Find(id);
+            var project = _userRepository.Find(id);
             if (project == null)
                 return NotFound();
 
@@ -49,7 +55,7 @@ namespace Estimatorx.Web.Services
 
         public IHttpActionResult Post([FromBody]User value)
         {
-            var project = _repository.Save(value);
+            var project = _userRepository.Save(value);
             if (project == null)
                 return NotFound();
 
@@ -58,8 +64,20 @@ namespace Estimatorx.Web.Services
 
         public IHttpActionResult Delete(string id)
         {
-            _repository.Delete(id);
+            _userRepository.Delete(id);
             return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        [HttpGet]
+        [Route("Search")]
+        public IHttpActionResult Search(string q)
+        {
+            var users = _userRepository
+                .FindAll(u => u.Name.Contains(q) || u.Email.Contains(q))
+                .OrderBy(u => u.Name)
+                .Take(20);
+
+            return Ok(users);
         }
 
 
@@ -116,6 +134,73 @@ namespace Estimatorx.Web.Services
                 return Ok();
 
             return IdentityError(result);
+        }
+
+
+        [HttpGet]
+        [Route("OrganizationMembers/{organizationId}")]
+        public IHttpActionResult OrganizationMembers(string organizationId)
+        {
+            var organization = _organizationRepository.Find(organizationId);
+            if (organization == null)
+                return NotFound();
+
+            var users = _userRepository
+                .OrganizationMembers(organizationId)
+                .ToList();
+
+            return Ok(users);
+        }
+
+        [HttpGet]
+        [Route("OrganizationOwners/{organizationId}")]
+        public IHttpActionResult OrganizationOwners(string organizationId)
+        {
+            var organization = _organizationRepository.Find(organizationId);
+            if (organization == null)
+                return NotFound();
+
+            var users = _userRepository
+                .FindAll(organization.Owners)
+                .ToList();
+
+            return Ok(users);
+        }
+
+        [HttpPost]
+        [Route("AddOrganization")]
+        public IHttpActionResult AddOrganization(OrganizationUser model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = _userRepository.Find(model.UserId);
+            if (user == null)
+                return NotFound();
+
+            user.Organizations.Add(model.OrganizationId);
+
+            _userRepository.Save(user);
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("RemoveOrganization")]
+        public IHttpActionResult RemoveOrganization(OrganizationUser model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = _userRepository.Find(model.UserId);
+            if (user == null)
+                return NotFound();
+
+            user.Organizations.Remove(model.OrganizationId);
+
+            _userRepository.Save(user);
+
+            return Ok();
         }
 
 

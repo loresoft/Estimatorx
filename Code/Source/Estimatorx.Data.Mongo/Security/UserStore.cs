@@ -93,7 +93,8 @@ namespace Estimatorx.Data.Mongo.Security
 
         public Task<IList<string>> GetRolesAsync(User user)
         {
-            return Task.FromResult(user.Roles);
+            IList<string> roles = user.Roles.ToList();
+            return Task.FromResult(roles);
         }
 
         public Task<bool> IsInRoleAsync(User user, string roleName)
@@ -160,7 +161,9 @@ namespace Estimatorx.Data.Mongo.Security
 
         public Task SetEmailAsync(User user, string email)
         {
+            user.UserName = email;
             user.Email = email;
+
             return Task.FromResult(0);
         }
 

@@ -54,6 +54,9 @@
     <Reference Include="Autofac.Integration.WebApi">
       <HintPath>..\packages\Autofac.WebApi2.3.4.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
+    <Reference Include="jQuery.Validation.Unobtrusive.Native">
+      <HintPath>..\packages\jQuery.Validation.Unobtrusive.Native.MVC5.1.1.1.0\lib\net45\jQuery.Validation.Unobtrusive.Native.dll</HintPath>
+    </Reference>
     <Reference Include="KickStart, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\KickStart.2.0.0.38\lib\net45\KickStart.dll</HintPath>
@@ -205,6 +208,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
@@ -212,12 +216,15 @@
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\ExternalLoginModel.cs" />
+    <Compile Include="Models\ExternalRegisterModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\OrganizationUser.cs" />
     <Compile Include="Models\PasswordModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Modules\AuthenticationModule.cs" />
     <Compile Include="Security\ChallengeResult.cs" />
+    <Compile Include="Services\OrganizationController.cs" />
     <Compile Include="Services\ProjectController.cs" />
     <Compile Include="Services\ProjectSummaryController.cs" />
     <Compile Include="Global.asax.cs">
@@ -235,6 +242,11 @@
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\select2-bootstrap.css" />
+    <Content Include="Content\select2-spinner.gif" />
+    <Content Include="Content\select2.css" />
+    <Content Include="Content\select2.png" />
+    <Content Include="Content\select2x2.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -249,6 +261,8 @@
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="Scripts\angular-resource.js" />
     <Content Include="Scripts\angular-sanitize.js" />
+    <Content Include="Scripts\angular-ui-select\select.css" />
+    <Content Include="Scripts\angular-ui-select\select.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -257,9 +271,9 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\bootstrap-dialog.js" />
     <Content Include="Scripts\bootstrap.js" />
-    <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
-    <Content Include="Scripts\jquery-2.1.3.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\linq.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment.js" />
@@ -292,13 +306,22 @@
     <Content Include="Views\Project\_Assumptions.cshtml" />
     <Content Include="Views\Project\_Summary.cshtml" />
     <Content Include="Views\Project\_List.cshtml" />
-    <Content Include="Scripts\jquery-2.1.3.min.map" />
+    <Content Include="Views\Organization\Index.cshtml" />
+    <Content Include="Views\Organization\_List.cshtml" />
+    <Content Include="Views\Organization\Edit.cshtml" />
+    <Content Include="Views\Organization\_Organization.cshtml" />
+    <Content Include="Views\Organization\_Members.cshtml" />
+    <Content Include="Views\Organization\_Owners.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app\app.ts" />
     <TypeScriptCompile Include="app\directives\SortBy.ts" />
+    <TypeScriptCompile Include="app\models\Organization.ts" />
     <TypeScriptCompile Include="app\models\Password.ts" />
     <TypeScriptCompile Include="app\models\User.ts" />
+    <TypeScriptCompile Include="app\organization\MemberModalController.ts" />
+    <TypeScriptCompile Include="app\organization\OrganizationEditController.ts" />
+    <TypeScriptCompile Include="app\organization\OrganizationListController.ts" />
     <TypeScriptCompile Include="app\profile\ProfileEditController.ts" />
     <TypeScriptCompile Include="app\project\TemplateModalController.ts" />
     <TypeScriptCompile Include="app\models\QueryRequest.ts" />
@@ -306,6 +329,7 @@
     <TypeScriptCompile Include="app\services\IdentityService.ts" />
     <TypeScriptCompile Include="app\project\ProjectEditController.ts" />
     <TypeScriptCompile Include="app\project\ProjectListController.ts" />
+    <TypeScriptCompile Include="app\services\OrganizationRepository.ts" />
     <TypeScriptCompile Include="app\template\TemplateEditController.ts" />
     <TypeScriptCompile Include="app\template\TemplateListController.ts" />
     <TypeScriptCompile Include="app\models\Task.ts" />

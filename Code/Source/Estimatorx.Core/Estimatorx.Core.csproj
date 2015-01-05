@@ -75,6 +75,7 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Linq.Dynamic, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
@@ -104,11 +105,14 @@
     <Compile Include="Section.cs" />
     <Compile Include="ProjectCalculator.cs" />
     <Compile Include="Security\Claim.cs" />
+    <Compile Include="Security\IdentityExtensions.cs" />
+    <Compile Include="Security\IOrganizationRepository.cs" />
     <Compile Include="Security\IRoleRepository.cs" />
     <Compile Include="Security\IRoleStore.cs" />
     <Compile Include="Security\IUserRepository.cs" />
     <Compile Include="Security\IUserStore.cs" />
     <Compile Include="Security\Login.cs" />
+    <Compile Include="Security\Organization.cs" />
     <Compile Include="Security\Role.cs" />
     <Compile Include="Security\RoleManager.cs" />
     <Compile Include="Security\SignInManager.cs" />

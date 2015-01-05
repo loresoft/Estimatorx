@@ -16,11 +16,13 @@
                 <tr ng-repeat="login in viewModel.user.Logins">
                     <td>{{login.LoginProvider}}</td>
                     <td style="text-align: right">
-                        <button type="button" class="btn btn-danger"
-                                title="Remove credential from your account"
-                                ng-click="viewModel.removeLogin(login.LoginProvider, login.ProviderKey)">
-                            Remove
-                        </button>
+                        <div class="btn-group pull-right">
+                            <a class="btn btn-link btn-sm"
+                               title="Remove linked login"
+                               ng-click="viewModel.removeLogin(login.LoginProvider, login.ProviderKey)">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </a>
+                        </div>
                     </td>
                 </tr>
             </tbody>

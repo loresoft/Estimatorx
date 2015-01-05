@@ -23,6 +23,11 @@ namespace Estimatorx.Data.Mongo.Modules
                 .As<IUserStore>()
                 .As<IUserRepository>()
                 .SingleInstance();
+
+
+            builder.RegisterType<OrganizationRepository>()
+                .As<IOrganizationRepository>()
+                .SingleInstance();
         }
     }
 }

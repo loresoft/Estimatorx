@@ -10,9 +10,10 @@ namespace Estimatorx.Core.Security
     {
         public User()
         {
-            Roles = new List<string>();
             Claims = new List<Claim>();
             Logins = new List<Login>();
+            Roles = new HashSet<string>();
+            Organizations = new HashSet<string>();
         }
 
         public string Id { get; set; }
@@ -52,12 +53,12 @@ namespace Estimatorx.Core.Security
         public int AccessFailedCount { get; set; }
 
 
-        public IList<string> Roles { get; set; }
+        public HashSet<string> Roles { get; set; }
 
         public ICollection<Claim> Claims { get; set; }
 
         public ICollection<Login> Logins { get; set; }
 
-        public ICollection<string> Organizations { get; set; }
+        public HashSet<string> Organizations { get; set; }
     }
 }

@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Estimatorx.Core.Security;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using MongoDB.Driver.Linq;
 
 namespace Estimatorx.Data.Mongo.Security
 {
@@ -23,6 +26,24 @@ namespace Estimatorx.Data.Mongo.Security
         {
         }
 
+        public IQueryable<User> FindAll(IEnumerable<string> keys)
+        {
+            if (keys == null)
+                throw new ArgumentNullException("keys");
+
+            return _collection.Value
+                .AsQueryable()
+                .Where(e => e.Id.In(keys));
+        }
+
+        public IQueryable<User> OrganizationMembers(string organizationId)
+        {
+            return _collection.Value
+                .AsQueryable()
+                .Where(u => u.Organizations.Contains(organizationId));
+        }
+
+
         public override string EntityKey(User entity)
         {
             return entity.Id;
@@ -33,6 +54,13 @@ namespace Estimatorx.Data.Mongo.Security
             return ConvertString(key);
         }
 
+
+        protected override void BeforeUpdate(User entity)
+        {
+            entity.UserName = entity.Email;
+
+            base.BeforeUpdate(entity);
+        }
 
         protected override void EnsureIndexes(MongoCollection<User> mongoCollection)
         {
