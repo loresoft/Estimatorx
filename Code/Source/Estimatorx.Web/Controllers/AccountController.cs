@@ -14,15 +14,19 @@ using Microsoft.Owin.Security;
 
 namespace Estimatorx.Web.Controllers
 {
-    [RequireHttps]
     [Authorize]
+    [RequireHttps]
     public class AccountController : Controller
     {
         private readonly UserManager _userManager;
         private readonly SignInManager _signInManager;
         private readonly IAuthenticationManager _authenticationManager;
 
-        public AccountController(UserManager userManager, SignInManager signInManager, IAuthenticationManager authenticationManager)
+        public AccountController(
+            UserManager userManager, 
+            SignInManager signInManager, 
+            IAuthenticationManager authenticationManager
+        )
         {
             _userManager = userManager;
             _signInManager = signInManager;

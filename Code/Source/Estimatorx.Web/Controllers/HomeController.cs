@@ -10,8 +10,6 @@ namespace Estimatorx.Web.Controllers
         {
             ViewBag.Title = "Home Page";
 
-            var i = User.Identity;
-
             return View();
         }
     }

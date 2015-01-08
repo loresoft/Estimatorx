@@ -63,25 +63,30 @@ namespace Estimatorx.Web
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // social logins
-            app.UseMicrosoftAccountAuthentication(
-                clientId: EstimatorxSettings.MicrosoftClientId,
-                clientSecret: EstimatorxSettings.MicrosoftClientSecret);
+            if (!string.IsNullOrEmpty(EstimatorxSettings.MicrosoftClientId))
+                app.UseMicrosoftAccountAuthentication(
+                    clientId: EstimatorxSettings.MicrosoftClientId,
+                    clientSecret: EstimatorxSettings.MicrosoftClientSecret);
 
-            app.UseTwitterAuthentication(
-               consumerKey: EstimatorxSettings.TwitterConsumerKey,
-               consumerSecret: EstimatorxSettings.TwitterConsumerSecret);
+            if (!string.IsNullOrEmpty(EstimatorxSettings.TwitterConsumerKey))
+                app.UseTwitterAuthentication(
+                    consumerKey: EstimatorxSettings.TwitterConsumerKey,
+                    consumerSecret: EstimatorxSettings.TwitterConsumerSecret);
 
-            app.UseFacebookAuthentication(
-               appId: EstimatorxSettings.FacebookApplicationId,
-               appSecret: EstimatorxSettings.FacebookApplicationSecret);
+            if (!string.IsNullOrEmpty(EstimatorxSettings.FacebookApplicationId))
+                app.UseFacebookAuthentication(
+                    appId: EstimatorxSettings.FacebookApplicationId,
+                    appSecret: EstimatorxSettings.FacebookApplicationSecret);
 
-            app.UseGoogleAuthentication(
-                clientId: EstimatorxSettings.GoogleClientId,
-                clientSecret: EstimatorxSettings.GoogleClientSecret);
+            if (!string.IsNullOrEmpty(EstimatorxSettings.GoogleClientId))
+                app.UseGoogleAuthentication(
+                    clientId: EstimatorxSettings.GoogleClientId,
+                    clientSecret: EstimatorxSettings.GoogleClientSecret);
 
-            app.UseGitHubAuthentication(
-                clientId: EstimatorxSettings.GitHubClientId,
-                clientSecret: EstimatorxSettings.GitHubClientSecret);
+            if (!string.IsNullOrEmpty(EstimatorxSettings.GitHubClientId))
+                app.UseGitHubAuthentication(
+                    clientId: EstimatorxSettings.GitHubClientId,
+                    clientSecret: EstimatorxSettings.GitHubClientSecret);
         }
 
     }

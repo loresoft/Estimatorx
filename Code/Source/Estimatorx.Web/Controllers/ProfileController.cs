@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 namespace Estimatorx.Web.Controllers
 {
     [Authorize]
+    [RequireHttps]
     public class ProfileController : Controller
     {
         [RequireHttps]
