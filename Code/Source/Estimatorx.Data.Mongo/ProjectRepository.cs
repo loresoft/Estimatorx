@@ -74,9 +74,10 @@ namespace Estimatorx.Data.Mongo
 
             mongoCollection.CreateIndex(
                 IndexKeys<Project>
-                    .Ascending(s => s.Creator)
+                    .Ascending(s => s.OrganizationId)
                     .Descending(s => s.Updated)
             );
+
         }
 
 
@@ -94,6 +95,7 @@ namespace Estimatorx.Data.Mongo
                 TotalWeeks = p.TotalWeeks,
                 ContingencyHours = p.ContingencyHours,
                 ContingencyWeeks = p.ContingencyWeeks,
+                OrganizationId = p.OrganizationId,
                 Created = p.Created,
                 Creator = p.Creator,
                 Updated = p.Updated,

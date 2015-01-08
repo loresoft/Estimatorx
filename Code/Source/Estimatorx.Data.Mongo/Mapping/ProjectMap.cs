@@ -46,6 +46,12 @@ namespace Estimatorx.Data.Mongo.Mapping
                 .SetElementName("cw")
                 .SetIgnoreIfDefault(true);
 
+            MapProperty(c => c.OrganizationId)
+                .SetElementName("o_")
+                .SetRepresentation(BsonType.String)
+                .SetIgnoreIfNull(true);
+
+
             MapProperty(c => c.Created)
                 .SetElementName("cd")
                 .SetSerializationOptions(new DateTimeSerializationOptions { Kind = DateTimeKind.Local });

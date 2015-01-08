@@ -19,6 +19,8 @@ module Estimatorx {
         ContingencyHours: number;
         ContingencyWeeks: number;
 
+        OrganizationId: string;
+
         Created: Date;
         Creator: string;
 

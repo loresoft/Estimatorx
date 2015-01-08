@@ -22,7 +22,7 @@ module Estimatorx {
                 params: request
             };
 
-            return this.$http.get<IQueryResult<IOrganization>>(this.urlBase, config);
+            return this.$http.get<IQueryResult<IOrganization>>(this.urlBase + '/Query', config);
         }
 
         all(): ng.IHttpPromise<IOrganization[]> {

@@ -33,6 +33,11 @@ namespace Estimatorx.Core
         /// </value>
         public string Description { get; set; }
 
+        /// <summary>
+        /// Gets or set the organization this project belongs to.
+        /// </summary>
+        public string OrganizationId { get; set; }
+
 
         /// <summary>
         /// Gets or sets the system create date.

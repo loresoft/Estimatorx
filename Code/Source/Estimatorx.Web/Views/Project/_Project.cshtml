@@ -19,6 +19,22 @@
             <label for="contingencyRate">Contingency Rate (Percentage):</label>
             <input type="number" min="0" max="200" class="form-control" id="contingencyRate" name="contingencyRate" ng-model="viewModel.project.ContingencyRate" required="required">
         </div>
+
+        <div class="form-group">
+            <label for="contingencyRate">Organization:</label>
+            <ui-select name="OrganizationId"
+                       theme="select2"
+                       class="form-control"
+                       ng-model="viewModel.project.OrganizationId">
+                <ui-select-match placeholder="Select Organization ...">
+                    {{$select.selected.Name}}
+                </ui-select-match>
+                <ui-select-choices repeat="item.Id as item in viewModel.organizations track by item.Id">
+                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+
     </div>
 </div>
 

@@ -74,7 +74,7 @@ namespace Estimatorx.Data.Mongo
 
             mongoCollection.CreateIndex(
                 IndexKeys<Template>
-                    .Ascending(s => s.Creator)
+                    .Ascending(s => s.OrganizationId)
                     .Descending(s => s.Updated)
             );
         }
@@ -87,6 +87,7 @@ namespace Estimatorx.Data.Mongo
                 Id = p.Id,
                 Name = p.Name,
                 Description = p.Description,
+                OrganizationId = p.OrganizationId,               
                 Created = p.Created,
                 Creator = p.Creator,
                 Updated = p.Updated,

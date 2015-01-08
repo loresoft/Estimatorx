@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Web.Http;
 using Estimatorx.Core;
@@ -29,13 +30,15 @@ namespace Estimatorx.Web.Services
             _userRepository = userRepository;
         }
 
-        public IHttpActionResult Get(int? page = null, int? pageSize = null, string sort = null, bool? descending = null)
+        [HttpGet]
+        [Route("Query")]
+        public IHttpActionResult Query(int? page = null, int? pageSize = null, string sort = null, bool? descending = null)
         {
             var currentUser = _userRepository.Find(User.Identity.GetUserId());
             if (currentUser == null)
                 return NotFound();
 
-            // find orgs for current user only
+            // find organization for current user only
             var result = _organizationRepository
                 .FindAll(currentUser.Organizations)
                 .ToDataResult(config => config
@@ -46,6 +49,18 @@ namespace Estimatorx.Web.Services
                 );
 
             return Ok(result);
+        }
+
+        public IHttpActionResult Get()
+        {
+            var currentUser = _userRepository.Find(User.Identity.GetUserId());
+            if (currentUser == null)
+                return NotFound();
+
+            var organizations = _organizationRepository
+                .FindAll(currentUser.Organizations);
+
+            return Ok(organizations);
         }
 
         public IHttpActionResult Get(string id)

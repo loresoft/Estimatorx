@@ -1,0 +1,15 @@
+version: 1.0.0.{build}
+skip_tags: true
+environment:
+  Major: 1
+  Minor: 0
+  Patch: 0
+configuration: Release
+before_build:
+- .\bootstrap.cmd
+build:
+  project: master.proj
+  verbosity: minimal
+test: off
+artifacts:
+- path: '.\Build\*.nupkg'

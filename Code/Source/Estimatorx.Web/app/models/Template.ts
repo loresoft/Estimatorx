@@ -9,6 +9,8 @@ module Estimatorx {
         Name: string;
         Description: string;
 
+        OrganizationId: string;
+
         Created: Date;
         Creator: string;
 

@@ -3,7 +3,7 @@
 module Estimatorx {
     "use strict";
 
-    export class ProjectEditController {
+    export class ProjectEditController extends ControllerBase {
 
         // protect for minification, must match contructor signiture.
         static $inject = [
@@ -14,7 +14,8 @@ module Estimatorx {
             'modelFactory',
             'projectCalculator',
             'projectRepository',
-            'templateRepository'
+            'templateRepository',
+            'organizationRepository'
         ];
         constructor(
             $scope,
@@ -24,12 +25,15 @@ module Estimatorx {
             modelFactory: ModelFactory,
             projectCalculator: ProjectCalculator,
             projectRepository: ProjectRepository,
-            templateRepository: TemplateRepository) {
+            templateRepository: TemplateRepository,
+            organizationRepository: OrganizationRepository
+        ) {
+
+            // call base class
+            super($scope);
+
             var self = this;
 
-            // assign viewModel to controller
-            $scope.viewModel = this;
-            self.$scope = $scope;
             self.$location = $location;
             self.$modal = $modal;
 
@@ -38,6 +42,7 @@ module Estimatorx {
             self.projectCalculator = projectCalculator;
             self.projectRepository = projectRepository;
             self.templateRepository = templateRepository;
+            self.organizationRepository = organizationRepository;
 
             self.project = <IProject>{};
 
@@ -64,15 +69,23 @@ module Estimatorx {
         templates: ITemplate[];
         templateRepository: TemplateRepository;
 
+        organizations: IOrganization[];
+        organizationRepository: OrganizationRepository;
+
         init() {
             var self = this;
+
             self.templateRepository.all()
                 .success((data, status, headers, config) => {
                     self.templates = data;
                 })
-                .error((data, status, headers, config) => {
-                    // TODO show error
-                });
+                .error(self.handelError);
+
+            self.organizationRepository.all()
+                .success((data, status, headers, config) => {
+                    self.organizations = data;
+                })
+                .error(self.handelError);
         }
 
         load(id?: string) {
@@ -96,7 +109,7 @@ module Estimatorx {
                         return;
                     }
 
-                    // TODO show error
+                    self.handelError(data, status, headers, config);
                 });
         }
 
@@ -107,9 +120,7 @@ module Estimatorx {
                 .success((data, status, headers, config) => {
                     self.project = data;
                 })
-                .error((data, status, headers, config) => {
-                    // TODO show error
-                });
+                .error(self.handelError);
         }
 
         calculate() {
@@ -271,9 +282,9 @@ module Estimatorx {
             'projectCalculator',
             'projectRepository',
             'templateRepository',
+            'organizationRepository',
 
             ProjectEditController // controller must be last
         ]);
-
 }
 

@@ -99,6 +99,10 @@ namespace Estimatorx.Core
         [DefaultValue(0)]
         public double ContingencyWeeks { get; set; }
 
+        /// <summary>
+        /// Gets or set the organization this project belongs to.
+        /// </summary>
+        public string OrganizationId { get; set; }
 
         /// <summary>
         /// Gets or sets the system create date.

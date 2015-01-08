@@ -23,11 +23,25 @@
                             <label for="templateName">Name:</label>
                             <input type="text" class="form-control" id="templateName" name="templateName" placeholder="Name" required="required" ng-model="viewModel.template.Name">
                         </div>
+                        <div class="form-group">
+                            <label for="contingencyRate">Organization:</label>
+                            <ui-select name="OrganizationId"
+                                       theme="select2"
+                                       class="form-control"
+                                       ng-model="viewModel.template.OrganizationId">
+                                <ui-select-match placeholder="Select Organization ...">
+                                    {{$select.selected.Name}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="item.Id as item in viewModel.organizations track by item.Id">
+                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
                     </div>
                     <div class="col-md-8">
                         <div class="form-group">
                             <label for="templateDescription">Description:</label>
-                            <input type="text" class="form-control" id="templateDescription" name="templateDescription" placeholder="Description" ng-model="viewModel.template.Description">
+                            <textarea class="form-control" id="templateDescription" name="templateDescription" rows="5" placeholder="Description" ng-model="viewModel.template.Description"></textarea>
                         </div>
                     </div>
                 </div>

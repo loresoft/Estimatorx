@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <BuildFolder>$(MSBuildProjectDirectory)\Build</BuildFolder>
+    <ToolFolder>$(MSBuildProjectDirectory)\Tools</ToolFolder>
+    <SourceFolder>$(MSBuildProjectDirectory)\Code\Source</SourceFolder>
+    <DeployFolder>$(MSBuildProjectDirectory)\Deploy</DeployFolder>
+    <PackageFolder>$(DeployFolder)\WebSite</PackageFolder>
+
+    <ExcludeFolders>.git;.svn;obj;App_Data;.settings;bower_components;app_data</ExcludeFolders>
+    <ExcludeFiles>*.resx;*.csproj;*.webinfo;*.log;*.txt;*.cs;*.user;*.vspscc;*.md;packages.config;</ExcludeFiles>
+
+    <MSBuildCommunityTasksPath>$(ToolFolder)\MSBuildTasks\tools</MSBuildCommunityTasksPath>
+    <XUnitTasksPath>$(ToolFolder)\xunit.runners\tools</XUnitTasksPath>
+  </PropertyGroup>
+
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets"/>
+
+  <PropertyGroup>
+    <BuildNumber Condition=" '$(APPVEYOR_BUILD_NUMBER)' != '' ">$(APPVEYOR_BUILD_NUMBER)</BuildNumber>
+    <BuildNumber Condition=" '$(BUILD_NUMBER)' != '' ">$(BUILD_NUMBER)</BuildNumber>
+    <BuildNumber Condition=" '$(BuildNumber)' == '' ">0</BuildNumber>
+    
+    <BuildConfiguration  Condition=" '$(BuildConfiguration)' == '' ">Release</BuildConfiguration>
+
+    <Major Condition=" '$(Major)' == '' ">1</Major>
+    <Minor Condition=" '$(Minor)' == '' ">0</Minor>
+    <Patch Condition=" '$(Patch)' == '' ">0</Patch>
+
+    <AssemblyVersion>$(Major).$(Minor).0.0</AssemblyVersion>
+    <AssemblyFileVersion>$(Major).$(Minor).$(Patch).$(BuildNumber)</AssemblyFileVersion>
+    <AssemblyInformationalVersion>$(Major).$(Minor).$(Patch).$(BuildNumber)</AssemblyInformationalVersion>
+    <PackageVersion>$(Major).$(Minor).$(Patch).$(BuildNumber)</PackageVersion>
+  </PropertyGroup>
+
+
+  <Target Name="Clean">
+    <DeleteTree Directories="**\obj\**;**\bin\**" />
+    <DeleteTree Directories="$(BuildFolder)" ContinueOnError="true" />
+    <DeleteTree Directories="$(PackageFolder)" ContinueOnError="true" />
+  </Target>
+
+  <Target Name="Version">
+    <Time>
+      <Output TaskParameter="Year" PropertyName="Year" />
+    </Time>
+
+    <Message Text="Version: $(AssemblyInformationalVersion)"/>
+
+    <AssemblyInfo CodeLanguage="CS"
+                  OutputFile="$(SourceFolder)\GlobalAssemblyInfo.cs"
+                  GenerateClass="true"
+                  AssemblyProduct="Estimatorx"
+                  AssemblyCompany="LoreSoft"
+                  AssemblyCopyright="Copyright © $(Year) LoreSoft"
+                  AssemblyConfiguration="$(BuildConfiguration)"
+                  AssemblyVersion="$(AssemblyVersion)"
+                  AssemblyFileVersion="$(AssemblyFileVersion)"
+                  AssemblyInformationalVersion="$(AssemblyInformationalVersion)"
+                  AssemblyTrademark=""
+                  ComVisible="false"/>
+  </Target>
+
+  <Target Name="Compile" DependsOnTargets="Clean;Version">
+    <MSBuild Projects="$(SourceFolder)\Estimatorx.sln"
+             Properties="Configuration=$(BuildConfiguration)"/>
+  </Target>
+  
+   <Target Name="Test" DependsOnTargets="Compile">
+    <ItemGroup>
+      <TestAssemblies Include="$(SourceFolder)\**\*.Tests\bin\$(BuildConfiguration)\*.Tests.dll"/>
+    </ItemGroup>
+
+    <Message Text="AppVeyor: $(APPVEYOR)"/>
+
+    <exec Condition=" '$(APPVEYOR)' != '' "
+          Command="xunit.console.clr4.x86.exe &quot;%(TestAssemblies.Identity)&quot; /appveyor"/>
+
+    <exec Condition=" '$(APPVEYOR)' == '' "
+          Command="$(XUnitTasksPath)\xunit.console.clr4.x86.exe &quot;%(TestAssemblies.Identity)&quot;"/>
+  </Target>
+
+  <Target Name="Package" DependsOnTargets="Test">
+    <MakeDir Directories="$(PackageFolder)" Condition="!Exists('$(PackageFolder)')" />
+
+    <!-- web site -->
+    <RoboCopy SourceFolder="$(SourceFolder)\Estimatorx.Web"
+              DestinationFolder="$(PackageFolder)"
+              Purge="true"
+              Subdirectories="true"
+              ExcludeFolders="$(ExcludeFolders)"
+              ExcludeFiles="$(ExcludeFiles)" />
+
+    <!-- create secure.config -->
+    <Copy SourceFiles="$(DeployFolder)\Secure.txt"
+          DestinationFiles="$(PackageFolder)\Secure.config" />
+
+
+    <MakeDir Directories="$(BuildFolder)" Condition="!EXISTS($(BuildFolder))" />
+
+    <!-- octopus deploy package -->
+    <ItemGroup>
+      <NuGetFiles Include="$(DeployFolder)\*.Deploy.nuspec"/>
+    </ItemGroup>
+
+    <NuGetPack File="%(NuGetFiles.Identity)"
+               OutputDirectory="$(BuildFolder)"
+               Version="$(PackageVersion)" />
+
+  </Target>
+
+  <Target Name="Build" DependsOnTargets="Package">
+  </Target>
+
+</Project>

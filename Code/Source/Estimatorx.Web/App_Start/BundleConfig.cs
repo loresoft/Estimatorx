@@ -68,6 +68,8 @@ namespace Estimatorx.Web
                 .IncludeDirectory("~/app/common/", "*.js")
 
                 .Include("~/app/app.js")
+                
+                .Include("~/app/base.js")
 
                 .IncludeDirectory("~/app/services/", "*.js")
                 .IncludeDirectory("~/app/filters/", "*.js")
