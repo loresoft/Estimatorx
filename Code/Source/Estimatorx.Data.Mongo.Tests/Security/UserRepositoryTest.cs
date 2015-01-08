@@ -18,7 +18,7 @@ namespace Estimatorx.Data.Mongo.Tests.Security
             var userRepo = new UserRepository();
 
             var members = userRepo.OrganizationMembers("54a98b2f24a1b0caacd1fe18").ToList();
-            members.Should().NotBeNullOrEmpty();
+            members.Should().NotBeNull();
         }
     }
 }

@@ -416,7 +416,10 @@
     <Content Include="Views\Profile\_Logins.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Web.Production.config" />
+    <None Include="Web.Production.config">
+      <SubType>Designer</SubType>
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
