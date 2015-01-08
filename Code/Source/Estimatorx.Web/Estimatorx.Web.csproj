@@ -199,10 +199,11 @@
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="app\common\" />
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="Models\PasswordModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
+    <Compile Include="Models\VersionModel.cs" />
     <Compile Include="Modules\AuthenticationModule.cs" />
     <Compile Include="Security\ChallengeResult.cs" />
     <Compile Include="Services\OrganizationController.cs" />
@@ -316,6 +318,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="app\app.ts" />
     <TypeScriptCompile Include="app\base.ts" />
+    <TypeScriptCompile Include="app\common\Shared.ts" />
     <TypeScriptCompile Include="app\directives\SortBy.ts" />
     <TypeScriptCompile Include="app\models\Organization.ts" />
     <TypeScriptCompile Include="app\models\Password.ts" />

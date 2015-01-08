@@ -90,6 +90,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="EstimatorxSettings.cs" />
     <Compile Include="Modules\SecurityModule.cs" />
     <Compile Include="ProjectSummary.cs" />
