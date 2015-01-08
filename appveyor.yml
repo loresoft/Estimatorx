@@ -1,9 +1,12 @@
 version: 1.0.0.{build}
+os: Visual Studio 2015 Preview
 skip_tags: true
 environment:
   Major: 1
   Minor: 0
   Patch: 0
+install:
+- ps: .\Deploy\Install-MongoDb.ps1
 configuration: Release
 before_build:
 - .\bootstrap.cmd

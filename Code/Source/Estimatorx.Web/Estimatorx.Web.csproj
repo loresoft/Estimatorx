@@ -415,6 +415,9 @@
   <ItemGroup>
     <Content Include="Views\Profile\_Logins.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Web.Production.config" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
