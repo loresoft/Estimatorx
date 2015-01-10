@@ -1,30 +1,90 @@
 ﻿<div class="row">
     <div class="col-md-9">
-        <div class="form-group">
-            <label for="projectName">Project Name:</label>
-            <input type="text" class="form-control" id="projectName" name="projectName" placeholder="Project Name" required="required" ng-model="viewModel.project.Name">
+        <!-- projectForm.ProjectName -->
+        <div class="form-group"
+             ng-class="{ 'has-error' : projectForm.ProjectName.$invalid && (projectForm.ProjectName.$touched || projectForm.$submitted) }">
+            <label for="ProjectName" class="control-label">
+                Project Name:
+                <span class="text-danger">*</span>
+            </label>
+            <input type="text" name="ProjectName" id="ProjectName"
+                   placeholder="Project Name"
+                   class="form-control"
+                   required="required"
+                   ng-model="viewModel.project.Name" />
+            <div ng-messages="projectForm.ProjectName.$error" 
+                 ng-if="projectForm.$submitted || projectForm.ProjectName.$touched">
+                <span ng-message="required" class="help-block">Project Name is required</span>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="projectDescription">Description:</label>
-            <textarea class="form-control" rows="5" id="projectDescription" name="projectDescription" ng-model="viewModel.project.Description"></textarea>
+        <!-- projectForm.ProjectDescription -->
+        <div class="form-group"
+             ng-class="{ 'has-error' : projectForm.ProjectDescription.$invalid && (projectForm.ProjectDescription.$touched || projectForm.$submitted) }">
+            <label for="ProjectDescription" class="control-label">
+                Project Description:
+            </label>
+            <input type="text" name="ProjectDescription" id="ProjectDescription"
+                   placeholder="Project Description"
+                   class="form-control"
+                   ng-model="viewModel.project.Description" />
+            <div ng-messages="projectForm.ProjectDescription.$error"
+                 ng-if="projectForm.$submitted || projectForm.ProjectDescription.$touched">
+                <span ng-message="required" class="help-block">Project Description is required</span>
+            </div>
         </div>
-
     </div>
     <div class="col-md-3">
-        <div class="form-group">
-            <label for="hoursPerWeek">Hours Per Week:</label>
-            <input type="number" min="0" max="100" class="form-control" id="hoursPerWeek" name="hoursPerWeek" ng-model="viewModel.project.HoursPerWeek" required="required">
+        <!-- projectForm.HoursPerWeek -->
+        <div class="form-group"
+             ng-class="{ 'has-error' : projectForm.HoursPerWeek.$invalid && (projectForm.HoursPerWeek.$touched || projectForm.$submitted) }">
+            <label for="HoursPerWeek" class="control-label">
+                Hours Per Week:
+                <span class="text-danger">*</span>
+            </label>
+            <input type="number" name="HoursPerWeek" id="HoursPerWeek"
+                   placeholder="Hours Per Week"
+                   class="form-control"
+                   required="required"
+                   min="0" max="168"
+                   ng-model="viewModel.project.HoursPerWeek" />
+            <div ng-messages="projectForm.HoursPerWeek.$error"
+                 ng-if="projectForm.$submitted || projectForm.HoursPerWeek.$touched">
+                <span ng-message="required" class="help-block">Hours Per Week is required</span>
+                <span ng-message="min" class="help-block">Hours Per Week must be zero or greater</span>
+                <span ng-message="max" class="help-block">Hours Per Week must be less than 168 hours</span>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="contingencyRate">Contingency Rate (Percentage):</label>
-            <input type="number" min="0" max="200" class="form-control" id="contingencyRate" name="contingencyRate" ng-model="viewModel.project.ContingencyRate" required="required">
+        <!-- projectForm.ContingencyRate -->
+        <div class="form-group"
+             ng-class="{ 'has-error' : projectForm.ContingencyRate.$invalid && (projectForm.ContingencyRate.$touched || projectForm.$submitted) }">
+            <label for="ContingencyRate" class="control-label">
+                Contingency Rate (Percentage):
+                <span class="text-danger">*</span>
+            </label>
+            <input type="number" name="ContingencyRate" id="ContingencyRate"
+                   placeholder="Contingency Rate"
+                   class="form-control"
+                   required="required"
+                   min="0" max="200"
+                   ng-model="viewModel.project.ContingencyRate" />
+            <div ng-messages="projectForm.ContingencyRate.$error"
+                 ng-if="projectForm.$submitted || projectForm.ContingencyRate.$touched">
+                <span ng-message="required" class="help-block">Contingency Rate is required</span>
+                <span ng-message="min" class="help-block">Contingency Rate must be zero or greater</span>
+                <span ng-message="max" class="help-block">Contingency Rate must be less than 200</span>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="contingencyRate">Organization:</label>
+        <!-- projectForm.OrganizationId -->
+        <div class="form-group"
+             ng-class="{ 'has-error' : projectForm.OrganizationId.$invalid && (projectForm.OrganizationId.$touched || projectForm.$submitted) }">
+            <label for="OrganizationId" class="control-label">
+                Organization:
+                <span class="text-danger">*</span>
+            </label>
             <ui-select name="OrganizationId"
                        theme="select2"
                        class="form-control"
+                       required="required"
                        ng-model="viewModel.project.OrganizationId">
                 <ui-select-match placeholder="Select Organization ...">
                     {{$select.selected.Name}}
@@ -33,8 +93,12 @@
                     <div ng-bind-html="item.Name | highlight: $select.search"></div>
                 </ui-select-choices>
             </ui-select>
-        </div>
 
+            <div ng-messages="projectForm.OrganizationId.$error"
+                 ng-if="projectForm.$submitted || projectForm.OrganizationId.$touched">
+                <span ng-message="required" class="help-block">Organization Id is required</span>
+            </div>
+        </div>
     </div>
 </div>
 

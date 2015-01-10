@@ -9,6 +9,7 @@ module Estimatorx {
         static $inject = [
             '$scope',
             '$location',
+            'logger',
             'modelFactory',
             'userRepository'
         ];
@@ -16,6 +17,7 @@ module Estimatorx {
         constructor(
             $scope,
             $location: ng.ILocationService,
+            logger: Logger,
             modelFactory: ModelFactory,
             userRepository: UserRepository) {
             var self = this;
@@ -25,6 +27,7 @@ module Estimatorx {
             self.$scope = $scope;
             self.$location = $location;
 
+            self.logger = logger;
             self.modelFactory = modelFactory;
             self.userRepository = userRepository;
             self.user = <IUser>{};
@@ -33,6 +36,7 @@ module Estimatorx {
 
         $scope: any;
         $location: ng.ILocationService;
+        logger: Logger;
         modelFactory: ModelFactory;
 
         userRepository: UserRepository;
@@ -55,31 +59,46 @@ module Estimatorx {
                 .success((data, status, headers, config) => {
                     self.user = data;
                 })
-                .error((data, status, headers, config) => {
-                    // TODO show error
-                });
+                .error(self.logger.handelError);
         }
 
         save(valid: boolean) {
             var self = this;
             if (!valid) {
-                // TODO show error
+                self.logger.showAlert({
+                    type: 'error',
+                    title: 'Validation Error',
+                    message: 'A form field has a validation error. Please fix the error to continue.',
+                    timeOut: 4000
+                });
+
                 return;
             }
 
             this.userRepository.save(this.user)
                 .success((data, status, headers, config) => {
                     self.user = data;
+                    self.logger.showAlert({
+                        type: 'success',
+                        title: 'Save Successful',
+                        message: 'Profile saved successfully.',
+                        timeOut: 4000
+                    });
                 })
-                .error((data, status, headers, config) => {
-                    // TODO show error
-                });
+                .error(self.logger.handelError);
         }
 
         changePassword(valid: boolean) {
             var self = this;
+
             if (!valid) {
-                // TODO show error
+                self.logger.showAlert({
+                    type: 'error',
+                    title: 'Validation Error',
+                    message: 'A form field has a validation error. Please fix the error to continue.',
+                    timeOut: 4000
+                });
+
                 return;
             }
 
@@ -89,25 +108,26 @@ module Estimatorx {
 
             func()
                 .success((data, status, headers, config) => {
-                    // TODO show changed
+                    self.logger.showAlert({
+                        type: 'success',
+                        title: 'Save Successful',
+                        message: 'Password changed successfully.',
+                        timeOut: 4000
+                    });
+
                     self.resetPassword();
                     self.load(self.userId);
                 })
-                .error((data, status, headers, config) => {
-                    // TODO show error
-                });
+                .error(self.logger.handelError);
         }
 
         removeLogin(provider: string, key: string) {
             var self = this;
             this.userRepository.removeLogin(provider, key)
                 .success((data, status, headers, config) => {
-                    // TODO show changed
                     self.load(self.userId);
                 })
-                .error((data, status, headers, config) => {
-                    // TODO show error
-                });
+                .error(self.logger.handelError);
         }
 
         resetPassword() {
@@ -125,10 +145,10 @@ module Estimatorx {
         [
             '$scope',
             '$location',
+            'logger',
             'modelFactory',
             'userRepository',
             ProfileEditController
-        ]
-        );
+        ]);
 }
 

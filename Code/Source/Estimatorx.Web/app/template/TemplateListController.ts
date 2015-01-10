@@ -6,11 +6,17 @@ module Estimatorx {
     export class TemplateListController {
 
         // project for minification, must match contructor signiture.
-        static $inject = ['$scope', 'templateSummaryRepository'];
+        static $inject = [
+            '$scope',
+            'logger',
+            'templateSummaryRepository'
+        ];
 
-        constructor($scope, templateSummaryRepository: TemplateSummaryRepository) {
+        constructor($scope, logger: Logger, templateSummaryRepository: TemplateSummaryRepository) {
             // assign viewModel to controller
             $scope.viewModel = this;
+
+            this.logger = logger;
             this.repository = templateSummaryRepository;
 
             // default
@@ -24,6 +30,7 @@ module Estimatorx {
             this.load();
         }
 
+        logger: Logger;
         repository: TemplateSummaryRepository;
 
         result: IQueryResult<ITemplate>;
@@ -43,9 +50,7 @@ module Estimatorx {
                 .success((data, status, headers, config) => {
                     self.result = data;
                 })
-                .error((data, status, headers, config) => {
-                    // TODO show error
-                });
+                .error(self.logger.handelError);
         }
 
         sortClick(column: string) {
@@ -68,6 +73,7 @@ module Estimatorx {
         .controller('templateListController',
         [
             '$scope',
+            'logger',
             'templateSummaryRepository',
             TemplateListController
         ]

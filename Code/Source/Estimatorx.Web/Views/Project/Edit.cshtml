@@ -2,13 +2,20 @@
     ViewBag.Title = "Project";
 }
 
-<div class="container" ng-controller="projectEditController" ng-init="viewModel.load('@Model')">
+<div class="container"
+     ng-controller="projectEditController"
+     ng-init="viewModel.load('@Model')">
+
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index", "Home")">Home</a></li>
         <li><a href="@Url.Action("Index")">Projects</a></li>
         <li class="active">Edit</li>
     </ol>
-    <form role="form">
+
+    <form id="projectForm" name="projectForm" role="form"
+          ng-submit="viewModel.save(projectForm.$valid)"
+          novalidate="novalidate">
+
         <div class="panel panel-default">
             <div class="panel-heading">
                 <i class="fa fa-calculator"></i> Project
@@ -56,8 +63,8 @@
             <div class="panel-footer">
                 <div class="row">
                     <div class="col-sm-8">
-                        <button class="btn btn-primary" ng-click="viewModel.save()">Save</button>
-                        <button class="btn btn-default">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-default">Cancel</button>
                     </div>
                 </div>
             </div>

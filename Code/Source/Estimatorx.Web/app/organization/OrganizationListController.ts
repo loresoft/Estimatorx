@@ -8,30 +8,33 @@ module Estimatorx {
         // protect for minification, must match contructor signiture.
         static $inject = [
             '$scope',
+            'logger',
             'organizationRepository'
         ];
 
-        constructor($scope, organizationRepository: OrganizationRepository) {
+        constructor($scope, logger: Logger, organizationRepository: OrganizationRepository) {
             var self = this;
 
             // assign viewModel to controller
             $scope.viewModel = this;
             self.$scope = $scope;
 
-            this.repository = organizationRepository;
+            self.logger = logger;
+            self.repository = organizationRepository;
 
             // default
-            this.result = <IQueryResult<IOrganization>>{
+            self.result = <IQueryResult<IOrganization>>{
                 Page: 1,
                 PageSize: 10,
                 Sort: 'Name'
             };
 
-            this.load();
+            self.load();
 
         }
 
         $scope: any;
+        logger: Logger;
         repository: OrganizationRepository;
 
         result: IQueryResult<IOrganization>;
@@ -51,9 +54,7 @@ module Estimatorx {
                 .success((data, status, headers, config) => {
                     self.result = data;
                 })
-                .error((data, status, headers, config) => {
-                    // TODO show error
-                });
+                .error(self.logger.handelError);
         }
 
         sortClick(column: string) {
@@ -75,6 +76,7 @@ module Estimatorx {
     angular.module(Estimatorx.applicationName)
         .controller('organizationListController', [
             '$scope',
+            'logger',
             'organizationRepository',
             OrganizationListController
         ]);

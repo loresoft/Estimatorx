@@ -9,25 +9,47 @@
         <li><a href="@Url.Action("Index")">Templates</a></li>
         <li class="active">Edit</li>
     </ol>
-    <form role="form">
+    <form id="templateForm" name="templateForm" role="form"
+          ng-submit="viewModel.save(templateForm.$valid)"
+          novalidate="novalidate">
+
         <div class="panel panel-default">
             <div class="panel-heading">
-                <i class="fa fa-calculator"></i> Factor Template 
+                <i class="fa fa-calculator"></i> Factor Template
                 <span ng-show="viewModel.template.Name">- <strong>{{ viewModel.template.Name}}</strong></span>
             </div>
             <div class="panel-body">
 
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="templateName">Name:</label>
-                            <input type="text" class="form-control" id="templateName" name="templateName" placeholder="Name" required="required" ng-model="viewModel.template.Name">
+                        <!-- templateForm.TemplateName -->
+                        <div class="form-group"
+                             ng-class="{ 'has-error' : templateForm.TemplateName.$invalid && (templateForm.TemplateName.$touched || templateForm.$submitted) }">
+                            <label for="TemplateName" class="control-label">
+                                Name:
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" name="TemplateName" id="TemplateName"
+                                   placeholder="Name"
+                                   class="form-control"
+                                   required="required"
+                                   ng-model="viewModel.template.Name" />
+                            <div ng-messages="templateForm.TemplateName.$error"
+                                 ng-if="templateForm.$submitted || templateForm.TemplateName.$touched">
+                                <span ng-message="required" class="help-block">Name is required</span>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="contingencyRate">Organization:</label>
+                        <!-- templateForm.OrganizationId -->
+                        <div class="form-group"
+                             ng-class="{ 'has-error' : templateForm.OrganizationId.$invalid && (templateForm.OrganizationId.$touched || templateForm.$submitted) }">
+                            <label for="OrganizationId" class="control-label">
+                                Organization:
+                                <span class="text-danger">*</span>
+                            </label>
                             <ui-select name="OrganizationId"
                                        theme="select2"
                                        class="form-control"
+                                       required="required"
                                        ng-model="viewModel.template.OrganizationId">
                                 <ui-select-match placeholder="Select Organization ...">
                                     {{$select.selected.Name}}
@@ -36,12 +58,27 @@
                                     <div ng-bind-html="item.Name | highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>
+                            <div ng-messages="templateForm.OrganizationId.$error"
+                                 ng-if="templateForm.$submitted || templateForm.OrganizationId.$touched">
+                                <span ng-message="required" class="help-block">Organization is required</span>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <div class="form-group">
-                            <label for="templateDescription">Description:</label>
-                            <textarea class="form-control" id="templateDescription" name="templateDescription" rows="5" placeholder="Description" ng-model="viewModel.template.Description"></textarea>
+                        <!-- templateForm.TemplateDescription -->
+                        <div class="form-group"
+                             ng-class="{ 'has-error' : templateForm.TemplateDescription.$invalid && (templateForm.TemplateDescription.$touched || templateForm.$submitted) }">
+                            <label for="TemplateDescription" class="control-label">
+                                Description:
+                            </label>
+                            <textarea id="TemplateDescription" name="TemplateDescription" rows="5"
+                                      class="form-control"
+                                      placeholder="Description"
+                                      ng-model="viewModel.template.Description"></textarea>
+                            <div ng-messages="templateForm.TemplateDescription.$error"
+                                 ng-if="templateForm.$submitted || templateForm.TemplateDescription.$touched">
+                                <span ng-message="required" class="help-block">Description is required</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -103,8 +140,8 @@
             <div class="panel-footer">
                 <div class="row">
                     <div class="col-sm-8">
-                        <button class="btn btn-primary" ng-click="viewModel.save()">Save</button>
-                        <button class="btn btn-default">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-default">Cancel</button>
                     </div>
                 </div>
             </div>

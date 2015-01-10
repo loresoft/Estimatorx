@@ -9,12 +9,14 @@ module Estimatorx {
         static $inject = [
             '$scope',
             '$modalInstance',
+            'logger',
             'userRepository'
         ];
 
         constructor(
             $scope,
-            $modalInstance, 
+            $modalInstance,
+            logger: Logger, 
             userRepository: UserRepository
         ) {
             var self = this;
@@ -25,11 +27,13 @@ module Estimatorx {
             self.$scope = $scope;
             self.$modalInstance = $modalInstance;
 
+            self.logger = logger;
             self.userRepository = userRepository;
         }
 
         $scope: any;
         $modalInstance: any;
+        logger: Logger;
 
         userRepository: UserRepository;
 
@@ -46,9 +50,7 @@ module Estimatorx {
                 .success((data, status, headers, config) => {
                     self.users = data;
                 })
-                .error((data, status, headers, config) => {
-                    // TODO show error
-                });
+                .error(self.logger.handelError);
         }
 
         select() {
@@ -69,6 +71,7 @@ module Estimatorx {
         .controller('memberModalController', [
             '$scope',
             '$modalInstance',
+            'logger',
             'userRepository',
             MemberModalController
         ]);

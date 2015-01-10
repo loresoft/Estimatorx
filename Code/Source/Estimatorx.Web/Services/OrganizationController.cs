@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Web.Http;
-using Estimatorx.Core;
-using Estimatorx.Core.Security;
 using Estimatorx.Core.Query;
-using Estimatorx.Data.Mongo;
-using Estimatorx.Data.Mongo.Security;
+using Estimatorx.Core.Security;
 using Microsoft.AspNet.Identity;
 
 namespace Estimatorx.Web.Services

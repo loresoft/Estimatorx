@@ -19,6 +19,9 @@ namespace Estimatorx.Web
                     "~/Content/select2.css",
                     "~/Content/select2-bootstrap.css",
 
+                    "~/Scripts/angular-block-ui/angular-block-ui.css",
+                    "~/Scripts/angularjs-toaster/toaster.css",
+
                     "~/Content/site.css"
                 )
             );
@@ -57,6 +60,9 @@ namespace Estimatorx.Web
                     /* addon */
                     "~/Scripts/angular-moment.js",
                     "~/Scripts/ui-router/angular-ui-router.js",
+                    "~/Scripts/angular-block-ui/angular-block-ui.js",
+                    "~/Scripts/angularjs-toaster/toaster.js",
+
                     "~/Scripts/angular-ui-select/select.js",
                     "~/Scripts/angular-ui/ui-bootstrap.js",
                     "~/Scripts/angular-ui/ui-bootstrap-tpls.js"
@@ -69,8 +75,6 @@ namespace Estimatorx.Web
 
                 .Include("~/app/app.js")
                 
-                .Include("~/app/base.js")
-
                 .IncludeDirectory("~/app/services/", "*.js")
                 .IncludeDirectory("~/app/filters/", "*.js")
                 .IncludeDirectory("~/app/directives/", "*.js")

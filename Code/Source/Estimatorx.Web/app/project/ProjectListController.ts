@@ -6,10 +6,17 @@ module Estimatorx {
     export class ProjectListController {
 
         // project for minification, must match contructor signiture.
-        static $inject = ['$scope', 'projectSummaryRepository'];
-        constructor($scope, projectSummaryRepository: ProjectSummaryRepository) {
+        static $inject = [
+            '$scope',
+            'logger',
+            'projectSummaryRepository'
+        ];
+
+        constructor($scope, logger: Logger, projectSummaryRepository: ProjectSummaryRepository) {
             // assign viewModel to controller
             $scope.viewModel = this;
+
+            this.logger = logger;
             this.repository = projectSummaryRepository;
 
             // default
@@ -24,6 +31,7 @@ module Estimatorx {
         }
 
 
+        logger: Logger;
         repository: ProjectSummaryRepository;
 
         result: IQueryResult<IProject>;
@@ -43,9 +51,7 @@ module Estimatorx {
                 .success((data, status, headers, config) => {
                     self.result = data;
                 })
-                .error((data, status, headers, config) => {
-                    // TODO show error
-                });
+                .error(self.logger.handelError);
         }
 
         sortClick(column:string) {
@@ -67,6 +73,7 @@ module Estimatorx {
         .controller('projectListController',
         [
             '$scope',
+            'logger',
             'projectSummaryRepository',
             ProjectListController
         ]

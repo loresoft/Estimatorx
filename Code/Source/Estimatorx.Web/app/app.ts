@@ -14,7 +14,9 @@ module Estimatorx {
             'ngMessages',
             'angularMoment',
             'ui.bootstrap',
-            'ui.select'
+            'ui.select',
+            'blockUI',
+            'toaster'
         ]
     );
 }

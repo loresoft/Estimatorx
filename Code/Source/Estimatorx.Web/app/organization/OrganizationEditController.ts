@@ -9,6 +9,7 @@ module Estimatorx {
         static $inject = [
             '$scope',
             '$modal',
+            'logger',
             'modelFactory',
             'organizationRepository',
             'userRepository'
@@ -17,10 +18,11 @@ module Estimatorx {
         constructor(
             $scope,
             $modal: any,
+            logger: Logger,
             modelFactory: ModelFactory,
             organizationRepository: OrganizationRepository,
             userRepository: UserRepository
-            ) {
+        ) {
             var self = this;
 
             // assign viewModel to controller
@@ -28,6 +30,7 @@ module Estimatorx {
             self.$scope = $scope;
             self.$modal = $modal;
 
+            self.logger = logger;
             self.modelFactory = modelFactory;
             self.organizationRepository = organizationRepository;
             self.userRepository = userRepository;
@@ -37,6 +40,8 @@ module Estimatorx {
 
         $scope: any;
         $modal: any;
+        
+        logger: Logger;
         modelFactory: ModelFactory;
 
         organizationRepository: OrganizationRepository;
@@ -98,7 +103,7 @@ module Estimatorx {
                         return;
                     }
 
-                    // TODO show error
+                    self.logger.handelError(data, status, headers, config);
                 });
         }
 
@@ -109,9 +114,7 @@ module Estimatorx {
                 .success((data, status, headers, config) => {
                     self.members = data;
                 })
-                .error((data, status, headers, config) => {
-                    // TODO show error
-                });
+                .error(self.logger.handelError);
         }
 
         loadOwners() {
@@ -121,31 +124,43 @@ module Estimatorx {
                 .success((data, status, headers, config) => {
                     self.owners = data;
                 })
-                .error((data, status, headers, config) => {
-                    // TODO show error
-                });
+                .error(self.logger.handelError);
         }
 
-        save() {
+        save(valid: boolean) {
             var self = this;
+                        
+            if (!valid) {
+                self.logger.showAlert({
+                    type: 'error',
+                    title: 'Validation Error',
+                    message: 'A form field has a validation error. Please fix the error to continue.',
+                    timeOut: 4000
+                });
+
+                return;
+            }
 
             this.organizationRepository.save(this.organization)
                 .success((data, status, headers, config) => {
                     self.organization = data;
+                    
+                    self.logger.showAlert({
+                        type: 'success',
+                        title: 'Save Successful',
+                        message: 'Organization saved successfully.',
+                        timeOut: 4000
+                    });
 
                     self.loadMembers();
                     self.loadOwners();
                 })
-                .error((data, status, headers, config) => {
-                    // TODO show error
-                });
+                .error(self.logger.handelError);
         }
 
 
         addMember() {
             var self = this;
-
-            console.log('Add Member');
 
             var modalInstance = self.$modal.open({
                 templateUrl: 'memberModal.html',
@@ -157,9 +172,7 @@ module Estimatorx {
                     .success((data, status, headers, config) => {
                         self.loadMembers();
                     })
-                    .error((data, status, headers, config) => {
-                        // TODO show error
-                    });
+                    .error(self.logger.handelError);
             });
 
         }
@@ -179,9 +192,7 @@ module Estimatorx {
                     .success((data, status, headers, config) => {
                         self.loadMembers();
                     })
-                    .error((data, status, headers, config) => {
-                        // TODO show error
-                    });
+                    .error(self.logger.handelError);
             });
         }
 
@@ -195,7 +206,7 @@ module Estimatorx {
 
             modalInstance.result.then((userId: string) => {
                 self.organization.Owners.push(userId);
-                self.save();
+                self.save(true);
             });
         }
 
@@ -217,7 +228,7 @@ module Estimatorx {
                     }
                 }
 
-                self.save();
+                self.save(true);
             });
         }
 
@@ -228,6 +239,7 @@ module Estimatorx {
         .controller('organizationEditController', [
             '$scope',
             '$modal',
+            'logger',,
             'modelFactory',
             'organizationRepository',
             'userRepository',

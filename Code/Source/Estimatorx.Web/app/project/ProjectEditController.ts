@@ -3,13 +3,14 @@
 module Estimatorx {
     "use strict";
 
-    export class ProjectEditController extends ControllerBase {
+    export class ProjectEditController {
 
         // protect for minification, must match contructor signiture.
         static $inject = [
             '$scope',
             '$location',
             '$modal',
+            'logger',
             'identityService',
             'modelFactory',
             'projectCalculator',
@@ -21,6 +22,7 @@ module Estimatorx {
             $scope,
             $location: ng.ILocationService,
             $modal: any,
+            logger: Logger,
             identityService: IdentityService,
             modelFactory: ModelFactory,
             projectCalculator: ProjectCalculator,
@@ -29,14 +31,16 @@ module Estimatorx {
             organizationRepository: OrganizationRepository
         ) {
 
-            // call base class
-            super($scope);
-
             var self = this;
+
+            // assign viewModel to controller
+            $scope.viewModel = this;
+            self.$scope = $scope;
 
             self.$location = $location;
             self.$modal = $modal;
 
+            self.logger = logger;
             self.identityService = identityService;
             self.modelFactory = modelFactory;
             self.projectCalculator = projectCalculator;
@@ -58,6 +62,7 @@ module Estimatorx {
         $location: ng.ILocationService;
         $modal: any;
         identityService: IdentityService;
+        logger: Logger;
         modelFactory: ModelFactory;
         projectCalculator: ProjectCalculator;
         projectRepository: ProjectRepository;
@@ -79,13 +84,13 @@ module Estimatorx {
                 .success((data, status, headers, config) => {
                     self.templates = data;
                 })
-                .error(self.handelError);
+                .error(self.logger.handelError);
 
             self.organizationRepository.all()
                 .success((data, status, headers, config) => {
                     self.organizations = data;
                 })
-                .error(self.handelError);
+                .error(self.logger.handelError);
         }
 
         load(id?: string) {
@@ -109,23 +114,38 @@ module Estimatorx {
                         return;
                     }
 
-                    self.handelError(data, status, headers, config);
+                    self.logger.handelError(data, status, headers, config);
                 });
         }
 
-        save() {
+        save(valid: boolean) {
             var self = this;
+
+            if (!valid) {
+                self.logger.showAlert({
+                    type: 'error',
+                    title: 'Validation Error',
+                    message: 'A form field has a validation error. Please fix the error to continue.',
+                    timeOut: 4000
+                });
+
+                return;
+            }
 
             this.projectRepository.save(this.project)
                 .success((data, status, headers, config) => {
                     self.project = data;
+                    self.logger.showAlert({
+                        type: 'success',
+                        title: 'Save Successful',
+                        message: 'Project saved successfully.',
+                        timeOut: 4000
+                    });
                 })
-                .error(self.handelError);
+                .error(self.logger.handelError);
         }
 
         calculate() {
-            console.log("project calculate");
-
             this.projectCalculator.updateTotals(this.project);
             this.$scope.$apply();
         }
@@ -162,6 +182,7 @@ module Estimatorx {
         removeFactor(factor: IFactor) {
             if (!factor)
                 return;
+
             BootstrapDialog.confirm("Are you sure you want to remove this factor?", (result) => {
                 if (!result)
                     return;
@@ -250,8 +271,6 @@ module Estimatorx {
         addTemplate() {
             var self = this;
 
-            console.log('Add Template');
-
             var modalInstance = self.$modal.open({
                 templateUrl: 'templateModal.html',
                 controller: 'templateModalController',
@@ -261,8 +280,6 @@ module Estimatorx {
             });
 
             modalInstance.result.then((item: ITemplate) => {
-                console.log('Select Template: ' + angular.toJson(item));
-
                 angular.forEach(item.Factors, (value, key) => {
                     self.project.Factors.push(value);
                 });
@@ -277,6 +294,7 @@ module Estimatorx {
             '$scope',
             '$location',
             '$modal',
+            'logger',
             'identityService',
             'modelFactory',
             'projectCalculator',

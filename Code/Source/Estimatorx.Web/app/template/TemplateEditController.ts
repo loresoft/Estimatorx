@@ -3,12 +3,13 @@
 module Estimatorx {
     "use strict";
 
-    export class TemplateEditController extends ControllerBase {
+    export class TemplateEditController {
 
         // protect for minification, must match contructor signiture.
         static $inject = [
             '$scope',
             '$location',
+            'logger',
             'modelFactory',
             'templateRepository',
             'organizationRepository'
@@ -17,19 +18,22 @@ module Estimatorx {
         constructor(
             $scope,
             $location: ng.ILocationService,
+            logger: Logger,
             modelFactory: ModelFactory,
             templateRepository: TemplateRepository,
             organizationRepository: OrganizationRepository
         )
         {
-            // call base class
-            super($scope);
-
             var self = this;
+
+            // assign viewModel to controller
+            $scope.viewModel = this;
+            self.$scope = $scope;
 
             self.$location = $location;
 
             self.modelFactory = modelFactory;
+            self.logger = logger;
             self.templateRepository = templateRepository;
             self.organizationRepository = organizationRepository;
 
@@ -40,6 +44,7 @@ module Estimatorx {
 
         $scope: ng.IScope;
         $location: ng.ILocationService;
+        logger: Logger;
         modelFactory: ModelFactory;
 
         templateRepository: TemplateRepository;
@@ -56,7 +61,7 @@ module Estimatorx {
                 .success((data, status, headers, config) => {
                     self.organizations = data;
                 })
-                .error(self.handelError);
+                .error(self.logger.handelError);
         }
 
         load(id?: string) {
@@ -80,18 +85,36 @@ module Estimatorx {
                         return;
                     }
 
-                    self.handelError(data, status, headers, config);
+                    self.logger.handelError(data, status, headers, config);
                 });
         }
 
-        save() {
+        save(valid: boolean) {
             var self = this;
+            
+            if (!valid) {
+                self.logger.showAlert({
+                    type: 'error',
+                    title: 'Validation Error',
+                    message: 'A form field has a validation error. Please fix the error to continue.',
+                    timeOut: 4000
+                });
+
+                return;
+            }
 
             this.templateRepository.save(this.template)
                 .success((data, status, headers, config) => {
-                    self.template = data;
+                    self.template = data;                    
+                    self.logger.showAlert({
+                        type: 'success',
+                        title: 'Save Successful',
+                        message: 'Template saved successfully.',
+                        timeOut: 4000
+                    });
                 })
-                .error(self.handelError);
+                .error(self.logger.handelError);
+
         }
 
         addFactor() {
@@ -129,6 +152,7 @@ module Estimatorx {
         [
             '$scope',
             '$location',
+            'logger',
             'modelFactory',
             'templateRepository',
             'organizationRepository',

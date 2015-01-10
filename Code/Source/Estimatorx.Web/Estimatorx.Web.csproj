@@ -254,6 +254,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\angular-animate.js" />
+    <Content Include="Scripts\angular-block-ui\angular-block-ui.css" />
+    <Content Include="Scripts\angular-block-ui\angular-block-ui.js" />
     <Content Include="Scripts\angular-messages.js" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-moment.js" />
@@ -271,6 +273,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angularjs-toaster\toaster.css" />
+    <Content Include="Scripts\angularjs-toaster\toaster.js" />
     <Content Include="Scripts\bootstrap-dialog.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
@@ -317,7 +321,6 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app\app.ts" />
-    <TypeScriptCompile Include="app\base.ts" />
     <TypeScriptCompile Include="app\common\Shared.ts" />
     <TypeScriptCompile Include="app\directives\SortBy.ts" />
     <TypeScriptCompile Include="app\models\Organization.ts" />
@@ -333,6 +336,7 @@
     <TypeScriptCompile Include="app\services\IdentityService.ts" />
     <TypeScriptCompile Include="app\project\ProjectEditController.ts" />
     <TypeScriptCompile Include="app\project\ProjectListController.ts" />
+    <TypeScriptCompile Include="app\services\Logger.ts" />
     <TypeScriptCompile Include="app\services\OrganizationRepository.ts" />
     <TypeScriptCompile Include="app\template\TemplateEditController.ts" />
     <TypeScriptCompile Include="app\template\TemplateListController.ts" />

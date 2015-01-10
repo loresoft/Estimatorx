@@ -1,0 +1,29 @@
+{
+  name: 'Estimatorx.Web',
+  version: '1.0.0',
+  homepage: 'https://github.com/loresoft/Estimatorx',
+  authors: [
+    'Paul Welter <pwelter@loresoft.com>'
+  ],
+  description: 'Simple Estimation Application',
+  moduleType: [
+    'node'
+  ],
+  license: 'MIT',
+  private: true,
+  ignore: [
+    '**/.*',
+    'node_modules',
+    'bower_components',
+    'test',
+    'tests'
+  ],
+  dependencies: {
+    'angular-block-ui': '~0.1.2',
+    'angular-bootstrap': '~0.12.0',
+    'angular-ui-select': '~0.9.5',
+    'angular-ui': '~0.4.0',
+    'angularjs-toaster': '~0.4.9',
+    'select2': '~3.5.2'
+  }
+}
