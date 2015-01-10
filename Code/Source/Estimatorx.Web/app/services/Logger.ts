@@ -18,7 +18,10 @@ module Estimatorx {
 
         constructor(toaster) {
             var self = this;
+
             self.toaster = toaster;
+            self.handelErrorProxy = <ng.IHttpPromiseCallback<any>>angular.bind(self, self.handelError);
+
         }
 
         toaster: any;
@@ -36,13 +39,15 @@ module Estimatorx {
             self.toaster.pop(o.type, o.title, o.message, o.timeOut);
         }        
         
-        handelError(data, status?, headers?, config?) {
+        handelErrorProxy: ng.IHttpPromiseCallback<any>;
+
+        handelError(data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) {
             var self = this;
             var message = '';
 
-            if (status.slice(0, 3) == '400')
+            if (status === 400)
                 message = self.extractModelState(data);
-            else if (status.slice(0, 3) == '500')
+            else if (status === 500)
                 message = self.extractServerError(data);
             else if (status)
                 message += 'An error has occurred:\n ' + status;

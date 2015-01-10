@@ -1,32 +1,56 @@
-﻿<div class="row">
-    <div class="col-md-6">
-        <div class="form-group">
-            <label for="organizationName">Name:</label>
-            <input type="text" class="form-control" id="organizationName" name="organizationName"
-                   placeholder="Name"
-                   required="required"
-                   ng-disabled="!viewModel.selfOwner()"
-                   ng-model="viewModel.organization.Name">
-        </div>
-        <div class="form-group">
-            <label for="organizationDescription">Description:</label>
-            <input type="text" class="form-control" id="organizationDescription" name="organizationDescription"
-                   placeholder="Description"
-                   ng-disabled="!viewModel.selfOwner()"
-                   ng-model="viewModel.organization.Description">
-        </div>
-    </div>
-    <div class="col-md-6">
-    </div>
-</div>
+﻿<form id="organizationForm" name="organizationForm" role="form"
+      ng-submit="viewModel.save(organizationForm.$valid)"
+      novalidate="novalidate">
 
-<div class="row">
-    <div class="col-sm-8">
-        <button class="btn btn-primary"
-                ng-click="viewModel.save()"
-                ng-disabled="!viewModel.selfOwner()">
-            Save
-        </button>
-        <button class="btn btn-default">Cancel</button>
+    <div class="row">
+        <div class="col-md-6">
+            <!-- organizationForm.OrganizationName -->
+            <div class="form-group"
+                 ng-class="{ 'has-error' : organizationForm.OrganizationName.$invalid && (organizationForm.OrganizationName.$touched || organizationForm.$submitted) }">
+                <label for="OrganizationName" class="control-label">
+                    Name:
+                    <span class="text-danger">*</span>
+                </label>
+                <input type="text" name="OrganizationName" id="OrganizationName"
+                       placeholder="Name"
+                       class="form-control"
+                       required="required"
+                       ng-disabled="!viewModel.selfOwner()"
+                       ng-model="viewModel.organization.Name" />
+                <div ng-messages="organizationForm.OrganizationName.$error"
+                     ng-if="organizationForm.$submitted || organizationForm.OrganizationName.$touched">
+                    <span ng-message="required" class="help-block">Name is required</span>
+                </div>
+            </div>
+            <!-- organizationForm.OrganizationDescription -->
+            <div class="form-group"
+                 ng-class="{ 'has-error' : organizationForm.OrganizationDescription.$invalid && (organizationForm.OrganizationDescription.$touched || organizationForm.$submitted) }">
+                <label for="OrganizationDescription" class="control-label">
+                    Description:
+                </label>
+                <input type="text" name="OrganizationDescription" id="OrganizationDescription"
+                       placeholder="Description"
+                       class="form-control"
+                       ng-disabled="!viewModel.selfOwner()"
+                       ng-model="viewModel.organization.Description" />
+                <div ng-messages="organizationForm.OrganizationDescription.$error"
+                     ng-if="organizationForm.$submitted || organizationForm.OrganizationDescription.$touched">
+                    <span ng-message="required" class="help-block">Description is required</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+        </div>
     </div>
-</div>
+
+    <div class="row">
+        <div class="col-sm-8">
+            <button type="submit" class="btn btn-primary" ng-disabled="!viewModel.selfOwner()">
+                Save
+            </button>
+            <button type="button" class="btn btn-default">
+                Cancel
+            </button>
+        </div>
+    </div>
+</form>

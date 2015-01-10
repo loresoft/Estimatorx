@@ -1,0 +1,22 @@
+﻿@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Create Organization";
+}
+
+
+<div class="container" ng-controller="organizationCreateController" ng-init="viewModel.load('@User.Identity.GetUserId()')">
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+        <li><a href="@Url.Action("Index")">Organizations</a></li>
+        <li class="active">Create</li>
+    </ol>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-group"></i> Organization
+            <span ng-show="viewModel.organization.Name">- <strong>{{ viewModel.organization.Name}}</strong></span>
+        </div>
+        <div class="panel-body">
+            @Html.Partial("_Organization")
+        </div>
+    </div>
+</div>

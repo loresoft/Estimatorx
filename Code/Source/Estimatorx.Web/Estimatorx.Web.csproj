@@ -223,18 +223,17 @@
     <Compile Include="Models\PasswordModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\VersionModel.cs" />
     <Compile Include="Modules\AuthenticationModule.cs" />
     <Compile Include="Security\ChallengeResult.cs" />
     <Compile Include="Services\OrganizationController.cs" />
     <Compile Include="Services\ProjectController.cs" />
-    <Compile Include="Services\ProjectSummaryController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\TemplateController.cs" />
-    <Compile Include="Services\TemplateSummaryController.cs" />
     <Compile Include="Services\UserController.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -327,6 +326,7 @@
     <TypeScriptCompile Include="app\models\Password.ts" />
     <TypeScriptCompile Include="app\models\User.ts" />
     <TypeScriptCompile Include="app\organization\MemberModalController.ts" />
+    <TypeScriptCompile Include="app\organization\OrganizationCreateController.ts" />
     <TypeScriptCompile Include="app\organization\OrganizationEditController.ts" />
     <TypeScriptCompile Include="app\organization\OrganizationListController.ts" />
     <TypeScriptCompile Include="app\profile\ProfileEditController.ts" />
@@ -349,9 +349,7 @@
     <TypeScriptCompile Include="app\services\ProjectCalculator.ts" />
     <TypeScriptCompile Include="app\services\ModelFactory.ts" />
     <TypeScriptCompile Include="app\services\ProjectRepository.ts" />
-    <TypeScriptCompile Include="app\services\ProjectSummaryRepository.ts" />
     <TypeScriptCompile Include="app\services\TemplateRepository.ts" />
-    <TypeScriptCompile Include="app\services\TemplateSummaryRepository.ts" />
     <TypeScriptCompile Include="app\services\UserRepository.ts" />
     <TypeScriptCompile Include="app\_ref.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
@@ -423,6 +421,7 @@
     <Content Include="Views\Profile\_Logins.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\Organization\Create.cshtml" />
     <None Include="Web.Production.config">
       <SubType>Designer</SubType>
       <DependentUpon>Web.config</DependentUpon>

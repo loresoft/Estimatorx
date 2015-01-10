@@ -84,13 +84,13 @@ module Estimatorx {
                 .success((data, status, headers, config) => {
                     self.templates = data;
                 })
-                .error(self.logger.handelError);
+                .error(self.logger.handelErrorProxy);
 
             self.organizationRepository.all()
                 .success((data, status, headers, config) => {
                     self.organizations = data;
                 })
-                .error(self.logger.handelError);
+                .error(self.logger.handelErrorProxy);
         }
 
         load(id?: string) {
@@ -142,7 +142,7 @@ module Estimatorx {
                         timeOut: 4000
                     });
                 })
-                .error(self.logger.handelError);
+                .error(self.logger.handelErrorProxy);
         }
 
         calculate() {

@@ -10,38 +10,36 @@
         <li><a href="@Url.Action("Index")">Organizations</a></li>
         <li class="active">Edit</li>
     </ol>
-    <form role="form">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="fa fa-group"></i> Organization
-                <span ng-show="viewModel.organization.Name">- <strong>{{ viewModel.organization.Name}}</strong></span>
-            </div>
-            <div class="panel-body">
-                <div class="tab-container">
-                    <!-- Nav tabs -->
-                    <div role="tabpanel">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#organization" aria-controls="organization" role="tab" data-toggle="tab">Organization</a></li>
-                            <li role="presentation"><a href="#members" aria-controls="members" role="tab" data-toggle="tab">Members</a></li>
-                            <li role="presentation"><a href="#owners" aria-controls="owners" role="tab" data-toggle="tab">Owners</a></li>
-                        </ul>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-group"></i> Organization
+            <span ng-show="viewModel.organization.Name">- <strong>{{ viewModel.organization.Name}}</strong></span>
+        </div>
+        <div class="panel-body">
+            <div class="tab-container">
+                <!-- Nav tabs -->
+                <div role="tabpanel">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#organization" aria-controls="organization" role="tab" data-toggle="tab">Organization</a></li>
+                        <li role="presentation"><a href="#members" aria-controls="members" role="tab" data-toggle="tab">Members</a></li>
+                        <li role="presentation"><a href="#owners" aria-controls="owners" role="tab" data-toggle="tab">Owners</a></li>
+                    </ul>
+                </div>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="organization">
+                        @Html.Partial("_Organization")
                     </div>
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="organization">
-                            @Html.Partial("_Organization")
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="members">
-                            @Html.Partial("_Members")
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="owners">
-                            @Html.Partial("_Owners")
-                        </div>
+                    <div role="tabpanel" class="tab-pane" id="members">
+                        @Html.Partial("_Members")
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="owners">
+                        @Html.Partial("_Owners")
                     </div>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 </div>
 
 <script type="text/ng-template" id="memberModal.html">

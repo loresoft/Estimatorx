@@ -14,6 +14,14 @@ module Estimatorx {
             this.$http = $http;
         }
 
+        query(request?: IQueryRequest): ng.IHttpPromise<IQueryResult<ITemplate>> {
+            var config = {
+                params: request
+            };
+
+            return this.$http.get<IQueryResult<ITemplate>>(this.urlBase + '/Query', config);
+        }
+
         all(): ng.IHttpPromise<ITemplate[]> {
             return this.$http.get<ITemplate[]>(this.urlBase);
         }

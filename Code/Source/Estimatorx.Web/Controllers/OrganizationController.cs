@@ -17,8 +17,7 @@ namespace Estimatorx.Web.Controllers
 
         public ActionResult Create()
         {
-            var routeValues = new { id = ObjectId.GenerateNewId().ToString() };
-            return RedirectToAction("Edit", routeValues);
+            return View();
         }
 
         public ActionResult Edit(string id)

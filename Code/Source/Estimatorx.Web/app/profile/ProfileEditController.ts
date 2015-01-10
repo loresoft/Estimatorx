@@ -55,11 +55,11 @@ module Estimatorx {
                 return;
             }
 
-            this.userRepository.find(self.userId)
+            this.userRepository.profile()
                 .success((data, status, headers, config) => {
                     self.user = data;
                 })
-                .error(self.logger.handelError);
+                .error(self.logger.handelErrorProxy);
         }
 
         save(valid: boolean) {
@@ -85,7 +85,7 @@ module Estimatorx {
                         timeOut: 4000
                     });
                 })
-                .error(self.logger.handelError);
+                .error(self.logger.handelErrorProxy);
         }
 
         changePassword(valid: boolean) {
@@ -115,10 +115,10 @@ module Estimatorx {
                         timeOut: 4000
                     });
 
-                    self.resetPassword();
+                    self.resetValues();
                     self.load(self.userId);
                 })
-                .error(self.logger.handelError);
+                .error(self.logger.handelErrorProxy);
         }
 
         removeLogin(provider: string, key: string) {
@@ -127,10 +127,10 @@ module Estimatorx {
                 .success((data, status, headers, config) => {
                     self.load(self.userId);
                 })
-                .error(self.logger.handelError);
+                .error(self.logger.handelErrorProxy);
         }
 
-        resetPassword() {
+        resetValues() {
             var self = this;
 
             self.password = <IPassword>{};

@@ -14,20 +14,13 @@ module Estimatorx {
             this.$http = $http;
         }
 
-        all(): ng.IHttpPromise<IUser[]> {
-            return this.$http.get<IUser[]>(this.urlBase);
-        }
 
-        find(id: string): ng.IHttpPromise<IUser> {
-            return this.$http.get<IUser>(this.urlBase + '/' + id);
+        profile(): ng.IHttpPromise<IUser> {
+            return this.$http.get<IUser>(this.urlBase + '/Profile');
         }
 
         save(user: IUser): ng.IHttpPromise<IUser> {
             return this.$http.post<IUser>(this.urlBase, user);
-        }
-
-        delete(id: string): ng.IHttpPromise<void> {
-            return this.$http.delete<void>(this.urlBase + '/' + id);
         }
 
         search(text: string): ng.IHttpPromise<IUser[]> {

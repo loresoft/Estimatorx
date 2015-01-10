@@ -98,7 +98,7 @@ module Estimatorx {
                     self.loadOwners();
                 })
                 .error((data, status, headers, config) => {
-                    if (status == 404) {
+                    if (status === 404) {
                         self.organization = self.modelFactory.createOrganization(self.organizationId, self.userId);
                         return;
                     }
@@ -114,7 +114,7 @@ module Estimatorx {
                 .success((data, status, headers, config) => {
                     self.members = data;
                 })
-                .error(self.logger.handelError);
+                .error(self.logger.handelErrorProxy);
         }
 
         loadOwners() {
@@ -124,7 +124,7 @@ module Estimatorx {
                 .success((data, status, headers, config) => {
                     self.owners = data;
                 })
-                .error(self.logger.handelError);
+                .error(self.logger.handelErrorProxy);
         }
 
         save(valid: boolean) {
@@ -155,7 +155,7 @@ module Estimatorx {
                     self.loadMembers();
                     self.loadOwners();
                 })
-                .error(self.logger.handelError);
+                .error(self.logger.handelErrorProxy);
         }
 
 
@@ -172,7 +172,7 @@ module Estimatorx {
                     .success((data, status, headers, config) => {
                         self.loadMembers();
                     })
-                    .error(self.logger.handelError);
+                    .error(self.logger.handelErrorProxy);
             });
 
         }
@@ -192,7 +192,7 @@ module Estimatorx {
                     .success((data, status, headers, config) => {
                         self.loadMembers();
                     })
-                    .error(self.logger.handelError);
+                    .error(self.logger.handelErrorProxy);
             });
         }
 
@@ -239,7 +239,7 @@ module Estimatorx {
         .controller('organizationEditController', [
             '$scope',
             '$modal',
-            'logger',,
+            'logger',
             'modelFactory',
             'organizationRepository',
             'userRepository',

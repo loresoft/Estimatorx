@@ -9,15 +9,15 @@ module Estimatorx {
         static $inject = [
             '$scope',
             'logger',
-            'projectSummaryRepository'
+            'projectRepository'
         ];
 
-        constructor($scope, logger: Logger, projectSummaryRepository: ProjectSummaryRepository) {
+        constructor($scope, logger: Logger, projectRepository: ProjectRepository) {
             // assign viewModel to controller
             $scope.viewModel = this;
 
             this.logger = logger;
-            this.repository = projectSummaryRepository;
+            this.repository = projectRepository;
 
             // default
             this.result = <IQueryResult<IProject>>{
@@ -32,7 +32,7 @@ module Estimatorx {
 
 
         logger: Logger;
-        repository: ProjectSummaryRepository;
+        repository: ProjectRepository;
 
         result: IQueryResult<IProject>;
         sort = angular.bind(this, this.load);
@@ -51,7 +51,7 @@ module Estimatorx {
                 .success((data, status, headers, config) => {
                     self.result = data;
                 })
-                .error(self.logger.handelError);
+                .error(self.logger.handelErrorProxy);
         }
 
         sortClick(column:string) {
@@ -74,7 +74,7 @@ module Estimatorx {
         [
             '$scope',
             'logger',
-            'projectSummaryRepository',
+            'projectRepository',
             ProjectListController
         ]
         );

@@ -7,13 +7,21 @@ module Estimatorx {
     export class ProjectRepository {
         static $inject = ['$http'];
 
-        urlBase: string = 'api/project';
+        urlBase: string = 'api/Project';
         $http: ng.IHttpService;
 
         constructor($http: ng.IHttpService) {
             this.$http = $http;
         }
-        
+
+        query(request?: IQueryRequest): ng.IHttpPromise<IQueryResult<IProject>> {
+            var config = {
+                params: request
+            };
+
+            return this.$http.get<IQueryResult<IProject>>(this.urlBase + '/Query', config);
+        }
+
         all(): ng.IHttpPromise<IProject[]> {            
             return this.$http.get<IProject[]>(this.urlBase);
         }

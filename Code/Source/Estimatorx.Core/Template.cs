@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Estimatorx.Core
 {
@@ -14,6 +15,7 @@ namespace Estimatorx.Core
         /// <value>
         /// The identifier for the model.
         /// </value>
+        [Required]
         public string Id { get; set; }
 
 
@@ -23,6 +25,7 @@ namespace Estimatorx.Core
         /// <value>
         /// The name of the template.
         /// </value>
+        [Required]
         public string Name { get; set; }
 
         /// <summary>
@@ -36,6 +39,7 @@ namespace Estimatorx.Core
         /// <summary>
         /// Gets or set the organization this project belongs to.
         /// </summary>
+        [Required]
         public string OrganizationId { get; set; }
 
 

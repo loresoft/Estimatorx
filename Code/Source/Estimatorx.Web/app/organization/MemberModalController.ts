@@ -50,7 +50,7 @@ module Estimatorx {
                 .success((data, status, headers, config) => {
                     self.users = data;
                 })
-                .error(self.logger.handelError);
+                .error(self.logger.handelErrorProxy);
         }
 
         select() {

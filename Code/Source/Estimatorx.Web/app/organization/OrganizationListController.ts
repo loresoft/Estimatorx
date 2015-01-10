@@ -54,7 +54,7 @@ module Estimatorx {
                 .success((data, status, headers, config) => {
                     self.result = data;
                 })
-                .error(self.logger.handelError);
+                .error(self.logger.handelErrorProxy);
         }
 
         sortClick(column: string) {

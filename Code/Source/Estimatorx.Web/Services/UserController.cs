@@ -9,6 +9,7 @@ using Estimatorx.Data.Mongo.Security;
 using Estimatorx.Web.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using MongoDB.Driver.Linq;
 
 namespace Estimatorx.Web.Services
 {
@@ -38,34 +39,31 @@ namespace Estimatorx.Web.Services
             _authenticationManager = authenticationManager;
         }
 
-
-        public IEnumerable<User> Get()
+        [HttpGet]
+        [Route("Profile")]
+        public IHttpActionResult Profile()
         {
-            return _userRepository.All();
-        }
-
-        public IHttpActionResult Get(string id)
-        {
-            var project = _userRepository.Find(id);
-            if (project == null)
+            string userId = User.Identity.GetUserId();
+            var user = _userRepository.Find(userId);
+            if (user == null)
                 return NotFound();
 
-            return Ok(project);
+            return Ok(user);
         }
 
+        [HttpPost]
+        [Route("")]
         public IHttpActionResult Post([FromBody]User value)
         {
-            var project = _userRepository.Save(value);
-            if (project == null)
+            string userId = User.Identity.GetUserId();
+            if (userId != value.Id)
+                return Unauthorized(); // can only save self
+
+            var user = _userRepository.Save(value);
+            if (user == null)
                 return NotFound();
 
-            return Ok(project);
-        }
-
-        public IHttpActionResult Delete(string id)
-        {
-            _userRepository.Delete(id);
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(user);
         }
 
         [HttpGet]
@@ -74,6 +72,7 @@ namespace Estimatorx.Web.Services
         {
             var users = _userRepository
                 .FindAll(u => u.Name.Contains(q) || u.Email.Contains(q))
+                .Select(u => new UserModel { Id = u.Id, Name = u.Name, Email = u.Email })
                 .OrderBy(u => u.Name)
                 .Take(20);
 
