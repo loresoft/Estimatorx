@@ -18,13 +18,15 @@
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <i class="fa fa-calculator"></i> Project
-                <span ng-show="viewModel.project.Name">- <strong>{{ viewModel.project.Name}}</strong></span>
-                <div class="pull-right">
+                <div class="pull-right hidden-xs">
                     <label style="padding: 0 5px;">Total Hours:</label>
                     <span style="padding: 0 5px; width: 80px; display: inline-block;">{{ viewModel.project.TotalHours}}</span>
                     <label style="padding: 0 5px;">Total Weeks:</label>
                     <span style="padding: 0 5px; width: 80px; display: inline-block;">{{ viewModel.project.TotalWeeks | number:2}}</span>
+                </div>
+                <div class="nowrap">
+                    <i class="fa fa-calculator"></i> Project
+                    <span ng-show="viewModel.project.Name">- <strong>{{ viewModel.project.Name}}</strong></span>                    
                 </div>
             </div>
             <div class="panel-body">

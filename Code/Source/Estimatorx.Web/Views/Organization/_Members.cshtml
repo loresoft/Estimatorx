@@ -1,53 +1,57 @@
 ﻿<div class="row">
     <div class="col-md-8">
-        <table class="table table-hover">
-            <colgroup>
-                <col style="width: 200px" />
-                <col />
-                <col style="width: 100px" />
-            </colgroup>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="member in viewModel.members">
-                    <td>{{member.Name}}</td>
-                    <td>{{member.Email}}</td>
-                    <td style="text-align: right">
-                        <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-link btn-sm"
-                                    title="Remove member form organization"
-                                    ng-hide="!viewModel.selfOwner()"
-                                    ng-disabled="viewModel.isOwner(member.Id)"
-                                    ng-click="viewModel.removeMember(member)">
-                                <i class="glyphicon glyphicon-remove"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th colspan="3">
-                        <div class="btn-group">
-                            <button type="button"
-                                    class="btn btn-link btn-sm"
-                                    title="Add member to organization"
-                                    ng-hide="!viewModel.selfOwner()"
-                                    ng-click="viewModel.addMember()">
-                                <i class="glyphicon glyphicon-plus"></i>
-                                Add Member
-                            </button>
-                        </div>
-                    </th>
-                </tr>
-            </tfoot>
-
-        </table>
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed" style="table-layout: fixed">
+                <colgroup>
+                    <col style="width: 150px" />
+                    <col style="width: 200px" />
+                    <col style="width: 30px" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="member in viewModel.members">
+                        <td>
+                            <div class="nowrap">{{member.Name}}</div>
+                        </td>
+                        <td>
+                            <div class="nowrap">{{member.Email}}</div>
+                        </td>
+                        <td style="text-align: right">
+                            <div class="btn-group pull-right">
+                                <button type="button" class="btn btn-link btn-sm"
+                                        title="Remove member form organization"
+                                        ng-hide="!viewModel.selfOwner()"
+                                        ng-disabled="viewModel.isOwner(member.Id)"
+                                        ng-click="viewModel.removeMember(member)">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="3">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-link btn-sm"
+                                        title="Add member to organization"
+                                        ng-hide="!viewModel.selfOwner()"
+                                        ng-click="viewModel.addMember()">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                    Add Member
+                                </button>
+                            </div>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
     </div>
 </div>
 

@@ -1,5 +1,5 @@
 ﻿<div class="row">
-    <div class="col-md-9">
+    <div class="col-md-8">
         <!-- projectForm.ProjectName -->
         <div class="form-group"
              ng-class="{ 'has-error' : projectForm.ProjectName.$invalid && (projectForm.ProjectName.$touched || projectForm.$submitted) }">
@@ -23,17 +23,17 @@
             <label for="ProjectDescription" class="control-label">
                 Project Description:
             </label>
-            <input type="text" name="ProjectDescription" id="ProjectDescription"
-                   placeholder="Project Description"
-                   class="form-control"
-                   ng-model="viewModel.project.Description" />
+            <textarea id="ProjectDescription" name="ProjectDescription" rows="5"
+                      class="form-control"
+                      placeholder="Description"
+                      ng-model="viewModel.project.Description"></textarea>
             <div ng-messages="projectForm.ProjectDescription.$error"
                  ng-if="projectForm.$submitted || projectForm.ProjectDescription.$touched">
                 <span ng-message="required" class="help-block">Project Description is required</span>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <!-- projectForm.HoursPerWeek -->
         <div class="form-group"
              ng-class="{ 'has-error' : projectForm.HoursPerWeek.$invalid && (projectForm.HoursPerWeek.$touched || projectForm.$submitted) }">

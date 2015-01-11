@@ -1,74 +1,79 @@
-﻿<table class="table table-striped table-hover">
-    <colgroup>
-        <col style="width: 300px" />
-        <col />
-        <col style="width: 160px" />
-        <col style="width: 100px" />
-    </colgroup>
-    <thead>
-        <tr>
-            <th>
-                <a ng-click="viewModel.sortClick('Name')"
-                   style="display: block;">
-                    Name
-                    <span class="ng-hide dropdown"
-                          ng-show="viewModel.result.Sort == 'Name'"
-                          ng-class="{true:'dropdown', false:'dropup'}[viewModel.result.Descending]">
-                        <span class="caret" style="margin: 5px 5px;"></span>
-                    </span>
-                </a>
-            </th>
-            <th>
-                <a ng-click="viewModel.sortClick('Description')"
-                   style="display: block;">
-                    Description
-                    <span class="ng-hide dropdown"
-                          ng-show="viewModel.result.Sort == 'Description'"
-                          ng-class="{true:'dropup', false:'dropdown'}[viewModel.result.Descending]">
-                        <span class="caret" style="margin: 5px 5px;"></span>
-                    </span>
-                </a>
-            </th>
-            <th>
-                <a ng-click="viewModel.sortClick('Updated')"
-                   style="display: block;">
-                    Updated
-                    <span class="ng-hide dropdown"
-                          ng-show="viewModel.result.Sort == 'Updated'"
-                          ng-class="{true:'dropdown', false:'dropup'}[viewModel.result.Descending]">
-                        <span class="caret" style="margin: 5px 5px;"></span>
-                    </span>
-                </a>
-            </th>
-            <th>
-                <a ng-click="viewModel.sortClick('Updater')"
-                   style="display: block;">
-                    Updator
-                    <span class="ng-hide dropdown"
-                          ng-show="viewModel.result.Sort == 'Updater'"
-                          ng-class="{true:'dropdown', false:'dropup'}[viewModel.result.Descending]">
-                        <span class="caret" style="margin: 5px 5px;"></span>
-                    </span>
-                </a>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="template in viewModel.result.Data">
-            <td>
-                <a style="display: block" href="Template/Edit/{{template.Id}}" title="{{template.Name}}">{{template.Name}}</a>
-            </td>
-            <td>{{template.Description}}</td>
-            <td>
-                <abbr title="{{template.Updated | date:'fullDate'}}">
-                    <span am-time-ago="template.Updated"></span>
-                </abbr>
-            </td>
-            <td>{{template.Updater}}</td>
-        </tr>
-    </tbody>
-</table>
-
+﻿<div class="table-responsive">
+    <table class="table table-striped table-hover table-condensed" style="table-layout: fixed">
+        <colgroup>
+            <col style="width: 200px" />
+            <col style="width: 200px" />
+            <col style="width: 95px" />
+            <col style="width: 100px" />
+        </colgroup>
+        <thead>
+            <tr>
+                <th>
+                    <a ng-click="viewModel.sortClick('Name')"
+                       style="display: block;">
+                        Name
+                        <span class="ng-hide dropdown"
+                              ng-show="viewModel.result.Sort == 'Name'"
+                              ng-class="{true:'dropdown', false:'dropup'}[viewModel.result.Descending]">
+                            <span class="caret" style="margin: 5px 5px;"></span>
+                        </span>
+                    </a>
+                </th>
+                <th>
+                    <a ng-click="viewModel.sortClick('Description')"
+                       style="display: block;">
+                        Description
+                        <span class="ng-hide dropdown"
+                              ng-show="viewModel.result.Sort == 'Description'"
+                              ng-class="{true:'dropup', false:'dropdown'}[viewModel.result.Descending]">
+                            <span class="caret" style="margin: 5px 5px;"></span>
+                        </span>
+                    </a>
+                </th>
+                <th>
+                    <a ng-click="viewModel.sortClick('Updated')"
+                       style="display: block;">
+                        Updated
+                        <span class="ng-hide dropdown"
+                              ng-show="viewModel.result.Sort == 'Updated'"
+                              ng-class="{true:'dropdown', false:'dropup'}[viewModel.result.Descending]">
+                            <span class="caret" style="margin: 5px 5px;"></span>
+                        </span>
+                    </a>
+                </th>
+                <th>
+                    <a ng-click="viewModel.sortClick('Updater')"
+                       style="display: block;">
+                        Updator
+                        <span class="ng-hide dropdown"
+                              ng-show="viewModel.result.Sort == 'Updater'"
+                              ng-class="{true:'dropdown', false:'dropup'}[viewModel.result.Descending]">
+                            <span class="caret" style="margin: 5px 5px;"></span>
+                        </span>
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="template in viewModel.result.Data">
+                <td>
+                    <a class="nowrap" style="display: block" href="Template/Edit/{{template.Id}}" title="{{template.Name}}">{{template.Name}}</a>
+                </td>
+                <td>
+                    <div class="nowrap">{{template.Description}}</div>
+                </td>
+                <td>
+                    <abbr title="{{template.Updated | date:'fullDate'}}">
+                        <span>{{template.Updated | date:'MM/dd/yyyy'}}</span>
+                    </abbr>
+                </td>
+                <td>
+                    <div class="nowrap">{{template.Updater}}</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <pagination ng-model="viewModel.result.Page"
             total-items="viewModel.result.Total"
             items-per-page="viewModel.result.PageSize"

@@ -15,13 +15,51 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-4" style="padding: 0 20px">
+                        <div class="col-md-6" style="padding: 0 20px">
+                            <h4 style="margin-bottom: 30px">Using local account</h4>
+
+                            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type="email" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        @Html.CheckBoxFor(m => m.RememberMe)
+                                        Remember Me
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="submit" value="Log in" class="btn btn-primary" />
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        @Html.ActionLink("Register as a new user", "Register")
+                                    </div>
+                                    <div class="col-md-6">
+                                        @Html.ActionLink("Forgot your password", "ForgotPassword")
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-md-6" style="border-left: 1px solid #D5D5D5; padding: 0 20px">
                             <h4>Using external accounts</h4>
                             <p style="margin: 20px 0">
                                 Sign in using an external account
                             </p>
 
-                            @using (Html.BeginForm("ExternalLogin", "Account", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form"}))
+                            @using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
                             {
                                 @Html.AntiForgeryToken()
                                 <button class="btn btn-block btn-social btn-google-plus" type="submit" name="provider" value="Google">
@@ -39,40 +77,6 @@
                                 <button class="btn btn-block btn-social btn-twitter" type="submit" name="provider" value="Twitter">
                                     <i class="fa fa-twitter"></i> Sign in with Twitter
                                 </button>
-                            }
-                        </div>
-                        <div class="col-md-8" style="border-left: 1px solid #D5D5D5; padding: 0 20px">
-                            <h4 style="margin-bottom: 30px">Using local account</h4>
-
-                            @using (Html.BeginForm("Login", "Account", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form"}))
-                            {
-                                @Html.AntiForgeryToken()
-                                @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.Email, new {@class = "control-label"})
-                                    @Html.TextBoxFor(m => m.Email, new {@class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.Email, "", new {@class = "text-danger"})
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.Password, new {@class = "control-label"})
-                                    @Html.PasswordFor(m => m.Password, new {@class = "form-control"})
-                                    @Html.ValidationMessageFor(m => m.Password, "", new {@class = "text-danger"})
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        @Html.CheckBoxFor(m => m.RememberMe)
-                                        Remember Me
-                                    </label>
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="submit" value="Log in" class="btn btn-primary"/>
-                                </div>
-
-                                <p>
-                                    <span style="margin: 0 20px">@Html.ActionLink("Register as a new user", "Register")</span>
-                                    <span style="margin: 0 20px">@Html.ActionLink("Forgot your password?", "ForgotPassword")</span>
-                                </p>
                             }
                         </div>
                     </div>
