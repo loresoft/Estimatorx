@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using Estimatorx.Web.Models;
 using MongoDB.Bson;
 
 namespace Estimatorx.Web.Controllers
@@ -23,5 +24,17 @@ namespace Estimatorx.Web.Controllers
             return View(model: id);
         }
 
+        public ActionResult Report(string id)
+        {
+            return View(model: id);
+        }
+
+        [AllowAnonymous]
+        [Route("Project/Share/{id}/{key}")]
+        public ActionResult Share(string id, string key)
+        {
+            var model = new ReportModel {Id = id, Key = key};
+            return View(model);
+        }
     }
 }

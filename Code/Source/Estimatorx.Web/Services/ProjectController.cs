@@ -85,6 +85,26 @@ namespace Estimatorx.Web.Services
             return Ok(project);
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("Share/{id}/{key}")]
+        public IHttpActionResult Share(string id, string key)
+        {
+            if (string.IsNullOrEmpty(id))
+                return BadRequest();
+            if (string.IsNullOrEmpty(key))
+                return BadRequest();
+            
+            var project = _projectRepository.Find(id);
+            if (project == null)
+                return NotFound();
+
+            if (project.SecurityKey != key)
+                return Unauthorized();
+
+            return Ok(project);
+        }
+
         [HttpPost]
         [Route("")]
         public IHttpActionResult Post([FromBody]Project value)

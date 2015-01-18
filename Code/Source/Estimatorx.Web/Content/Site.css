@@ -138,7 +138,7 @@ input[type=number] {
 }
 
 select {
-    -webkit-appearance:none;
+    -webkit-appearance: none;
     -moz-appearance: none;
     text-indent: 0.01px;
     -moz-text-overflow: '';
@@ -148,4 +148,41 @@ select {
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;
+}
+
+.sticky-heading {
+    z-index: 1000;
+}
+
+.table > thead > tr > td.primary,
+.table > tbody > tr > td.primary,
+.table > tfoot > tr > td.primary,
+.table > thead > tr > th.primary,
+.table > tbody > tr > th.primary,
+.table > tfoot > tr > th.primary,
+.table > thead > tr.primary > td,
+.table > tbody > tr.primary > td,
+.table > tfoot > tr.primary > td,
+.table > thead > tr.primary > th,
+.table > tbody > tr.primary > th,
+.table > tfoot > tr.primary > th {
+    color: #FFF;
+    background-color: #337AB7;
+    border-color: #2E6DA4;
+}
+.table-hover > tbody > tr > td.primary:hover,
+.table-hover > tbody > tr > th.primary:hover,
+.table-hover > tbody > tr.primary:hover > td,
+.table-hover > tbody > tr:hover > .primary,
+.table-hover > tbody > tr.primary:hover > th {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+
+@media print {
+    body {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
 }

@@ -17,7 +17,7 @@
           novalidate="novalidate">
 
         <div class="panel panel-default">
-            <div class="panel-heading">
+            <div sticky offset="50" sticky-class="sticky-heading" media-query="min-width: 768px" class="panel-heading">
                 <div class="pull-right hidden-xs">
                     <label style="padding: 0 5px;">Total Hours:</label>
                     <span style="padding: 0 5px; width: 80px; display: inline-block;">{{ viewModel.project.TotalHours}}</span>
@@ -26,7 +26,7 @@
                 </div>
                 <div class="nowrap">
                     <i class="fa fa-calculator"></i> Project
-                    <span ng-show="viewModel.project.Name">- <strong>{{ viewModel.project.Name}}</strong></span>                    
+                    <span ng-show="viewModel.project.Name">- <strong>{{ viewModel.project.Name}}</strong></span>
                 </div>
             </div>
             <div class="panel-body">
@@ -39,6 +39,7 @@
                             <li role="presentation"><a href="#factors" aria-controls="factors" role="tab" data-toggle="tab">Factors</a></li>
                             <li role="presentation"><a href="#tasks" aria-controls="tasks" role="tab" data-toggle="tab">Tasks</a></li>
                             <li role="presentation"><a href="#summary" aria-controls="summary" role="tab" data-toggle="tab">Summary</a></li>
+                            <li role="presentation"><a href="#share" aria-controls="share" role="tab" data-toggle="tab">Share</a></li>
                         </ul>
                     </div>
                     <!-- Tab panes -->
@@ -58,6 +59,9 @@
                         <div role="tabpanel" class="tab-pane" id="summary">
                             @Html.Partial("_Summary")
                         </div>
+                        <div role="tabpanel" class="tab-pane" id="share">
+                            @Html.Partial("_Share")
+                        </div>
                     </div>
                 </div>
             </div>
@@ -67,6 +71,12 @@
                     <div class="col-sm-8">
                         <button type="submit" class="btn btn-primary">Save</button>
                         <button type="button" class="btn btn-default">Cancel</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="pull-right">
+                            <a href="@Url.Action("Report", new {id = Model})" class="btn btn-default">Report</a>
+                            <button type="button" class="btn btn-danger">Delete</button>                            
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,48 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <h3>Share Report</h3>
+
+        <div ng-hide="viewModel.project.SecurityKey">
+            <p>
+                Create a link to share this estimate with the public.
+            </p>
+            <p>
+                <button type="button" class="btn btn-primary btn-sm"
+                        ng-click="viewModel.addSecurityKey()">
+                    Create Link
+                </button>
+            </p>
+        </div>
+
+        <div class="ng-hide" ng-show="viewModel.project.SecurityKey">
+            <p>Link to share this estimate with the public.</p>
+            <div class="input-group">
+                <input type="text" class="form-control"
+                       readonly="readonly"
+                       value="{{viewModel.shareLink()}}">
+                <span class="input-group-btn">
+                    <a class="btn btn-default" 
+                       href="{{viewModel.shareLink(true)}}" 
+                       target="_blank" 
+                       title="Open shared link">
+                        <i class="fa fa-external-link"></i>
+                    </a>
+                    <button class="btn btn-default" type="button"
+                            clip-copy="viewModel.shareLink()"
+                            clip-click="viewModel.shareMessage()"
+                            title="Copy shared link">
+                        <i class="fa fa-copy"></i>
+                    </button>
+                </span>
+            </div>
+            <div style="margin: 5px 0">
+                <button type="button" class="btn btn-danger btn-sm"
+                        ng-click="viewModel.removeSecurityKey()">
+                    Remove Link
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+

@@ -36,8 +36,12 @@ module Estimatorx {
         }
 
         newObjectId(): string {
-            var o = new ObjectId();
+            var o = new ObjectId(); 
             return o.toString();
+        }
+
+        newSecurityKey(): string {
+            return this.s4() + this.s4();
         }
     }
 

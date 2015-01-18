@@ -46,6 +46,10 @@ namespace Estimatorx.Data.Mongo.Mapping
                 .SetElementName("cw")
                 .SetIgnoreIfDefault(true);
 
+            MapProperty(c => c.SecurityKey)
+                .SetElementName("sk")
+                .SetIgnoreIfNull(true);
+            
             MapProperty(c => c.OrganizationId)
                 .SetElementName("o_")
                 .SetRepresentation(BsonType.String)

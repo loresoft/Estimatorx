@@ -54,22 +54,25 @@
     <Reference Include="Autofac.Integration.WebApi">
       <HintPath>..\packages\Autofac.WebApi2.3.4.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
-    <Reference Include="jQuery.Validation.Unobtrusive.Native">
-      <HintPath>..\packages\jQuery.Validation.Unobtrusive.Native.MVC5.1.1.1.0\lib\net45\jQuery.Validation.Unobtrusive.Native.dll</HintPath>
+    <Reference Include="jQuery.Validation.Unobtrusive.Native, Version=1.1.5485.28973, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\jQuery.Validation.Unobtrusive.Native.MVC5.1.1.2\lib\net45\jQuery.Validation.Unobtrusive.Native.dll</HintPath>
     </Reference>
     <Reference Include="KickStart, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\KickStart.2.0.0.38\lib\net45\KickStart.dll</HintPath>
+      <HintPath>..\packages\KickStart.2.0.0.39\lib\net45\KickStart.dll</HintPath>
     </Reference>
-    <Reference Include="KickStart.Autofac">
-      <HintPath>..\packages\KickStart.Autofac.2.0.0.38\lib\net45\KickStart.Autofac.dll</HintPath>
+    <Reference Include="KickStart.Autofac, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\KickStart.Autofac.2.0.0.39\lib\net45\KickStart.Autofac.dll</HintPath>
     </Reference>
     <Reference Include="KickStart.MongoDB, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\KickStart.MongoDB.2.0.0.38\lib\net45\KickStart.MongoDB.dll</HintPath>
+      <HintPath>..\packages\KickStart.MongoDB.2.0.0.39\lib\net45\KickStart.MongoDB.dll</HintPath>
     </Reference>
-    <Reference Include="KickStart.NLog">
-      <HintPath>..\packages\KickStart.NLog.2.0.0.38\lib\net45\KickStart.NLog.dll</HintPath>
+    <Reference Include="KickStart.NLog, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\KickStart.NLog.2.0.0.39\lib\net45\KickStart.NLog.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -114,19 +117,18 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NLog">
-      <HintPath>..\packages\NLog.3.1.0.0\lib\net45\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog.Fluent">
-      <HintPath>..\packages\NLog.Fluent.3.1.0.30\lib\net45\NLog.Fluent.dll</HintPath>
+    <Reference Include="NLog, Version=3.2.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NLog.3.2.0.0\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Owin.Security.Providers">
-      <HintPath>..\packages\Owin.Security.Providers.1.12.1\lib\net45\Owin.Security.Providers.dll</HintPath>
+    <Reference Include="Owin.Security.Providers, Version=1.13.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Owin.Security.Providers.1.13.0\lib\net45\Owin.Security.Providers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -199,7 +201,6 @@
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
@@ -222,6 +223,7 @@
     <Compile Include="Models\OrganizationUser.cs" />
     <Compile Include="Models\PasswordModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
+    <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\VersionModel.cs" />
@@ -281,10 +283,15 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\linq.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\ng-clip\ngClip.js" />
+    <Content Include="Scripts\ngSticky\sticky.js" />
     <Content Include="Scripts\ObjectId.js" />
     <Content Include="Scripts\ui-router\angular-ui-router.js" />
     <Content Include="Scripts\underscore.js" />
+    <Content Include="Scripts\zeroclipboard\ZeroClipboard.js" />
+    <Content Include="Scripts\zeroclipboard\ZeroClipboard.swf" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -330,6 +337,7 @@
     <TypeScriptCompile Include="app\organization\OrganizationEditController.ts" />
     <TypeScriptCompile Include="app\organization\OrganizationListController.ts" />
     <TypeScriptCompile Include="app\profile\ProfileEditController.ts" />
+    <TypeScriptCompile Include="app\project\ProjectReportController.ts" />
     <TypeScriptCompile Include="app\project\TemplateModalController.ts" />
     <TypeScriptCompile Include="app\models\QueryRequest.ts" />
     <TypeScriptCompile Include="app\models\QueryResult.ts" />
@@ -422,6 +430,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Organization\Create.cshtml" />
+    <Content Include="Views\Project\Report.cshtml" />
+    <Content Include="Views\Project\_Report.cshtml" />
+    <Content Include="Views\Project\_Share.cshtml" />
+    <Content Include="Views\Project\Share.cshtml" />
     <None Include="Web.Production.config">
       <SubType>Designer</SubType>
       <DependentUpon>Web.config</DependentUpon>

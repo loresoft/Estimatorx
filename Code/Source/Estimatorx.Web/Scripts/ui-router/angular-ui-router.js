@@ -3870,7 +3870,7 @@ function $ViewDirectiveFill (  $compile,   $controller,   $state,   $interpolate
 }
 
 /**
- * Shared ui-view code for both directives:
+ * Share ui-view code for both directives:
  * Given scope, element, and its attributes, return the view's name
  */
 function getUiViewName(scope, attrs, element, $interpolate) {

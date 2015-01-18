@@ -16,6 +16,8 @@ module Estimatorx {
             'ui.bootstrap',
             'ui.select',
             'blockUI',
+            'ngClipboard',
+            'sticky',
             'toaster'
         ]
     );

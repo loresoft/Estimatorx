@@ -30,6 +30,11 @@ module Estimatorx {
             return this.$http.get<IProject>(this.urlBase + '/' + id);
         }
 
+        shared(id: string, key: string): ng.IHttpPromise<IProject> {
+            return this.$http.get<IProject>(this.urlBase + '/Share/' + id + '/' + key);
+        }
+
+
         save(project: IProject): ng.IHttpPromise<IProject> {
             return this.$http.post<IProject>(this.urlBase, project);
         }

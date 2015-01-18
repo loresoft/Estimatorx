@@ -124,6 +124,11 @@ namespace Estimatorx.Core
         public string OrganizationId { get; set; }
 
         /// <summary>
+        /// Get or Set security key used for publica access
+        /// </summary>
+        public string SecurityKey { get; set; }
+
+        /// <summary>
         /// Gets or sets the system create date.
         /// </summary>
         /// <value>

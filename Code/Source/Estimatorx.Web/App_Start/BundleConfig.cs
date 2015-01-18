@@ -63,6 +63,9 @@ namespace Estimatorx.Web
                     "~/Scripts/angular-block-ui/angular-block-ui.js",
                     "~/Scripts/angularjs-toaster/toaster.js",
 
+                    "~/Scripts/zeroclipboard/ZeroClipboard.js",
+                    "~/Scripts/ng-clip/ngClip.js",
+                    "~/Scripts/ngSticky/sticky.js",
                     "~/Scripts/angular-ui-select/select.js",
                     "~/Scripts/angular-ui/ui-bootstrap.js",
                     "~/Scripts/angular-ui/ui-bootstrap-tpls.js"

@@ -1,0 +1,30 @@
+﻿@model Estimatorx.Web.Models.ReportModel
+@{
+    ViewBag.Title = "Project Report";
+}
+@section HeadContent
+{
+    <style>
+        h4 {
+            margin-top: 20px;
+        }
+
+        @@media print {
+            tbody {
+                -moz-page-break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .page-break {
+                display: block;
+                page-break-before: always;
+            }
+        }
+    </style>
+}
+<div class="container"
+     ng-controller="projectReportController"
+     ng-init="viewModel.load('@Model.Id', '@Model.Key')">
+
+    @Html.Partial("_Report")
+</div>

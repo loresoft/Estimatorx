@@ -268,6 +268,7 @@ module Estimatorx {
             });
         }
 
+
         addTemplate() {
             var self = this;
 
@@ -285,6 +286,40 @@ module Estimatorx {
                 });
             });
 
+        }
+
+
+        addSecurityKey() {
+            this.project.SecurityKey = this.identityService.newSecurityKey();
+        }
+
+        removeSecurityKey() {
+            this.project.SecurityKey = null;
+        }
+
+        shareLink(relitive: boolean = false): string {
+
+            if (relitive) {
+                return "Project/Share/" + this.project.Id + "/" + this.project.SecurityKey;                
+            }
+
+
+            var url = this.$location.protocol() + "//"
+                + this.$location.host()
+                + angular.element('base').attr('href')
+                + "Project/Share/"
+                + this.project.Id + "/" + this.project.SecurityKey;
+
+            return url;
+        }
+
+        shareMessage() {
+            this.logger.showAlert({
+                type: 'success',
+                title: 'Copy Successful',
+                message: 'Project share link copied to clipboard.',
+                timeOut: 4000
+            });
         }
     }
 
