@@ -22,8 +22,7 @@ module Estimatorx {
             modelFactory: ModelFactory,
             templateRepository: TemplateRepository,
             organizationRepository: OrganizationRepository
-        )
-        {
+            ) {
             var self = this;
 
             // assign viewModel to controller
@@ -39,15 +38,23 @@ module Estimatorx {
 
             self.template = <ITemplate>{};
 
+            // watch for navigation
+            $(window).bind('beforeunload', () => {
+                // prevent navigation by returning string
+                if (self.isDirty())
+                    return 'You have unsaved changes!';
+            });
+
             self.init();
         }
 
-        $scope: ng.IScope;
+        $scope: any;
         $location: ng.ILocationService;
         logger: Logger;
         modelFactory: ModelFactory;
 
         templateRepository: TemplateRepository;
+        original: ITemplate;
         template: ITemplate;
         templateId: string;
 
@@ -77,7 +84,7 @@ module Estimatorx {
 
             this.templateRepository.find(self.templateId)
                 .success((data, status, headers, config) => {
-                    self.template = data;
+                    self.loadDone(data);
                 })
                 .error((data, status, headers, config) => {
                     if (status == 404) {
@@ -89,9 +96,18 @@ module Estimatorx {
                 });
         }
 
+        loadDone(template: ITemplate) {
+            var self = this;
+
+            self.original = <IProject>angular.copy(template, {});
+            self.template = template;
+
+            self.setClean();
+        }
+
         save(valid: boolean) {
             var self = this;
-            
+
             if (!valid) {
                 self.logger.showAlert({
                     type: 'error',
@@ -105,7 +121,7 @@ module Estimatorx {
 
             this.templateRepository.save(this.template)
                 .success((data, status, headers, config) => {
-                    self.template = data;                    
+                    self.loadDone(data);
                     self.logger.showAlert({
                         type: 'success',
                         title: 'Save Successful',
@@ -117,29 +133,64 @@ module Estimatorx {
 
         }
 
+        undo() {
+            var self = this;
+
+            BootstrapDialog.confirm("Are you sure you want to undo changes?", (result) => {
+                if (!result)
+                    return;
+
+                self.template = <ITemplate>angular.copy(self.original, {});
+
+                self.setClean();
+
+                self.$scope.$applyAsync();
+            });
+        }
+
+        isDirty(): boolean {
+            return this.$scope.templateForm.$dirty;
+        }
+
+        setDirty() {
+            this.$scope.templateForm.$setDirty();
+        }
+
+        setClean() {
+            this.$scope.templateForm.$setPristine();
+            this.$scope.templateForm.$setUntouched();
+        }
+
+
         addFactor() {
             if (!this.template.Factors)
                 this.template.Factors = [];
 
             var factor = this.modelFactory.createFactor();
             this.template.Factors.push(factor);
+
+            this.setDirty();
         }
 
         removeFactor(factor: IFactor) {
             if (!factor)
                 return;
 
+            var self = this;
+
             BootstrapDialog.confirm("Are you sure you want to remove this factor?", (result) => {
                 if (!result)
                     return;
 
-                for (var i = 0; i < this.template.Factors.length; i++) {
-                    if (this.template.Factors[i].Id == factor.Id) {
-                        this.template.Factors.splice(i, 1);
+                for (var i = 0; i < self.template.Factors.length; i++) {
+                    if (self.template.Factors[i].Id === factor.Id) {
+                        self.template.Factors.splice(i, 1);
                         break;
                     }
                 }
-                this.$scope.$apply();
+
+                self.setDirty();
+                self.$scope.$apply();
             });
         }
 
@@ -158,6 +209,6 @@ module Estimatorx {
             'organizationRepository',
             TemplateEditController
         ]
-    );
+        );
 }
 

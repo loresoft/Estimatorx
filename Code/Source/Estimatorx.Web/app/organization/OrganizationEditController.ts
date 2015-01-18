@@ -36,6 +36,13 @@ module Estimatorx {
             self.userRepository = userRepository;
 
             self.organization = <IOrganization>{};
+
+            // watch for navigation
+            $(window).bind('beforeunload', () => {
+                // prevent navigation by returning string
+                if (self.isDirty())
+                    return 'You have unsaved changes!';
+            });
         }
 
         $scope: any;
@@ -45,6 +52,8 @@ module Estimatorx {
         modelFactory: ModelFactory;
 
         organizationRepository: OrganizationRepository;
+
+        original: IOrganization;
         organization: IOrganization;
         organizationId: string;
 
@@ -87,12 +96,21 @@ module Estimatorx {
             self.loadOrganization();
         }
 
+        loadDone(organization: IOrganization) {
+            var self = this;
+
+            self.original = <IOrganization>angular.copy(organization, {});
+            self.organization = organization;
+
+            self.setClean();
+        }
+
         loadOrganization() {
             var self = this;
 
             self.organizationRepository.find(self.organizationId)
                 .success((data, status, headers, config) => {
-                    self.organization = data;
+                    self.loadDone(data);
 
                     self.loadMembers();
                     self.loadOwners();
@@ -143,7 +161,7 @@ module Estimatorx {
 
             this.organizationRepository.save(this.organization)
                 .success((data, status, headers, config) => {
-                    self.organization = data;
+                    self.loadDone(data);
                     
                     self.logger.showAlert({
                         type: 'success',
@@ -156,6 +174,35 @@ module Estimatorx {
                     self.loadOwners();
                 })
                 .error(self.logger.handelErrorProxy);
+        }
+
+
+        undo() {
+            var self = this;
+
+            BootstrapDialog.confirm("Are you sure you want to undo changes?", (result) => {
+                if (!result)
+                    return;
+
+                self.organization = <IOrganization>angular.copy(self.original, {});
+
+                self.setClean();
+
+                self.$scope.$applyAsync();
+            });
+        }
+
+        isDirty(): boolean {
+            return this.$scope.organizationForm.$dirty;
+        }
+
+        setDirty() {
+            this.$scope.organizationForm.$setDirty();
+        }
+
+        setClean() {
+            this.$scope.organizationForm.$setPristine();
+            this.$scope.organizationForm.$setUntouched();
         }
 
 

@@ -29,7 +29,7 @@ module Estimatorx {
             projectRepository: ProjectRepository,
             templateRepository: TemplateRepository,
             organizationRepository: OrganizationRepository
-        ) {
+            ) {
 
             var self = this;
 
@@ -53,12 +53,20 @@ module Estimatorx {
             // calculate on project change
             $scope.$watch(
                 s => angular.toJson(s.viewModel.project),
-                _.debounce($.proxy(self.calculate, self), 500));
+                _.debounce(angular.bind(self, self.change), 500)
+            );
+
+            // watch for navigation
+            $(window).bind('beforeunload', () => {
+                // prevent navigation by returning string
+                if (self.isDirty())
+                    return 'You have unsaved changes!';
+            });
 
             self.init();
         }
 
-        $scope: ng.IScope;
+        $scope: any;
         $location: ng.ILocationService;
         $modal: any;
         identityService: IdentityService;
@@ -67,6 +75,7 @@ module Estimatorx {
         projectCalculator: ProjectCalculator;
         projectRepository: ProjectRepository;
 
+        original: IProject;
         project: IProject;
         projectId: string;
 
@@ -106,7 +115,7 @@ module Estimatorx {
 
             this.projectRepository.find(self.projectId)
                 .success((data, status, headers, config) => {
-                    self.project = data;
+                    self.loadDone(data);
                 })
                 .error((data, status, headers, config) => {
                     if (status == 404) {
@@ -116,6 +125,15 @@ module Estimatorx {
 
                     self.logger.handelError(data, status, headers, config);
                 });
+        }
+
+        loadDone(project: IProject) {
+            var self = this;
+
+            self.original = <IProject>angular.copy(project, {});
+            self.project = project;
+
+            self.setClean();
         }
 
         save(valid: boolean) {
@@ -134,7 +152,7 @@ module Estimatorx {
 
             this.projectRepository.save(this.project)
                 .success((data, status, headers, config) => {
-                    self.project = data;
+                    self.loadDone(data);
                     self.logger.showAlert({
                         type: 'success',
                         title: 'Save Successful',
@@ -145,9 +163,44 @@ module Estimatorx {
                 .error(self.logger.handelErrorProxy);
         }
 
+        change() {
+            var self = this;
+
+            self.calculate();
+        }
+
+        undo() {
+            var self = this;
+
+            BootstrapDialog.confirm("Are you sure you want to undo changes?", (result) => {
+                if (!result)
+                    return;
+
+                self.project = <IProject>angular.copy(self.original, {});
+
+                self.setClean();
+
+                self.$scope.$applyAsync();
+            });
+        }
+
         calculate() {
             this.projectCalculator.updateTotals(this.project);
             this.$scope.$apply();
+        }
+
+
+        isDirty(): boolean {
+            return this.$scope.projectForm.$dirty;
+        }
+
+        setDirty() {
+            this.$scope.projectForm.$setDirty();
+        }
+
+        setClean() {
+            this.$scope.projectForm.$setPristine();
+            this.$scope.projectForm.$setUntouched();
         }
 
 
@@ -157,6 +210,8 @@ module Estimatorx {
 
             var assumption = '';
             this.project.Assumptions.push(assumption);
+
+            this.setDirty();
         }
 
         removeAssumption(index: number) {
@@ -166,6 +221,8 @@ module Estimatorx {
                     return;
 
                 this.project.Assumptions.splice(index, 1);
+
+                this.setDirty();
                 this.$scope.$apply();
             });
         }
@@ -177,6 +234,8 @@ module Estimatorx {
 
             var factor = this.modelFactory.createFactor();
             this.project.Factors.push(factor);
+
+            this.setDirty();
         }
 
         removeFactor(factor: IFactor) {
@@ -193,6 +252,8 @@ module Estimatorx {
                         break;
                     }
                 }
+
+                this.setDirty();
                 this.$scope.$apply();
             });
         }
@@ -204,6 +265,8 @@ module Estimatorx {
 
             var section = this.modelFactory.createSection();
             this.project.Sections.push(section);
+
+            this.setDirty();
         }
 
         removeSection(section: ISection) {
@@ -229,6 +292,8 @@ module Estimatorx {
                         break;
                     }
                 }
+
+                this.setDirty();
                 this.$scope.$apply();
             });
         }
@@ -245,6 +310,7 @@ module Estimatorx {
             task.Name = 'Task ' + section.Tasks.length;
 
             section.Tasks.push(task);
+            this.setDirty();
         }
 
         removeTask(section: ISection, task: ITask) {
@@ -264,6 +330,8 @@ module Estimatorx {
                         break;
                     }
                 }
+
+                this.setDirty();
                 this.$scope.$apply();
             });
         }
@@ -284,6 +352,8 @@ module Estimatorx {
                 angular.forEach(item.Factors, (value, key) => {
                     self.project.Factors.push(value);
                 });
+
+                this.setDirty();
             });
 
         }
@@ -291,18 +361,19 @@ module Estimatorx {
 
         addSecurityKey() {
             this.project.SecurityKey = this.identityService.newSecurityKey();
+            this.setDirty();
         }
 
         removeSecurityKey() {
             this.project.SecurityKey = null;
+            this.setDirty();
         }
 
         shareLink(relitive: boolean = false): string {
 
             if (relitive) {
-                return "Project/Share/" + this.project.Id + "/" + this.project.SecurityKey;                
+                return "Project/Share/" + this.project.Id + "/" + this.project.SecurityKey;
             }
-
 
             var url = this.$location.protocol() + "//"
                 + this.$location.host()

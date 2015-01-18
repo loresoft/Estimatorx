@@ -32,6 +32,13 @@ module Estimatorx {
             self.userRepository = userRepository;
             self.user = <IUser>{};
             self.password = <IPassword>{};
+
+            // watch for navigation
+            $(window).bind('beforeunload', () => {
+                // prevent navigation by returning string
+                if (self.isDirty())
+                    return 'You have unsaved changes!';
+            });
         }
 
         $scope: any;
@@ -40,10 +47,16 @@ module Estimatorx {
         modelFactory: ModelFactory;
 
         userRepository: UserRepository;
+
+        original: IUser;
         user: IUser;
         userId: string;
 
         password: IPassword;
+
+        init() {
+
+        }
 
         load(id?: string) {
             var self = this;
@@ -57,9 +70,18 @@ module Estimatorx {
 
             this.userRepository.profile()
                 .success((data, status, headers, config) => {
-                    self.user = data;
+                    self.loadDone(data);
                 })
                 .error(self.logger.handelErrorProxy);
+        }
+
+        loadDone(user: IUser) {
+            var self = this;
+
+            self.original = <IUser>angular.copy(user, {});
+            self.user = user;
+
+            self.setClean();
         }
 
         save(valid: boolean) {
@@ -77,7 +99,7 @@ module Estimatorx {
 
             this.userRepository.save(this.user)
                 .success((data, status, headers, config) => {
-                    self.user = data;
+                    self.loadDone(data);
                     self.logger.showAlert({
                         type: 'success',
                         title: 'Save Successful',
@@ -87,6 +109,35 @@ module Estimatorx {
                 })
                 .error(self.logger.handelErrorProxy);
         }
+
+        undo() {
+            var self = this;
+
+            BootstrapDialog.confirm("Are you sure you want to undo changes?", (result) => {
+                if (!result)
+                    return;
+
+                self.user = <IUser>angular.copy(self.original, {});
+
+                self.setClean();
+
+                self.$scope.$applyAsync();
+            });
+        }
+
+        isDirty(): boolean {
+            return this.$scope.profileForm.$dirty;
+        }
+
+        setDirty() {
+            this.$scope.profileForm.$setDirty();
+        }
+
+        setClean() {
+            this.$scope.profileForm.$setPristine();
+            this.$scope.profileForm.$setUntouched();
+        }
+
 
         changePassword(valid: boolean) {
             var self = this;
@@ -115,7 +166,7 @@ module Estimatorx {
                         timeOut: 4000
                     });
 
-                    self.resetValues();
+                    self.resetPasswordForm();
                     self.load(self.userId);
                 })
                 .error(self.logger.handelErrorProxy);
@@ -123,14 +174,21 @@ module Estimatorx {
 
         removeLogin(provider: string, key: string) {
             var self = this;
-            this.userRepository.removeLogin(provider, key)
-                .success((data, status, headers, config) => {
-                    self.load(self.userId);
-                })
-                .error(self.logger.handelErrorProxy);
+            
+            BootstrapDialog.confirm("Are you sure you want to remove this login?", (result) => {
+                if (!result)
+                    return;
+
+                this.userRepository.removeLogin(provider, key)
+                    .success((data, status, headers, config) => {
+                        self.load(self.userId);
+                    })
+                    .error(self.logger.handelErrorProxy);
+            });
+
         }
 
-        resetValues() {
+        resetPasswordForm() {
             var self = this;
 
             self.password = <IPassword>{};
