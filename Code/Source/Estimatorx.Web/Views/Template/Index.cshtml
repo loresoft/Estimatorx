@@ -12,9 +12,33 @@
         <div class="panel-heading">
             <i class="fa fa-list"></i> Factor Templates
 
-            <div class="btn-group pull-right ">
-                <a class="btn btn-sm btn-primary" href="~/Template/Create">Create</a>
+            <div class="btn-group pull-right hidden-xs">
+                <a class="btn btn-sm btn-primary"
+                   title="Create New Template"
+                   href="~/Template/Create">
+                    Create
+                </a>
             </div>
+
+            <div class="input-group input-group-sm col-sm-2 pull-right">
+                <select class="form-control" title="Select Organization"
+                        ng-change="viewModel.search();"
+                        ng-model="viewModel.organizationId"
+                        ng-options="item.Id as item.Name for item in viewModel.organizations">
+                </select>
+            </div>
+
+            <form name="searchForm" class="input-group input-group-sm col-sm-3 pull-right hidden-xs" 
+                  ng-submit="viewModel.search()">
+                <input type="text" class="form-control" placeholder="Search" 
+                       ng-model="viewModel.searchText"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </form>
+
         </div>
         <div class="panel-body">
             @Html.Partial("_List")

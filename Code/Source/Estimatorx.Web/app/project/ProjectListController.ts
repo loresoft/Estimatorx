@@ -9,15 +9,21 @@ module Estimatorx {
         static $inject = [
             '$scope',
             'logger',
-            'projectRepository'
+            'projectRepository',
+            'organizationRepository'
         ];
 
-        constructor($scope, logger: Logger, projectRepository: ProjectRepository) {
+        constructor($scope,
+            logger: Logger,
+            projectRepository: ProjectRepository,
+            organizationRepository: OrganizationRepository
+            ) {
             // assign viewModel to controller
             $scope.viewModel = this;
 
             this.logger = logger;
-            this.repository = projectRepository;
+            this.projectRepository = projectRepository;
+            this.organizationRepository = organizationRepository;
 
             // default
             this.result = <IQueryResult<IProject>>{
@@ -27,34 +33,52 @@ module Estimatorx {
                 Descending: true
             };
 
+            this.init();
             this.load();
         }
 
 
         logger: Logger;
-        repository: ProjectRepository;
+        projectRepository: ProjectRepository;
 
+        searchText: string;
+        organizationId: string;
+
+        organizations: IOrganization[];
+        organizationRepository: OrganizationRepository;
         result: IQueryResult<IProject>;
         sort = angular.bind(this, this.load);
+
+        init() {
+            var self = this;
+
+            self.organizationRepository.all()
+                .success((data, status, headers, config) => {
+                    self.organizations = data;
+                })
+                .error(self.logger.handelErrorProxy);
+        }
 
         load() {
             var self = this;
 
-            var request = <IQueryRequest>{
+            var request = <IQuerySearch>{
                 Page: self.result.Page,
                 PageSize: self.result.PageSize,
                 Sort: self.result.Sort,
-                Descending: self.result.Descending
+                Descending: self.result.Descending,
+                Search: self.searchText,
+                Organization: self.organizationId
             };
 
-            this.repository.query(request)
+            this.projectRepository.query(request)
                 .success((data, status, headers, config) => {
                     self.result = data;
                 })
                 .error(self.logger.handelErrorProxy);
         }
 
-        sortClick(column:string) {
+        sortClick(column: string) {
             var self = this;
 
             if (self.result.Sort == column)
@@ -66,6 +90,11 @@ module Estimatorx {
 
             self.load();
         }
+
+        search() {
+            var self = this;
+            self.load();
+        }
     }
 
     // register controller
@@ -75,8 +104,8 @@ module Estimatorx {
             '$scope',
             'logger',
             'projectRepository',
+            'organizationRepository',
             ProjectListController
-        ]
-        );
+        ]);
 }
 

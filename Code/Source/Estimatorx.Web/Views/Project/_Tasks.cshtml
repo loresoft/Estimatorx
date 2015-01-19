@@ -58,7 +58,9 @@
             <tr ng-repeat="task in section.Tasks">
                 <td><input type="text" class="form-control" ng-model="task.Name" /></td>
                 <td>
-                    <select class="form-control" ng-model="task.FactorId" ng-options="factor.Id as factor.Name for factor in viewModel.project.Factors">
+                    <select class="form-control no-style"
+                            ng-model="task.FactorId" 
+                            ng-options="factor.Id as factor.Name for factor in viewModel.project.Factors">
                         <option value="">-- select --</option>
                     </select>
                 </td>

@@ -9,15 +9,21 @@ module Estimatorx {
         static $inject = [
             '$scope',
             'logger',
-            'templateRepository'
+            'templateRepository',
+            'organizationRepository'
         ];
 
-        constructor($scope, logger: Logger, templateRepository: TemplateRepository) {
+        constructor($scope,
+            logger: Logger,
+            templateRepository: TemplateRepository,
+            organizationRepository: OrganizationRepository
+        ) {
             // assign viewModel to controller
             $scope.viewModel = this;
 
             this.logger = logger;
-            this.repository = templateRepository;
+            this.templateRepository = templateRepository;
+            this.organizationRepository = organizationRepository;
 
             // default
             this.result = <IQueryResult<ITemplate>>{
@@ -27,26 +33,45 @@ module Estimatorx {
                 Descending: true
             };
 
+            this.init();
             this.load();
         }
 
         logger: Logger;
-        repository: TemplateRepository;
+        templateRepository: TemplateRepository;
+
+        searchText: string;
+        organizationId: string;
+
+        organizations: IOrganization[];
+        organizationRepository: OrganizationRepository;
 
         result: IQueryResult<ITemplate>;
         sort = angular.bind(this, this.load);
 
+        init() {
+            var self = this;
+
+            self.organizationRepository.all()
+                .success((data, status, headers, config) => {
+                    self.organizations = data;
+                })
+                .error(self.logger.handelErrorProxy);
+        }
+
         load() {
             var self = this;
 
-            var request = <IQueryRequest>{
+            var request = <IQuerySearch>{
                 Page: self.result.Page,
                 PageSize: self.result.PageSize,
                 Sort: self.result.Sort,
-                Descending: self.result.Descending
+                Descending: self.result.Descending,
+                Search: self.searchText,
+                Organization: self.organizationId
             };
 
-            this.repository.query(request)
+            this.templateRepository.query(request)
                 .success((data, status, headers, config) => {
                     self.result = data;
                 })
@@ -66,6 +91,11 @@ module Estimatorx {
             self.load();
         }
 
+        search() {
+            var self = this;
+
+            self.load();
+        }
     }
 
     // register controller
@@ -75,8 +105,8 @@ module Estimatorx {
             '$scope',
             'logger',
             'templateRepository',
+            'organizationRepository',
             TemplateListController
-        ]
-    );
+        ]);
 }
 

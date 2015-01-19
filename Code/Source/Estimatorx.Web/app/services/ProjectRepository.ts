@@ -14,7 +14,7 @@ module Estimatorx {
             this.$http = $http;
         }
 
-        query(request?: IQueryRequest): ng.IHttpPromise<IQueryResult<IProject>> {
+        query(request?: IQuerySearch): ng.IHttpPromise<IQueryResult<IProject>> {
             var config = {
                 params: request
             };

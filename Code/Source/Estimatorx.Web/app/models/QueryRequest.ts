@@ -7,6 +7,12 @@ module Estimatorx {
         Page?: number;
         PageSize?: number;
         Sort?: string;
-        Descending?: boolean;        
+        Descending?: boolean;
     }
+
+    export interface IQuerySearch extends IQueryRequest {
+        Search?: string;
+        Organization?: string;
+    }
+
 }

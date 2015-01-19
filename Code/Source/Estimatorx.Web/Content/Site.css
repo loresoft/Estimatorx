@@ -19,7 +19,6 @@ footer, #footer {
 
 
 
-
 .carousel, .nav, .pagination, .panel-title a {
     cursor: pointer;
 }
@@ -50,8 +49,16 @@ footer, #footer {
         border: 0 none;
     }
 
-.panel-heading > .btn-group {
+.panel-heading > .btn-group,
+.panel-heading > .input-group {
     margin-top: -5px;
+    margin-bottom: -5px;
+    margin-left: 10px;
+}
+
+.panel-heading > .fa,
+.panel-icon {
+    margin-right: 5px;
 }
 
 
@@ -137,7 +144,7 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
-select {
+select.no-style {
     -webkit-appearance: none;
     -moz-appearance: none;
     text-indent: 0.01px;
@@ -145,6 +152,11 @@ select {
     text-overflow: '';
 }
 
+select::-ms-expand {
+  width:12px;
+  border:none;
+  background:#fff;
+}
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;
@@ -170,14 +182,15 @@ select {
     background-color: #337AB7;
     border-color: #2E6DA4;
 }
+
 .table-hover > tbody > tr > td.primary:hover,
 .table-hover > tbody > tr > th.primary:hover,
 .table-hover > tbody > tr.primary:hover > td,
 .table-hover > tbody > tr:hover > .primary,
 .table-hover > tbody > tr.primary:hover > th {
-  color: #fff;
-  background-color: #286090;
-  border-color: #204d74;
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
 }
 
 @media print {

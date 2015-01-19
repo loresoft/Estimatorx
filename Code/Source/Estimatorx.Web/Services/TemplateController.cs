@@ -39,11 +39,17 @@ namespace Estimatorx.Web.Services
 
         [HttpGet]
         [Route("Query")]
-        public IHttpActionResult Query(int? page = null, int? pageSize = null, string sort = null, bool? descending = null)
+        public IHttpActionResult Query(int? page = null, int? pageSize = null, string sort = null, bool? descending = null, string search = null, string organization = null)
         {
             var query = SecureQuery();
             if (query == null)
                 return Unauthorized();
+
+            if (!string.IsNullOrEmpty(search))
+                query = query.Where(p => p.Name.ToLower().Contains(search));
+
+            if (!string.IsNullOrEmpty(organization))
+                query = query.Where((p => p.OrganizationId == organization));
 
             var result = query
                 .ToDataResult<Template, TemplateSummary>(config => config
