@@ -365,8 +365,13 @@ module Estimatorx {
         }
 
         removeSecurityKey() {
-            this.project.SecurityKey = null;
-            this.setDirty();
+            BootstrapDialog.confirm("Are you sure you want to remove the shared link?", (result) => {
+                if (!result)
+                    return;
+
+                this.project.SecurityKey = null;
+                this.setDirty();
+            });
         }
 
         shareLink(relitive: boolean = false): string {
