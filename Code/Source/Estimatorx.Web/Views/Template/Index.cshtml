@@ -25,6 +25,7 @@
                         ng-change="viewModel.search();"
                         ng-model="viewModel.organizationId"
                         ng-options="item.Id as item.Name for item in viewModel.organizations">
+                    <option value="">-- All --</option>
                 </select>
             </div>
 
