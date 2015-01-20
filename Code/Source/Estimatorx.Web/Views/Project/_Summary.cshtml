@@ -67,7 +67,12 @@
                 </tr>
                 <tr>
                     <th>Creator:</th>
-                    <td>{{viewModel.project.Creator}}</td>
+                    <td>
+                        <div class="nowrap">
+                            <img gravatar-src-once="viewModel.project.Creator" gravatar-size="24" />
+                            {{viewModel.project.Creator}}
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <th>Updated:</th>
@@ -79,7 +84,12 @@
                 </tr>
                 <tr>
                     <th>Updater:</th>
-                    <td>{{viewModel.project.Updater}}</td>
+                    <td>
+                        <div class="nowrap">
+                            <img gravatar-src-once="viewModel.project.Updater" gravatar-size="24" />
+                            {{viewModel.project.Updater}}
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>

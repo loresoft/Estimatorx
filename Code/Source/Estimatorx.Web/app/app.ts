@@ -15,6 +15,7 @@ module Estimatorx {
             'angularMoment',
             'ui.bootstrap',
             'ui.select',
+            'ui.gravatar',
             'blockUI',
             'ngClipboard',
             'sticky',

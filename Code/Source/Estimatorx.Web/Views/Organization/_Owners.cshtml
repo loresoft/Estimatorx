@@ -17,10 +17,15 @@
                 <tbody>
                     <tr ng-repeat="owner in viewModel.owners">
                         <td>
-                            <div class="nowrap">{{owner.Name}}</div>
+                            <div class="nowrap">
+                                {{owner.Name}}
+                            </div>
                         </td>
                         <td>
-                            <div class="nowrap">{{owner.Email}}</div>
+                            <div class="nowrap">
+                                <img gravatar-src-once="owner.Email" gravatar-size="24" />
+                                {{owner.Email}}
+                            </div>
                         </td>
                         <td style="text-align: right">
                             <div class="btn-group pull-right">

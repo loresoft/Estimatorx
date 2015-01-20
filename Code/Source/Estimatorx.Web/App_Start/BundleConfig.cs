@@ -66,6 +66,8 @@ namespace Estimatorx.Web
                     "~/Scripts/zeroclipboard/ZeroClipboard.js",
                     "~/Scripts/ng-clip/ngClip.js",
                     "~/Scripts/ngSticky/sticky.js",
+                    "~/Scripts/angular-gravatar/md5.js",
+                    "~/Scripts/angular-gravatar/angular-gravatar.js",
                     "~/Scripts/angular-ui-select/select.js",
                     "~/Scripts/angular-ui/ui-bootstrap.js",
                     "~/Scripts/angular-ui/ui-bootstrap-tpls.js"

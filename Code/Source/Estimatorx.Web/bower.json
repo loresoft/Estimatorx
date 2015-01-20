@@ -27,7 +27,8 @@
     "select2": "~3.5.2",
     "ngSticky": "~1.7.8",
     "zeroclipboard": "~2.2.0",
-    "ng-clip": "~0.2.6"
+    "ng-clip": "~0.2.6",
+    "angular-gravatar": "~0.2.4"
   },
   "resolutions": {
     "angular": "1.3.9"

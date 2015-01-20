@@ -257,6 +257,8 @@
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-block-ui\angular-block-ui.css" />
     <Content Include="Scripts\angular-block-ui\angular-block-ui.js" />
+    <Content Include="Scripts\angular-gravatar\angular-gravatar.js" />
+    <Content Include="Scripts\angular-gravatar\md5.js" />
     <Content Include="Scripts\angular-messages.js" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-moment.js" />

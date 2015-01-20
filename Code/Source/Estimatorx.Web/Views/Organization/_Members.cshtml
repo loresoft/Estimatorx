@@ -1,4 +1,5 @@
-﻿<div class="row">
+﻿@using Microsoft.AspNet.Identity
+<div class="row">
     <div class="col-md-8">
         <div class="table-responsive">
             <table class="table table-hover table-condensed" style="table-layout: fixed">
@@ -17,10 +18,15 @@
                 <tbody>
                     <tr ng-repeat="member in viewModel.members">
                         <td>
-                            <div class="nowrap">{{member.Name}}</div>
+                            <div class="nowrap">
+                                {{member.Name}}
+                            </div>
                         </td>
                         <td>
-                            <div class="nowrap">{{member.Email}}</div>
+                            <div class="nowrap">                                
+                                <img gravatar-src-once="member.Email" gravatar-size="24" />
+                                {{member.Email}}
+                            </div>
                         </td>
                         <td style="text-align: right">
                             <div class="btn-group pull-right">

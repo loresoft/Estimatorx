@@ -1,5 +1,6 @@
-﻿<form id="profileForm" name="profileForm" role="form"
-      ng-submit="viewModel.save(profileForm.$valid)" 
+﻿@using Microsoft.AspNet.Identity
+<form id="profileForm" name="profileForm" role="form"
+      ng-submit="viewModel.save(profileForm.$valid)"
       novalidate="novalidate">
     <div class="row">
         <div class="col-md-6">
@@ -38,6 +39,12 @@
                 </div>
             </div>
 
+        </div>
+        <div class="col-md-6">
+            <img class="center-block" gravatar-src="'@User.Identity.GetUserName()'" gravatar-size="200" />
+            <p class="caption center-block text-center">
+                You can change your picture at <a class="external" href="http://gravatar.com/" target="_blank">Gravatar.com</a>
+            </p>
         </div>
     </div>
     <div class="row">

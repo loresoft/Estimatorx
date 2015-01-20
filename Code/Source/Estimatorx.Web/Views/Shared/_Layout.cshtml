@@ -1,5 +1,6 @@
 ﻿@using Estimatorx.Core.Security
 @using Estimatorx.Web.Models
+@using Microsoft.AspNet.Identity
 <!DOCTYPE html>
 <html lang="en" ng-app="app">
 <head>
@@ -52,7 +53,11 @@
                 {
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown">@User.Identity.GetDisplayName() <b class="caret"></b></a>
+                            <a class="dropdown-toggle" data-toggle="dropdown">
+                                <img gravatar-src="'@User.Identity.GetUserName()'" gravatar-size="24" />
+                                @User.Identity.GetDisplayName()
+                                <b class="caret"></b>
+                            </a>
                             <ul class="dropdown-menu">
                                 <li><a href="@Url.Action("Index", "Profile")"><i class="fa fa-user fa-fw"></i> Edit Profile</a></li>
                                 <li><a href="@Url.Action("Index", "Organization")"><i class="fa fa-group fa-fw"></i> Organizations</a></li>
