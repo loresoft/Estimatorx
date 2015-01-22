@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using Estimatorx.Web.Filters;
 
 namespace Estimatorx.Web
 {
@@ -7,7 +8,7 @@ namespace Estimatorx.Web
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+            //filters.Add(new LogErrorAttribute());
         }
     }
 }

@@ -215,6 +215,7 @@
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Filters\LogErrorAttribute.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\ExternalLoginModel.cs" />
@@ -240,6 +241,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="404.aspx" />
+    <Content Include="404.html" />
+    <Content Include="500.aspx" />
+    <Content Include="500.html" />
     <Content Include="Content\bootstrap-dialog.css" />
     <Content Include="Content\bootstrap-social.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -436,6 +441,13 @@
     <Content Include="Views\Project\_Report.cshtml" />
     <Content Include="Views\Project\_Share.cshtml" />
     <Content Include="Views\Project\Share.cshtml" />
+    <Content Include="NLog.config" />
+    <Content Include="NLog.Development.config">
+      <DependentUpon>NLog.config</DependentUpon>
+    </Content>
+    <Content Include="NLog.Production.config">
+      <DependentUpon>NLog.config</DependentUpon>
+    </Content>
     <None Include="Web.Production.config">
       <SubType>Designer</SubType>
       <DependentUpon>Web.config</DependentUpon>
