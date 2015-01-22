@@ -129,9 +129,12 @@ namespace Estimatorx.Web.Controllers
 
             // Send an email with this link
             string code = await _userManager.GeneratePasswordResetTokenAsync(user.Id);
-            var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+            var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code }, Request.Url.Scheme);
 
-            await _userManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+            string subject = "Reset Password";
+            string body = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>";
+            
+            await _userManager.SendEmailAsync(user.Id, subject, body);
 
             return RedirectToAction("ForgotPasswordConfirmation", "Account");
         }
@@ -156,20 +159,17 @@ namespace Estimatorx.Web.Controllers
         public async Task<ActionResult> ResetPassword(ResetPasswordModel model)
         {
             if (!ModelState.IsValid)
-            {
                 return View(model);
-            }
+            
             var user = await _userManager.FindByNameAsync(model.Email);
             if (user == null)
-            {
                 // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
-            }
+            
             var result = await _userManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
-            {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
-            }
+            
             AddErrors(result);
             return View();
         }
