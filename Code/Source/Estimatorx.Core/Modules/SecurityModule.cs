@@ -3,6 +3,7 @@ using Autofac;
 using Estimatorx.Core.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security.DataProtection;
 
 namespace Estimatorx.Core.Modules
 {
@@ -24,6 +25,8 @@ namespace Estimatorx.Core.Modules
                 .AsSelf()
                 .As<SignInManager<User, string>>();
 
+            builder.RegisterType<MachineKeyProvider>()
+                .As<IDataProtectionProvider>();
         }
     }
 }

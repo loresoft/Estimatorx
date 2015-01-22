@@ -108,6 +108,7 @@
     <Compile Include="Section.cs" />
     <Compile Include="ProjectCalculator.cs" />
     <Compile Include="Security\Claim.cs" />
+    <Compile Include="Security\EmailService.cs" />
     <Compile Include="Security\IdentityExtensions.cs" />
     <Compile Include="Security\IOrganizationRepository.cs" />
     <Compile Include="Security\IRoleRepository.cs" />
@@ -115,6 +116,8 @@
     <Compile Include="Security\IUserRepository.cs" />
     <Compile Include="Security\IUserStore.cs" />
     <Compile Include="Security\Login.cs" />
+    <Compile Include="Security\MachineKeyProtector.cs" />
+    <Compile Include="Security\MachineKeyProvider.cs" />
     <Compile Include="Security\Organization.cs" />
     <Compile Include="Security\Role.cs" />
     <Compile Include="Security\RoleManager.cs" />

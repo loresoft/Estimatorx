@@ -121,11 +121,12 @@ namespace Estimatorx.Web.Controllers
                 return View(model);
 
             var user = await _userManager.FindByNameAsync(model.Email);
-            if (user == null || !(await _userManager.IsEmailConfirmedAsync(user.Id)))
+            if (user == null /*|| !(await _userManager.IsEmailConfirmedAsync(user.Id))*/)
                 // Don't reveal that the user does not exist or is not confirmed
                 return View("ForgotPasswordConfirmation");
 
             // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+
             // Send an email with this link
             string code = await _userManager.GeneratePasswordResetTokenAsync(user.Id);
             var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);

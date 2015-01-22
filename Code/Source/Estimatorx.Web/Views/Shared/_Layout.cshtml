@@ -49,9 +49,9 @@
                         </ul>
                     </li>
                 </ul>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right">
+                    @if (User.Identity.IsAuthenticated)
+                    {
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown">
                                 <img gravatar-src="'@User.Identity.GetUserName()'" gravatar-size="24" />
@@ -65,8 +65,12 @@
                                 <li><a href="@Url.Action("LogOut", "Account")"><i class="fa fa-power-off fa-fw"></i> Logout</a></li>
                             </ul>
                         </li>
-                    </ul>
-                }
+                    }
+                    else
+                    {
+                        <li><a href="@Url.Action("Login", "Account")">Login</a></li>
+                    }
+                </ul>
             </div>
         </div>
     </div>
