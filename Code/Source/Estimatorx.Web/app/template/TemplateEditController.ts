@@ -148,6 +148,30 @@ module Estimatorx {
             });
         }
 
+        delete() {
+            var self = this;
+
+            BootstrapDialog.confirm("Are you sure you want to delete this template?",(result) => {
+                if (!result)
+                    return;
+
+                this.templateRepository.delete(this.template.Id)
+                    .success((data, status, headers, config) => {
+                        self.logger.showAlert({
+                            type: 'success',
+                            title: 'Delete Successful',
+                            message: 'Template deleted successfully.',
+                            timeOut: 4000
+                        });
+                        
+                        //redirect
+                        window.location.href = 'Template';
+                    })
+                    .error(self.logger.handelErrorProxy);
+            });
+
+        }
+
         isDirty(): boolean {
             return this.$scope.templateForm.$dirty;
         }

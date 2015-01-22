@@ -189,6 +189,29 @@ module Estimatorx {
             this.$scope.$apply();
         }
 
+        delete() {
+            var self = this;
+
+            BootstrapDialog.confirm("Are you sure you want to delete this project?",(result) => {
+                if (!result)
+                    return;
+
+                self.projectRepository.delete(self.project.Id)
+                    .success((data, status, headers, config) => {
+                        self.logger.showAlert({
+                            type: 'success',
+                            title: 'Delete Successful',
+                            message: 'Project deleted successfully.',
+                            timeOut: 4000
+                        });
+                        
+                        //redirect
+                        window.location.href = 'Project';
+                    })
+                    .error(self.logger.handelErrorProxy);
+            });
+
+        }
 
         isDirty(): boolean {
             return this.$scope.projectForm.$dirty;

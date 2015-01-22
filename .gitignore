@@ -186,3 +186,4 @@ Secure.config
 bower_components/
 Deploy/WebSite/
 Tools/
+.idea/
