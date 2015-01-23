@@ -88,7 +88,7 @@ namespace Estimatorx.Web.Controllers
 
             var user = new User
             {
-                UserName = model.Email,
+                UserName = model.Email.ToLowerInvariant(),
                 Name = model.Name,
                 Email = model.Email
             };

@@ -56,7 +56,7 @@ namespace Estimatorx.Data.Mongo.Security
 
         public Task<User> FindByNameAsync(string userName)
         {
-            return Task.Run(() => FindOne(u => u.UserName == userName));
+            return Task.Run(() => FindOne(u => u.UserName == userName.ToLowerInvariant()));
         }
 
 

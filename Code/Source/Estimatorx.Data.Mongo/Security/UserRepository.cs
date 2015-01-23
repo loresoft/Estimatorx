@@ -57,7 +57,7 @@ namespace Estimatorx.Data.Mongo.Security
 
         protected override void BeforeUpdate(User entity)
         {
-            entity.UserName = entity.Email;
+            entity.UserName = entity.Email.ToLowerInvariant();
 
             base.BeforeUpdate(entity);
         }
