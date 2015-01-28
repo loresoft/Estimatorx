@@ -1,7 +1,7 @@
-﻿<table class="table table-edit">
+﻿<table class="table table-edit table-bordered">
     <colgroup>
         <col style="" />
-        <col style="width: 80px" />
+        <col style="width: 30px" />
     </colgroup>
     <thead>
         <tr class="info">
@@ -11,8 +11,8 @@
     </thead>
     <tbody>
         <tr ng-repeat="assumption in viewModel.project.Assumptions track by $index">
-            <td><input type="text" class="form-control" ng-model="viewModel.project.Assumptions[$index]" /></td>
-            <td>
+            <td><input type="text" class="form-control" ng-model="viewModel.project.Assumptions[$index]" placeholder="Enter Assumption" autocomplete="off" /></td>
+            <td class="active">
                 <div class="btn-group pull-right">
                     <a class="btn btn-link btn-sm" ng-click="viewModel.removeAssumption($index)"><i class="glyphicon glyphicon-remove"></i></a>
                 </div>

@@ -50,7 +50,8 @@ footer, #footer {
     }
 
 .panel-heading > .btn-group,
-.panel-heading > .input-group {
+.panel-heading > .input-group,
+ .panel-heading > .filter-group {
     margin-top: -5px;
     margin-bottom: -5px;
     margin-left: 10px;
@@ -81,11 +82,13 @@ footer, #footer {
 }
 
 .table-edit > tbody > tr > td {
-    padding: 2px 1px;
+    padding: 0;
     vertical-align: middle;
 }
 
 .table-edit .form-control {
+    padding-right: 6px;
+    padding-left: 6px;
     border-color: transparent;
     -ms-border-radius: 0;
     border-radius: 0;
@@ -100,6 +103,10 @@ footer, #footer {
         -ms-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
         outline: 0 none;
+    }
+
+    .table-edit .form-control-static {
+        padding: 6px 12px;
     }
 
 .table-property > tbody > tr > th {
@@ -151,12 +158,18 @@ select.no-style {
     text-indent: 0.01px;
     -moz-text-overflow: '';
     text-overflow: '';
+
+    padding-right: 12px !important;
+    background-image: url('caret.png');
+    background-repeat: no-repeat;
+    background-position: right;
 }
 
 select::-ms-expand {
   width:12px;
   border:none;
   background:#fff;
+  display: none;
 }
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {

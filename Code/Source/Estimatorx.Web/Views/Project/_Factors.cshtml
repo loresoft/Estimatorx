@@ -1,5 +1,5 @@
 ﻿<div class="table-responsive">
-    <table class="table table-edit" style="table-layout: fixed">
+    <table class="table table-edit table-bordered" style="table-layout: fixed">
         <colgroup>
             <col style="width: 200px" />
             <col style="width: 90px" />
@@ -17,7 +17,7 @@
                     <span class="visible-xs-block">V.Simp</span>
                 </th>
                 <th>Simple</th>
-                <th>Mediumn</th>
+                <th>Medium</th>
                 <th>Complex</th>
                 <th>
                     <span class="hidden-xs">Very Complex</span>
@@ -28,13 +28,13 @@
         </thead>
         <tbody>
             <tr ng-repeat="factor in viewModel.project.Factors">
-                <td><input type="text" class="form-control" ng-model="factor.Name" /></td>
-                <td><input type="number" class="form-control" ng-model="factor.VerySimple" /></td>
-                <td><input type="number" class="form-control" ng-model="factor.Simple" /></td>
-                <td><input type="number" class="form-control" ng-model="factor.Medium" /></td>
-                <td><input type="number" class="form-control" ng-model="factor.Complex" /></td>
-                <td><input type="number" class="form-control" ng-model="factor.VeryComplex" /></td>
-                <td>
+                <td><input type="text" class="form-control" ng-model="factor.Name" autocomplete="off" /></td>
+                <td><input type="number" class="form-control" ng-model="factor.VerySimple" autocomplete="off" /></td>
+                <td><input type="number" class="form-control" ng-model="factor.Simple" autocomplete="off" /></td>
+                <td><input type="number" class="form-control" ng-model="factor.Medium" autocomplete="off" /></td>
+                <td><input type="number" class="form-control" ng-model="factor.Complex" autocomplete="off" /></td>
+                <td><input type="number" class="form-control" ng-model="factor.VeryComplex" autocomplete="off" /></td>
+                <td class="active">
                     <div class="btn-group pull-right">
                         <a class="btn btn-link btn-sm" ng-click="viewModel.removeFactor(factor)">
                             <i class="glyphicon glyphicon-remove"></i>

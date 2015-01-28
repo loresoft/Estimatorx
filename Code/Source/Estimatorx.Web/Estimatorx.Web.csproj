@@ -260,6 +260,7 @@
     <Content Include="Content\bootstrap-social.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\caret.png" />
     <Content Include="Content\EstimatorX-logo-small.png" />
     <Content Include="Content\EstimatorX-logo.png" />
     <Content Include="Content\favicon-160x160.png" />
