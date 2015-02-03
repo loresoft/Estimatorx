@@ -13,11 +13,14 @@ namespace Estimatorx.Core.Tests
                 ContingencyRate = 10,
                 Id = Guid.NewGuid().ToString(),
                 Name = "New Project",
+                Description = "Project Description",
                 Created = DateTime.Now,
                 Creator = UserName.Current(),
                 Updated = DateTime.Now,
                 Updater = UserName.Current()
             };
+            project.Assumptions.Add("Project Assumption 1");
+            project.Assumptions.Add("Project Assumption 2");
 
             var presentationFactor = new Factor
             {

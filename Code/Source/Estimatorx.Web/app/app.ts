@@ -19,6 +19,7 @@ module Estimatorx {
             'blockUI',
             'ngClipboard',
             'sticky',
+            'hc.marked',
             'toaster'
         ]
     );

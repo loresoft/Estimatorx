@@ -68,6 +68,10 @@ namespace Estimatorx.Web
                     "~/Scripts/ngSticky/sticky.js",
                     "~/Scripts/angular-gravatar/md5.js",
                     "~/Scripts/angular-gravatar/angular-gravatar.js",
+
+                    "~/Scripts/marked.js",
+                    "~/Scripts/angular-marked.js",
+
                     "~/Scripts/angular-ui-select/select.js",
                     "~/Scripts/angular-ui/ui-bootstrap.js",
                     "~/Scripts/angular-ui/ui-bootstrap-tpls.js"

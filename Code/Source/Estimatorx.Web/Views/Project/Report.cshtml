@@ -7,6 +7,7 @@
         h4 {
             margin-top: 20px;
         }
+
         @@media print {
             tbody {
                 -moz-page-break-inside: avoid;
@@ -32,4 +33,9 @@
     </ol>
 
     @Html.Partial("_Report")
+
+    <a href="@Url.Action("Report", "Download", new {id = Model})" class="btn btn-default hidden-print" target="_blank">
+        <i class="fa fa-download"></i>
+        Download
+    </a>
 </div>

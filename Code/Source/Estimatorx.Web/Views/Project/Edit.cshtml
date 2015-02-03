@@ -81,8 +81,31 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="pull-right">
-                            <a href="@Url.Action("Report", new {id = Model})" class="btn btn-default">Report</a>
-                            <button type="button" class="btn btn-danger" ng-click="viewModel.delete()">Delete</button>                            
+                            <div class="btn-group">
+                                <a href="@Url.Action("Report", new {id = Model})"
+                                   class="btn btn-default"
+                                   ng-disabled="projectForm.$dirty">
+                                    Report
+                                </a>
+                                <button type="button"
+                                        class="btn btn-default dropdown-toggle"
+                                        data-toggle="dropdown" 
+                                        ng-disabled="projectForm.$dirty"
+                                        aria-expanded="false">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="@Url.Action("Report", new {id = Model})">View Report</a></li>
+                                    <li><a href="@Url.Action("Report", "Download", new {id = Model})" target="_blank">Download Report</a></li>
+                                </ul>
+                            </div>
+                            <button type="button"
+                                    class="btn btn-danger"
+                                    ng-click="viewModel.delete()"
+                                    ng-disabled="projectForm.$dirty">
+                                Delete
+                            </button>
                         </div>
                     </div>
                 </div>
