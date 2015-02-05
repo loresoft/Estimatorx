@@ -22,6 +22,8 @@ namespace Estimatorx.Web
                     "~/Scripts/angular-block-ui/angular-block-ui.css",
                     "~/Scripts/angularjs-toaster/toaster.css",
 
+                    "~/Content/help.css",
+                    "~/Content/status.css",
                     "~/Content/site.css"
                 )
             );

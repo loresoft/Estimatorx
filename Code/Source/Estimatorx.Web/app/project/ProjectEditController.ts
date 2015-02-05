@@ -362,6 +362,8 @@ module Estimatorx {
 
         addTemplate() {
             var self = this;
+            if (!self.project.Factors)
+                self.project.Factors = [];
 
             var modalInstance = self.$modal.open({
                 templateUrl: 'templateModal.html',
@@ -372,8 +374,13 @@ module Estimatorx {
             });
 
             modalInstance.result.then((item: ITemplate) => {
-                angular.forEach(item.Factors, (value, key) => {
-                    self.project.Factors.push(value);
+                angular.forEach(item.Factors,(value, key) => {
+
+                    // change key to prevent duplicates
+                    var factor = <IFactor>angular.copy(value, {});
+                    factor.Id = self.identityService.newObjectId();
+
+                    self.project.Factors.push(factor);
                 });
 
                 this.setDirty();

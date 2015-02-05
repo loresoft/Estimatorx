@@ -32,14 +32,19 @@ namespace Estimatorx.Core
         public void CreatePdf(Project project, Stream writeStream)
         {
             var document = new Document();
+            var writer = PdfWriter.GetInstance(document, writeStream);
 
             // landscape
             document.SetPageSize(PageSize.A4.Rotate());
+            document.SetMargins(36f, 36f, 36f, 36f); // 0.5 inch margins
+
+            // metadata
+            document.AddCreator("EstimatorX.com");
+            document.AddKeywords("estimation");
+            document.AddAuthor(project.Creator);
+            document.AddSubject(project.Name);
             document.AddTitle(project.Name);
-            document.SetMargins(36f, 36f, 36f, 36f);
-
-            var writer = PdfWriter.GetInstance(document, writeStream);
-
+            
             document.Open();
 
             AddName(project, document);

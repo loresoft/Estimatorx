@@ -69,7 +69,10 @@
     <div class="modal-body">
         <div class="form-group">
             <label for="factorTemplate" class="control-label">Template:</label>
-            <select id="factorTemplate" name="factorTemplate" class="form-control" ng-model="viewModel.selected" ng-options="item.Name for item in viewModel.items">
+            <select name="factorTemplate" 
+                    class="form-control no-style" 
+                    ng-model="viewModel.selected" 
+                    ng-options="item.Name for item in viewModel.items">
                 <option value="">-- select --</option>
             </select>
         </div>

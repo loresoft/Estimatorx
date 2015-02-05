@@ -207,6 +207,20 @@ select::-ms-expand {
     border-color: #204d74;
 }
 
+.feature {
+    display: table;
+}
+
+.feature > * {
+    display: table-cell;
+}
+
+.feature-icon {
+    font-size: 20px;
+    width: 1%;
+    padding-right: 10px;
+}
+
 @media print {
     body {
         padding-top: 10px;

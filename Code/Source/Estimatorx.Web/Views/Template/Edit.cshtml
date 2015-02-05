@@ -16,7 +16,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="nowrap">
-                    <i class="fa fa-calculator"></i> Factor Template
+                    <i class="fa fa-share-alt"></i> Factor Template
                     <span ng-show="viewModel.template.Name">- <strong>{{ viewModel.template.Name}}</strong></span>
                 </div>
             </div>
@@ -48,18 +48,14 @@
                                 Organization:
                                 <span class="text-danger">*</span>
                             </label>
-                            <ui-select name="OrganizationId"
-                                       theme="select2"
-                                       class="form-control"
-                                       required="required"
-                                       ng-model="viewModel.template.OrganizationId">
-                                <ui-select-match placeholder="Select Organization ...">
-                                    {{$select.selected.Name}}
-                                </ui-select-match>
-                                <ui-select-choices repeat="item.Id as item in viewModel.organizations track by item.Id">
-                                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
-                                </ui-select-choices>
-                            </ui-select>
+                            <select class="form-control no-style"
+                                    name="OrganizationId"
+                                    title="Select Organization"
+                                    required="required"
+                                    ng-model="viewModel.template.OrganizationId"
+                                    ng-options="item.Id as item.Name for item in viewModel.organizations">
+                                <option value="">-- select --</option>
+                            </select>
                             <div ng-messages="templateForm.OrganizationId.$error"
                                  ng-if="templateForm.$submitted || templateForm.OrganizationId.$touched">
                                 <span ng-message="required" class="help-block">Organization is required</span>
