@@ -87,12 +87,21 @@
                     <div class="btn-group">
                         <a class="btn btn-link btn-sm" ng-click="viewModel.addSection()"><i class="glyphicon glyphicon-plus"></i> Add Section</a>
                     </div>
+                    <a class="btn btn-link btn-sm" ng-click="viewModel.reorderTasks(section)" ng-show="section.Tasks.length > 1">
+                        <i class="glyphicon glyphicon-sort"></i> Reorder Tasks
+                    </a>
+
                 </th>
             </tr>
         </tfoot>
     </table>
 </div>
 <div class="btn-group">
-    <a class="btn btn-link btn-sm" ng-click="viewModel.addSection()"><i class="glyphicon glyphicon-plus"></i> Add Section</a>
+    <a class="btn btn-link btn-sm" ng-click="viewModel.addSection()">
+        <i class="glyphicon glyphicon-plus"></i> Add Section
+    </a>
+    <a class="btn btn-link btn-sm" ng-click="viewModel.reorderSections()" ng-show="viewModel.project.Sections.length > 1">
+        <i class="glyphicon glyphicon-sort"></i> Reorder Section
+    </a>
 </div>
 

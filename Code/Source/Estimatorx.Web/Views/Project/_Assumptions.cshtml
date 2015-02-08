@@ -23,7 +23,12 @@
         <tr>
             <th colspan="7">
                 <div class="btn-group">
-                    <a class="btn btn-link btn-sm" ng-click="viewModel.addAssumption()"><i class="glyphicon glyphicon-plus"></i> Add Assumption</a>
+                    <a class="btn btn-link btn-sm" ng-click="viewModel.addAssumption()">
+                        <i class="glyphicon glyphicon-plus"></i> Add Assumption
+                    </a>
+                    <a class="btn btn-link btn-sm" ng-click="viewModel.reorderAssumptions()" ng-show="viewModel.project.Assumptions.length > 1">
+                        <i class="glyphicon glyphicon-sort"></i> Reorder Assumptions
+                    </a>
                 </div>
             </th>
         </tr>

@@ -20,9 +20,8 @@
                         Contingency Hours:
                     </th>
                     <td>
-                        <abbr title="Contingency of {{viewModel.project.ContingencyRate }}%">
-                            {{viewModel.project.ContingencyHours}}
-                        </abbr>
+                        {{viewModel.project.ContingencyHours}}
+                        <small class="text-muted" style="margin-left: 5px">({{viewModel.project.ContingencyRate }}% Contingency)</small>
                     </td>
                 </tr>
 
@@ -31,9 +30,8 @@
                         Total Weeks:
                     </th>
                     <td>
-                        <abbr title="Using {{viewModel.project.HoursPerWeek}} hrs per week">
-                            {{viewModel.project.TotalWeeks | number:2}}
-                        </abbr>
+                        {{viewModel.project.TotalWeeks | number:2}}
+                        <small class="text-muted" style="margin-left: 5px">({{viewModel.project.HoursPerWeek}} hrs per week)</small>
                     </td>
                 </tr>
                 <tr>
@@ -41,10 +39,8 @@
                         Contingency Weeks:
                     </th>
                     <td>
-                        <abbr title="Contingency of {{viewModel.project.ContingencyRate }}%">
-                            {{viewModel.project.ContingencyWeeks | number:2}}
-                        </abbr>
-
+                        {{viewModel.project.ContingencyWeeks | number:2}}
+                        <small class="text-muted" style="margin-left: 5px">({{viewModel.project.ContingencyRate }}% Contingency)</small>
                     </td>
                 </tr>
             </tbody>

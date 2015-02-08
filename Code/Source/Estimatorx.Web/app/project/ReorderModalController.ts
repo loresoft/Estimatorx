@@ -1,48 +1,61 @@
 ﻿/// <reference path="../_ref.ts" />
+
 module Estimatorx {
     "use strict";
 
-    export class TemplateModalController {
+    export class ReorderModalController {
 
         // protect for minification, must match constructor signiture.
         static $inject = [
             '$scope',
             '$modalInstance',
+            'name',
             'items'
         ];
 
-        constructor($scope, $modalInstance, items : ITemplate[]) {
-            // assign vm to controller
-            $scope.viewModel = this;
+        constructor(
+            $scope,
+            $modalInstance,
+            name: string,
+            items: any[]
+        ) {
             var self = this;
 
+            // assign viewModel to controller
+            $scope.viewModel = this;
+            self.$scope = $scope;
             self.$modalInstance = $modalInstance;
-            self.items = items;
+            self.items = angular.copy(items);
+            self.name = name;
         }
 
+        $scope: any;
         $modalInstance: any;
-        items: ITemplate[];
-        selected: ITemplate;
+        items: any[];
+        name: string;
 
-        select(){
+        select() {
             var self = this;
-            self.$modalInstance.close(self.selected);
-
+            self.$modalInstance.close(self.items);
         }
 
         cancel() {
             var self = this;
             self.$modalInstance.dismiss('cancel');
         }
+
     }
 
     // register controller
     angular.module(Estimatorx.applicationName)
-        .controller('templateModalController',
+        .controller('reorderModalController',
         [
             '$scope',
             '$modalInstance',
+            'name',
             'items',
-            TemplateModalController
+            ReorderModalController
         ]);
 }
+
+ 

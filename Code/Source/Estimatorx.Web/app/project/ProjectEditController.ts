@@ -250,6 +250,24 @@ module Estimatorx {
             });
         }
 
+        reorderAssumptions() {
+            var self = this;
+
+            var modalInstance = self.$modal.open({
+                templateUrl: 'textReorderModal.html',
+                controller: 'reorderModalController',
+                resolve: {
+                    name: () => 'Assumptions',
+                    items: () => self.project.Assumptions
+                }
+            });
+
+            modalInstance.result.then((items: any[]) => {
+                self.project.Assumptions = items;
+                self.setDirty();
+            });
+        }
+
 
         addFactor() {
             if (!this.project.Factors)
@@ -278,6 +296,24 @@ module Estimatorx {
 
                 this.setDirty();
                 this.$scope.$apply();
+            });
+        }
+
+        reorderFactors() {
+            var self = this;
+
+            var modalInstance = self.$modal.open({
+                templateUrl: 'nameReorderModal.html',
+                controller: 'reorderModalController',
+                resolve: {
+                    name: () => 'Factors',
+                    items: () => self.project.Factors
+                }
+            });
+
+            modalInstance.result.then((items: any[]) => {
+                self.project.Factors = items;
+                self.setDirty();
             });
         }
 
@@ -321,6 +357,24 @@ module Estimatorx {
             });
         }
 
+        reorderSections() {
+            var self = this;
+
+            var modalInstance = self.$modal.open({
+                templateUrl: 'nameReorderModal.html',
+                controller: 'reorderModalController',
+                resolve: {
+                    name: () => 'Sections',
+                    items: () => self.project.Sections
+                }
+            });
+
+            modalInstance.result.then((items: any[]) => {
+                self.project.Sections = items;
+                self.setDirty();
+            });
+        }
+
 
         addTask(section: ISection) {
             if (!section)
@@ -357,6 +411,25 @@ module Estimatorx {
                 this.setDirty();
                 this.$scope.$apply();
             });
+        }
+
+        reorderTasks(section: ISection) {
+            var self = this;
+
+            var modalInstance = self.$modal.open({
+                templateUrl: 'nameReorderModal.html',
+                controller: 'reorderModalController',
+                resolve: {
+                    name: () => 'Tasks',
+                    items: () => section.Tasks
+                }
+            });
+
+            modalInstance.result.then((items: any[]) => {
+                section.Tasks = items;
+                self.setDirty();
+            });
+
         }
 
 

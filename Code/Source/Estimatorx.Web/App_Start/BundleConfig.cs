@@ -22,6 +22,8 @@ namespace Estimatorx.Web
                     "~/Scripts/angular-block-ui/angular-block-ui.css",
                     "~/Scripts/angularjs-toaster/toaster.css",
 
+                    "~/Scripts/jquery-ui/jquery-ui.css",
+
                     "~/Content/help.css",
                     "~/Content/status.css",
                     "~/Content/site.css"
@@ -41,6 +43,8 @@ namespace Estimatorx.Web
                     "~/Scripts/underscore.js",
                     "~/Scripts/ObjectId.js",
                     "~/Scripts/linq.js",
+                    "~/Scripts/jquery-ui/jquery-ui.js",
+                    "~/Scripts/jquery-ui/jquery.ui.touch-punch.js",
                     "~/Scripts/bootstrap.js",
                     "~/Scripts/bootstrap-dialog.js"
                 )
@@ -73,6 +77,8 @@ namespace Estimatorx.Web
 
                     "~/Scripts/marked.js",
                     "~/Scripts/angular-marked.js",
+
+                    "~/Scripts/angular-ui-sortable/sortable.js",
 
                     "~/Scripts/angular-ui-select/select.js",
                     "~/Scripts/angular-ui/ui-bootstrap.js",
