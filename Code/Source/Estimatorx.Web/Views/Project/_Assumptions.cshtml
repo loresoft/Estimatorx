@@ -14,7 +14,9 @@
             <td><input type="text" class="form-control" ng-model="viewModel.project.Assumptions[$index]" placeholder="Enter Assumption" autocomplete="off" /></td>
             <td class="active">
                 <div class="btn-group pull-right">
-                    <a class="btn btn-link btn-sm" ng-click="viewModel.removeAssumption($index)"><i class="glyphicon glyphicon-remove"></i></a>
+                    <a class="btn btn-link btn-sm" ng-click="viewModel.removeAssumption($index)" title="Delete this assumption">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </a>
                 </div>
             </td>
         </tr>
@@ -27,7 +29,7 @@
                         <i class="glyphicon glyphicon-plus"></i> Add Assumption
                     </a>
                     <a class="btn btn-link btn-sm" ng-click="viewModel.reorderAssumptions()" ng-show="viewModel.project.Assumptions.length > 1">
-                        <i class="glyphicon glyphicon-sort"></i> Reorder Assumptions
+                        <i class="fa fa-unsorted"></i> Reorder Assumptions
                     </a>
                 </div>
             </th>

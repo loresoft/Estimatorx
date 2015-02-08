@@ -135,6 +135,9 @@
                                                 <a class="btn btn-link btn-sm" ng-click="viewModel.addFactor()">
                                                     <i class="glyphicon glyphicon-plus"></i> Add Factor
                                                 </a>
+                                                <a class="btn btn-link btn-sm" ng-click="viewModel.reorderFactors()" ng-show="viewModel.template.Factors.length > 1">
+                                                    <i class="fa fa-unsorted"></i> Reorder Factors
+                                                </a>
                                             </div>
                                         </th>
                                     </tr>
@@ -170,3 +173,4 @@
 
 </div>
 
+@Html.Partial("_Dialogs")

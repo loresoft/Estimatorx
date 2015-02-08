@@ -51,7 +51,9 @@
                 <td><p class="form-control-static">{{section.TotalHours}}</p></td>
                 <td>
                     <div class="btn-group pull-right">
-                        <a class="btn btn-link btn-sm" ng-click="viewModel.removeSection(section)"><i class="glyphicon glyphicon-remove"></i></a>
+                        <a class="btn btn-link btn-sm" ng-click="viewModel.removeSection(section)">
+                            <i class="glyphicon glyphicon-remove" title="Delete this Section"></i>
+                        </a>
                     </div>
                 </td>
             </tr>
@@ -73,7 +75,9 @@
                 <td class="active"><p class="form-control-static">{{task.TotalHours}}</p></td>
                 <td class="active">
                     <div class="btn-group pull-right">
-                        <a class="btn btn-link btn-sm" ng-click="viewModel.removeTask(section, task)"><i class="glyphicon glyphicon-remove"></i></a>
+                        <a class="btn btn-link btn-sm" ng-click="viewModel.removeTask(section, task)" title="Delete this Task">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </a>
                     </div>
                 </td>
             </tr>
@@ -82,15 +86,16 @@
             <tr>
                 <th colspan="10">
                     <div class="btn-group">
-                        <a class="btn btn-link btn-sm" ng-click="viewModel.addTask(section)"><i class="glyphicon glyphicon-plus"></i> Add Task</a>
+                        <a class="btn btn-link btn-sm" ng-click="viewModel.addTask(section)">
+                            <i class="glyphicon glyphicon-plus"></i> Add Task
+                        </a>
+                        <a class="btn btn-link btn-sm" ng-click="viewModel.addSection()">
+                            <i class="glyphicon glyphicon-plus"></i> Add Section
+                        </a>
+                        <a class="btn btn-link btn-sm" ng-click="viewModel.reorderTasks(section)" ng-show="section.Tasks.length > 1">
+                            <i class="fa fa-unsorted"></i> Reorder Tasks
+                        </a>
                     </div>
-                    <div class="btn-group">
-                        <a class="btn btn-link btn-sm" ng-click="viewModel.addSection()"><i class="glyphicon glyphicon-plus"></i> Add Section</a>
-                    </div>
-                    <a class="btn btn-link btn-sm" ng-click="viewModel.reorderTasks(section)" ng-show="section.Tasks.length > 1">
-                        <i class="glyphicon glyphicon-sort"></i> Reorder Tasks
-                    </a>
-
                 </th>
             </tr>
         </tfoot>
@@ -101,7 +106,7 @@
         <i class="glyphicon glyphicon-plus"></i> Add Section
     </a>
     <a class="btn btn-link btn-sm" ng-click="viewModel.reorderSections()" ng-show="viewModel.project.Sections.length > 1">
-        <i class="glyphicon glyphicon-sort"></i> Reorder Section
+        <i class="fa fa-unsorted"></i> Reorder Section
     </a>
 </div>
 

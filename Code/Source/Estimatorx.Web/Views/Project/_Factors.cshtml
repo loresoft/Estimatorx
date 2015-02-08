@@ -36,7 +36,7 @@
                 <td><input type="number" class="form-control" ng-model="factor.VeryComplex" autocomplete="off" /></td>
                 <td class="active">
                     <div class="btn-group pull-right">
-                        <a class="btn btn-link btn-sm" ng-click="viewModel.removeFactor(factor)">
+                        <a class="btn btn-link btn-sm" ng-click="viewModel.removeFactor(factor)" title="Delete this factor">
                             <i class="glyphicon glyphicon-remove"></i>
                         </a>
                     </div>
@@ -54,9 +54,8 @@
                             <i class="glyphicon glyphicon-plus"></i> Add Template
                         </a>
                         <a class="btn btn-link btn-sm" ng-click="viewModel.reorderFactors()" ng-show="viewModel.project.Factors.length > 1">
-                            <i class="glyphicon glyphicon-sort"></i> Reorder Factors
+                            <i class="fa fa-unsorted"></i> Reorder Factors
                         </a>
-
                     </div>
 
                 </th>

@@ -54,6 +54,20 @@
     <Reference Include="Autofac.Integration.WebApi">
       <HintPath>..\packages\Autofac.WebApi2.3.4.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
+    <Reference Include="Exceptionless, Version=1.5.2121.0, Culture=neutral, PublicKeyToken=fc181f0a46f65747, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Exceptionless.1.5.2121\lib\net45\Exceptionless.dll</HintPath>
+    </Reference>
+    <Reference Include="Exceptionless.Models, Version=1.5.2121.0, Culture=neutral, PublicKeyToken=fc181f0a46f65747, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Exceptionless.1.5.2121\lib\net45\Exceptionless.Models.dll</HintPath>
+    </Reference>
+    <Reference Include="Exceptionless.Mvc">
+      <HintPath>..\packages\Exceptionless.Mvc.1.5.2121\lib\net45\Exceptionless.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Exceptionless.WebApi">
+      <HintPath>..\packages\Exceptionless.WebApi.1.5.2121\lib\net45\Exceptionless.WebApi.dll</HintPath>
+    </Reference>
     <Reference Include="itextsharp">
       <HintPath>..\packages\iTextSharp.5.5.4\lib\itextsharp.dll</HintPath>
     </Reference>
@@ -398,8 +412,8 @@
     <TypeScriptCompile Include="app\organization\OrganizationListController.ts" />
     <TypeScriptCompile Include="app\profile\ProfileEditController.ts" />
     <TypeScriptCompile Include="app\project\ProjectReportController.ts" />
-    <TypeScriptCompile Include="app\project\ReorderModalController.ts" />
-    <TypeScriptCompile Include="app\project\TemplateModalController.ts" />
+    <TypeScriptCompile Include="app\dialogs\ReorderModalController.ts" />
+    <TypeScriptCompile Include="app\dialogs\TemplateModalController.ts" />
     <TypeScriptCompile Include="app\models\QueryRequest.ts" />
     <TypeScriptCompile Include="app\models\QueryResult.ts" />
     <TypeScriptCompile Include="app\services\IdentityService.ts" />
@@ -502,7 +516,7 @@
     <Content Include="NLog.Production.config">
       <DependentUpon>NLog.config</DependentUpon>
     </Content>
-    <Content Include="Views\Project\_Modal.cshtml" />
+    <Content Include="Views\Shared\_Dialogs.cshtml" />
     <None Include="Web.Production.config">
       <SubType>Designer</SubType>
       <DependentUpon>Web.config</DependentUpon>
