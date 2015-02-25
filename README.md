@@ -3,6 +3,7 @@
 A simple project estimation application.   
 [http://estimatorx.com](http://estimatorx.com "EstimatorX")
 
+[![Build status](https://ci.appveyor.com/api/projects/status/8pc9g61vm9yxqrbc)](https://ci.appveyor.com/project/LoreSoft/estimatorx)
 
 ## Features
 
@@ -50,4 +51,4 @@ Select 'Private' to make the Project or Template accessible by only you.
 
 ### Templates
 
-A template is a group of factors you can quickly add to a project. Templates allow reuse of common factors accross projects.
+A template is a group of factors you can quickly add to a project. Templates allow reuse of common factors across projects.

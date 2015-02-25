@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Http;
+using Exceptionless;
 
 namespace Estimatorx.Web
 {
@@ -8,6 +9,7 @@ namespace Estimatorx.Web
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            ExceptionlessClient.Current.RegisterWebApi(config);
 
             // Web API routes
             config.MapHttpAttributeRoutes();
