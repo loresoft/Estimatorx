@@ -117,8 +117,10 @@
     <Compile Include="Section.cs" />
     <Compile Include="ProjectCalculator.cs" />
     <Compile Include="Security\Claim.cs" />
-    <Compile Include="Security\EmailService.cs" />
+    <Compile Include="Security\IdentityEmailService.cs" />
     <Compile Include="Security\IdentityExtensions.cs" />
+    <Compile Include="Security\IInviteRepository.cs" />
+    <Compile Include="Security\Invite.cs" />
     <Compile Include="Security\IOrganizationRepository.cs" />
     <Compile Include="Security\IRoleRepository.cs" />
     <Compile Include="Security\IRoleStore.cs" />

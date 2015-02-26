@@ -10,8 +10,10 @@ module Estimatorx {
             '$scope',
             '$modal',
             'logger',
+            'identityService',
             'modelFactory',
             'organizationRepository',
+            'inviteRepository',
             'userRepository'
         ];
 
@@ -19,10 +21,12 @@ module Estimatorx {
             $scope,
             $modal: any,
             logger: Logger,
+            identityService: IdentityService,
             modelFactory: ModelFactory,
             organizationRepository: OrganizationRepository,
-            userRepository: UserRepository
-        ) {
+            inviteRepository: InviteRepository,
+            userRepository: UserRepository) {
+
             var self = this;
 
             // assign viewModel to controller
@@ -31,8 +35,10 @@ module Estimatorx {
             self.$modal = $modal;
 
             self.logger = logger;
+            self.identityService = identityService;
             self.modelFactory = modelFactory;
             self.organizationRepository = organizationRepository;
+            self.inviteRepository = inviteRepository;
             self.userRepository = userRepository;
 
             self.organization = <IOrganization>{};
@@ -49,6 +55,7 @@ module Estimatorx {
         $modal: any;
         
         logger: Logger;
+        identityService: IdentityService;
         modelFactory: ModelFactory;
 
         organizationRepository: OrganizationRepository;
@@ -62,6 +69,9 @@ module Estimatorx {
 
         members: IUser[];
         owners: IUser[];
+
+        inviteRepository: InviteRepository;
+        invites: IInvite[];
 
         isSelf(id: string): boolean {
             var self = this;
@@ -114,6 +124,7 @@ module Estimatorx {
 
                     self.loadMembers();
                     self.loadOwners();
+                    self.loadInvites();
                 })
                 .error((data, status, headers, config) => {
                     if (status === 404) {
@@ -145,6 +156,16 @@ module Estimatorx {
                 .error(self.logger.handelErrorProxy);
         }
 
+        loadInvites() {
+            var self = this;
+
+            self.inviteRepository.organization(self.organizationId)
+                .success((data, status, headers, config) => {
+                    self.invites = data;
+                })
+                .error(self.logger.handelErrorProxy);
+        }
+
         save(valid: boolean) {
             var self = this;
                         
@@ -172,6 +193,7 @@ module Estimatorx {
 
                     self.loadMembers();
                     self.loadOwners();
+                    self.loadInvites();
                 })
                 .error(self.logger.handelErrorProxy);
         }
@@ -243,6 +265,7 @@ module Estimatorx {
             });
         }
 
+
         addOwner() {
             var self = this;
 
@@ -279,16 +302,82 @@ module Estimatorx {
             });
         }
 
+
+        addInvite() {
+            var self = this;
+
+            var modalInstance = self.$modal.open({
+                templateUrl: 'inviteModal.html',
+                controller: 'inviteModalController'
+            });
+
+            modalInstance.result.then((email: string) => {
+                console.log('Invite Email: ' + email);
+
+                var invite = <IInvite>{
+                    Id: self.identityService.newObjectId(),
+                    OrganizationId: self.organizationId,
+                    SecurityKey: self.identityService.newSecurityKey(),
+                    Email: email
+                }
+
+                self.inviteRepository.save(invite)
+                    .success((data, status, headers, config) => {
+                        self.loadInvites();
+                        self.sendInvite(data);
+                    })
+                    .error(self.logger.handelErrorProxy);
+            });
+
+        }
+
+        removeInvite(invite: IInvite) {
+            var self = this;
+            if (!invite)
+                return;
+
+            BootstrapDialog.confirm("Are you sure you want to remove this invite?",(result) => {
+                if (!result)
+                    return;
+
+                self.inviteRepository.delete(invite.Id)
+                    .success((data, status, headers, config) => {
+                        self.loadInvites();
+                    })
+                    .error(self.logger.handelErrorProxy);
+            });
+        }
+
+        sendInvite(invite: IInvite) {
+            var self = this;
+            if (!invite)
+                return;
+
+            self.inviteRepository.send(invite.Id)
+                .success((data, status, headers, config) => {
+                    self.logger.showAlert({
+                        type: 'success',
+                        title: 'Send Successful',
+                        message: 'Sent invite to ' + invite.Email + ' successfully.',
+                        timeOut: 8000
+                    });
+                
+                    self.loadInvites();
+                })
+                .error(self.logger.handelErrorProxy);
+        }
+        
     }
 
     // register controller
-    angular.module(Estimatorx.applicationName)
-        .controller('organizationEditController', [
+    angular.module(Estimatorx.applicationName).controller('organizationEditController', [
             '$scope',
             '$modal',
             'logger',
+            'identityService',
             'modelFactory',
             'organizationRepository',
+            'inviteRepository',
             'userRepository',
             OrganizationEditController
         ]);

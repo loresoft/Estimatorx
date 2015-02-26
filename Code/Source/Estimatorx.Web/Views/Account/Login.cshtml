@@ -45,7 +45,7 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        @Html.ActionLink("Register as a new user", "Register")
+                                        @Html.ActionLink("Register as a new user", "Register", new { ReturnUrl = ViewBag.ReturnUrl })
                                     </div>
                                     <div class="col-md-6">
                                         @Html.ActionLink("Forgot your password", "ForgotPassword")

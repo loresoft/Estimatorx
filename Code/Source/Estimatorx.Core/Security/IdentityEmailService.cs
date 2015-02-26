@@ -3,7 +3,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Estimatorx.Core.Security
 {
-    public class EmailService : IIdentityMessageService
+    public class IdentityEmailService : IIdentityMessageService
     {
         public System.Threading.Tasks.Task SendAsync(IdentityMessage message)
         {

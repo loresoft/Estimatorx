@@ -28,8 +28,7 @@ module Estimatorx {
             projectCalculator: ProjectCalculator,
             projectRepository: ProjectRepository,
             templateRepository: TemplateRepository,
-            organizationRepository: OrganizationRepository
-            ) {
+            organizationRepository: OrganizationRepository) {
 
             var self = this;
 

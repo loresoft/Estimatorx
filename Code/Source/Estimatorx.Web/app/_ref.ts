@@ -13,6 +13,7 @@
 /// <reference path="../scripts/typings/bootstrap-dialog/bootstrap-dialog.d.ts" />
 /// <reference path="models/queryrequest.ts" />
 /// <reference path="models/queryresult.ts" />
+/// <reference path="models/invite.ts" />
 /// <reference path="models/task.ts" />
 /// <reference path="models/factor.ts" />
 /// <reference path="models/section.ts" />

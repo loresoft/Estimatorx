@@ -9,8 +9,14 @@ namespace Estimatorx.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            
+
             routes.MapMvcAttributeRoutes();
+
+            routes.MapRoute(
+                name: "Invite",
+                url: "Invite/{id}/{key}",
+                defaults: new { controller = "Invite", action = "Index" }
+            );
 
             routes.MapRoute(
                 name: "Default",

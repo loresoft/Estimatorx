@@ -73,15 +73,16 @@ namespace Estimatorx.Web.Controllers
 
 
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterModel model)
+        public async Task<ActionResult> Register(RegisterModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
                 return View(model);
@@ -101,7 +102,7 @@ namespace Estimatorx.Web.Controllers
             }
 
             await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-            return RedirectToAction("Index", "Home");
+            return RedirectToLocal(returnUrl);
         }
 
 

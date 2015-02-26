@@ -22,7 +22,7 @@ namespace Estimatorx.Core.Security
             DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
             MaxFailedAccessAttemptsBeforeLockout = 5;
 
-            EmailService = new EmailService();
+            EmailService = new IdentityEmailService();
 
             UserTokenProvider = new DataProtectorTokenProvider<User>(provider.Create("Estimatorx"));
         }

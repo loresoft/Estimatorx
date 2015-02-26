@@ -243,6 +243,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
+    <Compile Include="Controllers\InviteController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
@@ -263,6 +264,7 @@
     <Compile Include="Models\VersionModel.cs" />
     <Compile Include="Modules\AuthenticationModule.cs" />
     <Compile Include="Security\ChallengeResult.cs" />
+    <Compile Include="Services\InviteController.cs" />
     <Compile Include="Services\OrganizationController.cs" />
     <Compile Include="Services\ProjectController.cs" />
     <Compile Include="Global.asax.cs">
@@ -412,11 +414,13 @@
   <ItemGroup>
     <TypeScriptCompile Include="app\app.ts" />
     <TypeScriptCompile Include="app\common\Shared.ts" />
+    <TypeScriptCompile Include="app\dialogs\InviteModalController.ts" />
     <TypeScriptCompile Include="app\directives\SortBy.ts" />
+    <TypeScriptCompile Include="app\models\Invite.ts" />
     <TypeScriptCompile Include="app\models\Organization.ts" />
     <TypeScriptCompile Include="app\models\Password.ts" />
     <TypeScriptCompile Include="app\models\User.ts" />
-    <TypeScriptCompile Include="app\organization\MemberModalController.ts" />
+    <TypeScriptCompile Include="app\dialogs\MemberModalController.ts" />
     <TypeScriptCompile Include="app\organization\OrganizationCreateController.ts" />
     <TypeScriptCompile Include="app\organization\OrganizationEditController.ts" />
     <TypeScriptCompile Include="app\organization\OrganizationListController.ts" />
@@ -429,6 +433,7 @@
     <TypeScriptCompile Include="app\services\IdentityService.ts" />
     <TypeScriptCompile Include="app\project\ProjectEditController.ts" />
     <TypeScriptCompile Include="app\project\ProjectListController.ts" />
+    <TypeScriptCompile Include="app\services\InviteRepository.ts" />
     <TypeScriptCompile Include="app\services\Logger.ts" />
     <TypeScriptCompile Include="app\services\OrganizationRepository.ts" />
     <TypeScriptCompile Include="app\template\TemplateEditController.ts" />
@@ -531,6 +536,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Views\Organization\_Invites.cshtml" />
     <None Include="Web.Production.config">
       <SubType>Designer</SubType>
       <DependentUpon>Web.config</DependentUpon>
@@ -538,6 +544,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Download\" />
+    <Folder Include="Views\Invite\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -124,7 +124,7 @@ namespace Estimatorx.Core
         public string OrganizationId { get; set; }
 
         /// <summary>
-        /// Get or Set security key used for publica access
+        /// Get or Set security key used for public access
         /// </summary>
         public string SecurityKey { get; set; }
 

@@ -17,7 +17,7 @@
                         <div class="col-md-8" style="padding: 0 20px">
                             <h4 style="margin-bottom: 30px">Create local account</h4>
 
-                            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+                            @using (Html.BeginForm("Register", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
                             {
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -51,7 +51,7 @@
                                 </div>
 
                                 <p>
-                                    <span style="margin: 0 20px">Already have an account? @Html.ActionLink("Log in", "Login")</span>
+                                    <span style="margin: 0 20px">Already have an account? @Html.ActionLink("Log in", "Login", new { ReturnUrl = ViewBag.ReturnUrl })</span>
                                 </p>
                             }
                         </div>

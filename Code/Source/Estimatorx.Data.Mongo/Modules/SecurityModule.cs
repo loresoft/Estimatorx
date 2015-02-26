@@ -28,6 +28,10 @@ namespace Estimatorx.Data.Mongo.Modules
             builder.RegisterType<OrganizationRepository>()
                 .As<IOrganizationRepository>()
                 .SingleInstance();
+
+            builder.RegisterType<InviteRepository>()
+                .As<IInviteRepository>()
+                .SingleInstance();
         }
     }
 }

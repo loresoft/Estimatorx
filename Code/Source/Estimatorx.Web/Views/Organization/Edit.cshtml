@@ -23,6 +23,7 @@
                         <li role="presentation" class="active"><a href="#organization" aria-controls="organization" role="tab" data-toggle="tab">Organization</a></li>
                         <li role="presentation"><a href="#members" aria-controls="members" role="tab" data-toggle="tab">Members</a></li>
                         <li role="presentation"><a href="#owners" aria-controls="owners" role="tab" data-toggle="tab">Owners</a></li>
+                        <li role="presentation"><a href="#invites" aria-controls="invites" role="tab" data-toggle="tab">Invites</a></li>
                     </ul>
                 </div>
                 <!-- Tab panes -->
@@ -36,39 +37,13 @@
                     <div role="tabpanel" class="tab-pane" id="owners">
                         @Html.Partial("_Owners")
                     </div>
+                    <div role="tabpanel" class="tab-pane" id="invites">
+                        @Html.Partial("_Invites")
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script type="text/ng-template" id="memberModal.html">
-    <div class="modal-header">
-        <button type="button" class="close" ng-click="viewModel.cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title">Add User</h4>
-    </div>
-    <div class="modal-body">
-        <div class="form-group">
-            <label for="UserId" class="control-label">User Name:</label>
-
-            <ui-select name="UserId"
-                       theme="select2"
-                       class="form-control"
-                       ng-model="viewModel.userId">
-                <ui-select-match placeholder="Select User ...">
-                    {{$select.selected.Name}}
-                </ui-select-match>
-                <ui-select-choices repeat="item.Id as item in viewModel.users track by item.Id"
-                                   refresh="viewModel.searchUsers($select.search)"
-                                   refresh-delay="500">
-                    <div ng-bind-html="item.Name | highlight: $select.search"></div>
-                    <div ng-show="item.Email">{{item.Email}}</div>
-                </ui-select-choices>
-            </ui-select>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ng-click="viewModel.select()">Add</button>
-        <button type="button" class="btn btn-default" ng-click="viewModel.cancel()">Cancel</button>
-    </div>
-</script>
+@Html.Partial("_Dialogs")
