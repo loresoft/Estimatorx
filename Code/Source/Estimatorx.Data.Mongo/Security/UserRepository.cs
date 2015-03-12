@@ -54,9 +54,21 @@ namespace Estimatorx.Data.Mongo.Security
             return ConvertString(key);
         }
 
+        protected override void BeforeInsert(User entity)
+        {
+            entity.Created = DateTime.Now;
+            entity.Updated = DateTime.Now;
+
+            base.BeforeInsert(entity);
+        }
 
         protected override void BeforeUpdate(User entity)
         {
+            if (entity.Created == DateTime.MinValue)
+                entity.Created = DateTime.Now;
+
+            entity.Updated = DateTime.Now;
+
             entity.UserName = entity.Email.ToLowerInvariant();
 
             base.BeforeUpdate(entity);

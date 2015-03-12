@@ -35,7 +35,8 @@ namespace Estimatorx.Web.Services
                 return BadRequest();
 
             Invite invite;
-            if (!HasAccess(id, out invite))
+            User user;
+            if (!HasAccess(id, out invite, out user))
                 return Unauthorized();
 
             if (invite == null)
@@ -101,7 +102,8 @@ namespace Estimatorx.Web.Services
                 return BadRequest();
 
             Invite invite;
-            if (!HasAccess(id, out invite))
+            User user;
+            if (!HasAccess(id, out invite,out user))
                 return Unauthorized();
 
             if (invite == null)
@@ -113,7 +115,7 @@ namespace Estimatorx.Web.Services
             
             string link = Url.Link("Invite", new { id = invite.Id, key = invite.SecurityKey });
 
-            string subject = string.Format("Invite to join the '{0}' organization on EstimatorX.com", o.Name);
+            string subject = string.Format("{0} invited you to join the '{1}' organization on EstimatorX.com", user.Name, o.Name);
             string body = string.Format(
                 "<p>You've been invited to join the '{1}' organization on EstimatorX.com!</p>" +
                 "<p>EstimatorX is a simple project estimation application.</p>" +
@@ -134,14 +136,15 @@ namespace Estimatorx.Web.Services
         private bool HasAccess(string id)
         {
             Invite invite;
-            return HasAccess(id, out invite);
+            User user;
+            return HasAccess(id, out invite,out user);
         }
 
-        private bool HasAccess(string id, out Invite invite)
+        private bool HasAccess(string id, out Invite invite, out User user)
         {
             invite = null;
             string userId = User.Identity.GetUserId();
-            var user = _userRepository.Find(userId);
+            user = _userRepository.Find(userId);
             if (user == null)
                 return false;
 

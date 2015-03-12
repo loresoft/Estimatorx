@@ -53,6 +53,11 @@ namespace Estimatorx.Core.Security
         public int AccessFailedCount { get; set; }
 
 
+        public DateTime Created { get; set; }
+
+        public DateTime Updated { get; set; }
+
+
         public HashSet<string> Roles { get; set; }
 
         public ICollection<Claim> Claims { get; set; }

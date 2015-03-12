@@ -3,6 +3,7 @@ using Estimatorx.Core.Security;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
+using MongoDB.Bson.Serialization.Options;
 
 namespace Estimatorx.Data.Mongo.Mapping
 {
@@ -56,6 +57,13 @@ namespace Estimatorx.Data.Mongo.Mapping
             MapProperty(c => c.AccessFailedCount)
                 .SetElementName("af")
                 .SetIgnoreIfDefault(true);
+
+            MapProperty(c => c.Created)
+                .SetElementName("cd")
+                .SetSerializationOptions(new DateTimeSerializationOptions { Kind = DateTimeKind.Local });
+            MapProperty(c => c.Updated)
+                .SetElementName("ud")
+                .SetSerializationOptions(new DateTimeSerializationOptions { Kind = DateTimeKind.Local });
 
             MapProperty(c => c.Roles)
                 .SetElementName("_r")
