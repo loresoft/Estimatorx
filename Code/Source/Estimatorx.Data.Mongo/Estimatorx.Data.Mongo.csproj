@@ -84,6 +84,7 @@
     <Compile Include="Mapping\UserMap.cs" />
     <Compile Include="Modules\MongoModule.cs" />
     <Compile Include="Modules\ProjectModule.cs" />
+    <Compile Include="Modules\SampleModule.cs" />
     <Compile Include="Modules\SecurityModule.cs" />
     <Compile Include="Modules\TemplateModule.cs" />
     <Compile Include="MongoQuery.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="MongoUtility.cs" />
     <Compile Include="ProjectRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SampleGenerator.cs" />
     <Compile Include="Security\InviteRepository.cs" />
     <Compile Include="Security\OrganizationRepository.cs" />
     <Compile Include="Security\RoleRepository.cs" />

@@ -4,13 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Estimatorx.Core.Providers;
 using Estimatorx.Core.Security;
 using Estimatorx.Data.Mongo.Security;
 using Estimatorx.Web.Models;
 using Estimatorx.Web.Security;
+using Exceptionless;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using NLog.Fluent;
 
 namespace Estimatorx.Web.Controllers
 {
@@ -18,19 +21,31 @@ namespace Estimatorx.Web.Controllers
     [RequireHttps]
     public class AccountController : Controller
     {
+        private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         private readonly UserManager _userManager;
         private readonly SignInManager _signInManager;
         private readonly IAuthenticationManager _authenticationManager;
+        
+        private readonly ISampleGenerator _sampleGenerator;
+        private readonly IProjectRepository _projectRepository;
+        private readonly ITemplateRepository _templateRepository;
 
         public AccountController(
             UserManager userManager, 
             SignInManager signInManager, 
-            IAuthenticationManager authenticationManager
+            IAuthenticationManager authenticationManager,
+            ISampleGenerator sampleGenerator,
+            IProjectRepository projectRepository,
+            ITemplateRepository templateRepository
         )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _authenticationManager = authenticationManager;
+            _sampleGenerator = sampleGenerator;
+            _projectRepository = projectRepository;
+            _templateRepository = templateRepository;
         }
 
         [AllowAnonymous]
@@ -102,6 +117,13 @@ namespace Estimatorx.Web.Controllers
             }
 
             await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            CreateSamples(user);
+
+            ExceptionlessClient.Default
+                .CreateFeatureUsage("Register User")
+                .AddObject(user)
+                .Submit();
+
             return RedirectToLocal(returnUrl);
         }
 
@@ -257,6 +279,13 @@ namespace Estimatorx.Web.Controllers
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    CreateSamples(user);
+
+                    ExceptionlessClient.Default
+                        .CreateFeatureUsage("Register User")
+                        .AddObject(user)
+                        .Submit();
+                    
                     return RedirectToLocal(returnUrl);
                 }
             }
@@ -303,5 +332,26 @@ namespace Estimatorx.Web.Controllers
                 ModelState.AddModelError("", error);
         }
 
+        private void CreateSamples(User user)
+        {
+            try
+            {
+                var project = _sampleGenerator.GenerateProject(user.Id);
+                _projectRepository.Save(project);
+
+                var template = _sampleGenerator.GenerateTemplate(user.Id);
+                _templateRepository.Save(template);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error()
+                    .Message("Error Creating Samples: " + ex.Message)
+                    .Exception(ex)
+                    .Write();
+
+                ex.ToExceptionless().Submit();
+            }
+
+        }
     }
 }

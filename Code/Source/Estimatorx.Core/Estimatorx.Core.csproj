@@ -108,6 +108,7 @@
     <Compile Include="Providers\IEntityQuery.cs" />
     <Compile Include="Providers\IEntityRepository.cs" />
     <Compile Include="Providers\IProjectRepository.cs" />
+    <Compile Include="Providers\ISampleGenerator.cs" />
     <Compile Include="Providers\ITemplateRepository.cs" />
     <Compile Include="Query\QueryOptions.cs" />
     <Compile Include="Query\QueryOptionsBuilder.cs" />

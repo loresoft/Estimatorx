@@ -54,21 +54,19 @@
     <Reference Include="Autofac.Integration.WebApi">
       <HintPath>..\packages\Autofac.WebApi2.3.4.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
-    <Reference Include="Exceptionless, Version=1.5.2121.0, Culture=neutral, PublicKeyToken=fc181f0a46f65747, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Exceptionless.1.5.2121\lib\net45\Exceptionless.dll</HintPath>
+    <Reference Include="Exceptionless.Extras">
+      <HintPath>..\packages\Exceptionless.Mvc.2.0.1283\lib\net45\Exceptionless.Extras.dll</HintPath>
     </Reference>
-    <Reference Include="Exceptionless.Models, Version=1.5.2121.0, Culture=neutral, PublicKeyToken=fc181f0a46f65747, processorArchitecture=MSIL">
+    <Reference Include="Exceptionless.Mvc, Version=2.0.1283.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Exceptionless.1.5.2121\lib\net45\Exceptionless.Models.dll</HintPath>
+      <HintPath>..\packages\Exceptionless.Mvc.2.0.1283\lib\net45\Exceptionless.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Exceptionless.Mvc, Version=1.5.2121.0, Culture=neutral, PublicKeyToken=fc181f0a46f65747, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Exceptionless.Mvc.1.5.2121\lib\net45\Exceptionless.Mvc.dll</HintPath>
+    <Reference Include="Exceptionless.Portable">
+      <HintPath>..\packages\Exceptionless.Portable.2.0.1283\lib\portable-net40+sl50+win+wpa81+wp80\Exceptionless.Portable.dll</HintPath>
     </Reference>
-    <Reference Include="Exceptionless.WebApi, Version=1.5.2121.0, Culture=neutral, PublicKeyToken=fc181f0a46f65747, processorArchitecture=MSIL">
+    <Reference Include="Exceptionless.WebApi, Version=2.0.1283.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Exceptionless.WebApi.1.5.2121\lib\net45\Exceptionless.WebApi.dll</HintPath>
+      <HintPath>..\packages\Exceptionless.WebApi.2.0.1283\lib\net45\Exceptionless.WebApi.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp, Version=5.5.5.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -158,9 +156,9 @@
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Owin.Security.Providers, Version=1.14.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Owin.Security.Providers, Version=1.15.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Owin.Security.Providers.1.14.0\lib\net45\Owin.Security.Providers.dll</HintPath>
+      <HintPath>..\packages\Owin.Security.Providers.1.15.0\lib\net45\Owin.Security.Providers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -291,6 +289,7 @@
     <Content Include="Content\apple-touch-icon-76x76.png" />
     <Content Include="Content\apple-touch-icon-precomposed.png" />
     <Content Include="Content\apple-touch-icon.png" />
+    <Content Include="Content\bootstrap-callout.css" />
     <Content Include="Content\bootstrap-dialog.css" />
     <Content Include="Content\bootstrap-social.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -373,6 +372,7 @@
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\ng-clip\ngClip.js" />
     <Content Include="Scripts\ngSticky\sticky.js" />
+    <Content Include="Scripts\ngStorage.js" />
     <Content Include="Scripts\ObjectId.js" />
     <Content Include="Scripts\ui-router\angular-ui-router.js" />
     <Content Include="Scripts\underscore.js" />

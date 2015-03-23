@@ -9,7 +9,7 @@ namespace Estimatorx.Web
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-            ExceptionlessClient.Current.RegisterWebApi(config);
+            ExceptionlessClient.Default.RegisterWebApi(config);
 
             // Web API routes
             config.MapHttpAttributeRoutes();

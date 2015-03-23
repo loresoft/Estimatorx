@@ -9,6 +9,11 @@ namespace Estimatorx.Core
     /// </summary>
     public class Template
     {
+        public Template()
+        {
+            Factors = new List<Factor>();
+        }
+
         /// <summary>
         /// Gets or sets the identifier for the model.
         /// </summary>

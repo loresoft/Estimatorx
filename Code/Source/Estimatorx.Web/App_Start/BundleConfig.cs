@@ -14,6 +14,7 @@ namespace Estimatorx.Web
 
                     "~/Content/bootstrap-dialog.css",
                     "~/Content/bootstrap-social.css",
+                    "~/Content/bootstrap-callout.css",
 
                     "~/Scripts/angular-ui-select/select.css",
                     "~/Content/select2.css",
@@ -77,6 +78,7 @@ namespace Estimatorx.Web
 
                     "~/Scripts/marked.js",
                     "~/Scripts/angular-marked.js",
+                    "~/Scripts/ngStorage.js",
 
                     "~/Scripts/angular-ui-sortable/sortable.js",
 

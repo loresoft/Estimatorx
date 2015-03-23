@@ -12,6 +12,7 @@ module Estimatorx {
             'ngResource',
             'ngSanitize',
             'ngMessages',
+            'ngStorage',
             'angularMoment',
             'ui.bootstrap',
             'ui.select',

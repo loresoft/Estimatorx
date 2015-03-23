@@ -46,9 +46,21 @@
         </thead>
         <tbody>
             <tr class="warning">
-                <td colspan="7"><input type="text" class="form-control section-control" ng-model="section.Name" autocomplete="off" /></td>
-                <td><p class="form-control-static">{{section.TotalTasks}}</p></td>
-                <td><p class="form-control-static">{{section.TotalHours}}</p></td>
+                <td colspan="7">
+                    <input type="text"
+                           class="form-control section-control"
+                           ng-model="section.Name"
+                           title="Enter name for this section"
+                           autocomplete="off" />
+                </td>
+                <td>
+                    <p class="form-control-static"
+                       title="The total tasks for this section">{{section.TotalTasks}}</p>
+                </td>
+                <td>
+                    <p class="form-control-static"
+                       title="The total hours for this section">{{section.TotalHours}}</p>
+                </td>
                 <td>
                     <div class="btn-group pull-right">
                         <a class="btn btn-link btn-sm" ng-click="viewModel.removeSection(section)">
@@ -58,24 +70,64 @@
                 </td>
             </tr>
             <tr ng-repeat="task in section.Tasks">
-                <td><input type="text" class="form-control" ng-model="task.Name" autocomplete="off" /></td>
+                <td>
+                    <input type="text"
+                           class="form-control"
+                           title="Enter name for this task"
+                           ng-model="task.Name"
+                           autocomplete="off" />
+                </td>
                 <td>
                     <select class="form-control no-style"
-                            ng-model="task.FactorId" 
+                            title="Select the factor you use for this task"
+                            ng-model="task.FactorId"
                             ng-options="factor.Id as factor.Name for factor in viewModel.project.Factors">
                         <option value="">-- select --</option>
                     </select>
                 </td>
-                <td><input type="number" class="form-control" ng-model="task.VerySimple" autocomplete="off" /></td>
-                <td><input type="number" class="form-control" ng-model="task.Simple" autocomplete="off" /></td>
-                <td><input type="number" class="form-control" ng-model="task.Medium" autocomplete="off" /></td>
-                <td><input type="number" class="form-control" ng-model="task.Complex" autocomplete="off" /></td>
-                <td><input type="number" class="form-control" ng-model="task.VeryComplex" autocomplete="off" /></td>
-                <td class="active"><p class="form-control-static">{{task.TotalTasks}}</p></td>
-                <td class="active"><p class="form-control-static">{{task.TotalHours}}</p></td>
+                <td>
+                    <input type="number" class="form-control"
+                           autocomplete="off"
+                           ng-model="task.VerySimple"
+                           title="Enter number of very simple tasks" />
+                </td>
+                <td>
+                    <input type="number" class="form-control"
+                           autocomplete="off"
+                           ng-model="task.Simple"
+                           title="Enter number of simple tasks" />
+                </td>
+                <td>
+                    <input type="number" class="form-control"
+                           autocomplete="off"
+                           ng-model="task.Medium"
+                           title="Enter number of medium tasks" />
+                </td>
+                <td>
+                    <input type="number" class="form-control"
+                           autocomplete="off"
+                           ng-model="task.Complex"
+                           title="Enter number of complex tasks" />
+                </td>
+                <td>
+                    <input type="number" class="form-control"
+                           autocomplete="off"
+                           ng-model="task.VeryComplex"
+                           title="Enter number of very complex tasks" />
+                </td>
+                <td class="active">
+                    <p class="form-control-static"
+                       title="The total number of tasks">{{task.TotalTasks}}</p>
+                </td>
+                <td class="active">
+                    <p class="form-control-static"
+                       title="The factor hours multiplied by the task count per difficulty">{{task.TotalHours}}</p>
+                </td>
                 <td class="active">
                     <div class="btn-group pull-right">
-                        <a class="btn btn-link btn-sm" ng-click="viewModel.removeTask(section, task)" title="Delete this Task">
+                        <a class="btn btn-link btn-sm"
+                           ng-click="viewModel.removeTask(section, task)"
+                           title="Delete this Task">
                             <i class="glyphicon glyphicon-remove"></i>
                         </a>
                     </div>
@@ -86,14 +138,21 @@
             <tr>
                 <th colspan="10">
                     <div class="btn-group">
-                        <a class="btn btn-link btn-sm" ng-click="viewModel.addTask(section)">
-                            <i class="glyphicon glyphicon-plus"></i> Add Task
+                        <a class="btn btn-link btn-sm"
+                           ng-click="viewModel.addTask(section)">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            Add Task
                         </a>
-                        <a class="btn btn-link btn-sm" ng-click="viewModel.addSection()">
-                            <i class="glyphicon glyphicon-plus"></i> Add Section
+                        <a class="btn btn-link btn-sm"
+                           ng-click="viewModel.addSection()">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            Add Section
                         </a>
-                        <a class="btn btn-link btn-sm" ng-click="viewModel.reorderTasks(section)" ng-show="section.Tasks.length > 1">
-                            <i class="fa fa-unsorted"></i> Reorder Tasks
+                        <a class="btn btn-link btn-sm"
+                           ng-click="viewModel.reorderTasks(section)"
+                           ng-show="section.Tasks.length > 1">
+                            <i class="fa fa-unsorted"></i>
+                            Reorder Tasks
                         </a>
                     </div>
                 </th>
@@ -102,11 +161,24 @@
     </table>
 </div>
 <div class="btn-group">
-    <a class="btn btn-link btn-sm" ng-click="viewModel.addSection()">
-        <i class="glyphicon glyphicon-plus"></i> Add Section
+    <a class="btn btn-link btn-sm"
+       ng-click="viewModel.addSection()">
+        <i class="glyphicon glyphicon-plus"></i>
+        Add Section
     </a>
-    <a class="btn btn-link btn-sm" ng-click="viewModel.reorderSections()" ng-show="viewModel.project.Sections.length > 1">
+    <a class="btn btn-link btn-sm"
+       ng-click="viewModel.reorderSections()"
+       ng-show="viewModel.project.Sections.length > 1">
         <i class="fa fa-unsorted"></i> Reorder Section
     </a>
 </div>
 
+<p class="bs-callout bs-callout-primary"
+   ng-hide="viewModel.$storage.hideTaskCallout">
+    <button type="button" class="close" aria-label="Close"
+            ng-click="viewModel.$storage.hideTaskCallout = true">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    Create a Section for common tasks. Add a task to the section that is a specific item or feature. Select the factor for the task.
+    Enter the number of tasks at appropriate complexity level.
+</p>

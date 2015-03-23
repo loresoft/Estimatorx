@@ -1153,15 +1153,6 @@ declare module ng {
         put<T>(url: string, data: any, config?: IRequestShortcutConfig): IHttpPromise<T>;
 
         /**
-         * Shortcut method to perform PATCH request.
-         *
-         * @param url Relative or absolute URL specifying the destination of the request
-         * @param data Request content
-         * @param config Optional configuration object
-         */
-        patch<T>(url: string, data: any, config?: IRequestShortcutConfig): IHttpPromise<T>;
-
-        /**
          * Runtime equivalent of the $httpProvider.defaults property. Allows configuration of default headers, withCredentials as well as request and response transformations.
          */
         defaults: IRequestConfig;

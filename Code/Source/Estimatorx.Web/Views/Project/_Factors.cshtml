@@ -28,15 +28,53 @@
         </thead>
         <tbody>
             <tr ng-repeat="factor in viewModel.project.Factors">
-                <td><input type="text" class="form-control" ng-model="factor.Name" autocomplete="off" /></td>
-                <td><input type="number" class="form-control" ng-model="factor.VerySimple" autocomplete="off" /></td>
-                <td><input type="number" class="form-control" ng-model="factor.Simple" autocomplete="off" /></td>
-                <td><input type="number" class="form-control" ng-model="factor.Medium" autocomplete="off" /></td>
-                <td><input type="number" class="form-control" ng-model="factor.Complex" autocomplete="off" /></td>
-                <td><input type="number" class="form-control" ng-model="factor.VeryComplex" autocomplete="off" /></td>
+                <td>
+                    <input type="text"
+                           class="form-control"
+                           ng-model="factor.Name"
+                           title="Enter name of this factor"
+                           autocomplete="off" />
+                </td>
+                <td>
+                    <input type="number"
+                           class="form-control"
+                           title="Enter hours for a very simple task"
+                           ng-model="factor.VerySimple"
+                           autocomplete="off" />
+                </td>
+                <td>
+                    <input type="number"
+                           class="form-control"
+                           title="Enter hours for a simple task"
+                           ng-model="factor.Simple"
+                           autocomplete="off" />
+                </td>
+                <td>
+                    <input type="number"
+                           class="form-control"
+                           title="Enter hours for a medium task"
+                           ng-model="factor.Medium"
+                           autocomplete="off" />
+                </td>
+                <td>
+                    <input type="number"
+                           class="form-control"
+                           title="Enter hours for a complex task"
+                           ng-model="factor.Complex"
+                           autocomplete="off" />
+                </td>
+                <td>
+                    <input type="number"
+                           class="form-control"
+                           title="Enter hours for a very complex task"
+                           ng-model="factor.VeryComplex"
+                           autocomplete="off" />
+                </td>
                 <td class="active">
                     <div class="btn-group pull-right">
-                        <a class="btn btn-link btn-sm" ng-click="viewModel.removeFactor(factor)" title="Delete this factor">
+                        <a class="btn btn-link btn-sm"
+                           ng-click="viewModel.removeFactor(factor)"
+                           title="Delete this factor">
                             <i class="glyphicon glyphicon-remove"></i>
                         </a>
                     </div>
@@ -47,14 +85,21 @@
             <tr>
                 <th colspan="7">
                     <div class="btn-group">
-                        <a class="btn btn-link btn-sm" ng-click="viewModel.addFactor()">
-                            <i class="glyphicon glyphicon-plus"></i> Add Factor
+                        <a class="btn btn-link btn-sm"
+                           ng-click="viewModel.addFactor()">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            Add Factor
                         </a>
-                        <a class="btn btn-link btn-sm" ng-click="viewModel.addTemplate()">
-                            <i class="glyphicon glyphicon-plus"></i> Add Template
+                        <a class="btn btn-link btn-sm"
+                           ng-click="viewModel.addTemplate()">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            Add Template
                         </a>
-                        <a class="btn btn-link btn-sm" ng-click="viewModel.reorderFactors()" ng-show="viewModel.project.Factors.length > 1">
-                            <i class="fa fa-unsorted"></i> Reorder Factors
+                        <a class="btn btn-link btn-sm"
+                           ng-click="viewModel.reorderFactors()"
+                           ng-show="viewModel.project.Factors.length > 1">
+                            <i class="fa fa-unsorted"></i>
+                            Reorder Factors
                         </a>
                     </div>
 
@@ -64,3 +109,12 @@
     </table>
 </div>
 
+<p class="bs-callout bs-callout-primary"
+   ng-hide="viewModel.$storage.hideFactorCallout">
+    <button type="button" class="close" aria-label="Close"
+            ng-click="viewModel.$storage.hideFactorCallout = true">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    Factors are a type of task with hours associated with the complexity of that task. Factors allow the estimator
+    to state hours based on a specific type of task, regardless of the project.
+</p>
