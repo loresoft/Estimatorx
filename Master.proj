@@ -12,7 +12,7 @@
     <ExcludeFiles>*.resx;*.csproj;*.webinfo;*.log;*.txt;*.cs;*.user;*.vspscc;*.md;packages.config;</ExcludeFiles>
 
     <MSBuildCommunityTasksPath>$(ToolFolder)\MSBuildTasks\tools</MSBuildCommunityTasksPath>
-    <XUnitTasksPath>$(ToolFolder)\xunit.runners\tools</XUnitTasksPath>
+    <XUnitTasksPath>$(ToolFolder)\xunit.runner.console\tools</XUnitTasksPath>
   </PropertyGroup>
 
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets"/>
@@ -72,13 +72,7 @@
       <TestAssemblies Include="$(SourceFolder)\**\*.Tests\bin\$(BuildConfiguration)\*.Tests.dll"/>
     </ItemGroup>
 
-    <Message Text="AppVeyor: $(APPVEYOR)"/>
-
-    <exec Condition=" '$(APPVEYOR)' != '' "
-          Command="xunit.console.clr4.x86.exe &quot;%(TestAssemblies.Identity)&quot; /appveyor"/>
-
-    <exec Condition=" '$(APPVEYOR)' == '' "
-          Command="$(XUnitTasksPath)\xunit.console.clr4.x86.exe &quot;%(TestAssemblies.Identity)&quot;"/>
+    <exec Command="$(XUnitTasksPath)\xunit.console.exe &quot;%(TestAssemblies.Identity)&quot; -appveyor"/>
   </Target>
 
   <Target Name="Package" DependsOnTargets="Test">
