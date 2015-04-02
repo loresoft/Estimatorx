@@ -54,19 +54,21 @@
     <Reference Include="Autofac.Integration.WebApi">
       <HintPath>..\packages\Autofac.WebApi2.3.4.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
-    <Reference Include="Exceptionless.Extras">
-      <HintPath>..\packages\Exceptionless.Mvc.2.0.1283\lib\net45\Exceptionless.Extras.dll</HintPath>
-    </Reference>
-    <Reference Include="Exceptionless.Mvc, Version=2.0.1283.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Exceptionless.Extras, Version=2.0.1288.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Exceptionless.Mvc.2.0.1283\lib\net45\Exceptionless.Mvc.dll</HintPath>
+      <HintPath>..\packages\Exceptionless.WebApi.2.0.1288\lib\net45\Exceptionless.Extras.dll</HintPath>
     </Reference>
-    <Reference Include="Exceptionless.Portable">
-      <HintPath>..\packages\Exceptionless.Portable.2.0.1283\lib\portable-net40+sl50+win+wpa81+wp80\Exceptionless.Portable.dll</HintPath>
-    </Reference>
-    <Reference Include="Exceptionless.WebApi, Version=2.0.1283.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Exceptionless.Mvc, Version=2.0.1288.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Exceptionless.WebApi.2.0.1283\lib\net45\Exceptionless.WebApi.dll</HintPath>
+      <HintPath>..\packages\Exceptionless.Mvc.2.0.1288\lib\net45\Exceptionless.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Exceptionless.Portable, Version=2.0.1288.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Exceptionless.Portable.2.0.1288\lib\portable-net40+sl50+win+wpa81+wp80\Exceptionless.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Exceptionless.WebApi, Version=2.0.1288.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Exceptionless.WebApi.2.0.1288\lib\net45\Exceptionless.WebApi.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp, Version=5.5.5.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -156,9 +158,9 @@
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Owin.Security.Providers, Version=1.15.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Owin.Security.Providers, Version=1.16.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Owin.Security.Providers.1.15.0\lib\net45\Owin.Security.Providers.dll</HintPath>
+      <HintPath>..\packages\Owin.Security.Providers.1.16.0\lib\net45\Owin.Security.Providers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -532,11 +534,11 @@
       <DependentUpon>NLog.config</DependentUpon>
     </Content>
     <Content Include="Views\Shared\_Dialogs.cshtml" />
+    <Content Include="Views\Organization\_Invites.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Views\Organization\_Invites.cshtml" />
     <None Include="Web.Production.config">
       <SubType>Designer</SubType>
       <DependentUpon>Web.config</DependentUpon>
