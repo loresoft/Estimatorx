@@ -115,11 +115,11 @@ namespace Estimatorx.Web.Services
             
             string link = Url.Link("Invite", new { id = invite.Id, key = invite.SecurityKey });
 
-            string subject = string.Format("{0} invited you to join the '{1}' organization on EstimatorX.com", user.Name, o.Name);
+            string subject = string.Format("Welcome to the {0} organization on EstimatorX.com", o.Name);
             string body = string.Format(
-                "<p>You've been invited to join the '{1}' organization on EstimatorX.com!</p>" +
+                "<p>{0} invited to join the {1} organization on EstimatorX.com.</p>" +
                 "<p>EstimatorX is a simple project estimation application.</p>" +
-                "<p><a href=\"{0}\">{0}</a></p>", link, o.Name);
+                "<p>{2}</p>", user.Name, o.Name, link);
 
             var mailMessage = new MailMessage();
             mailMessage.To.Add(invite.Email);
