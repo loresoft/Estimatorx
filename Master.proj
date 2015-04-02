@@ -9,7 +9,7 @@
     <PackageFolder>$(DeployFolder)\WebSite</PackageFolder>
 
     <ExcludeFolders>.git;.svn;obj;App_Data;.settings;bower_components;app_data</ExcludeFolders>
-    <ExcludeFiles>*.resx;*.csproj;*.webinfo;*.log;*.txt;*.cs;*.user;*.vspscc;*.md;packages.config;</ExcludeFiles>
+    <ExcludeFiles>*.resx;*.csproj;*.webinfo;*.log;*.txt;*.cs;*.user;*.vspscc;*.md;packages.config;*.cmd</ExcludeFiles>
 
     <MSBuildCommunityTasksPath>$(ToolFolder)\MSBuildTasks\tools</MSBuildCommunityTasksPath>
     <XUnitTasksPath>$(ToolFolder)\xunit.runner.console\tools</XUnitTasksPath>

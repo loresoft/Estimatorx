@@ -8,7 +8,7 @@ md c:\mongo\data
 Push-Location c:\mongo
 
 # Download zipped mongodb binaries to mongodbdir
-Invoke-WebRequest https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-2.6.5.zip -OutFile mongodb.zip
+Invoke-WebRequest https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-3.0.1.zip -OutFile mongodb.zip
 
 # Extract mongodb zip
 cmd /c 7za e mongodb.zip
