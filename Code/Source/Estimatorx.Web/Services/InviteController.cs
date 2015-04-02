@@ -117,7 +117,7 @@ namespace Estimatorx.Web.Services
 
             string subject = string.Format("Welcome to the {0} organization on EstimatorX.com", o.Name);
             string body = string.Format(
-                "<p>{0} invited to join the {1} organization on EstimatorX.com.</p>" +
+                "<p>{0} invited you to join the {1} organization on EstimatorX.com.</p>" +
                 "<p>EstimatorX is a simple project estimation application.</p>" +
                 "<p>{2}</p>", user.Name, o.Name, link);
 
