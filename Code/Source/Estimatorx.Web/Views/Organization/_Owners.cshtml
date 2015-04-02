@@ -60,3 +60,13 @@
     </div>
 </div>
 
+<div class="bs-callout bs-callout-primary"
+     ng-hide="$localStorage.hideOwnersCallout && viewModel.owners.length > 0">
+    <button type="button" class="close" aria-label="Close"
+            title="Hide help box"
+            ng-click="$localStorage.hideOwnersCallout = true">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <span class="fa fa-info-circle fa-2x pull-left text-primary"></span>
+    Owners can add or remove members to this organization.
+</div>

@@ -66,3 +66,13 @@
 </div>
 
 
+<div class="bs-callout bs-callout-primary"
+     ng-hide="$localStorage.hideInvitesCallout && viewModel.invites.length > 0">
+    <button type="button" class="close" aria-label="Close"
+            title="Hide help box"
+            ng-click="$localStorage.hideInvitesCallout = true">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <span class="fa fa-info-circle fa-2x pull-left text-primary"></span>
+    Click 'Invite Member' to send an invite email to add a member. The invite email will contain a link join this organization.
+</div>

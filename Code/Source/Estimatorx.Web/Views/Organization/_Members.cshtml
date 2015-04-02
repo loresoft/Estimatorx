@@ -68,3 +68,13 @@
     </div>
 </div>
 
+<div class="bs-callout bs-callout-primary"
+     ng-hide="$localStorage.hideMembersCallout && viewModel.members.length > 0">
+    <button type="button" class="close" aria-label="Close"
+            title="Hide help box"
+            ng-click="$localStorage.hideMembersCallout = true">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <span class="fa fa-info-circle fa-2x pull-left text-primary"></span>
+    All members of an organization can edit a Project or Template assigned to that organization.
+</div>

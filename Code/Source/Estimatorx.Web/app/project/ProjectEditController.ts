@@ -10,7 +10,6 @@ module Estimatorx {
             '$scope',
             '$location',
             '$modal',
-            '$localStorage',
             'logger',
             'identityService',
             'modelFactory',
@@ -23,7 +22,6 @@ module Estimatorx {
             $scope,
             $location: ng.ILocationService,
             $modal: any,
-            $localStorage: any,
             logger: Logger,
             identityService: IdentityService,
             modelFactory: ModelFactory,
@@ -40,11 +38,6 @@ module Estimatorx {
 
             self.$location = $location;
             self.$modal = $modal;
-            self.$storage = $localStorage.$default({
-                hideTaskCallout: false,
-                hideFactorCallout: false,
-                hideAssumptionCallout: false
-            });
 
             self.logger = logger;
             self.identityService = identityService;
@@ -75,7 +68,6 @@ module Estimatorx {
         $scope: any;
         $location: ng.ILocationService;
         $modal: any;
-        $storage: any;
         identityService: IdentityService;
         logger: Logger;
         modelFactory: ModelFactory;
@@ -515,7 +507,6 @@ module Estimatorx {
             '$scope',
             '$location',
             '$modal',
-            '$localStorage',
             'logger',
             'identityService',
             'modelFactory',

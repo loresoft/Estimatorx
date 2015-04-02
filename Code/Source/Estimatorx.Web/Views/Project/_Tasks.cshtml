@@ -173,12 +173,14 @@
     </a>
 </div>
 
-<p class="bs-callout bs-callout-primary"
-   ng-hide="viewModel.$storage.hideTaskCallout">
+<div class="bs-callout bs-callout-primary"
+     ng-hide="$localStorage.hideTaskCallout && viewModel.project.Sections.length > 0">
     <button type="button" class="close" aria-label="Close"
-            ng-click="viewModel.$storage.hideTaskCallout = true">
+            title="Hide help box"
+            ng-click="$localStorage.hideTaskCallout = true">
         <span aria-hidden="true">&times;</span>
     </button>
+    <span class="fa fa-info-circle fa-2x pull-left text-primary"></span>
     Create a Section for common tasks. Add a task to the section that is a specific item or feature. Select the factor for the task.
     Enter the number of tasks at appropriate complexity level.
-</p>
+</div>

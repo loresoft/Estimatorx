@@ -23,6 +23,8 @@ module Estimatorx {
             'sticky',
             'hc.marked',
             'toaster'
-        ]
-    );
+        ])
+        .run(($localStorage, $rootScope) => {
+            $rootScope.$localStorage = $localStorage;
+        });
 }

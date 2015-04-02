@@ -109,12 +109,14 @@
     </table>
 </div>
 
-<p class="bs-callout bs-callout-primary"
-   ng-hide="viewModel.$storage.hideFactorCallout">
+<div class="bs-callout bs-callout-primary"
+     ng-hide="$localStorage.hideFactorCallout && viewModel.project.Factors.length > 0">
     <button type="button" class="close" aria-label="Close"
-            ng-click="viewModel.$storage.hideFactorCallout = true">
+            title="Hide help box"
+            ng-click="$localStorage.hideFactorCallout = true">
         <span aria-hidden="true">&times;</span>
     </button>
+    <span class="fa fa-info-circle fa-2x pull-left text-primary"></span>
     Factors are a type of task with hours associated with the complexity of that task. Factors allow the estimator
     to state hours based on a specific type of task, regardless of the project.
-</p>
+</div>

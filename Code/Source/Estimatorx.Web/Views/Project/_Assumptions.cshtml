@@ -37,11 +37,13 @@
     </tfoot>
 </table>
 
-<p class="bs-callout bs-callout-primary"
-   ng-hide="viewModel.$storage.hideAssumptionCallout">
+<div class="bs-callout bs-callout-primary"
+     ng-hide="$localStorage.hideAssumptionCallout && viewModel.project.Assumptions.length > 0">
     <button type="button" class="close" aria-label="Close"
-            ng-click="viewModel.$storage.hideAssumptionCallout = true">
+            title="Hide help box"
+            ng-click="$localStorage.hideAssumptionCallout = true">
         <span aria-hidden="true">&times;</span>
     </button>
+    <span class="fa fa-info-circle fa-2x pull-left text-primary"></span>
     Enter assumptions made when creating this estimate. Documenting assumptions help raise the red flag in the future when an assumptions proves not to be true.
-</p>
+</div>
