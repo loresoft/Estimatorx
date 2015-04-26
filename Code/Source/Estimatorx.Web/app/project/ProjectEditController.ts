@@ -462,31 +462,44 @@ module Estimatorx {
 
 
         addSecurityKey() {
-            this.project.SecurityKey = this.identityService.newSecurityKey();
-            this.setDirty();
+            var self = this;
+
+            self.project.SecurityKey = this.identityService.newSecurityKey();
+            self.setDirty();
+
+            self.logger.showAlert({
+                type: 'success',
+                title: 'Link Successful',
+                message: 'Link created succesfully. You must save the project before using the new link.',
+                timeOut: 8000
+            });
         }
 
         removeSecurityKey() {
-            BootstrapDialog.confirm("Are you sure you want to remove the shared link?", (result) => {
+            var self = this;
+
+            BootstrapDialog.confirm("Are you sure you want to remove the shared link?",(result) => {
                 if (!result)
                     return;
 
-                this.project.SecurityKey = null;
-                this.setDirty();
+                self.project.SecurityKey = null;
+                self.setDirty();
+                self.$scope.$applyAsync();
             });
         }
 
         shareLink(relitive: boolean = false): string {
+            var self = this;
 
             if (relitive) {
-                return "Project/Share/" + this.project.Id + "/" + this.project.SecurityKey;
+                return "Project/Share/" + self.project.Id + "/" + self.project.SecurityKey;
             }
 
-            var url = this.$location.protocol() + "//"
-                + this.$location.host()
+            var url = self.$location.protocol() + "://"
+                + self.$location.host()
                 + angular.element('base').attr('href')
                 + "Project/Share/"
-                + this.project.Id + "/" + this.project.SecurityKey;
+                + self.project.Id + "/" + self.project.SecurityKey;
 
             return url;
         }
