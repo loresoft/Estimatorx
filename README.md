@@ -7,6 +7,8 @@ A simple project estimation application.
 
 ## Features
 
+[![Join the chat at https://gitter.im/loresoft/Estimatorx](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/loresoft/Estimatorx?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ### Projects
 
 A project contains all the details that make up an estimate. An estimate is broken down into Assumptions, Factors and Tasks. The estimate is padded with a contingency rate.
