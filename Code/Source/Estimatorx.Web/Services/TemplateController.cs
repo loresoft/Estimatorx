@@ -117,7 +117,7 @@ namespace Estimatorx.Web.Services
 
             if (!HasAccess(id))
                 return Unauthorized();
-            
+
             _templateRepository.Delete(id);
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -135,7 +135,7 @@ namespace Estimatorx.Web.Services
 
             return _templateRepository
                 .All()
-                .Where(t => t.OrganizationId.In(access));
+                .Where(t => access.Contains(t.OrganizationId));
         }
 
         private bool HasAccess(string id)

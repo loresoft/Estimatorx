@@ -10,14 +10,14 @@ module Estimatorx {
         ];
 
         urlBase: string = 'api/Organization';
-        $http: ng.IHttpService;
+        $http: angular.IHttpService;
 
-        constructor($http: ng.IHttpService) {
+        constructor($http: angular.IHttpService) {
 
             this.$http = $http;
         }
 
-        query(request?: IQueryRequest): ng.IHttpPromise<IQueryResult<IOrganization>> {
+        query(request?: IQueryRequest): angular.IHttpPromise<IQueryResult<IOrganization>> {
             var config = {
                 params: request
             };
@@ -25,19 +25,19 @@ module Estimatorx {
             return this.$http.get<IQueryResult<IOrganization>>(this.urlBase + '/Query', config);
         }
 
-        all(): ng.IHttpPromise<IOrganization[]> {
+        all(): angular.IHttpPromise<IOrganization[]> {
             return this.$http.get<IOrganization[]>(this.urlBase);
         }
 
-        find(id: string): ng.IHttpPromise<IOrganization> {
+        find(id: string): angular.IHttpPromise<IOrganization> {
             return this.$http.get<IOrganization>(this.urlBase + '/' + id);
         }
 
-        save(organization: IOrganization): ng.IHttpPromise<IOrganization> {
+        save(organization: IOrganization): angular.IHttpPromise<IOrganization> {
             return this.$http.post<IOrganization>(this.urlBase, organization);
         }
 
-        delete(id: string): ng.IHttpPromise<void> {
+        delete(id: string): angular.IHttpPromise<void> {
             return this.$http.delete<void>(this.urlBase + '/' + id);
         }
     }

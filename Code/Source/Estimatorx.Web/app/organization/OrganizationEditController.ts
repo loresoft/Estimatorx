@@ -8,7 +8,7 @@ module Estimatorx {
         // protect for minification, must match contructor signiture.
         static $inject = [
             '$scope',
-            '$modal',
+            '$uibModal',
             'logger',
             'identityService',
             'modelFactory',
@@ -19,7 +19,7 @@ module Estimatorx {
 
         constructor(
             $scope,
-            $modal: any,
+            $uibModal: angular.ui.bootstrap.IModalService,
             logger: Logger,
             identityService: IdentityService,
             modelFactory: ModelFactory,
@@ -32,7 +32,7 @@ module Estimatorx {
             // assign viewModel to controller
             $scope.viewModel = this;
             self.$scope = $scope;
-            self.$modal = $modal;
+            self.$uibModal = $uibModal;
 
             self.logger = logger;
             self.identityService = identityService;
@@ -52,7 +52,7 @@ module Estimatorx {
         }
 
         $scope: any;
-        $modal: any;
+        $uibModal: angular.ui.bootstrap.IModalService;
         
         logger: Logger;
         identityService: IdentityService;
@@ -231,7 +231,7 @@ module Estimatorx {
         addMember() {
             var self = this;
 
-            var modalInstance = self.$modal.open({
+            var modalInstance = self.$uibModal.open({
                 templateUrl: 'memberModal.html',
                 controller: 'memberModalController'
             });
@@ -269,7 +269,7 @@ module Estimatorx {
         addOwner() {
             var self = this;
 
-            var modalInstance = self.$modal.open({
+            var modalInstance = self.$uibModal.open({
                 templateUrl: 'memberModal.html',
                 controller: 'memberModalController'
             });
@@ -306,7 +306,7 @@ module Estimatorx {
         addInvite() {
             var self = this;
 
-            var modalInstance = self.$modal.open({
+            var modalInstance = self.$uibModal.open({
                 templateUrl: 'inviteModal.html',
                 controller: 'inviteModalController'
             });
@@ -372,7 +372,7 @@ module Estimatorx {
     // register controller
     angular.module(Estimatorx.applicationName).controller('organizationEditController', [
             '$scope',
-            '$modal',
+            '$uibModal',
             'logger',
             'identityService',
             'modelFactory',

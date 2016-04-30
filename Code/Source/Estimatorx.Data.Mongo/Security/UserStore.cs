@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Estimatorx.Core.Security;
 using Microsoft.AspNet.Identity;
@@ -35,28 +34,28 @@ namespace Estimatorx.Data.Mongo.Security
 
         public Task CreateAsync(User user)
         {
-            return Task.Run(() => Insert(user));
+            return InsertAsync(user);
         }
 
-        public Task UpdateAsync(User user)
+        public new Task UpdateAsync(User user)
         {
-            return Task.Run(() => Update(user));
+            return base.UpdateAsync(user);
         }
 
-        public Task DeleteAsync(User user)
+        public new Task DeleteAsync(User user)
         {
-            return Task.Run(() => Delete(user));
+            return base.DeleteAsync(user);
         }
 
 
         public Task<User> FindByIdAsync(string userId)
         {
-            return Task.Run(() => Find(userId));
+            return FindAsync(userId);
         }
 
         public Task<User> FindByNameAsync(string userName)
         {
-            return Task.Run(() => FindOne(u => u.UserName == userName.ToLowerInvariant()));
+            return FindOneAsync(u => u.UserName == userName.ToLowerInvariant());
         }
 
 
@@ -99,7 +98,8 @@ namespace Estimatorx.Data.Mongo.Security
 
         public Task<bool> IsInRoleAsync(User user, string roleName)
         {
-            return Task.FromResult(user.Roles.Contains(roleName));
+            var contains = user.Roles.Contains(roleName);
+            return Task.FromResult(contains);
         }
 
 
@@ -136,12 +136,10 @@ namespace Estimatorx.Data.Mongo.Security
 
         public Task<User> FindAsync(UserLoginInfo login)
         {
-            return Task.Run(() =>
-                FindOne(u =>
-                    u.Logins.Any(l =>
-                        l.LoginProvider == login.LoginProvider &&
-                        l.ProviderKey == login.ProviderKey
-                    )
+            return FindOneAsync(u =>
+                u.Logins.Any(l =>
+                    l.LoginProvider == login.LoginProvider &&
+                    l.ProviderKey == login.ProviderKey
                 )
             );
         }
@@ -185,7 +183,7 @@ namespace Estimatorx.Data.Mongo.Security
 
         public Task<User> FindByEmailAsync(string email)
         {
-            return Task.Run(() => FindOne(u => u.Email == email));
+            return FindOneAsync(u => u.Email == email);
         }
 
 
@@ -222,10 +220,7 @@ namespace Estimatorx.Data.Mongo.Security
         }
 
 
-        public IQueryable<User> Users
-        {
-            get { return All(); }
-        }
+        public IQueryable<User> Users => All();
 
 
         public Task SetPhoneNumberAsync(User user, string phoneNumber)

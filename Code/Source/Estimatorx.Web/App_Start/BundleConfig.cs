@@ -16,12 +16,12 @@ namespace Estimatorx.Web
                     "~/Content/bootstrap-social.css",
                     "~/Content/bootstrap-callout.css",
 
-                    "~/Scripts/angular-ui-select/select.css",
+                    "~/Content/select.css",
                     "~/Content/select2.css",
                     "~/Content/select2-bootstrap.css",
 
                     "~/Scripts/angular-block-ui/angular-block-ui.css",
-                    "~/Scripts/angularjs-toaster/toaster.css",
+                    "~/Content/angular-toastr.css",
 
                     "~/Scripts/jquery-ui/jquery-ui.css",
 
@@ -68,7 +68,7 @@ namespace Estimatorx.Web
                     "~/Scripts/angular-moment.js",
                     "~/Scripts/ui-router/angular-ui-router.js",
                     "~/Scripts/angular-block-ui/angular-block-ui.js",
-                    "~/Scripts/angularjs-toaster/toaster.js",
+                    "~/Scripts/angular-toastr.tpls.js",
 
                     "~/Scripts/zeroclipboard/ZeroClipboard.js",
                     "~/Scripts/ng-clip/ngClip.js",
@@ -82,8 +82,7 @@ namespace Estimatorx.Web
 
                     "~/Scripts/angular-ui-sortable/sortable.js",
 
-                    "~/Scripts/angular-ui-select/select.js",
-                    "~/Scripts/angular-ui/ui-bootstrap.js",
+                    "~/Scripts/select.js",
                     "~/Scripts/angular-ui/ui-bootstrap-tpls.js"
                 )
             );

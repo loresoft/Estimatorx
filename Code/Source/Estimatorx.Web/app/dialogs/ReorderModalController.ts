@@ -8,14 +8,14 @@ module Estimatorx {
         // protect for minification, must match constructor signiture.
         static $inject = [
             '$scope',
-            '$modalInstance',
+            '$uibModalInstance',
             'name',
             'items'
         ];
 
         constructor(
             $scope,
-            $modalInstance,
+            $uibModalInstance: angular.ui.bootstrap.IModalServiceInstance,
             name: string,
             items: any[]
         ) {
@@ -24,24 +24,24 @@ module Estimatorx {
             // assign viewModel to controller
             $scope.viewModel = this;
             self.$scope = $scope;
-            self.$modalInstance = $modalInstance;
+            self.$uibModalInstance = $uibModalInstance;
             self.items = angular.copy(items);
             self.name = name;
         }
 
         $scope: any;
-        $modalInstance: any;
+        $uibModalInstance: angular.ui.bootstrap.IModalServiceInstance;
         items: any[];
         name: string;
 
         select() {
             var self = this;
-            self.$modalInstance.close(self.items);
+            self.$uibModalInstance.close(self.items);
         }
 
         cancel() {
             var self = this;
-            self.$modalInstance.dismiss('cancel');
+            self.$uibModalInstance.dismiss('cancel');
         }
 
     }
@@ -51,7 +51,7 @@ module Estimatorx {
         .controller('reorderModalController',
         [
             '$scope',
-            '$modalInstance',
+            '$uibModalInstance',
             'name',
             'items',
             ReorderModalController

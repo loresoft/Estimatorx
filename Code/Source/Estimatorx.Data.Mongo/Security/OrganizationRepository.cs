@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 using Estimatorx.Core.Security;
-using MongoDB.Bson;
+using MongoDB.Abstracts;
 using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
 
 namespace Estimatorx.Data.Mongo.Security
@@ -17,7 +15,7 @@ namespace Estimatorx.Data.Mongo.Security
             : this("EstimatorxMongo")
         {
         }
-        
+
         public OrganizationRepository(string connectionName)
             : base(connectionName)
         {
@@ -33,9 +31,9 @@ namespace Estimatorx.Data.Mongo.Security
             if (keys == null)
                 throw new ArgumentNullException("keys");
 
-            return _collection.Value
+            return Collection
                 .AsQueryable()
-                .Where(e => e.Id.In(keys));
+                .Where(e => keys.Contains(e.Id));
         }
 
 
@@ -44,9 +42,9 @@ namespace Estimatorx.Data.Mongo.Security
             return entity.Id;
         }
 
-        protected override BsonValue ConvertKey(string key)
+        protected override Expression<Func<Organization, bool>> KeyExpression(string key)
         {
-            return ConvertString(key);
+            return organization => organization.Id == key;
         }
 
 
@@ -75,13 +73,13 @@ namespace Estimatorx.Data.Mongo.Security
         }
 
 
-        protected override void EnsureIndexes(MongoCollection<Organization> mongoCollection)
+        protected override void EnsureIndexes(IMongoCollection<Organization> mongoCollection)
         {
             base.EnsureIndexes(mongoCollection);
 
-            mongoCollection.CreateIndex(
-                IndexKeys<Organization>.Ascending(s => s.Name),
-                IndexOptions.SetUnique(true)
+            mongoCollection.Indexes.CreateOne(
+                Builders<Organization>.IndexKeys.Ascending(s => s.Name),
+                new CreateIndexOptions { Unique = true }
             );
         }
     }

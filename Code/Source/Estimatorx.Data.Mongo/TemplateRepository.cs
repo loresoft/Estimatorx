@@ -4,9 +4,9 @@ using System.Linq.Expressions;
 using Estimatorx.Core;
 using Estimatorx.Core.Providers;
 using Estimatorx.Core.Security;
+using MongoDB.Abstracts;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 
 namespace Estimatorx.Data.Mongo
 {
@@ -34,15 +34,17 @@ namespace Estimatorx.Data.Mongo
             return All().Select(SelectSummary());
         }
 
+
         public override string EntityKey(Template entity)
         {
             return entity.Id;
         }
 
-        protected override BsonValue ConvertKey(string key)
+        protected override Expression<Func<Template, bool>> KeyExpression(string key)
         {
-            return ConvertString(key);
+            return tenplate => tenplate.Id == key;
         }
+
 
         protected override void BeforeInsert(Template entity)
         {
@@ -68,12 +70,13 @@ namespace Estimatorx.Data.Mongo
             base.BeforeUpdate(entity);
         }
 
-        protected override void EnsureIndexes(MongoCollection<Template> mongoCollection)
+
+        protected override void EnsureIndexes(IMongoCollection<Template> mongoCollection)
         {
             base.EnsureIndexes(mongoCollection);
 
-            mongoCollection.CreateIndex(
-                IndexKeys<Template>
+            mongoCollection.Indexes.CreateOne(
+                Builders<Template>.IndexKeys
                     .Ascending(s => s.OrganizationId)
                     .Descending(s => s.Updated)
             );

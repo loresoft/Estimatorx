@@ -29,7 +29,7 @@ module Estimatorx {
             self.project = <IProject>{};
         }
 
-        $scope: ng.IScope;
+        $scope: angular.IScope;
         logger: Logger;
         projectRepository: ProjectRepository;
 

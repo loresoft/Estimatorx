@@ -100,7 +100,7 @@ namespace Estimatorx.Web.Services
                 return BadRequest();
             if (string.IsNullOrEmpty(key))
                 return BadRequest();
-            
+
             var project = _projectRepository.Find(id);
             if (project == null)
                 return NotFound();
@@ -139,7 +139,7 @@ namespace Estimatorx.Web.Services
                 return Unauthorized();
 
             _projectRepository.Delete(id);
-            return StatusCode(HttpStatusCode.NoContent);           
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
         private IQueryable<Project> SecureQuery()
@@ -153,7 +153,7 @@ namespace Estimatorx.Web.Services
             access.Add(currentUser.Id);
 
             return _projectRepository.All()
-                .Where(t => t.OrganizationId.In(access));
+                .Where(t => access.Contains(t.OrganizationId));
         }
 
         private bool HasAccess(string id)
@@ -175,7 +175,7 @@ namespace Estimatorx.Web.Services
                 return true; // allow create
 
             // user must be member 
-            return project.OrganizationId == user.Id 
+            return project.OrganizationId == user.Id
                 || user.Organizations.Contains(project.OrganizationId);
         }
 

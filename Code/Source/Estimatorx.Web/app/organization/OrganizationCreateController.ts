@@ -16,7 +16,7 @@ module Estimatorx {
 
         constructor(
             $scope,
-            $location: ng.ILocationService,
+            $location: angular.ILocationService,
             logger: Logger,
             modelFactory: ModelFactory,
             organizationRepository: OrganizationRepository
@@ -37,7 +37,7 @@ module Estimatorx {
         }
 
         $scope: any;
-        $location: ng.ILocationService;
+        $location: angular.ILocationService;
 
         logger: Logger;
         modelFactory: ModelFactory;

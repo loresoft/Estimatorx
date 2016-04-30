@@ -4,6 +4,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Options;
+using MongoDB.Bson.Serialization.Serializers;
 
 namespace Estimatorx.Data.Mongo.Mapping
 {
@@ -12,7 +13,7 @@ namespace Estimatorx.Data.Mongo.Mapping
         public OrganizationMap()
         {
             MapIdProperty(c => c.Id)
-                .SetRepresentation(BsonType.String)
+                .SetSerializer(new StringSerializer(BsonType.ObjectId))
                 .SetIdGenerator(StringObjectIdGenerator.Instance);
 
             MapProperty(c => c.Name)
@@ -25,14 +26,14 @@ namespace Estimatorx.Data.Mongo.Mapping
 
             MapProperty(c => c.Created)
                 .SetElementName("cd")
-                .SetSerializationOptions(new DateTimeSerializationOptions { Kind = DateTimeKind.Local });
+                .SetSerializer(new DateTimeSerializer(DateTimeKind.Local));
             MapProperty(c => c.Creator)
                 .SetElementName("cu")
                 .SetIgnoreIfNull(true);
 
             MapProperty(c => c.Updated)
                 .SetElementName("ud")
-                .SetSerializationOptions(new DateTimeSerializationOptions { Kind = DateTimeKind.Local });
+                .SetSerializer(new DateTimeSerializer(DateTimeKind.Local));
             MapProperty(c => c.Updater)
                 .SetElementName("uu")
                 .SetIgnoreIfNull(true);

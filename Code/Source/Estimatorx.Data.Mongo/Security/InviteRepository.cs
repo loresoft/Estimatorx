@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 using Estimatorx.Core.Security;
-using MongoDB.Bson;
+using MongoDB.Abstracts;
 using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 
 namespace Estimatorx.Data.Mongo.Security
 {
@@ -32,16 +29,16 @@ namespace Estimatorx.Data.Mongo.Security
             return entity.Id;
         }
 
+        protected override Expression<Func<Invite, bool>> KeyExpression(string key)
+        {
+            return invite => invite.Id == key;
+        }
+
+
         public IQueryable<Invite> FindByOrganization(string organizationId)
         {
             return All().Where(o => o.OrganizationId == organizationId);
         }
-
-        protected override BsonValue ConvertKey(string key)
-        {
-            return ConvertString(key);
-        }
-
 
         protected override void BeforeInsert(Invite entity)
         {
@@ -68,12 +65,12 @@ namespace Estimatorx.Data.Mongo.Security
         }
 
 
-        protected override void EnsureIndexes(MongoCollection<Invite> mongoCollection)
+        protected override void EnsureIndexes(IMongoCollection<Invite> mongoCollection)
         {
             base.EnsureIndexes(mongoCollection);
 
-            mongoCollection.CreateIndex(
-                IndexKeys<Invite>.Ascending(s => s.OrganizationId)
+            mongoCollection.Indexes.CreateOne(
+                Builders<Invite>.IndexKeys.Ascending(s => s.OrganizationId)
             );
         }
     }

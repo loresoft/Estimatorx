@@ -5,10 +5,9 @@ module Estimatorx {
 
     export var applicationName: string = 'app';
 
-    export var application: ng.IModule = angular
+    export var application: angular.IModule = angular
         .module(Estimatorx.applicationName, [
             'ngAnimate',
-            'ngResource',
             'ngSanitize',
             'ngMessages',
             'ngStorage',
@@ -21,7 +20,7 @@ module Estimatorx {
             'ngClipboard',
             'sticky',
             'hc.marked',
-            'toaster'
+            'toastr'
         ])
         .run(['$localStorage', '$rootScope', ($localStorage, $rootScope) => {
             $rootScope.$localStorage = $localStorage;

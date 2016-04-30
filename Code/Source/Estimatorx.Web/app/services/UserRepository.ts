@@ -8,22 +8,22 @@ module Estimatorx {
         static $inject = ['$http'];
 
         urlBase: string = 'api/User';
-        $http: ng.IHttpService;
+        $http: angular.IHttpService;
 
-        constructor($http: ng.IHttpService) {
+        constructor($http: angular.IHttpService) {
             this.$http = $http;
         }
 
 
-        profile(): ng.IHttpPromise<IUser> {
+        profile(): angular.IHttpPromise<IUser> {
             return this.$http.get<IUser>(this.urlBase + '/Profile');
         }
 
-        save(user: IUser): ng.IHttpPromise<IUser> {
+        save(user: IUser): angular.IHttpPromise<IUser> {
             return this.$http.post<IUser>(this.urlBase, user);
         }
 
-        search(text: string): ng.IHttpPromise<IUser[]> {
+        search(text: string): angular.IHttpPromise<IUser[]> {
             var config = {
                 params: {
                     q: text
@@ -34,16 +34,16 @@ module Estimatorx {
         }
 
 
-        setPassword(password: IPassword): ng.IHttpPromise<void> {
+        setPassword(password: IPassword): angular.IHttpPromise<void> {
             return this.$http.post<void>(this.urlBase + '/SetPassword', password);
         }
 
-        changePassword(password: IPassword): ng.IHttpPromise<void> {
+        changePassword(password: IPassword): angular.IHttpPromise<void> {
             return this.$http.post<void>(this.urlBase + '/ChangePassword', password);
         }
 
 
-        removeLogin(provider: string, key: string): ng.IHttpPromise<void> {
+        removeLogin(provider: string, key: string): angular.IHttpPromise<void> {
             var model = {
                 LoginProvider: provider,
                 ProviderKey: key
@@ -60,7 +60,7 @@ module Estimatorx {
             return this.$http.get<IUser[]>(this.urlBase + '/OrganizationOwners/' + organizationId);
         }
 
-        addOrganization(organizationId: string, userId: string): ng.IHttpPromise<void> {
+        addOrganization(organizationId: string, userId: string): angular.IHttpPromise<void> {
             var model = {
                 OrganizationId: organizationId,
                 UserId: userId
@@ -69,7 +69,7 @@ module Estimatorx {
             return this.$http.post<void>(this.urlBase + '/AddOrganization', model);
         }
 
-        removeOrganization(organizationId: string, userId: string): ng.IHttpPromise<void> {
+        removeOrganization(organizationId: string, userId: string): angular.IHttpPromise<void> {
             var model = {
                 OrganizationId: organizationId,
                 UserId: userId

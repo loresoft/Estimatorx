@@ -9,7 +9,7 @@ module Estimatorx {
         static $inject = [
             '$scope',
             '$location',
-            '$modal',
+            '$uibModal',
             'logger',
             'identityService',
             'modelFactory',
@@ -20,8 +20,8 @@ module Estimatorx {
         ];
         constructor(
             $scope,
-            $location: ng.ILocationService,
-            $modal: any,
+            $location: angular.ILocationService,
+            $uibModal: angular.ui.bootstrap.IModalService,
             logger: Logger,
             identityService: IdentityService,
             modelFactory: ModelFactory,
@@ -37,7 +37,7 @@ module Estimatorx {
             self.$scope = $scope;
 
             self.$location = $location;
-            self.$modal = $modal;
+            self.$uibModal = $uibModal;
 
             self.logger = logger;
             self.identityService = identityService;
@@ -66,8 +66,8 @@ module Estimatorx {
         }
 
         $scope: any;
-        $location: ng.ILocationService;
-        $modal: any;
+        $location: angular.ILocationService;
+        $uibModal: angular.ui.bootstrap.IModalService;
         identityService: IdentityService;
         logger: Logger;
         modelFactory: ModelFactory;
@@ -252,7 +252,7 @@ module Estimatorx {
         reorderAssumptions() {
             var self = this;
 
-            var modalInstance = self.$modal.open({
+            var modalInstance = self.$uibModal.open({
                 templateUrl: 'textReorderModal.html',
                 controller: 'reorderModalController',
                 resolve: {
@@ -301,7 +301,7 @@ module Estimatorx {
         reorderFactors() {
             var self = this;
 
-            var modalInstance = self.$modal.open({
+            var modalInstance = self.$uibModal.open({
                 templateUrl: 'nameReorderModal.html',
                 controller: 'reorderModalController',
                 resolve: {
@@ -359,7 +359,7 @@ module Estimatorx {
         reorderSections() {
             var self = this;
 
-            var modalInstance = self.$modal.open({
+            var modalInstance = self.$uibModal.open({
                 templateUrl: 'nameReorderModal.html',
                 controller: 'reorderModalController',
                 resolve: {
@@ -415,7 +415,7 @@ module Estimatorx {
         reorderTasks(section: ISection) {
             var self = this;
 
-            var modalInstance = self.$modal.open({
+            var modalInstance = self.$uibModal.open({
                 templateUrl: 'nameReorderModal.html',
                 controller: 'reorderModalController',
                 resolve: {
@@ -437,7 +437,7 @@ module Estimatorx {
             if (!self.project.Factors)
                 self.project.Factors = [];
 
-            var modalInstance = self.$modal.open({
+            var modalInstance = self.$uibModal.open({
                 templateUrl: 'templateModal.html',
                 controller: 'templateModalController',
                 resolve: {
@@ -519,7 +519,7 @@ module Estimatorx {
         .controller('projectEditController', [
             '$scope',
             '$location',
-            '$modal',
+            '$uibModal',
             'logger',
             'identityService',
             'modelFactory',

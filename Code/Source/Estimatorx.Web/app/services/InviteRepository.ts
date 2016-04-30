@@ -10,9 +10,9 @@ module Estimatorx {
         ];
 
         urlBase: string = 'api/Invite';
-        $http: ng.IHttpService;
+        $http: angular.IHttpService;
 
-        constructor($http: ng.IHttpService) {
+        constructor($http: angular.IHttpService) {
             this.$http = $http;
         }
 
@@ -20,19 +20,19 @@ module Estimatorx {
             return this.$http.get<IInvite[]>(this.urlBase + '/Organization/' + organizationId);
         }
 
-        send(id: string): ng.IHttpPromise<IInvite> {
+        send(id: string): angular.IHttpPromise<IInvite> {
             return this.$http.get<IInvite>(this.urlBase + '/' + id + '/Send');
         }
         
-        find(id: string): ng.IHttpPromise<IInvite> {
+        find(id: string): angular.IHttpPromise<IInvite> {
             return this.$http.get<IInvite>(this.urlBase + '/' + id);
         }
 
-        save(invite: IInvite): ng.IHttpPromise<IInvite> {
+        save(invite: IInvite): angular.IHttpPromise<IInvite> {
             return this.$http.post<IInvite>(this.urlBase, invite);
         }
 
-        delete(id: string): ng.IHttpPromise<void> {
+        delete(id: string): angular.IHttpPromise<void> {
             return this.$http.delete<void>(this.urlBase + '/' + id);
         }
     }

@@ -7,32 +7,32 @@ module Estimatorx {
         // protect for minification, must match constructor signiture.
         static $inject = [
             '$scope',
-            '$modalInstance',
+            '$uibModalInstance',
             'items'
         ];
 
-        constructor($scope, $modalInstance, items : ITemplate[]) {
+        constructor($scope, $uibModalInstance: angular.ui.bootstrap.IModalServiceInstance, items : ITemplate[]) {
             // assign vm to controller
             $scope.viewModel = this;
             var self = this;
 
-            self.$modalInstance = $modalInstance;
+            self.$uibModalInstance = $uibModalInstance;
             self.items = items;
         }
 
-        $modalInstance: any;
+        $uibModalInstance: angular.ui.bootstrap.IModalServiceInstance;
         items: ITemplate[];
         selected: ITemplate;
 
         select(){
             var self = this;
-            self.$modalInstance.close(self.selected);
+            self.$uibModalInstance.close(self.selected);
 
         }
 
         cancel() {
             var self = this;
-            self.$modalInstance.dismiss('cancel');
+            self.$uibModalInstance.dismiss('cancel');
         }
     }
 
@@ -41,7 +41,7 @@ module Estimatorx {
         .controller('templateModalController',
         [
             '$scope',
-            '$modalInstance',
+            '$uibModalInstance',
             'items',
             TemplateModalController
         ]);

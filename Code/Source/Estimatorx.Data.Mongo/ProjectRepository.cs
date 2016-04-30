@@ -1,12 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Estimatorx.Core;
 using Estimatorx.Core.Providers;
 using Estimatorx.Core.Security;
-using MongoDB.Bson;
+using MongoDB.Abstracts;
 using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 
 namespace Estimatorx.Data.Mongo
 {
@@ -34,15 +34,17 @@ namespace Estimatorx.Data.Mongo
             return All().Select(SelectSummary());
         }
         
+
         public override string EntityKey(Project entity)
         {
             return entity.Id;
         }
 
-        protected override BsonValue ConvertKey(string key)
+        protected override Expression<Func<Project, bool>> KeyExpression(string key)
         {
-            return ConvertString(key);
+            return project => project.Id == key;
         }
+
 
         protected override void BeforeInsert(Project entity)
         {
@@ -68,12 +70,13 @@ namespace Estimatorx.Data.Mongo
             base.BeforeUpdate(entity);
         }
 
-        protected override void EnsureIndexes(MongoCollection<Project> mongoCollection)
+
+        protected override void EnsureIndexes(IMongoCollection<Project> mongoCollection)
         {
             base.EnsureIndexes(mongoCollection);
 
-            mongoCollection.CreateIndex(
-                IndexKeys<Project>
+            mongoCollection.Indexes.CreateOne(
+                Builders<Project>.IndexKeys
                     .Ascending(s => s.OrganizationId)
                     .Descending(s => s.Updated)
             );
@@ -102,7 +105,6 @@ namespace Estimatorx.Data.Mongo
                 Updater = p.Updater
             };
         }
-
     }
 
 

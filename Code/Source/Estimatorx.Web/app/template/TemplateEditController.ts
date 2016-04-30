@@ -9,7 +9,7 @@ module Estimatorx {
         static $inject = [
             '$scope',
             '$location',
-            '$modal',
+            '$uibModal',
             'logger',
             'modelFactory',
             'templateRepository',
@@ -18,8 +18,8 @@ module Estimatorx {
 
         constructor(
             $scope,
-            $location: ng.ILocationService,
-            $modal: any,
+            $location: angular.ILocationService,
+            $uibModal: angular.ui.bootstrap.IModalService,
             logger: Logger,
             modelFactory: ModelFactory,
             templateRepository: TemplateRepository,
@@ -32,7 +32,7 @@ module Estimatorx {
             self.$scope = $scope;
 
             self.$location = $location;
-            self.$modal = $modal;
+            self.$uibModal = $uibModal;
 
             self.modelFactory = modelFactory;
             self.logger = logger;
@@ -52,8 +52,8 @@ module Estimatorx {
         }
 
         $scope: any;
-        $location: ng.ILocationService;
-        $modal: any;
+        $location: angular.ILocationService;
+        $uibModal: angular.ui.bootstrap.IModalService;
         logger: Logger;
         modelFactory: ModelFactory;
 
@@ -225,7 +225,7 @@ module Estimatorx {
         reorderFactors() {
             var self = this;
 
-            var modalInstance = self.$modal.open({
+            var modalInstance = self.$uibModal.open({
                 templateUrl: 'nameReorderModal.html',
                 controller: 'reorderModalController',
                 resolve: {
@@ -249,7 +249,7 @@ module Estimatorx {
         [
             '$scope',
             '$location',
-            '$modal',
+            '$uibModal',
             'logger',
             'modelFactory',
             'templateRepository',

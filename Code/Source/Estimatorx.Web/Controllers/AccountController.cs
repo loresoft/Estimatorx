@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using Estimatorx.Core.Providers;
 using Estimatorx.Core.Security;
-using Estimatorx.Data.Mongo.Security;
 using Estimatorx.Web.Models;
 using Estimatorx.Web.Security;
-using Exceptionless;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -118,11 +113,6 @@ namespace Estimatorx.Web.Controllers
 
             await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             CreateSamples(user);
-
-            ExceptionlessClient.Default
-                .CreateFeatureUsage("Register User")
-                .AddObject(user)
-                .Submit();
 
             return RedirectToLocal(returnUrl);
         }
@@ -280,12 +270,7 @@ namespace Estimatorx.Web.Controllers
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     CreateSamples(user);
-
-                    ExceptionlessClient.Default
-                        .CreateFeatureUsage("Register User")
-                        .AddObject(user)
-                        .Submit();
-                    
+                                        
                     return RedirectToLocal(returnUrl);
                 }
             }
@@ -348,8 +333,6 @@ namespace Estimatorx.Web.Controllers
                     .Message("Error Creating Samples: " + ex.Message)
                     .Exception(ex)
                     .Write();
-
-                ex.ToExceptionless().Submit();
             }
 
         }

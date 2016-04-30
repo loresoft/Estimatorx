@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
+using MongoDB.Abstracts;
 
 namespace Estimatorx.Data.Mongo.Modules
 {
@@ -8,7 +10,7 @@ namespace Estimatorx.Data.Mongo.Modules
         {
             base.Load(builder);
 
-            builder.Register(c => MongoUtility.GetMongoUrl("EstimatorxMongo"))
+            builder.Register(c => MongoFactory.GetMongoUrl("EstimatorxMongo"))
                 .AsSelf()
                 .SingleInstance();
         }

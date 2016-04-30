@@ -8,14 +8,14 @@ module Estimatorx {
         // protect for minification, must match contructor signiture.
         static $inject = [
             '$scope',
-            '$modalInstance',
+            '$uibModalInstance',
             'logger',
             'userRepository'
         ];
 
         constructor(
             $scope,
-            $modalInstance,
+            $uibModalInstance: angular.ui.bootstrap.IModalServiceInstance,
             logger: Logger, 
             userRepository: UserRepository
         ) {
@@ -25,14 +25,14 @@ module Estimatorx {
             $scope.viewModel = this;
 
             self.$scope = $scope;
-            self.$modalInstance = $modalInstance;
+            self.$uibModalInstance = $uibModalInstance;
 
             self.logger = logger;
             self.userRepository = userRepository;
         }
 
         $scope: any;
-        $modalInstance: any;
+        $uibModalInstance: angular.ui.bootstrap.IModalServiceInstance;
         logger: Logger;
 
         userRepository: UserRepository;
@@ -55,13 +55,13 @@ module Estimatorx {
 
         select() {
             var self = this;
-            self.$modalInstance.close(self.userId);
+            self.$uibModalInstance.close(self.userId);
 
         }
 
         cancel() {
             var self = this;
-            self.$modalInstance.dismiss('cancel');
+            self.$uibModalInstance.dismiss('cancel');
         }
 
     }
@@ -70,7 +70,7 @@ module Estimatorx {
     angular.module(Estimatorx.applicationName)
         .controller('memberModalController', [
             '$scope',
-            '$modalInstance',
+            '$uibModalInstance',
             'logger',
             'userRepository',
             MemberModalController

@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Linq.Expressions;
 using Estimatorx.Core.Security;
+using MongoDB.Abstracts;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 
 namespace Estimatorx.Data.Mongo.Security
 {
@@ -28,20 +29,20 @@ namespace Estimatorx.Data.Mongo.Security
             return entity.Id;
         }
 
-        protected override BsonValue ConvertKey(string key)
+        protected override Expression<Func<Role, bool>> KeyExpression(string key)
         {
-            return ConvertString(key);
+            return role => role.Id == key;
         }
 
 
-        protected override void EnsureIndexes(MongoCollection<Role> mongoCollection)
+        protected override void EnsureIndexes(IMongoCollection<Role> mongoCollection)
         {
             base.EnsureIndexes(mongoCollection);
 
-            mongoCollection.CreateIndex(
-                IndexKeys<Role>.Ascending(s => s.Name),
-                IndexOptions.SetUnique(true)
-                );
+            mongoCollection.Indexes.CreateOne(
+                Builders<Role>.IndexKeys.Ascending(s => s.Name),
+                new CreateIndexOptions { Unique = true }
+            );
         }
     }
 }

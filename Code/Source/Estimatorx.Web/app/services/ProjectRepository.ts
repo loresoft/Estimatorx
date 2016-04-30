@@ -8,13 +8,13 @@ module Estimatorx {
         static $inject = ['$http'];
 
         urlBase: string = 'api/Project';
-        $http: ng.IHttpService;
+        $http: angular.IHttpService;
 
-        constructor($http: ng.IHttpService) {
+        constructor($http: angular.IHttpService) {
             this.$http = $http;
         }
 
-        query(request?: IQuerySearch): ng.IHttpPromise<IQueryResult<IProject>> {
+        query(request?: IQuerySearch): angular.IHttpPromise<IQueryResult<IProject>> {
             var config = {
                 params: request
             };
@@ -22,24 +22,24 @@ module Estimatorx {
             return this.$http.get<IQueryResult<IProject>>(this.urlBase + '/Query', config);
         }
 
-        all(): ng.IHttpPromise<IProject[]> {            
+        all(): angular.IHttpPromise<IProject[]> {            
             return this.$http.get<IProject[]>(this.urlBase);
         }
 
-        find(id: string): ng.IHttpPromise<IProject> {
+        find(id: string): angular.IHttpPromise<IProject> {
             return this.$http.get<IProject>(this.urlBase + '/' + id);
         }
 
-        shared(id: string, key: string): ng.IHttpPromise<IProject> {
+        shared(id: string, key: string): angular.IHttpPromise<IProject> {
             return this.$http.get<IProject>(this.urlBase + '/Share/' + id + '/' + key);
         }
 
 
-        save(project: IProject): ng.IHttpPromise<IProject> {
+        save(project: IProject): angular.IHttpPromise<IProject> {
             return this.$http.post<IProject>(this.urlBase, project);
         }
 
-        delete(id: string): ng.IHttpPromise<void> {
+        delete(id: string): angular.IHttpPromise<void> {
             return this.$http.delete<void>(this.urlBase + '/' + id);
         }
 

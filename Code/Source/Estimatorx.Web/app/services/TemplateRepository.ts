@@ -8,13 +8,13 @@ module Estimatorx {
         static $inject = ['$http'];
 
         urlBase: string = 'api/Template';
-        $http: ng.IHttpService;
+        $http: angular.IHttpService;
 
-        constructor($http: ng.IHttpService) {
+        constructor($http: angular.IHttpService) {
             this.$http = $http;
         }
 
-        query(request?: IQuerySearch): ng.IHttpPromise<IQueryResult<ITemplate>> {
+        query(request?: IQuerySearch): angular.IHttpPromise<IQueryResult<ITemplate>> {
             var config = {
                 params: request
             };
@@ -22,19 +22,19 @@ module Estimatorx {
             return this.$http.get<IQueryResult<ITemplate>>(this.urlBase + '/Query', config);
         }
 
-        all(): ng.IHttpPromise<ITemplate[]> {
+        all(): angular.IHttpPromise<ITemplate[]> {
             return this.$http.get<ITemplate[]>(this.urlBase);
         }
 
-        find(id: string): ng.IHttpPromise<ITemplate> {
+        find(id: string): angular.IHttpPromise<ITemplate> {
             return this.$http.get<ITemplate>(this.urlBase + '/' + id);
         }
 
-        save(project: ITemplate): ng.IHttpPromise<ITemplate> {
+        save(project: ITemplate): angular.IHttpPromise<ITemplate> {
             return this.$http.post<ITemplate>(this.urlBase, project);
         }
 
-        delete(id: string): ng.IHttpPromise<void> {
+        delete(id: string): angular.IHttpPromise<void> {
             return this.$http.delete<void>(this.urlBase + '/' + id);
         }
 

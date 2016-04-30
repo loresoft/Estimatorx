@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Estimatorx.Core.Security;
+using MongoDB.Abstracts;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
 
 namespace Estimatorx.Data.Mongo.Security
@@ -31,14 +32,14 @@ namespace Estimatorx.Data.Mongo.Security
             if (keys == null)
                 throw new ArgumentNullException("keys");
 
-            return _collection.Value
+            return Collection
                 .AsQueryable()
-                .Where(e => e.Id.In(keys));
+                .Where(e => keys.Contains(e.Id));
         }
 
         public IQueryable<User> OrganizationMembers(string organizationId)
         {
-            return _collection.Value
+            return Collection
                 .AsQueryable()
                 .Where(u => u.Organizations.Contains(organizationId));
         }
@@ -49,10 +50,11 @@ namespace Estimatorx.Data.Mongo.Security
             return entity.Id;
         }
 
-        protected override BsonValue ConvertKey(string key)
+        protected override Expression<Func<User, bool>> KeyExpression(string key)
         {
-            return ConvertString(key);
+            return user => user.Id == key;
         }
+
 
         protected override void BeforeInsert(User entity)
         {
@@ -74,18 +76,18 @@ namespace Estimatorx.Data.Mongo.Security
             base.BeforeUpdate(entity);
         }
 
-        protected override void EnsureIndexes(MongoCollection<User> mongoCollection)
+        protected override void EnsureIndexes(IMongoCollection<User> mongoCollection)
         {
             base.EnsureIndexes(mongoCollection);
 
-            mongoCollection.CreateIndex(
-                IndexKeys<User>.Ascending(s => s.UserName),
-                IndexOptions.SetUnique(true)
+            mongoCollection.Indexes.CreateOne(
+                Builders<User>.IndexKeys.Ascending(s => s.UserName),
+                new CreateIndexOptions { Unique = true }
             );
 
-            mongoCollection.CreateIndex(
-                IndexKeys<User>.Ascending(s => s.Email),
-                IndexOptions.SetUnique(true)
+            mongoCollection.Indexes.CreateOne(
+                Builders<User>.IndexKeys.Ascending(s => s.Email),
+                new CreateIndexOptions { Unique = true }
             );
         }
     }

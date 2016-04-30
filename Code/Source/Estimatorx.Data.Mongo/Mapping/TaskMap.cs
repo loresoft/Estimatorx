@@ -3,6 +3,7 @@ using Estimatorx.Core;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
+using MongoDB.Bson.Serialization.Serializers;
 
 namespace Estimatorx.Data.Mongo.Mapping
 {
@@ -11,7 +12,7 @@ namespace Estimatorx.Data.Mongo.Mapping
         public TaskMap()
         {
             MapIdProperty(c => c.Id)
-                .SetRepresentation(BsonType.String)
+                .SetSerializer(new StringSerializer(BsonType.ObjectId))
                 .SetIdGenerator(StringObjectIdGenerator.Instance);
 
             MapProperty(c => c.Name)
@@ -44,7 +45,6 @@ namespace Estimatorx.Data.Mongo.Mapping
 
             MapProperty(c => c.FactorId)
                 .SetElementName("f_")
-                .SetRepresentation(BsonType.String)
                 .SetIgnoreIfNull(true);
 
         }

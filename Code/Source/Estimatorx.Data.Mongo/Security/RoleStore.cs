@@ -30,32 +30,29 @@ namespace Estimatorx.Data.Mongo.Security
 
         public Task CreateAsync(Role role)
         {
-            return Task.Run(() => Insert(role));
+            return InsertAsync(role);
         }
 
-        public Task UpdateAsync(Role role)
+        public new Task UpdateAsync(Role role)
         {
-            return Task.Run(() => Update(role));
+            return base.UpdateAsync(role);
         }
 
-        public Task DeleteAsync(Role role)
+        public new Task DeleteAsync(Role role)
         {
-            return Task.Run(() => Delete(role));
+            return base.DeleteAsync(role);
         }
 
         public Task<Role> FindByIdAsync(string roleId)
         {
-            return Task.Run(() => Find(roleId));
+            return FindAsync(roleId);
         }
 
         public Task<Role> FindByNameAsync(string roleName)
         {
-            return Task.Run(() => FindOne(u => u.Name == roleName));
+            return FindOneAsync(u => u.Name == roleName);
         }
 
-        public IQueryable<Role> Roles
-        {
-            get { return All(); }
-        }
+        public IQueryable<Role> Roles => All();
     }
 }
