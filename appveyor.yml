@@ -1,13 +1,12 @@
-version: 1.0.0.{build}
-os: Windows Server 2012 R2
+version: 1.1.0.{build}
+os: Visual Studio 2015
 skip_tags: true
 environment:
   Major: 1
   Minor: 0
   Patch: 0
-install:
-- ps: .\Deploy\Install-MongoDb.ps1
 configuration: Release
+services: mongodb
 before_build:
 - .\bootstrap.cmd
 build:
@@ -15,4 +14,4 @@ build:
   verbosity: minimal
 test: off
 artifacts:
-- path: '.\Build\*.nupkg'
+- path: Build\*.nupkg
