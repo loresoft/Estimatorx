@@ -14,6 +14,9 @@ module Estimatorx {
             this.$http = $http;
         }
 
+        find(id: string): angular.IHttpPromise<IUser> {
+          return this.$http.get<IUser>(this.urlBase + '/' + id);
+        }
 
         profile(): angular.IHttpPromise<IUser> {
             return this.$http.get<IUser>(this.urlBase + '/Profile');
@@ -31,6 +34,14 @@ module Estimatorx {
             };
         
             return this.$http.get<IUser[]>(this.urlBase + '/Search', config);
+        }
+
+        query(request?: IQuerySearch): angular.IHttpPromise<IQueryResult<IUser>> {
+          var config = {
+            params: request
+          };
+
+          return this.$http.get<IQueryResult<IUser>>(this.urlBase + '/Query', config);
         }
 
 

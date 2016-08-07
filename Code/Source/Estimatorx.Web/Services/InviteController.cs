@@ -6,6 +6,7 @@ using System.Web.Http;
 using Estimatorx.Core.Security;
 using Microsoft.AspNet.Identity;
 using MongoDB.Driver.Linq;
+using NLog.Fluent;
 
 namespace Estimatorx.Web.Services
 {
@@ -13,6 +14,8 @@ namespace Estimatorx.Web.Services
     [RoutePrefix("api/Invite")]
     public class InviteController : ApiController
     {
+        private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         private readonly IInviteRepository _inviteRepository;
         private readonly IUserRepository _userRepository;
         private readonly IOrganizationRepository _organizationRepository;
@@ -115,11 +118,16 @@ namespace Estimatorx.Web.Services
             
             string link = Url.Link("Invite", new { id = invite.Id, key = invite.SecurityKey });
 
-            string subject = string.Format("Welcome to the {0} organization on EstimatorX.com", o.Name);
-            string body = string.Format(
-                "<p>{0} invited you to join the {1} organization on EstimatorX.com.</p>" +
-                "<p>EstimatorX is a simple project estimation application.</p>" +
-                "<p>{2}</p>", user.Name, o.Name, link);
+            string subject = $"Welcome to the {o.Name} organization on EstimatorX.com";
+            string body = $"<p>{user.Name} invited you to join the {o.Name} organization on EstimatorX.com.</p>" + 
+                          "<p>EstimatorX is a simple project estimation application.</p>" + 
+                          $"<p>{link}</p>";
+
+
+            _logger.Info()
+                .Message("Sending invite to: " + invite.Email)
+                .Property("Organization", o.Id)
+                .Write();
 
             var mailMessage = new MailMessage();
             mailMessage.To.Add(invite.Email);

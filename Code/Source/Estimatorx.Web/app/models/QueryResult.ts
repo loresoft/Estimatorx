@@ -1,11 +1,20 @@
 ﻿/// <reference path="../_ref.ts" />
 
 module Estimatorx {
-    "use strict";
+  "use strict";
 
-    export interface IQueryResult<T> extends IQueryRequest {
-        Data?: T[];
-        PageCount?: number;
-        Total?: number;
-    }
+  export interface IQueryResult<T> {
+    Data?: T[];
+
+    Page?: number;
+    PageSize?: number;
+    PageCount?: number;
+
+    Sort?: string;
+    Descending?: boolean;
+
+    Filter?: any;
+
+    Total?: number;
+  }
 }

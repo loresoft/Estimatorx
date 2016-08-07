@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Users";
+}
+
+<div class="container" ng-controller="userListController">
+  <ol class="breadcrumb">
+    <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+    <li class="active">Users</li>
+  </ol>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <i class="fa fa-list"></i> Users
+
+
+      <form name="searchForm" class="input-group input-group-sm col-sm-3 pull-right hidden-xs"
+            ng-submit="viewModel.search()">
+        <input type="text" class="form-control" placeholder="Search"
+               ng-model="viewModel.searchText" />
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </span>
+      </form>
+    </div>
+    <div class="panel-body">
+      @Html.Partial("_List")
+    </div>
+  </div>
+</div>

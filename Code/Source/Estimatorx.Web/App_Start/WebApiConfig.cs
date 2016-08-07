@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
+using Estimatorx.Web.Filters;
 
 namespace Estimatorx.Web
 {
@@ -7,9 +9,6 @@ namespace Estimatorx.Web
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-
-            // Web API routes
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
@@ -17,6 +16,8 @@ namespace Estimatorx.Web
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Services.Add(typeof(IExceptionLogger), new GlobalExceptionLogger());
         }
     }
 }

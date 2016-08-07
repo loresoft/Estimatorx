@@ -21,5 +21,7 @@
 /// <reference path="models/user.ts" />
 /// <reference path="models/organization.ts" />
 /// <reference path="models/project.ts" />
+/// <reference path="models/logevent.ts" />
+/// <reference path="models/logerror.ts" />
 /// <reference path="app.ts" />
  

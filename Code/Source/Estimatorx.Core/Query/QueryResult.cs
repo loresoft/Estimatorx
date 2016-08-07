@@ -19,6 +19,9 @@ namespace Estimatorx.Core.Query
         public bool Descending { get; set; }
 
 
+        public string Filter { get; set; }
+
+
         public int Total { get; set; }
     }
 }

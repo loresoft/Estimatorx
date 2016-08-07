@@ -8,7 +8,7 @@ namespace Estimatorx.Web
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            //filters.Add(new LogErrorAttribute());
+            filters.Add(new LogErrorAttribute());
         }
     }
 }

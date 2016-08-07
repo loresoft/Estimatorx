@@ -49,17 +49,19 @@ namespace Estimatorx.Core.Query
 
         private static QueryResult<TResult> ToDataResult<TSource, TResult>(IQueryable<TSource> query, QueryOptions<TSource, TResult> queryOptions )
         {
+            var filtered = Filter(query, queryOptions.Filter);
+
             // Calculate the total number of records (needed for paging)
-            var total = query.Count();
+            var total = filtered.Count();
 
             // Sort the data    
-            query = Sort(query, queryOptions.Sort, queryOptions.Descending);
+            filtered = Sort(filtered, queryOptions.Sort, queryOptions.Descending);
 
             // page the data
-            query = Page(query, queryOptions.Page, queryOptions.PageSize);
+            filtered = Page(filtered, queryOptions.Page, queryOptions.PageSize);
 
             // select
-            var data = query.Select(queryOptions.Selector).ToList();
+            var data = filtered.Select(queryOptions.Selector).ToList();
             
             // get page count
             int pageCount = total > 0 ? (int)Math.Ceiling((double)total / queryOptions.PageSize) : 0;
@@ -75,10 +77,23 @@ namespace Estimatorx.Core.Query
                 Sort = queryOptions.Sort,
                 Descending = queryOptions.Descending,
 
+                Filter = queryOptions.Filter,
+
                 Total = total
             };
         }
 
+
+        public static IQueryable<T> Filter<T>(this IQueryable<T> query, string filter)
+        {
+            if (query == null)
+                throw new ArgumentNullException("query");
+
+            if (string.IsNullOrEmpty(filter))
+                return query;
+
+            return query.Where(filter);
+        }
 
         public static IQueryable<T> Sort<T>(this IQueryable<T> query, string field, bool decending = false)
         {

@@ -13,6 +13,8 @@ namespace Estimatorx.Core.Query
 
         public bool Descending { get; set; }
 
+        public string Filter { get; set; }
+
         public Expression<Func<TSource, TResult>> Selector { get; set; }
     }
 }

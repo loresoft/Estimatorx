@@ -34,6 +34,25 @@ namespace Estimatorx.Data.Mongo.Security
             return role => role.Id == key;
         }
 
+        protected override void BeforeInsert(Role entity)
+        {
+            entity.Created = DateTime.Now;
+            entity.Updated = DateTime.Now;
+
+            base.BeforeInsert(entity);
+        }
+
+        protected override void BeforeUpdate(Role entity)
+        {
+            if (entity.Created == DateTime.MinValue)
+                entity.Created = DateTime.Now;
+
+            entity.Updated = DateTime.Now;
+
+            entity.Name = entity.Name.ToLowerInvariant();
+
+            base.BeforeUpdate(entity);
+        }
 
         protected override void EnsureIndexes(IMongoCollection<Role> mongoCollection)
         {

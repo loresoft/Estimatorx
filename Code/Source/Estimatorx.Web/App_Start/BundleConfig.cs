@@ -25,6 +25,7 @@ namespace Estimatorx.Web
 
                     "~/Scripts/jquery-ui/jquery-ui.css",
 
+                    "~/Content/alert.css",
                     "~/Content/help.css",
                     "~/Content/status.css",
                     "~/Content/site.css"
@@ -101,7 +102,9 @@ namespace Estimatorx.Web
                 .IncludeDirectory("~/app/organization/", "*.js")
                 .IncludeDirectory("~/app/project/", "*.js")
                 .IncludeDirectory("~/app/profile/", "*.js")
+                .IncludeDirectory("~/app/logging/", "*.js")
                 .IncludeDirectory("~/app/template/", "*.js")
+                .IncludeDirectory("~/app/user/", "*.js")
             );
 
 #if !DEBUG

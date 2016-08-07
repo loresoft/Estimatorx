@@ -18,6 +18,14 @@ namespace Estimatorx.Data.Mongo.Mapping
             MapProperty(c => c.Name)
                 .SetElementName("nm")
                 .SetIgnoreIfNull(true);
+
+            MapProperty(c => c.Created)
+                .SetElementName("cd")
+                .SetSerializer(new DateTimeSerializer(DateTimeKind.Local));
+
+            MapProperty(c => c.Updated)
+                .SetElementName("ud")
+                .SetSerializer(new DateTimeSerializer(DateTimeKind.Local));
         }
     }
 }

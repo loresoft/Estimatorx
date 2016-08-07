@@ -25,7 +25,7 @@ namespace Estimatorx.Web.Filters
             _logger.Error()
                 .Message("Http Application Error: " + exception.GetBaseException().Message)
                 .Exception(exception)
-                .Property("Request", filterContext.RequestContext.HttpContext.Request.Url)
+                .Property("RequestUri", filterContext.RequestContext?.HttpContext?.Request?.Url?.ToString())
                 .Write();
         }
     }

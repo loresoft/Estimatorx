@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Estimatorx.Core.Query;
 using Estimatorx.Core.Security;
 using Estimatorx.Data.Mongo.Security;
 using Estimatorx.Web.Models;
@@ -51,12 +52,29 @@ namespace Estimatorx.Web.Services
             return Ok(user);
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        [Authorize(Roles = "administrators")]
+        public IHttpActionResult Get(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return BadRequest();
+
+            var user = _userRepository.Find(id);
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
+        }
+
         [HttpPost]
         [Route("")]
         public IHttpActionResult Post([FromBody]User value)
         {
             string userId = User.Identity.GetUserId();
-            if (userId != value.Id)
+            bool isSelf = userId == value.Id;
+
+            if (!isSelf && !User.IsInRole("administrators"))
                 return Unauthorized(); // can only save self
 
             var user = _userRepository.Save(value);
@@ -79,6 +97,27 @@ namespace Estimatorx.Web.Services
             return Ok(users);
         }
 
+        [HttpGet]
+        [Route("Query")]
+        [Authorize(Roles = "administrators")]
+        public IHttpActionResult Query(int? page = null, int? pageSize = null, string sort = null, bool? descending = null, string search = null, string organization = null)
+        {
+            var query = _userRepository.All();
+
+            if (!string.IsNullOrEmpty(search))
+                query = query.Where(p => p.Name.ToLower().Contains(search));
+
+
+            var result = query
+                .ToDataResult(config => config
+                    .Page(page ?? 1)
+                    .PageSize(pageSize ?? 50)
+                    .Sort(sort)
+                    .Descending(descending ?? false)
+                );
+
+            return Ok(result);
+        }
 
         [HttpPost]
         [Route("SetPassword")]

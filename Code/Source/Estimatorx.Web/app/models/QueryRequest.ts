@@ -1,18 +1,22 @@
 ﻿/// <reference path="../_ref.ts" />
 
 module Estimatorx {
-    "use strict";
+  "use strict";
 
-    export interface IQueryRequest {
-        Page?: number;
-        PageSize?: number;
-        Sort?: string;
-        Descending?: boolean;
-    }
+  export interface IQueryRequest {
+    Page?: number;
+    PageSize?: number;
 
-    export interface IQuerySearch extends IQueryRequest {
-        Search?: string;
-        Organization?: string;
-    }
+    Sort?: string;
+    Descending?: boolean;
+
+    Filter?: any;
+
+  }
+
+  export interface IQuerySearch extends IQueryRequest {
+    Search?: string;
+    Organization?: string;
+  }
 
 }

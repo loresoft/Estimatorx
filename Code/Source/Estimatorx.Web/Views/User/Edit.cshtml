@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "User";
+}
+
+<div class="container"
+     ng-controller="userEditController"
+     ng-init="viewModel.load('@Model')">
+
+  <ol class="breadcrumb">
+    <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+    <li><a href="@Url.Action("Index")">Users</a></li>
+    <li class="active">Edit</li>
+  </ol>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <i class="fa fa-user"></i> User
+      <span ng-show="viewModel.user.UserName">- <strong>{{ viewModel.user.UserName}}</strong></span>
+    </div>
+    <div class="panel-body">
+      <div class="tab-container">
+        <!-- Nav tabs -->
+        <div role="tabpanel">
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+            <li role="presentation"><a href="#organizations" aria-controls="logins" role="tab" data-toggle="tab">Organizations</a></li>
+          </ul>
+        </div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="profile">
+            @Html.Partial("_Profile")
+          </div>
+          <div role="tabpanel" class="tab-pane" id="organizations">
+            @Html.Partial("_Organizations")
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

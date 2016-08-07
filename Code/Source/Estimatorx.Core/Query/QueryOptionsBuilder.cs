@@ -26,6 +26,7 @@ namespace Estimatorx.Core.Query
             _queryOptions.PageSize = request.PageSize;
             _queryOptions.Sort = request.Sort;
             _queryOptions.Descending = request.Descending;
+            _queryOptions.Filter = request.Filter;
 
             return this;
         }
@@ -45,6 +46,12 @@ namespace Estimatorx.Core.Query
         public QueryOptionsBuilder<TSource, TResult> Sort(string sortField)
         {
             _queryOptions.Sort = sortField;
+            return this;
+        }
+
+        public QueryOptionsBuilder<TSource, TResult> Filter(string filter)
+        {
+            _queryOptions.Filter = filter;
             return this;
         }
         

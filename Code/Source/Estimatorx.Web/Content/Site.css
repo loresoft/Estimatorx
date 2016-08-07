@@ -39,6 +39,9 @@ footer, #footer {
 .nopadding {
     padding: 0 !important;
 }
+.nomargin {
+  margin: 0 !important;
+}
 
 .panel-heading .table {
     margin: 0;
@@ -226,4 +229,35 @@ select::-ms-expand {
         padding-top: 10px;
         padding-bottom: 10px;
     }
+}
+
+
+fieldset.standard {
+  border: 1px solid #c0c0c0;
+  margin: 0;
+  padding: 0.35em 0.625em 0.75em;
+  -ms-border-radius: 4px;
+  border-radius: 4px;
+}
+
+fieldset.standard > legend {
+  display: block;
+  width: auto;
+  padding: 0 5px;
+  border: 0;
+  margin: 0;
+  font-size: 14px;
+}
+
+
+legend {
+  /* display: block; */
+  /* width: 100%; */
+  /* padding: 0; */
+  /* margin-bottom: 20px; */
+  /* font-size: 21px; */
+  /* line-height: inherit; */
+  /* color: #333; */
+  /* border: 0; */
+  /* border-bottom: 1px solid #e5e5e5; */
 }
