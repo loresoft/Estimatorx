@@ -72,7 +72,7 @@
       <TestAssemblies Include="$(SourceFolder)\**\*.Tests\bin\$(BuildConfiguration)\*.Tests.dll"/>
     </ItemGroup>
 
-    <exec Command="$(XUnitTasksPath)\xunit.console.exe &quot;%(TestAssemblies.Identity)&quot; -appveyor"/>
+    <exec Command="$(XUnitTasksPath)\xunit.console.exe &quot;%(TestAssemblies.Identity)&quot; -appveyor -parallel assemblies"/>
   </Target>
 
   <Target Name="Package" DependsOnTargets="Test">
