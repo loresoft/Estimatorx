@@ -3,11 +3,14 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using NLog.Fluent;
 
 namespace Estimatorx.Core.Security
 {
     public class SignInManager : Microsoft.AspNet.Identity.Owin.SignInManager<User, string>
     {
+        private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         public SignInManager(UserManager<User, string> userManager, IAuthenticationManager authenticationManager) 
             : base(userManager, authenticationManager)
         {
@@ -15,6 +18,10 @@ namespace Estimatorx.Core.Security
 
         public override async Task<ClaimsIdentity> CreateUserIdentityAsync(User user)
         {
+            _logger.Debug()
+                .Message("Create user identity for '{0}'", user.Email)
+                .Write();
+
             var claimIdenity = await base.CreateUserIdentityAsync(user);
 
             var displayClaim = new System.Security.Claims.Claim(Claim.DisplayName, user.Name ?? user.UserName);

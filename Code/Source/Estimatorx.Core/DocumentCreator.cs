@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using NLog.Fluent;
 using Font = iTextSharp.text.Font;
 
 namespace Estimatorx.Core
 {
     public class DocumentCreator
     {
+        private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         public byte[] CreatePdf(Project project)
         {
             byte[] buffer;
@@ -31,6 +35,8 @@ namespace Estimatorx.Core
 
         public void CreatePdf(Project project, Stream writeStream)
         {
+            var watch = Stopwatch.StartNew();
+
             var document = new Document();
             var writer = PdfWriter.GetInstance(document, writeStream);
 
@@ -44,7 +50,7 @@ namespace Estimatorx.Core
             document.AddAuthor(project.Creator);
             document.AddSubject(project.Name);
             document.AddTitle(project.Name);
-            
+
             document.Open();
 
             AddName(project, document);
@@ -55,7 +61,13 @@ namespace Estimatorx.Core
             AddSummary(project, document);
 
             writer.Flush();
-            document.Close();
+            document.Close(); 
+
+            watch.Stop();
+
+            _logger.Debug()
+                .Message("Create PDF Time: {0} ms", watch.ElapsedMilliseconds)
+                .Write();
         }
 
 

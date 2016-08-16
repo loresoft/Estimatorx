@@ -7,16 +7,25 @@ using Estimatorx.Core;
 using Estimatorx.Core.Providers;
 using Estimatorx.Core.Security;
 using MongoDB.Bson;
+using NLog.Fluent;
 using Task = Estimatorx.Core.Task;
 
 namespace Estimatorx.Data.Mongo
 {
     public class SampleGenerator : ISampleGenerator
     {
+
+        private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         public Project GenerateProject(string organizationId)
         {
             if (organizationId == null)
-                throw new ArgumentNullException("organizationId");
+                throw new ArgumentNullException(nameof(organizationId));
+
+            _logger.Info()
+                .Message("Generate sample project for organization '{0}'", organizationId)
+                .Property("Organization", organizationId)
+                .Write();
 
             var project = new Project
             {
@@ -105,7 +114,12 @@ namespace Estimatorx.Data.Mongo
         public Template GenerateTemplate(string organizationId)
         {
             if (organizationId == null)
-                throw new ArgumentNullException("organizationId");
+                throw new ArgumentNullException(nameof(organizationId));
+
+            _logger.Info()
+                .Message("Generate sample template for organization '{0}'", organizationId)
+                .Property("Organization", organizationId)
+                .Write();
 
             var template = new Template
             {
