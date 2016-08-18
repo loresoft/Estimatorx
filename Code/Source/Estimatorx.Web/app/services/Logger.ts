@@ -25,18 +25,34 @@ module Estimatorx {
     }
 
     toastr: angular.toastr.IToastrService;
+
     showAlert(options: AlertOptions) {
       var self = this;
-      var d: AlertOptions = {
+      var d = {
         type: 'warn',
         title: 'Complete',
         message: 'Unrecognized server response, please verify operation completed correctly.',
-        timeOut: 60000
+        timeOut: 6000,
+        closeButton: true,
+        progressBar: true
       };
 
-      var o = <AlertOptions>$.extend({}, d, options);
-
-      //self.toaster.pop(o.type, o.title, o.message, o.timeOut);
+      var o = $.extend({}, d, options);
+      switch (o.type) {
+        case 'error':
+          self.toastr.error(o.message, o.title, o);
+          break;
+        case 'warn':
+        case 'warning':
+          self.toastr.warning(o.message, o.title, o);
+          break;
+        case 'success':
+          self.toastr.success(o.message, o.title, o);
+          break;
+        default:
+          self.toastr.info(o.message, o.title, o);
+          break;
+      }
     }
 
     handelErrorProxy: angular.IHttpPromiseCallback<any>;

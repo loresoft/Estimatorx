@@ -38,7 +38,7 @@
   @RenderSection("HeadContent", required: false)
 </head>
 <body>
-  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div id="navbar-main" class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -47,37 +47,37 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="~/" style="padding: 10px 15px;">
+        <a id="navbar-main-home-logo" class="navbar-brand" href="~/" style="padding: 10px 15px;">
           <img src="~/Content/EstimatorX-logo-small.png" width="150" height="30" title="EstimatorX" />
         </a>
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li><a href="~/">Home</a></li>
+          <li><a id="navbar-main-home" href="~/">Home</a></li>
           <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown">Projects <b class="caret"></b></a>
+            <a id="navbar-main-projects" class="dropdown-toggle" data-toggle="dropdown">Projects <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="@Url.Action("Index", "Project")">View Projects</a></li>
+              <li><a id="navbar-main-project-view" href="@Url.Action("Index", "Project")">View Projects</a></li>
               <li class="divider"></li>
-              <li><a href="@Url.Action("Create", "Project")">Create Project</a></li>
+              <li><a id="navbar-main-project-create" href="@Url.Action("Create", "Project")">Create Project</a></li>
             </ul>
           </li>
           <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown">Templates <b class="caret"></b></a>
+            <a id="navbar-main-templates" class="dropdown-toggle" data-toggle="dropdown">Templates <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="@Url.Action("Index", "Template")">View Factor Templates</a></li>
+              <li><a id="navbar-main-template-view" href="@Url.Action("Index", "Template")">View Factor Templates</a></li>
               <li class="divider"></li>
-              <li><a href="@Url.Action("Edit", "Template")">Create Factor Template</a></li>
+              <li><a id="navbar-main-template-create" href="@Url.Action("Edit", "Template")">Create Factor Template</a></li>
             </ul>
           </li>
           @if (User.IsInRole("administrators"))
           {
               <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown">Administrative <b class="caret"></b></a>
+                <a id="navbar-main-administrative" class="dropdown-toggle" data-toggle="dropdown">Administrative <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="@Url.Action("Index", "User")">Manage Users</a></li>
+                  <li><a id="navbar-main-administrative-user" href="@Url.Action("Index", "User")">Manage Users</a></li>
                   <li class="divider"></li>
-                  <li><a href="@Url.Action("Index", "Logging")">View Logs</a></li>
+                  <li><a id="navbar-main-administrative-logs" href="@Url.Action("Index", "Logging")">View Logs</a></li>
                 </ul>
               </li>
           }
@@ -86,22 +86,22 @@
           @if (User.Identity.IsAuthenticated)
           {
               <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown">
+                <a id="navbar-main-identity" class="dropdown-toggle" data-toggle="dropdown">
                   <img gravatar-src="'@User.Identity.GetUserName()'" gravatar-size="24" gravatar-default="mm" />
-                  @User.Identity.GetDisplayName()
+                  <span id="navbar-main-username">@User.Identity.GetDisplayName()</span>
                   <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a href="@Url.Action("Index", "Profile")"><i class="fa fa-user fa-fw"></i> Edit Profile</a></li>
-                  <li><a href="@Url.Action("Index", "Organization")"><i class="fa fa-group fa-fw"></i> Organizations</a></li>
+                  <li><a id="navbar-main-identity-profile" href="@Url.Action("Index", "Profile")"><i class="fa fa-user fa-fw"></i> Edit Profile</a></li>
+                  <li><a id="navbar-main-identity-organization" href="@Url.Action("Index", "Organization")"><i class="fa fa-group fa-fw"></i> Organizations</a></li>
                   <li class="divider"></li>
-                  <li><a href="@Url.Action("LogOut", "Account")"><i class="fa fa-power-off fa-fw"></i> Logout</a></li>
+                  <li><a id="navbar-main-identity-logout" href="@Url.Action("LogOut", "Account")"><i class="fa fa-power-off fa-fw"></i> Logout</a></li>
                 </ul>
               </li>
           }
           else
           {
-              <li><a href="@Url.Action("Login", "Account")">Login</a></li>
+              <li><a id="navbar-main-identity-login" href="@Url.Action("Login", "Account")">Login</a></li>
           }
         </ul>
       </div>
@@ -124,9 +124,6 @@
       </div>
     </footer>
   </div>
-
-  <toaster-container toaster-options="{'close-button':true, 'animation-class': 'toast-top-right'}">
-  </toaster-container>
 
   @Scripts.Render("~/bundles/bootstrap")
   @Scripts.Render("~/bundles/angular")
