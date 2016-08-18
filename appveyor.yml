@@ -3,7 +3,7 @@ os: Visual Studio 2015
 skip_tags: true
 environment:
   Major: 1
-  Minor: 0
+  Minor: 1
   Patch: 0
 configuration: Release
 services: mongodb
