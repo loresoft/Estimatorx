@@ -79,14 +79,19 @@ namespace Estimatorx.Web
                     appSecret: EstimatorxSettings.FacebookApplicationSecret);
 
             if (!string.IsNullOrEmpty(EstimatorxSettings.GoogleClientId))
-                app.UseGoogleAuthentication(
-                    clientId: EstimatorxSettings.GoogleClientId,
-                    clientSecret: EstimatorxSettings.GoogleClientSecret);
+                app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions
+                {
+                    ClientId = EstimatorxSettings.GoogleClientId,
+                    ClientSecret = EstimatorxSettings.GoogleClientSecret
+                });
 
             if (!string.IsNullOrEmpty(EstimatorxSettings.GitHubClientId))
-                app.UseGitHubAuthentication(
-                    clientId: EstimatorxSettings.GitHubClientId,
-                    clientSecret: EstimatorxSettings.GitHubClientSecret);
+                app.UseGitHubAuthentication(new GitHubAuthenticationOptions
+                {
+                    ClientId = EstimatorxSettings.GitHubClientId,
+                    ClientSecret = EstimatorxSettings.GitHubClientSecret,
+                    Scope = { "user:email" }
+                });
         }
 
     }

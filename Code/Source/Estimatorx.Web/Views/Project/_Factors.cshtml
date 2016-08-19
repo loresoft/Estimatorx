@@ -27,11 +27,12 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="factor in viewModel.project.Factors">
+            <tr ng-repeat="factor in viewModel.project.Factors track by $index">
                 <td>
                     <input type="text"
                            class="form-control"
                            ng-model="factor.Name"
+                           ng-attr-id="{{ 'factor-name-edit-' + $index }}" 
                            title="Enter name of this factor"
                            autocomplete="off" />
                 </td>
@@ -40,6 +41,7 @@
                            class="form-control"
                            title="Enter hours for a very simple task"
                            ng-model="factor.VerySimple"
+                           ng-attr-id="{{ 'factor-verySimple-edit-' + $index }}" 
                            autocomplete="off" />
                 </td>
                 <td>
@@ -47,6 +49,7 @@
                            class="form-control"
                            title="Enter hours for a simple task"
                            ng-model="factor.Simple"
+                           ng-attr-id="{{ 'factor-simple-edit-' + $index }}" 
                            autocomplete="off" />
                 </td>
                 <td>
@@ -54,6 +57,7 @@
                            class="form-control"
                            title="Enter hours for a medium task"
                            ng-model="factor.Medium"
+                           ng-attr-id="{{ 'factor-medium-edit-' + $index }}" 
                            autocomplete="off" />
                 </td>
                 <td>
@@ -61,6 +65,7 @@
                            class="form-control"
                            title="Enter hours for a complex task"
                            ng-model="factor.Complex"
+                           ng-attr-id="{{ 'factor-complex-edit-' + $index }}" 
                            autocomplete="off" />
                 </td>
                 <td>
@@ -68,12 +73,14 @@
                            class="form-control"
                            title="Enter hours for a very complex task"
                            ng-model="factor.VeryComplex"
+                           ng-attr-id="{{ 'factor-veryComplex-edit-' + $index }}" 
                            autocomplete="off" />
                 </td>
                 <td class="active">
                     <div class="btn-group pull-right">
                         <a class="btn btn-link btn-sm"
                            ng-click="viewModel.removeFactor(factor)"
+                           ng-attr-id="{{ 'factor-remove-link-' + $index }}" 
                            title="Delete this factor">
                             <i class="glyphicon glyphicon-remove"></i>
                         </a>
@@ -85,17 +92,20 @@
             <tr>
                 <th colspan="7">
                     <div class="btn-group">
-                        <a class="btn btn-link btn-sm"
+                        <a id="add-factor-button"
+                           class="btn btn-link btn-sm"
                            ng-click="viewModel.addFactor()">
                             <i class="glyphicon glyphicon-plus"></i>
                             Add Factor
                         </a>
-                        <a class="btn btn-link btn-sm"
+                        <a id="add-template-button"
+                           class="btn btn-link btn-sm"
                            ng-click="viewModel.addTemplate()">
                             <i class="glyphicon glyphicon-plus"></i>
                             Add Template
                         </a>
-                        <a class="btn btn-link btn-sm"
+                        <a id="reorder-factor-button"
+                           class="btn btn-link btn-sm"
                            ng-click="viewModel.reorderFactors()"
                            ng-show="viewModel.project.Factors.length > 1">
                             <i class="fa fa-unsorted"></i>

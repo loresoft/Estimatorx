@@ -1,4 +1,4 @@
-﻿<table class="table table-edit table-bordered">
+﻿<table id="assumptions-edit-table" class="table table-edit table-bordered">
     <colgroup>
         <col style="" />
         <col style="width: 30px" />
@@ -11,7 +11,7 @@
     </thead>
     <tbody>
         <tr ng-repeat="assumption in viewModel.project.Assumptions track by $index">
-            <td><input type="text" class="form-control" ng-model="viewModel.project.Assumptions[$index]" placeholder="Enter Assumption" autocomplete="off" /></td>
+            <td><input ng-attr-id="{{ 'assumption-edit-' + $index }}" type="text" class="form-control" ng-model="viewModel.project.Assumptions[$index]" placeholder="Enter Assumption" autocomplete="off" /></td>
             <td class="active">
                 <div class="btn-group pull-right">
                     <a class="btn btn-link btn-sm" ng-click="viewModel.removeAssumption($index)" title="Delete this assumption">
@@ -25,10 +25,10 @@
         <tr>
             <th colspan="7">
                 <div class="btn-group">
-                    <a class="btn btn-link btn-sm" ng-click="viewModel.addAssumption()">
+                    <a id="add-assumption-button" class="btn btn-link btn-sm" ng-click="viewModel.addAssumption()">
                         <i class="glyphicon glyphicon-plus"></i> Add Assumption
                     </a>
-                    <a class="btn btn-link btn-sm" ng-click="viewModel.reorderAssumptions()" ng-show="viewModel.project.Assumptions.length > 1">
+                    <a id="reorder-assumption-button" class="btn btn-link btn-sm" ng-click="viewModel.reorderAssumptions()" ng-show="viewModel.project.Assumptions.length > 1">
                         <i class="fa fa-unsorted"></i> Reorder Assumptions
                     </a>
                 </div>

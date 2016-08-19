@@ -112,16 +112,48 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="factor in viewModel.template.Factors">
-                                        <td><input type="text" class="form-control" ng-model="factor.Name" placeholder="Factor Name" autocomplete="off" /></td>
-                                        <td><input type="number" class="form-control" ng-model="factor.VerySimple" autocomplete="off" /></td>
-                                        <td><input type="number" class="form-control" ng-model="factor.Simple" autocomplete="off" /></td>
-                                        <td><input type="number" class="form-control" ng-model="factor.Medium" autocomplete="off" /></td>
-                                        <td><input type="number" class="form-control" ng-model="factor.Complex" autocomplete="off" /></td>
-                                        <td><input type="number" class="form-control" ng-model="factor.VeryComplex" autocomplete="off" /></td>
+                                    <tr ng-repeat="factor in viewModel.template.Factors track by $index">
+                                        <td>
+                                            <input type="text" class="form-control"
+                                                   ng-model="factor.Name"
+                                                   ng-attr-id="{{ 'factor-name-edit-' + $index }}" 
+                                                   placeholder="Factor Name" autocomplete="off"/>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control"
+                                                   ng-model="factor.VerySimple"
+                                                   ng-attr-id="{{ 'factor-verySimple-edit-' + $index }}" 
+                                                   autocomplete="off"/>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control"
+                                                   ng-model="factor.Simple"
+                                                   ng-attr-id="{{ 'factor-simple-edit-' + $index }}" 
+                                                   autocomplete="off"/>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control"
+                                                   ng-model="factor.Medium"
+                                                   ng-attr-id="{{ 'factor-medium-edit-' + $index }}" 
+                                                   autocomplete="off"/>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control"
+                                                   ng-model="factor.Complex"
+                                                   ng-attr-id="{{ 'factor-complex-edit-' + $index }}"
+                                                    autocomplete="off"/>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control"
+                                                   ng-model="factor.VeryComplex"
+                                                   ng-attr-id="{{ 'factor-veryComplex-edit-' + $index }}" 
+                                                   autocomplete="off"/>
+                                        </td>
                                         <td class="active">
                                             <div class="btn-group pull-right">
-                                                <a class="btn btn-link btn-sm" ng-click="viewModel.removeFactor(factor)">
+                                                <a class="btn btn-link btn-sm"
+                                                   ng-click="viewModel.removeFactor(factor)" 
+                                                   ng-attr-id="{{ 'factor-remove-link-' + $index }}">
                                                     <i class="glyphicon glyphicon-remove"></i>
                                                 </a>
                                             </div>
@@ -132,10 +164,13 @@
                                     <tr>
                                         <th colspan="7">
                                             <div class="btn-group">
-                                                <a class="btn btn-link btn-sm" ng-click="viewModel.addFactor()">
+                                                <a id="add-factor-button" class="btn btn-link btn-sm" 
+                                                   ng-click="viewModel.addFactor()">
                                                     <i class="glyphicon glyphicon-plus"></i> Add Factor
                                                 </a>
-                                                <a class="btn btn-link btn-sm" ng-click="viewModel.reorderFactors()" ng-show="viewModel.template.Factors.length > 1">
+                                                <a id="reorder-factor-button" class="btn btn-link btn-sm"
+                                                   ng-click="viewModel.reorderFactors()" 
+                                                   ng-show="viewModel.template.Factors.length > 1">
                                                     <i class="fa fa-unsorted"></i> Reorder Factors
                                                 </a>
                                             </div>
@@ -151,11 +186,11 @@
             <div class="panel-footer">
                 <div class="row">
                     <div class="col-sm-8">
-                        <button type="submit" class="btn btn-primary"
+                        <button id="template-save-button" type="submit" class="btn btn-primary"
                                 ng-disabled="!templateForm.$dirty">
                             Save
                         </button>
-                        <button type="button" class="btn btn-default"
+                        <button id="template-undo-button" type="button" class="btn btn-default"
                                 ng-click="viewModel.undo()"
                                 ng-disabled="!templateForm.$dirty">
                             Undo
@@ -163,7 +198,10 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="pull-right">
-                            <button type="button" class="btn btn-danger" ng-click="viewModel.delete()">Delete</button>
+                            <button id="template-delete-button" type="button" class="btn btn-danger"
+                                    ng-click="viewModel.delete()">
+                                Delete
+                            </button>
                         </div>
                     </div>
                 </div>

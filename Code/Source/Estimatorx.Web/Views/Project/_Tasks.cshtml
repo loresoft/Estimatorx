@@ -1,5 +1,5 @@
-﻿<div class="table-responsive" ng-repeat="section in viewModel.project.Sections">
-    <table class="table table-edit table-bordered" style="table-layout: fixed">
+﻿<div class="table-responsive" ng-repeat="section in viewModel.project.Sections track by $index">
+    <table class="table table-edit table-bordered" style="table-layout: fixed" ng-attr-id="{{ 'section-table-' + $index }}">
         <colgroup>
             <col style="width: 200px" />
             <col style="width: 180px" />
@@ -50,37 +50,44 @@
                     <input type="text"
                            class="form-control section-control"
                            ng-model="section.Name"
+                           ng-attr-id="{{ 'section-name-edit-' + $index }}"
                            title="Enter name for this section"
                            autocomplete="off" />
                 </td>
                 <td>
                     <p class="form-control-static"
+                       ng-attr-id="{{ 'section-tasks-value-' + $index }}"
                        title="The total tasks for this section">{{section.TotalTasks}}</p>
                 </td>
                 <td>
                     <p class="form-control-static"
+                       ng-attr-id="{{ 'section-hours-value-' + $index }}"
                        title="The total hours for this section">{{section.TotalHours}}</p>
                 </td>
                 <td>
                     <div class="btn-group pull-right">
-                        <a class="btn btn-link btn-sm" ng-click="viewModel.removeSection(section)">
+                        <a class="btn btn-link btn-sm"
+                           ng-click="viewModel.removeSection(section)" 
+                           ng-attr-id="{{ 'section-remove-button-' + $index }}">
                             <i class="glyphicon glyphicon-remove" title="Delete this Section"></i>
                         </a>
                     </div>
                 </td>
             </tr>
-            <tr ng-repeat="task in section.Tasks">
+            <tr ng-repeat="task in section.Tasks track by $index">
                 <td>
                     <input type="text"
                            class="form-control"
                            title="Enter name for this task"
                            ng-model="task.Name"
+                           ng-attr-id="{{ 'section-' + $parent.$index + '-task-name-edit-' + $index }}"
                            autocomplete="off" />
                 </td>
                 <td>
                     <select class="form-control no-style"
                             title="Select the factor you use for this task"
                             ng-model="task.FactorId"
+                            ng-attr-id="{{ 'section-' + $parent.$index + '-task-factor-select-' + $index }}"
                             ng-options="factor.Id as factor.Name for factor in viewModel.project.Factors">
                         <option value="">-- select --</option>
                     </select>
@@ -89,44 +96,52 @@
                     <input type="number" class="form-control"
                            autocomplete="off"
                            ng-model="task.VerySimple"
+                           ng-attr-id="{{ 'section-' + $parent.$index + '-task-verySimple-edit-' + $index }}"
                            title="Enter number of very simple tasks" />
                 </td>
                 <td>
                     <input type="number" class="form-control"
                            autocomplete="off"
                            ng-model="task.Simple"
+                           ng-attr-id="{{ 'section-' + $parent.$index + '-task-simple-edit-' + $index }}"
                            title="Enter number of simple tasks" />
                 </td>
                 <td>
                     <input type="number" class="form-control"
                            autocomplete="off"
                            ng-model="task.Medium"
+                           ng-attr-id="{{ 'section-' + $parent.$index + '-task-medium-edit-' + $index }}"
                            title="Enter number of medium tasks" />
                 </td>
                 <td>
                     <input type="number" class="form-control"
                            autocomplete="off"
                            ng-model="task.Complex"
+                           ng-attr-id="{{ 'section-' + $parent.$index + '-task-complex-edit-' + $index }}"
                            title="Enter number of complex tasks" />
                 </td>
                 <td>
                     <input type="number" class="form-control"
                            autocomplete="off"
                            ng-model="task.VeryComplex"
+                           ng-attr-id="{{ 'section-' + $parent.$index + '-task-veryComplex-edit-' + $index }}"
                            title="Enter number of very complex tasks" />
                 </td>
                 <td class="active">
                     <p class="form-control-static"
+                       ng-attr-id="{{ 'section-' + $parent.$index + '-task-tasks-value-' + $index }}"
                        title="The total number of tasks">{{task.TotalTasks}}</p>
                 </td>
                 <td class="active">
                     <p class="form-control-static"
+                       ng-attr-id="{{ 'section-' + $parent.$index + '-task-hours-value-' + $index }}"
                        title="The factor hours multiplied by the task count per difficulty">{{task.TotalHours}}</p>
                 </td>
                 <td class="active">
                     <div class="btn-group pull-right">
                         <a class="btn btn-link btn-sm"
                            ng-click="viewModel.removeTask(section, task)"
+                           ng-attr-id="{{ 'section-' + $parent.$index + '-task-remove-button-' + $index }}"
                            title="Delete this Task">
                             <i class="glyphicon glyphicon-remove"></i>
                         </a>
@@ -139,6 +154,7 @@
                 <th colspan="10">
                     <div class="btn-group">
                         <a class="btn btn-link btn-sm"
+                           ng-attr-id="{{ 'add-task-button-' + $index }}" 
                            ng-click="viewModel.addTask(section)">
                             <i class="glyphicon glyphicon-plus"></i>
                             Add Task
@@ -149,6 +165,7 @@
                             Add Section
                         </a>
                         <a class="btn btn-link btn-sm"
+                           ng-attr-id="{{ 'reorder-task-button-' + $index }}" 
                            ng-click="viewModel.reorderTasks(section)"
                            ng-show="section.Tasks.length > 1">
                             <i class="fa fa-unsorted"></i>
@@ -161,12 +178,12 @@
     </table>
 </div>
 <div class="btn-group">
-    <a class="btn btn-link btn-sm"
+    <a id="add-section-button" class="btn btn-link btn-sm"
        ng-click="viewModel.addSection()">
         <i class="glyphicon glyphicon-plus"></i>
         Add Section
     </a>
-    <a class="btn btn-link btn-sm"
+    <a id="reorder-section-button" class="btn btn-link btn-sm"
        ng-click="viewModel.reorderSections()"
        ng-show="viewModel.project.Sections.length > 1">
         <i class="fa fa-unsorted"></i> Reorder Section
