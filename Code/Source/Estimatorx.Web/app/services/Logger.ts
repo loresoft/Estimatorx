@@ -57,7 +57,7 @@ module Estimatorx {
 
     handelErrorProxy: angular.IHttpPromiseCallback<any>;
 
-    handelError(data: any, status: number, headers: angular.IHttpHeadersGetter, config: angular.IRequestConfig) {
+    handelError(data: any, status: any, headers: angular.IHttpHeadersGetter, config: angular.IRequestConfig) {
       var self = this;
       var message = '';
 

@@ -60,7 +60,6 @@ module Estimatorx {
         templateRepository: TemplateRepository;
         original: ITemplate;
         template: ITemplate;
-        templateId: string;
 
         organizations: IOrganization[];
         organizationRepository: OrganizationRepository;
@@ -78,26 +77,17 @@ module Estimatorx {
         load(id?: string) {
             var self = this;
 
-            self.templateId = id;
-
             // get template id
-            if (!self.templateId) {
+            if (!id) {
                 self.template = self.modelFactory.createTemplate();
                 return;
             }
 
-            this.templateRepository.find(self.templateId)
+            this.templateRepository.find(id)
                 .success((data, status, headers, config) => {
                     self.loadDone(data);
                 })
-                .error((data, status, headers, config) => {
-                    if (status == 404) {
-                        self.template = self.modelFactory.createTemplate(self.templateId);
-                        return;
-                    }
-
-                    self.logger.handelError(data, status, headers, config);
-                });
+                .error(self.logger.handelErrorProxy);
         }
 
         loadDone(template: ITemplate) {

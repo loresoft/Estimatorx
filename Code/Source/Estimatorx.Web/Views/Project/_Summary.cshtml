@@ -8,19 +8,23 @@
             <tbody>
                 <tr>
                     <th>Total Tasks:</th>
-                    <td>{{viewModel.project.TotalTasks}}</td>
+                    <td>
+                        <span id="summary-project-totalTasks-value">{{viewModel.project.TotalTasks}}</span>
+                    </td>
                 </tr>
 
                 <tr>
                     <th>Total Hours:</th>
-                    <td>{{viewModel.project.TotalHours}}</td>
+                    <td>
+                        <span id="summary-project-totalHours-value">{{viewModel.project.TotalHours}}</span>
+                    </td>
                 </tr>
                 <tr>
                     <th>
                         Contingency Hours:
                     </th>
                     <td>
-                        {{viewModel.project.ContingencyHours}}
+                        <span id="summary-project-contingencyHours-value">{{viewModel.project.ContingencyHours}}</span>
                         <small class="text-muted" style="margin-left: 5px">({{viewModel.project.ContingencyRate }}% Contingency)</small>
                     </td>
                 </tr>
@@ -30,7 +34,7 @@
                         Total Weeks:
                     </th>
                     <td>
-                        {{viewModel.project.TotalWeeks | number:2}}
+                        <span id="summary-project-totalWeeks-value">{{viewModel.project.TotalWeeks | number:2}}</span>
                         <small class="text-muted" style="margin-left: 5px">({{viewModel.project.HoursPerWeek}} hrs per week)</small>
                     </td>
                 </tr>
@@ -39,7 +43,7 @@
                         Contingency Weeks:
                     </th>
                     <td>
-                        {{viewModel.project.ContingencyWeeks | number:2}}
+                        <span id="summary-project-contingencyWeeks-value">{{viewModel.project.ContingencyWeeks | number:2}}</span>
                         <small class="text-muted" style="margin-left: 5px">({{viewModel.project.ContingencyRate }}% Contingency)</small>
                     </td>
                 </tr>
@@ -66,7 +70,7 @@
                     <td>
                         <div class="nowrap">
                             <img gravatar-src-once="viewModel.project.Creator" gravatar-size="24" gravatar-default="mm" />
-                            {{viewModel.project.Creator}}
+                            <span id="summary-project-creator-value">{{viewModel.project.Creator}}</span>
                         </div>
                     </td>
                 </tr>
@@ -83,7 +87,7 @@
                     <td>
                         <div class="nowrap">
                             <img gravatar-src-once="viewModel.project.Updater" gravatar-size="24" gravatar-default="mm" />
-                            {{viewModel.project.Updater}}
+                            <span id="summary-project-updater-value">{{viewModel.project.Updater}}</span>
                         </div>
                     </td>
                 </tr>

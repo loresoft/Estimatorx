@@ -76,7 +76,6 @@ module Estimatorx {
 
         original: IProject;
         project: IProject;
-        projectId: string;
 
         template: ITemplate;
         templates: ITemplate[];
@@ -104,26 +103,16 @@ module Estimatorx {
         load(id?: string) {
             var self = this;
 
-            self.projectId = id;
-
-            // get project id
-            if (!self.projectId) {
+            if (!id) {
                 self.project = self.modelFactory.createProject();
                 return;
             }
 
-            this.projectRepository.find(self.projectId)
+            this.projectRepository.find(id)
                 .success((data, status, headers, config) => {
                     self.loadDone(data);
                 })
-                .error((data, status, headers, config) => {
-                    if (status == 404) {
-                        self.project = self.modelFactory.createProject(self.projectId);
-                        return;
-                    }
-
-                    self.logger.handelError(data, status, headers, config);
-                });
+                .error(self.logger.handelErrorProxy);
         }
 
         loadDone(project: IProject) {
