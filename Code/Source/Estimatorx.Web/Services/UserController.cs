@@ -54,7 +54,7 @@ namespace Estimatorx.Web.Services
 
         [HttpGet]
         [Route("{id}")]
-        [Authorize(Roles = "administrators")]
+        [Authorize(Roles = RoleNames.Administrators)]
         public IHttpActionResult Get(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -74,7 +74,7 @@ namespace Estimatorx.Web.Services
             string userId = User.Identity.GetUserId();
             bool isSelf = userId == value.Id;
 
-            if (!isSelf && !User.IsInRole("administrators"))
+            if (!isSelf && !User.IsInRole(RoleNames.Administrators))
                 return Unauthorized(); // can only save self
 
             var user = _userRepository.Save(value);
@@ -82,6 +82,23 @@ namespace Estimatorx.Web.Services
                 return NotFound();
 
             return Ok(user);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public IHttpActionResult Delete(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return BadRequest();
+
+            string userId = User.Identity.GetUserId();
+            bool isSelf = userId == id;
+
+            if (!isSelf && !User.IsInRole(RoleNames.Administrators))
+                return Unauthorized(); // can only delete self
+
+            _userRepository.Delete(id);
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
         [HttpGet]
@@ -99,7 +116,7 @@ namespace Estimatorx.Web.Services
 
         [HttpGet]
         [Route("Query")]
-        [Authorize(Roles = "administrators")]
+        [Authorize(Roles = RoleNames.Administrators)]
         public IHttpActionResult Query(int? page = null, int? pageSize = null, string sort = null, bool? descending = null, string search = null, string organization = null)
         {
             var query = _userRepository.All();

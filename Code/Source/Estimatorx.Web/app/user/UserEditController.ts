@@ -125,6 +125,29 @@ module Estimatorx {
       });
     }
 
+    delete() {
+      var self = this;
+
+      BootstrapDialog.confirm("Are you sure you want to delete this user?", (result) => {
+        if (!result)
+          return;
+
+        self.userRepository.delete(self.user.Id)
+          .success((data, status, headers, config) => {
+            self.logger.showAlert({
+              type: 'success',
+              title: 'Delete Successful',
+              message: 'User deleted successfully.',
+              timeOut: 4000
+            });
+
+            //redirect
+            window.location.href = 'User';
+          })
+          .error(self.logger.handelErrorProxy);
+      });
+    }
+
     isDirty(): boolean {
       return this.$scope.profileForm.$dirty;
     }

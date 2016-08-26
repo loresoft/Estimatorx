@@ -2,75 +2,86 @@
 <form id="profileForm" name="profileForm" role="form"
       ng-submit="viewModel.save(profileForm.$valid)"
       novalidate="novalidate">
-  <div class="row">
-    <div class="col-md-6">
-      <!-- profileForm.Name -->
-      <div class="form-group"
-           ng-class="{ 'has-error' : profileForm.Name.$invalid && (profileForm.Name.$touched || profileForm.$submitted) }">
-        <label for="Name" class="control-label">
-          Name
-          <span class="text-danger">*</span>
-        </label>
-        <input type="text" name="Name" id="Name"
-               placeholder="Name"
-               class="form-control"
-               ng-model="viewModel.user.Name"
-               required="required" />
-        <div ng-messages="profileForm.Name.$error" ng-if="profileForm.$submitted || profileForm.Name.$touched">
-          <span ng-message="required" class="help-block">Name is required</span>
+    <div class="row">
+        <div class="col-md-6">
+            <!-- profileForm.Name -->
+            <div class="form-group"
+                 ng-class="{ 'has-error' : profileForm.Name.$invalid && (profileForm.Name.$touched || profileForm.$submitted) }">
+                <label for="Name" class="control-label">
+                    Name
+                    <span class="text-danger">*</span>
+                </label>
+                <input type="text" name="Name" id="Name"
+                       placeholder="Name"
+                       class="form-control"
+                       ng-model="viewModel.user.Name"
+                       required="required" />
+                <div ng-messages="profileForm.Name.$error" ng-if="profileForm.$submitted || profileForm.Name.$touched">
+                    <span ng-message="required" class="help-block">Name is required</span>
+                </div>
+            </div>
+
+            <!-- profileForm.Email -->
+            <div class="form-group"
+                 ng-class="{ 'has-error' : profileForm.Email.$invalid && (profileForm.Email.$touched || profileForm.$submitted) }">
+                <label for="Email" class="control-label">
+                    Email
+                    <span class="text-danger">*</span>
+                </label>
+                <input type="email" name="Email" id="Email"
+                       placeholder="Email"
+                       class="form-control"
+                       ng-model="viewModel.user.Email"
+                       required="required" />
+                <div ng-messages="profileForm.Email.$error" ng-if="profileForm.$submitted || profileForm.Email.$touched">
+                    <span ng-message="required" class="help-block">Email is required</span>
+                    <span ng-message="email" class="help-block">Invalid email address</span>
+                </div>
+            </div>
+
+
+            <fieldset class="standard" style="margin-bottom: 20px">
+                <legend>Roles</legend>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="administrators"
+                               ng-checked="viewModel.user.Roles.indexOf('administrators') > -1"
+                               ng-click="viewModel.toggleSelection('administrators')">
+                        Administrators
+                    </label>
+                </div>
+            </fieldset>
+
         </div>
-      </div>
-
-      <!-- profileForm.Email -->
-      <div class="form-group"
-           ng-class="{ 'has-error' : profileForm.Email.$invalid && (profileForm.Email.$touched || profileForm.$submitted) }">
-        <label for="Email" class="control-label">
-          Email
-          <span class="text-danger">*</span>
-        </label>
-        <input type="email" name="Email" id="Email"
-               placeholder="Email"
-               class="form-control"
-               ng-model="viewModel.user.Email"
-               required="required" />
-        <div ng-messages="profileForm.Email.$error" ng-if="profileForm.$submitted || profileForm.Email.$touched">
-          <span ng-message="required" class="help-block">Email is required</span>
-          <span ng-message="email" class="help-block">Invalid email address</span>
+        <div class="col-md-6">
+            <img class="center-block" gravatar-src="viewModel.user.Email" gravatar-size="200" gravatar-default="mm" />
+            <p class="caption center-block text-center">
+                You can change your picture at <a class="external" href="http://gravatar.com/" target="_blank">Gravatar.com</a>
+            </p>
         </div>
-      </div>
-
-
-      <fieldset class="standard" style="margin-bottom: 20px">
-        <legend>Roles</legend>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" value="administrators"
-                   ng-checked="viewModel.user.Roles.indexOf('administrators') > -1"
-                   ng-click="viewModel.toggleSelection('administrators')">
-            Administrators
-          </label>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <button type="submit" class="btn btn-primary"
+                    ng-disabled="profileForm.$pristine">
+                Save
+            </button>
+            <button type="button" class="btn btn-default"
+                    ng-disabled="profileForm.$pristine"
+                    ng-click="viewModel.undo()">
+                Undo
+            </button>
         </div>
-      </fieldset>
-
+        <div class="col-sm-4">
+            <div class="pull-right">
+                <button id="project-delete-button"
+                        type="button"
+                        class="btn btn-danger"
+                        ng-click="viewModel.delete()"
+                        ng-disabled="projectForm.$dirty">
+                    Delete
+                </button>
+            </div>
+        </div>
     </div>
-    <div class="col-md-6">
-      <img class="center-block" gravatar-src="viewModel.user.Email" gravatar-size="200" gravatar-default="mm" />
-      <p class="caption center-block text-center">
-        You can change your picture at <a class="external" href="http://gravatar.com/" target="_blank">Gravatar.com</a>
-      </p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <button type="submit" class="btn btn-primary"
-              ng-disabled="profileForm.$pristine">
-        Save
-      </button>
-      <button type="button" class="btn btn-default"
-              ng-disabled="profileForm.$pristine"
-              ng-click="viewModel.undo()">
-        Undo
-      </button>
-    </div>
-  </div>
 </form>

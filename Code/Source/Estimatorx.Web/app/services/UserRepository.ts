@@ -26,6 +26,10 @@ module Estimatorx {
             return this.$http.post<IUser>(this.urlBase, user);
         }
 
+        delete(id: string): angular.IHttpPromise<void> {
+          return this.$http.delete<void>(this.urlBase + '/' + id);
+        }
+
         search(text: string): angular.IHttpPromise<IUser[]> {
             var config = {
                 params: {

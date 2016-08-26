@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Web.Mvc;
+using Estimatorx.Core.Security;
 
 namespace Estimatorx.Web.Controllers
 {
-    [Authorize(Roles = "administrators")]
+    [Authorize(Roles = RoleNames.Administrators)]
     public class UserController : Controller
     {
         public ActionResult Index()

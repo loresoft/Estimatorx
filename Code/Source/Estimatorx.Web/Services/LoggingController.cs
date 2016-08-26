@@ -2,11 +2,12 @@
 using System.Web.Http;
 using Estimatorx.Core.Providers;
 using Estimatorx.Core.Query;
+using Estimatorx.Core.Security;
 using Estimatorx.Data.Mongo;
 
 namespace Estimatorx.Web.Services
 {
-    [Authorize(Roles = "administrators")]
+    [Authorize(Roles = RoleNames.Administrators)]
     [RoutePrefix("api/Logging")]
     public class LoggingController : ApiController
     {
