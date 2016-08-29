@@ -58,7 +58,7 @@ namespace Estimatorx.Web.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            SignInStatus result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:

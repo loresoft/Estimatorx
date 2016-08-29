@@ -23,7 +23,7 @@ namespace Estimatorx.Data.Mongo
                 throw new ArgumentNullException(nameof(organizationId));
 
             _logger.Info()
-                .Message("Generate sample project for organization '{0}'", organizationId)
+                .Message("Generate sample project for '{0}'", organizationId)
                 .Property("Organization", organizationId)
                 .Write();
 
@@ -117,7 +117,7 @@ namespace Estimatorx.Data.Mongo
                 throw new ArgumentNullException(nameof(organizationId));
 
             _logger.Info()
-                .Message("Generate sample template for organization '{0}'", organizationId)
+                .Message("Generate sample template for '{0}'", organizationId)
                 .Property("Organization", organizationId)
                 .Write();
 
