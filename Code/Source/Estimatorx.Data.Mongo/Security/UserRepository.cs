@@ -7,11 +7,14 @@ using MongoDB.Abstracts;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
+using NLog.Fluent;
 
 namespace Estimatorx.Data.Mongo.Security
 {
     public class UserRepository : MongoRepository<User, string>, IUserRepository
     {
+        private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         public UserRepository()
             : this("EstimatorxMongo")
         {
@@ -60,6 +63,10 @@ namespace Estimatorx.Data.Mongo.Security
         {
             entity.Created = DateTime.Now;
             entity.Updated = DateTime.Now;
+
+            _logger.Debug()
+                .Message("User '{0}' created", entity.Email)
+                .Write();
 
             base.BeforeInsert(entity);
         }

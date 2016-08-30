@@ -16,6 +16,16 @@ namespace Estimatorx.Core.Security
         {
         }
 
+        public override System.Threading.Tasks.Task SignInAsync(User user, bool isPersistent, bool rememberBrowser)
+        {
+            _logger.Info()
+                .Message("Sign in user '{0}'", user.Email)
+                .Property("User", user.Email)
+                .Write();
+
+            return base.SignInAsync(user, isPersistent, rememberBrowser);
+        }
+
         public override async Task<ClaimsIdentity> CreateUserIdentityAsync(User user)
         {
             _logger.Debug()

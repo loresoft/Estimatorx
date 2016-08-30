@@ -7,12 +7,15 @@ using Estimatorx.Core.Providers;
 using Estimatorx.Core.Security;
 using MongoDB.Abstracts;
 using MongoDB.Driver;
+using NLog.Fluent;
 
 namespace Estimatorx.Data.Mongo
 {
     public class ProjectRepository
         : MongoRepository<Project, string>, IProjectRepository
     {
+        private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();  
+
         public ProjectRepository()
             : this("EstimatorxMongo")
         {
@@ -52,6 +55,11 @@ namespace Estimatorx.Data.Mongo
             entity.Creator = UserName.Current();
             entity.Updated = DateTime.Now;
             entity.Updater = UserName.Current();
+
+            _logger.Debug()
+                .Message("Project '{0}' created by '{1}'", entity.Name, entity.Creator)
+                .Property("Organization", entity.OrganizationId)
+                .Write();
 
             base.BeforeInsert(entity);
         }

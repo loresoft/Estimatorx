@@ -7,12 +7,15 @@ using Estimatorx.Core.Security;
 using MongoDB.Abstracts;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using NLog.Fluent;
 
 namespace Estimatorx.Data.Mongo
 {
     public class TemplateRepository
         : MongoRepository<Template, string>, ITemplateRepository
     {
+        private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         public TemplateRepository()
             : this("EstimatorxMongo")
         {
@@ -53,6 +56,11 @@ namespace Estimatorx.Data.Mongo
             entity.Updated = DateTime.Now;
             entity.Updater = UserName.Current();
 
+            _logger.Debug()
+                .Message("Template '{0}' created by '{1}'", entity.Name, entity.Creator)
+                .Property("Organization", entity.OrganizationId)
+                .Write();
+
             base.BeforeInsert(entity);
         }
 
@@ -90,7 +98,7 @@ namespace Estimatorx.Data.Mongo
                 Id = p.Id,
                 Name = p.Name,
                 Description = p.Description,
-                OrganizationId = p.OrganizationId,               
+                OrganizationId = p.OrganizationId,
                 Created = p.Created,
                 Creator = p.Creator,
                 Updated = p.Updated,
