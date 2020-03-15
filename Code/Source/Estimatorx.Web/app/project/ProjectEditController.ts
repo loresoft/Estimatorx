@@ -118,7 +118,7 @@ module Estimatorx {
         loadDone(project: IProject) {
             var self = this;
 
-            self.original = <IProject>angular.copy(project, {});
+            self.original = <IProject>angular.copy(project);
             self.project = project;
 
             self.setClean();
@@ -164,7 +164,7 @@ module Estimatorx {
                 if (!result)
                     return;
 
-                self.project = <IProject>angular.copy(self.original, {});
+                self.project = <IProject>angular.copy(self.original);
 
                 self.setClean();
 
@@ -438,7 +438,7 @@ module Estimatorx {
                 angular.forEach(item.Factors,(value, key) => {
 
                     // change key to prevent duplicates
-                    var factor = <IFactor>angular.copy(value, {});
+                    var factor = <IFactor>angular.copy(value);
                     factor.Id = self.identityService.newObjectId();
 
                     self.project.Factors.push(factor);

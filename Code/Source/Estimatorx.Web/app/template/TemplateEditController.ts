@@ -93,7 +93,7 @@ module Estimatorx {
         loadDone(template: ITemplate) {
             var self = this;
 
-            self.original = <IProject>angular.copy(template, {});
+            self.original = <IProject>angular.copy(template);
             self.template = template;
 
             self.setClean();
@@ -134,7 +134,7 @@ module Estimatorx {
                 if (!result)
                     return;
 
-                self.template = <ITemplate>angular.copy(self.original, {});
+                self.template = <ITemplate>angular.copy(self.original);
 
                 self.setClean();
 

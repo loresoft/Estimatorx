@@ -78,7 +78,7 @@ module Estimatorx {
     loadDone(user: IUser) {
       var self = this;
 
-      self.original = <IUser>angular.copy(user, {});
+      self.original = <IUser>angular.copy(user);
       self.user = user;
 
       self.setClean();
@@ -117,7 +117,7 @@ module Estimatorx {
         if (!result)
           return;
 
-        self.user = <IUser>angular.copy(self.original, {});
+        self.user = <IUser>angular.copy(self.original);
 
         self.setClean();
 

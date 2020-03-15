@@ -109,7 +109,7 @@ module Estimatorx {
         loadDone(organization: IOrganization) {
             var self = this;
 
-            self.original = <IOrganization>angular.copy(organization, {});
+            self.original = <IOrganization>angular.copy(organization);
             self.organization = organization;
 
             self.setClean();
@@ -206,7 +206,7 @@ module Estimatorx {
                 if (!result)
                     return;
 
-                self.organization = <IOrganization>angular.copy(self.original, {});
+                self.organization = <IOrganization>angular.copy(self.original);
 
                 self.setClean();
 
