@@ -463,8 +463,8 @@
     <TypeScriptCompile Include="app\user\UserEditController.ts" />
     <TypeScriptCompile Include="app\user\UserListController.ts" />
     <TypeScriptCompile Include="app\_ref.ts" />
-    <TypeScriptCompile Include="Scripts\typings\angular-toastr\angular-toastr.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\angular-ui-bootstrap\angular-ui-bootstrap.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angular-toastr\index.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angular-ui-bootstrap\index.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-component-router.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
