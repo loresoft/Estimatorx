@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
     <AssemblyTitle>Estimatorx.Core.Tests</AssemblyTitle>
     <Product>Estimatorx.Core.Tests</Product>
     <Copyright>Copyright © LoreSoft 2014</Copyright>
