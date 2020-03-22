@@ -3,7 +3,7 @@
 module Estimatorx {
     "use strict";
 
-    export class ProjectListController {
+    export class ProjectListController implements angular.IController {
 
         // project for minification, must match contructor signiture.
         static $inject = [
@@ -95,17 +95,12 @@ module Estimatorx {
             var self = this;
             self.load();
         }
+
+        $onInit = () => { };
     }
 
     // register controller
     angular.module(Estimatorx.applicationName)
-        .controller('projectListController',
-        [
-            '$scope',
-            'logger',
-            'projectRepository',
-            'organizationRepository',
-            ProjectListController
-        ]);
+        .controller('projectListController', ProjectListController);
 }
 

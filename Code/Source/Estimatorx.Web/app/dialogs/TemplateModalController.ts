@@ -2,7 +2,7 @@
 module Estimatorx {
     "use strict";
 
-    export class TemplateModalController {
+    export class TemplateModalController implements angular.IController {
 
         // protect for minification, must match constructor signiture.
         static $inject = [
@@ -34,15 +34,11 @@ module Estimatorx {
             var self = this;
             self.$uibModalInstance.dismiss('cancel');
         }
+
+        $onInit = () => { };
     }
 
     // register controller
     angular.module(Estimatorx.applicationName)
-        .controller('templateModalController',
-        [
-            '$scope',
-            '$uibModalInstance',
-            'items',
-            TemplateModalController
-        ]);
+        .controller('templateModalController', TemplateModalController);
 }

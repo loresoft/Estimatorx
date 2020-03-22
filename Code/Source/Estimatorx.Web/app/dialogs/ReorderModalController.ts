@@ -3,7 +3,7 @@
 module Estimatorx {
     "use strict";
 
-    export class ReorderModalController {
+    export class ReorderModalController implements angular.IController  {
 
         // protect for minification, must match constructor signiture.
         static $inject = [
@@ -44,18 +44,12 @@ module Estimatorx {
             self.$uibModalInstance.dismiss('cancel');
         }
 
+        $onInit = () => { };
     }
 
     // register controller
     angular.module(Estimatorx.applicationName)
-        .controller('reorderModalController',
-        [
-            '$scope',
-            '$uibModalInstance',
-            'name',
-            'items',
-            ReorderModalController
-        ]);
+        .controller('reorderModalController', ReorderModalController);
 }
 
  

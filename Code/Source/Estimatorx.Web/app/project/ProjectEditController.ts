@@ -3,7 +3,7 @@
 module Estimatorx {
     "use strict";
 
-    export class ProjectEditController {
+    export class ProjectEditController implements angular.IController {
 
         // protect for minification, must match contructor signiture.
         static $inject = [
@@ -501,23 +501,12 @@ module Estimatorx {
                 timeOut: 4000
             });
         }
+
+        $onInit = () => { };
     }
 
     // register controller
     angular.module(Estimatorx.applicationName)
-        .controller('projectEditController', [
-            '$scope',
-            '$location',
-            '$uibModal',
-            'logger',
-            'identityService',
-            'modelFactory',
-            'projectCalculator',
-            'projectRepository',
-            'templateRepository',
-            'organizationRepository',
-
-            ProjectEditController // controller must be last
-        ]);
+        .controller('projectEditController', ProjectEditController);
 }
 

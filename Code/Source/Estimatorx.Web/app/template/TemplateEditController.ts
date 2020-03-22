@@ -3,7 +3,7 @@
 module Estimatorx {
     "use strict";
 
-    export class TemplateEditController {
+    export class TemplateEditController implements angular.IController {
 
         // protect for minification, must match contructor signiture.
         static $inject = [
@@ -24,7 +24,7 @@ module Estimatorx {
             modelFactory: ModelFactory,
             templateRepository: TemplateRepository,
             organizationRepository: OrganizationRepository
-            ) {
+        ) {
             var self = this;
 
             // assign viewModel to controller
@@ -145,7 +145,7 @@ module Estimatorx {
         delete() {
             var self = this;
 
-            BootstrapDialog.confirm("Are you sure you want to delete this template?",(result) => {
+            BootstrapDialog.confirm("Are you sure you want to delete this template?", (result) => {
                 if (!result)
                     return;
 
@@ -157,7 +157,7 @@ module Estimatorx {
                             message: 'Template deleted successfully.',
                             timeOut: 4000
                         });
-                        
+
                         //redirect
                         window.location.href = 'Template';
                     })
@@ -230,22 +230,11 @@ module Estimatorx {
             });
         }
 
-
+        $onInit = () => { };
     }
 
     // register controller
     angular.module(Estimatorx.applicationName)
-        .controller('templateEditController',
-        [
-            '$scope',
-            '$location',
-            '$uibModal',
-            'logger',
-            'modelFactory',
-            'templateRepository',
-            'organizationRepository',
-            TemplateEditController
-        ]
-        );
+        .controller('templateEditController', TemplateEditController);
 }
 

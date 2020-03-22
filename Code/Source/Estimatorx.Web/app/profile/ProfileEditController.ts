@@ -3,7 +3,7 @@
 module Estimatorx {
     "use strict";
 
-    export class ProfileEditController {
+    export class ProfileEditController implements angular.IController {
 
         // protect for minification, must match contructor signiture.
         static $inject = [
@@ -174,7 +174,7 @@ module Estimatorx {
 
         removeLogin(provider: string, key: string) {
             var self = this;
-            
+
             BootstrapDialog.confirm("Are you sure you want to remove this login?", (result) => {
                 if (!result)
                     return;
@@ -195,18 +195,12 @@ module Estimatorx {
             self.$scope.passwordForm.$setPristine();
             self.$scope.passwordForm.$setUntouched();
         }
+
+        $onInit = () => { };
     }
 
     // register controller
     angular.module(Estimatorx.applicationName)
-        .controller('profileEditController',
-        [
-            '$scope',
-            '$location',
-            'logger',
-            'modelFactory',
-            'userRepository',
-            ProfileEditController
-        ]);
+        .controller('profileEditController', ProfileEditController);
 }
 

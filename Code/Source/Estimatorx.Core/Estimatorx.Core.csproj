@@ -11,19 +11,11 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="5.1.2" />
     <PackageReference Include="iTextSharp" Version="5.5.13.1" />
-    <PackageReference Include="KickStart" Version="8.0.0.181" />
     <PackageReference Include="KickStart.Autofac" Version="8.0.0.181" />
-    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
     <PackageReference Include="Microsoft.AspNet.Identity.Owin" Version="2.2.3" />
-    <PackageReference Include="Microsoft.Owin" Version="4.1.0" />
-    <PackageReference Include="Microsoft.Owin.Security" Version="4.1.0" />
-    <PackageReference Include="Microsoft.Owin.Security.Cookies" Version="4.1.0" />
-    <PackageReference Include="Microsoft.Owin.Security.OAuth" Version="4.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NLog" Version="4.7.0" />
-    <PackageReference Include="Owin" Version="1.0" />
     <PackageReference Include="System.Linq.Dynamic" Version="1.0.7" />
   </ItemGroup>
   <ItemGroup>

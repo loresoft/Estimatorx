@@ -3,7 +3,7 @@
 module Estimatorx {
     "use strict";
 
-    export class UserListController {
+    export class UserListController implements angular.IController {
 
         // project for minification, must match contructor signiture.
         static $inject = [
@@ -17,7 +17,7 @@ module Estimatorx {
             logger: Logger,
             userRepository: UserRepository,
             organizationRepository: OrganizationRepository
-            ) {
+        ) {
             // assign viewModel to controller
             $scope.viewModel = this;
 
@@ -94,17 +94,12 @@ module Estimatorx {
             var self = this;
             self.load();
         }
+
+        $onInit = () => { };
     }
 
     // register controller
     angular.module(Estimatorx.applicationName)
-        .controller('userListController',
-        [
-            '$scope',
-            'logger',
-            'userRepository',
-            'organizationRepository',
-            UserListController
-        ]);
+        .controller('userListController', UserListController);
 }
 

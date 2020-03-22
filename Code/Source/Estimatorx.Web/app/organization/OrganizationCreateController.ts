@@ -3,7 +3,7 @@
 module Estimatorx {
     "use strict";
 
-    export class OrganizationCreateController {
+    export class OrganizationCreateController implements angular.IController {
 
         // protect for minification, must match contructor signiture.
         static $inject = [
@@ -89,17 +89,12 @@ module Estimatorx {
                 })
                 .error(self.logger.handelErrorProxy);
         }
+
+        $onInit = () => { };
     }
 
     // register controller
     angular.module(Estimatorx.applicationName)
-        .controller('organizationCreateController', [
-            '$scope',
-            '$location',
-            'logger',
-            'modelFactory',
-            'organizationRepository',
-            OrganizationCreateController
-        ]);
+        .controller('organizationCreateController', OrganizationCreateController);
 }
 
