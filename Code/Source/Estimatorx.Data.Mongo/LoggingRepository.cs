@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using Estimatorx.Core;
 using Estimatorx.Core.Providers;
 using MongoDB.Abstracts;
@@ -13,15 +9,18 @@ namespace Estimatorx.Data.Mongo
 {
     public class LoggingRepository : MongoQuery<LogEvent, string>, ILoggingRepository
     {
-        public LoggingRepository() : this("EstimatorxMongo")
+        public LoggingRepository()
+            : this("EstimatorxMongo")
         {
         }
 
-        public LoggingRepository(string connectionName) : base(connectionName)
+        public LoggingRepository(string connectionName)
+            : base(MongoFactory.GetDatabaseFromConnectionName(connectionName))
         {
         }
 
-        public LoggingRepository(MongoUrl mongoUrl) : base(mongoUrl)
+        public LoggingRepository(MongoUrl mongoUrl)
+            : base(MongoFactory.GetDatabaseFromMongoUrl(mongoUrl))
         {
         }
 
@@ -46,18 +45,24 @@ namespace Estimatorx.Data.Mongo
             base.EnsureIndexes(mongoCollection);
 
             mongoCollection.Indexes.CreateOne(
-                Builders<LogEvent>.IndexKeys
-                    .Descending(s => s.Date)
+                new CreateIndexModel<LogEvent>(
+                    Builders<LogEvent>.IndexKeys
+                        .Descending(s => s.Date)
+                )
             );
 
             mongoCollection.Indexes.CreateOne(
-                Builders<LogEvent>.IndexKeys
-                    .Ascending(s => s.Correlation)
+                new CreateIndexModel<LogEvent>(
+                    Builders<LogEvent>.IndexKeys
+                        .Ascending(s => s.Correlation)
+                )
             );
 
             mongoCollection.Indexes.CreateOne(
-                Builders<LogEvent>.IndexKeys
-                    .Ascending(s => s.Level)
+                new CreateIndexModel<LogEvent>(
+                    Builders<LogEvent>.IndexKeys
+                        .Ascending(s => s.Level)
+                )
             );
 
         }

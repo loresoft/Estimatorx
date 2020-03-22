@@ -1,23 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimatorx.Web", "Estimatorx.Web\Estimatorx.Web.csproj", "{5370612B-D6A5-4DEA-8C26-3E8E974CD1DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimatorx.Core", "Estimatorx.Core\Estimatorx.Core.csproj", "{C5F768AA-8DC4-4AC2-A4AF-7726383C279C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Estimatorx.Core", "Estimatorx.Core\Estimatorx.Core.csproj", "{C5F768AA-8DC4-4AC2-A4AF-7726383C279C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimatorx.Core.Tests", "Estimatorx.Core.Tests\Estimatorx.Core.Tests.csproj", "{4113A43D-C54D-419A-93BB-B2165538E1F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Estimatorx.Core.Tests", "Estimatorx.Core.Tests\Estimatorx.Core.Tests.csproj", "{4113A43D-C54D-419A-93BB-B2165538E1F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimatorx.Data.Mongo", "Estimatorx.Data.Mongo\Estimatorx.Data.Mongo.csproj", "{0CBD65D2-9627-41E6-AAD1-D12B33D19946}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Estimatorx.Data.Mongo", "Estimatorx.Data.Mongo\Estimatorx.Data.Mongo.csproj", "{0CBD65D2-9627-41E6-AAD1-D12B33D19946}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estimatorx.Data.Mongo.Tests", "Estimatorx.Data.Mongo.Tests\Estimatorx.Data.Mongo.Tests.csproj", "{3D1557AF-EC2D-4C5B-A2F8-456834F8BA9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Estimatorx.Data.Mongo.Tests", "Estimatorx.Data.Mongo.Tests\Estimatorx.Data.Mongo.Tests.csproj", "{3D1557AF-EC2D-4C5B-A2F8-456834F8BA9F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{71CB45E4-CA79-473B-8195-CB63AE33F5D9}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\appveyor.yml = ..\..\appveyor.yml
 		..\..\Master.proj = ..\..\Master.proj
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E10A36A5-484D-4F7A-95EE-941CC0178E23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,5 +50,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4113A43D-C54D-419A-93BB-B2165538E1F6} = {E10A36A5-484D-4F7A-95EE-941CC0178E23}
+		{3D1557AF-EC2D-4C5B-A2F8-456834F8BA9F} = {E10A36A5-484D-4F7A-95EE-941CC0178E23}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C3C064F-6ECE-42BE-BC0E-46194FD843E8}
 	EndGlobalSection
 EndGlobal

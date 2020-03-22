@@ -20,12 +20,12 @@ namespace Estimatorx.Data.Mongo.Security
         }
 
         public OrganizationRepository(string connectionName)
-            : base(connectionName)
+            : base(MongoFactory.GetDatabaseFromConnectionName(connectionName))
         {
         }
 
         public OrganizationRepository(MongoUrl mongoUrl)
-            : base(mongoUrl)
+            : base(MongoFactory.GetDatabaseFromMongoUrl(mongoUrl))
         {
         }
 
@@ -86,8 +86,10 @@ namespace Estimatorx.Data.Mongo.Security
             base.EnsureIndexes(mongoCollection);
 
             mongoCollection.Indexes.CreateOne(
-                Builders<Organization>.IndexKeys.Ascending(s => s.Name),
-                new CreateIndexOptions { Unique = true }
+                new CreateIndexModel<Organization>(
+                    Builders<Organization>.IndexKeys.Ascending(s => s.Name),
+                    new CreateIndexOptions { Unique = true }
+                )
             );
         }
     }

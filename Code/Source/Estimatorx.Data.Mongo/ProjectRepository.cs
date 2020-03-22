@@ -22,12 +22,12 @@ namespace Estimatorx.Data.Mongo
         }
 
         public ProjectRepository(string connectionName)
-            : base(connectionName)
+            : base(MongoFactory.GetDatabaseFromConnectionName(connectionName))
         {
         }
 
         public ProjectRepository(MongoUrl mongoUrl)
-            : base(mongoUrl)
+            : base(MongoFactory.GetDatabaseFromMongoUrl(mongoUrl))
         {
         }
 
@@ -84,9 +84,11 @@ namespace Estimatorx.Data.Mongo
             base.EnsureIndexes(mongoCollection);
 
             mongoCollection.Indexes.CreateOne(
-                Builders<Project>.IndexKeys
-                    .Ascending(s => s.OrganizationId)
-                    .Descending(s => s.Updated)
+                new CreateIndexModel<Project>(
+                    Builders<Project>.IndexKeys
+                        .Ascending(s => s.OrganizationId)
+                        .Descending(s => s.Updated)
+                )
             );
 
         }

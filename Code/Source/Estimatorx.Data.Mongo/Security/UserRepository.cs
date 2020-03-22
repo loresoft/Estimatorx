@@ -21,12 +21,12 @@ namespace Estimatorx.Data.Mongo.Security
         }
 
         public UserRepository(string connectionName)
-            : base(connectionName)
+            : base(MongoFactory.GetDatabaseFromConnectionName(connectionName))
         {
         }
 
         public UserRepository(MongoUrl mongoUrl)
-            : base(mongoUrl)
+            : base(MongoFactory.GetDatabaseFromMongoUrl(mongoUrl))
         {
         }
 
@@ -88,13 +88,17 @@ namespace Estimatorx.Data.Mongo.Security
             base.EnsureIndexes(mongoCollection);
 
             mongoCollection.Indexes.CreateOne(
-                Builders<User>.IndexKeys.Ascending(s => s.UserName),
-                new CreateIndexOptions { Unique = true }
+                new CreateIndexModel<User>(
+                    Builders<User>.IndexKeys.Ascending(s => s.UserName),
+                    new CreateIndexOptions { Unique = true }
+                )
             );
 
             mongoCollection.Indexes.CreateOne(
-                Builders<User>.IndexKeys.Ascending(s => s.Email),
-                new CreateIndexOptions { Unique = true }
+                new CreateIndexModel<User>(
+                    Builders<User>.IndexKeys.Ascending(s => s.Email),
+                    new CreateIndexOptions { Unique = true }
+                )
             );
         }
     }

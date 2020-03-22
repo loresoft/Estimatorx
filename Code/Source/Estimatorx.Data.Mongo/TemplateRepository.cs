@@ -22,12 +22,12 @@ namespace Estimatorx.Data.Mongo
         }
 
         public TemplateRepository(string connectionName)
-            : base(connectionName)
+            : base(MongoFactory.GetDatabaseFromConnectionName(connectionName))
         {
         }
 
         public TemplateRepository(MongoUrl mongoUrl)
-            : base(mongoUrl)
+            : base(MongoFactory.GetDatabaseFromMongoUrl(mongoUrl))
         {
         }
 
@@ -45,7 +45,7 @@ namespace Estimatorx.Data.Mongo
 
         protected override Expression<Func<Template, bool>> KeyExpression(string key)
         {
-            return tenplate => tenplate.Id == key;
+            return template => template.Id == key;
         }
 
 
@@ -84,9 +84,11 @@ namespace Estimatorx.Data.Mongo
             base.EnsureIndexes(mongoCollection);
 
             mongoCollection.Indexes.CreateOne(
-                Builders<Template>.IndexKeys
-                    .Ascending(s => s.OrganizationId)
-                    .Descending(s => s.Updated)
+                new CreateIndexModel<Template>(
+                    Builders<Template>.IndexKeys
+                        .Ascending(s => s.OrganizationId)
+                        .Descending(s => s.Updated)
+                )
             );
         }
 

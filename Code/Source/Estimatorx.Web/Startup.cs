@@ -35,7 +35,7 @@ namespace Estimatorx.Web
                 .IncludeAssemblyFor<ProjectRepository>()
                 .UseNLog()
                 .UseAutofac(a => a
-                    .Builder(b =>
+                    .Initialize(b =>
                     {
                         b.RegisterControllers(typeof(Startup).Assembly);
                         b.RegisterApiControllers(typeof(Startup).Assembly);

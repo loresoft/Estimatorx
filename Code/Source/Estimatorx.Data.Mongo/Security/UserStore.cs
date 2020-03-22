@@ -37,12 +37,12 @@ namespace Estimatorx.Data.Mongo.Security
             return InsertAsync(user);
         }
 
-        public new Task UpdateAsync(User user)
+        public Task UpdateAsync(User user)
         {
             return base.UpdateAsync(user);
         }
 
-        public new Task DeleteAsync(User user)
+        public Task DeleteAsync(User user)
         {
             return base.DeleteAsync(user);
         }

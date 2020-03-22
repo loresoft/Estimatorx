@@ -63,7 +63,7 @@ namespace Estimatorx.Data.Mongo.Tests
                     .PageSize(5)
                 );
 
-            act.ShouldThrow<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>();
         }
     }
 }
