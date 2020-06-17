@@ -27,11 +27,6 @@ namespace Estimatorx.Data.Mongo.Security
         }
 
 
-        public void Dispose()
-        {
-        }
-
-
         public Task CreateAsync(User user)
         {
             return InsertAsync(user);

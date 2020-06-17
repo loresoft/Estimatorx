@@ -68,10 +68,10 @@ module Estimatorx {
             var self = this;
 
             self.organizationRepository.all()
-                .success((data, status, headers, config) => {
-                    self.organizations = data;
+                .then((response) => {
+                    self.organizations = response.data;
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         load(id?: string) {
@@ -84,10 +84,10 @@ module Estimatorx {
             }
 
             this.templateRepository.find(id)
-                .success((data, status, headers, config) => {
-                    self.loadDone(data);
+                .then((response) => {
+                    self.loadDone(response.data);
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         loadDone(template: ITemplate) {
@@ -114,8 +114,8 @@ module Estimatorx {
             }
 
             this.templateRepository.save(this.template)
-                .success((data, status, headers, config) => {
-                    self.loadDone(data);
+                .then((response) => {
+                    self.loadDone(response.data);
                     self.logger.showAlert({
                         type: 'success',
                         title: 'Save Successful',
@@ -123,7 +123,7 @@ module Estimatorx {
                         timeOut: 4000
                     });
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
 
         }
 
@@ -150,7 +150,7 @@ module Estimatorx {
                     return;
 
                 this.templateRepository.delete(this.template.Id)
-                    .success((data, status, headers, config) => {
+                    .then((response) => {
                         self.logger.showAlert({
                             type: 'success',
                             title: 'Delete Successful',
@@ -161,7 +161,7 @@ module Estimatorx {
                         //redirect
                         window.location.href = 'Template';
                     })
-                    .error(self.logger.handelErrorProxy);
+                    .catch(self.logger.handelErrorProxy);
             });
 
         }

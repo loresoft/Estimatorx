@@ -11,10 +11,10 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="KickStart.Autofac" Version="8.0.0.181" />
+    <PackageReference Include="KickStart.Autofac" Version="8.0.0.262" />
     <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
-    <PackageReference Include="MongoDB.Abstracts" Version="3.0.0.36" />
-    <PackageReference Include="NLog" Version="4.7.0" />
+    <PackageReference Include="MongoDB.Abstracts" Version="3.0.0.56" />
+    <PackageReference Include="NLog" Version="4.7.2" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Configuration" />

@@ -21,11 +21,11 @@
     <BuildNumber Condition=" '$(APPVEYOR_BUILD_NUMBER)' != '' ">$(APPVEYOR_BUILD_NUMBER)</BuildNumber>
     <BuildNumber Condition=" '$(BUILD_NUMBER)' != '' ">$(BUILD_NUMBER)</BuildNumber>
     <BuildNumber Condition=" '$(BuildNumber)' == '' ">0</BuildNumber>
-    
+
     <BuildConfiguration  Condition=" '$(BuildConfiguration)' == '' ">Release</BuildConfiguration>
 
     <Major Condition=" '$(Major)' == '' ">1</Major>
-    <Minor Condition=" '$(Minor)' == '' ">1</Minor>
+    <Minor Condition=" '$(Minor)' == '' ">5</Minor>
     <Patch Condition=" '$(Patch)' == '' ">0</Patch>
 
     <AssemblyVersion>$(Major).$(Minor).0.0</AssemblyVersion>
@@ -66,8 +66,8 @@
     <MSBuild Projects="$(SourceFolder)\Estimatorx.sln"
              Properties="Configuration=$(BuildConfiguration)"/>
   </Target>
-  
-   <Target Name="Test" DependsOnTargets="Compile">
+
+  <Target Name="Test" DependsOnTargets="Compile">
     <ItemGroup>
       <TestAssemblies Include="$(SourceFolder)\**\*.Tests\bin\$(BuildConfiguration)\*.Tests.dll"/>
     </ItemGroup>

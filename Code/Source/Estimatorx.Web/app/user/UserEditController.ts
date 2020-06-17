@@ -69,10 +69,10 @@ module Estimatorx {
             }
 
             this.userRepository.find(self.userId)
-                .success((data, status, headers, config) => {
-                    self.loadDone(data);
+                .then((response) => {
+                    self.loadDone(response.data);
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         loadDone(user: IUser) {
@@ -98,8 +98,8 @@ module Estimatorx {
             }
 
             this.userRepository.save(this.user)
-                .success((data, status, headers, config) => {
-                    self.loadDone(data);
+                .then((response) => {
+                    self.loadDone(response.data);
                     self.logger.showAlert({
                         type: 'success',
                         title: 'Save Successful',
@@ -107,7 +107,7 @@ module Estimatorx {
                         timeOut: 4000
                     });
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         undo() {
@@ -133,7 +133,7 @@ module Estimatorx {
                     return;
 
                 self.userRepository.delete(self.user.Id)
-                    .success((data, status, headers, config) => {
+                    .then((response) => {
                         self.logger.showAlert({
                             type: 'success',
                             title: 'Delete Successful',
@@ -144,7 +144,7 @@ module Estimatorx {
                         //redirect
                         window.location.href = 'User';
                     })
-                    .error(self.logger.handelErrorProxy);
+                    .catch(self.logger.handelErrorProxy);
             });
         }
 
@@ -177,7 +177,7 @@ module Estimatorx {
             }
 
             self.userRepository.setPassword(self.password)
-                .success((data, status, headers, config) => {
+                .then((response) => {
                     self.logger.showAlert({
                         type: 'success',
                         title: 'Save Successful',
@@ -188,7 +188,7 @@ module Estimatorx {
                     self.resetPasswordForm();
                     self.load(self.userId);
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         removeLogin(provider: string, key: string) {
@@ -199,10 +199,10 @@ module Estimatorx {
                     return;
 
                 this.userRepository.removeLogin(provider, key)
-                    .success((data, status, headers, config) => {
+                    .then((response) => {
                         self.load(self.userId);
                     })
-                    .error(self.logger.handelErrorProxy);
+                    .catch(self.logger.handelErrorProxy);
             });
 
         }

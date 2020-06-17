@@ -119,20 +119,20 @@ module Estimatorx {
             var self = this;
 
             self.organizationRepository.find(self.organizationId)
-                .success((data, status, headers, config) => {
-                    self.loadDone(data);
+                .then((response) => {
+                    self.loadDone(response.data);
 
                     self.loadMembers();
                     self.loadOwners();
                     self.loadInvites();
                 })
-                .error((data, status, headers, config) => {
-                    if (status === 404) {
+                .catch((reason) => {
+                    if (reason.status === 404) {
                         self.organization = self.modelFactory.createOrganization(self.organizationId, self.userId);
                         return;
                     }
 
-                    self.logger.handelError(data, status, headers, config);
+                    self.logger.handelError(reason);
                 });
         }
 
@@ -140,30 +140,30 @@ module Estimatorx {
             var self = this;
 
             self.userRepository.organizationMembers(self.organizationId)
-                .success((data, status, headers, config) => {
-                    self.members = data;
+                .then((response) => {
+                    self.members = response.data;
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         loadOwners() {
             var self = this;
 
             self.userRepository.organizationOwners(self.organizationId)
-                .success((data, status, headers, config) => {
-                    self.owners = data;
+                .then((response) => {
+                    self.owners = response.data;
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         loadInvites() {
             var self = this;
 
             self.inviteRepository.organization(self.organizationId)
-                .success((data, status, headers, config) => {
-                    self.invites = data;
+                .then((response) => {
+                    self.invites = response.data;
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         save(valid: boolean) {
@@ -181,8 +181,8 @@ module Estimatorx {
             }
 
             this.organizationRepository.save(this.organization)
-                .success((data, status, headers, config) => {
-                    self.loadDone(data);
+                .then((response) => {
+                    self.loadDone(response.data);
                     
                     self.logger.showAlert({
                         type: 'success',
@@ -195,7 +195,7 @@ module Estimatorx {
                     self.loadOwners();
                     self.loadInvites();
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
 
@@ -238,10 +238,10 @@ module Estimatorx {
 
             modalInstance.result.then((userId: string) => {
                 self.userRepository.addOrganization(self.organizationId, userId)
-                    .success((data, status, headers, config) => {
+                    .then((response) => {
                         self.loadMembers();
                     })
-                    .error(self.logger.handelErrorProxy);
+                    .catch(self.logger.handelErrorProxy);
             });
 
         }
@@ -258,10 +258,10 @@ module Estimatorx {
                     return;
 
                 self.userRepository.removeOrganization(self.organizationId, user.Id)
-                    .success((data, status, headers, config) => {
+                    .then((response) => {
                         self.loadMembers();
                     })
-                    .error(self.logger.handelErrorProxy);
+                    .catch(self.logger.handelErrorProxy);
             });
         }
 
@@ -322,11 +322,11 @@ module Estimatorx {
                 }
 
                 self.inviteRepository.save(invite)
-                    .success((data, status, headers, config) => {
+                    .then((response) => {
                         self.loadInvites();
-                        self.sendInvite(data);
+                        self.sendInvite(response.data);
                     })
-                    .error(self.logger.handelErrorProxy);
+                    .catch(self.logger.handelErrorProxy);
             });
 
         }
@@ -341,10 +341,10 @@ module Estimatorx {
                     return;
 
                 self.inviteRepository.delete(invite.Id)
-                    .success((data, status, headers, config) => {
+                    .then((response) => {
                         self.loadInvites();
                     })
-                    .error(self.logger.handelErrorProxy);
+                    .catch(self.logger.handelErrorProxy);
             });
         }
 
@@ -354,7 +354,7 @@ module Estimatorx {
                 return;
 
             self.inviteRepository.send(invite.Id)
-                .success((data, status, headers, config) => {
+                .then((response) => {
                     self.logger.showAlert({
                         type: 'success',
                         title: 'Send Successful',
@@ -364,7 +364,7 @@ module Estimatorx {
                 
                     self.loadInvites();
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         $onInit = () => { };

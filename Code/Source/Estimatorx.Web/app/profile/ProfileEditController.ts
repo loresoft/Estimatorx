@@ -69,10 +69,10 @@ module Estimatorx {
             }
 
             this.userRepository.profile()
-                .success((data, status, headers, config) => {
-                    self.loadDone(data);
+                .then((response) => {
+                    self.loadDone(response.data);
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         loadDone(user: IUser) {
@@ -98,8 +98,8 @@ module Estimatorx {
             }
 
             this.userRepository.save(this.user)
-                .success((data, status, headers, config) => {
-                    self.loadDone(data);
+                .then((response) => {
+                    self.loadDone(response.data);
                     self.logger.showAlert({
                         type: 'success',
                         title: 'Save Successful',
@@ -107,7 +107,7 @@ module Estimatorx {
                         timeOut: 4000
                     });
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         undo() {
@@ -158,7 +158,7 @@ module Estimatorx {
                 : angular.bind(self.userRepository, self.userRepository.setPassword, self.password);
 
             func()
-                .success((data, status, headers, config) => {
+                .then((response) => {
                     self.logger.showAlert({
                         type: 'success',
                         title: 'Save Successful',
@@ -169,7 +169,7 @@ module Estimatorx {
                     self.resetPasswordForm();
                     self.load(self.userId);
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         removeLogin(provider: string, key: string) {
@@ -180,10 +180,10 @@ module Estimatorx {
                     return;
 
                 this.userRepository.removeLogin(provider, key)
-                    .success((data, status, headers, config) => {
+                    .then((response) => {
                         self.load(self.userId);
                     })
-                    .error(self.logger.handelErrorProxy);
+                    .catch(self.logger.handelErrorProxy);
             });
 
         }

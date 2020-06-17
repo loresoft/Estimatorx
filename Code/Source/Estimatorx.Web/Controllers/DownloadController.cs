@@ -42,6 +42,28 @@ namespace Estimatorx.Web.Controllers
             return File(buffer, "application/pdf", project.Name + ".pdf");
         }
 
+        [AllowAnonymous]
+        [Route("Download/Share/{id}/{key}")]
+        public ActionResult Share(string id, string key)
+        {
+            if (string.IsNullOrEmpty(id))
+                return HttpNotFound();
+            if (string.IsNullOrEmpty(key))
+                return HttpNotFound();
+
+            var project = _projectRepository.Find(id);
+            if (project == null)
+                return HttpNotFound();
+
+            if (project.SecurityKey != key)
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+
+            var creator = new DocumentCreator();
+            var buffer = creator.CreatePdf(project);
+
+            return File(buffer, "application/pdf", project.Name + ".pdf");
+        }
+
         private bool HasAccess(string id, out Project project)
         {
             project = null;

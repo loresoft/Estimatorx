@@ -3,7 +3,7 @@ using System.Web.Optimization;
 
 namespace Estimatorx.Web
 {
-    public class BundleConfig
+    public static class BundleConfig
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
@@ -93,7 +93,7 @@ namespace Estimatorx.Web
                 .IncludeDirectory("~/app/common/", "*.js")
 
                 .Include("~/app/app.js")
-                
+
                 .IncludeDirectory("~/app/services/", "*.js")
                 .IncludeDirectory("~/app/filters/", "*.js")
                 .IncludeDirectory("~/app/directives/", "*.js")

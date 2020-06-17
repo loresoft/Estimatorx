@@ -74,8 +74,8 @@ module Estimatorx {
             }
 
             this.organizationRepository.save(this.organization)
-                .success((data, status, headers, config) => {
-                    self.organization = data;
+                .then((response) => {
+                    self.organization = response.data;
 
                     self.logger.showAlert({
                         type: 'success',
@@ -85,9 +85,9 @@ module Estimatorx {
                     });
 
                     // redirect to edit
-                    window.location.href = 'Organization/Edit/' + data.Id;
+                    window.location.href = 'Organization/Edit/' + response.data.Id;
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         $onInit = () => { };

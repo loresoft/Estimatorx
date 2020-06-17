@@ -45,17 +45,17 @@ module Estimatorx {
 
             if (self.securityKey) {
                 self.projectRepository.shared(self.projectId, self.securityKey)
-                    .success((data, status, headers, config) => {
-                        self.project = data;
+                    .then((response) => {
+                        self.project = response.data;
                     })
-                    .error(self.logger.handelErrorProxy);
+                    .catch(self.logger.handelErrorProxy);
 
             } else {
                 self.projectRepository.find(self.projectId)
-                    .success((data, status, headers, config) => {
-                        self.project = data;
+                    .then((response) => {
+                        self.project = response.data;
                     })
-                    .error(self.logger.handelErrorProxy);                
+                    .catch(self.logger.handelErrorProxy);                
             }
         }
 

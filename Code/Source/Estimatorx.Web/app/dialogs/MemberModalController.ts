@@ -47,10 +47,10 @@ module Estimatorx {
                 return;
 
             self.userRepository.search(search)
-                .success((data, status, headers, config) => {
-                    self.users = data;
+                .then((response) => {
+                    self.users = response.data;
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         select() {

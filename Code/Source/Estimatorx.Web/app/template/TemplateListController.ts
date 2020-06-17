@@ -53,10 +53,10 @@ module Estimatorx {
             var self = this;
 
             self.organizationRepository.all()
-                .success((data, status, headers, config) => {
-                    self.organizations = data;
+                .then((response) => {
+                    self.organizations = response.data;
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         load() {
@@ -72,10 +72,10 @@ module Estimatorx {
             };
 
             this.templateRepository.query(request)
-                .success((data, status, headers, config) => {
-                    self.result = data;
+                .then((response) => {
+                    self.result = response.data;
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         sortClick(column: string) {

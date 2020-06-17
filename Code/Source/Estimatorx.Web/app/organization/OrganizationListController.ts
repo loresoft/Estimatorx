@@ -51,10 +51,10 @@ module Estimatorx {
             };
 
             this.repository.query(request)
-                .success((data, status, headers, config) => {
-                    self.result = data;
+                .then((response) => {
+                    self.result = response.data;
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         sortClick(column: string) {

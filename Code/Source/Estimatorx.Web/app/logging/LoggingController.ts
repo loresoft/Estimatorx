@@ -69,10 +69,10 @@ module Estimatorx {
             };
 
             self.loggingRepository.query(request)
-                .success((data, status, headers, config) => {
-                    self.logs = data;
+                .then((response) => {
+                    self.logs = response.data;
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         reload() {

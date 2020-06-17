@@ -88,16 +88,16 @@ module Estimatorx {
             var self = this;
 
             self.templateRepository.all()
-                .success((data, status, headers, config) => {
-                    self.templates = data;
+                .then((response) => {
+                    self.templates = response.data;
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
 
             self.organizationRepository.all()
-                .success((data, status, headers, config) => {
-                    self.organizations = data;
+                .then((response) => {
+                    self.organizations = response.data;
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         load(id?: string) {
@@ -109,10 +109,10 @@ module Estimatorx {
             }
 
             this.projectRepository.find(id)
-                .success((data, status, headers, config) => {
-                    self.loadDone(data);
+                .then((response) => {
+                    self.loadDone(response.data);
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         loadDone(project: IProject) {
@@ -139,8 +139,8 @@ module Estimatorx {
             }
 
             this.projectRepository.save(this.project)
-                .success((data, status, headers, config) => {
-                    self.loadDone(data);
+                .then((response) => {
+                    self.loadDone(response.data);
                     self.logger.showAlert({
                         type: 'success',
                         title: 'Save Successful',
@@ -148,7 +148,7 @@ module Estimatorx {
                         timeOut: 4000
                     });
                 })
-                .error(self.logger.handelErrorProxy);
+                .catch(self.logger.handelErrorProxy);
         }
 
         change() {
@@ -185,7 +185,7 @@ module Estimatorx {
                     return;
 
                 self.projectRepository.delete(self.project.Id)
-                    .success((data, status, headers, config) => {
+                    .then((response) => {
                         self.logger.showAlert({
                             type: 'success',
                             title: 'Delete Successful',
@@ -196,7 +196,7 @@ module Estimatorx {
                         //redirect
                         window.location.href = 'Project';
                     })
-                    .error(self.logger.handelErrorProxy);
+                    .catch(self.logger.handelErrorProxy);
             });
 
         }
