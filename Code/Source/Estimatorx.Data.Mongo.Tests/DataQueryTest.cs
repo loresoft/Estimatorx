@@ -4,11 +4,16 @@ using Estimatorx.Core;
 using Estimatorx.Core.Query;
 using FluentAssertions;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Estimatorx.Data.Mongo.Tests
 {
-    public class DataQueryTest : TestBase
+    public class DataQueryTest : DependencyInjectionBase
     {
+        public DataQueryTest(ITestOutputHelper outputHelper, DependencyInjectionFixture dependencyInjection)
+            : base(outputHelper, dependencyInjection)
+        {
+        }
 
         [Fact]
         public void ProjectToSummaryFromRequest()

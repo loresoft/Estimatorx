@@ -1,17 +1,15 @@
-﻿using System;
-using System.Linq;
-using Estimatorx.Data.Mongo;
-using Estimatorx.Core;
+﻿using Estimatorx.Core;
 using FluentAssertions;
+using System.Linq;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Estimatorx.Data.Mongo.Tests
 {
-    public class ProjectRepositoryTest
+    public class ProjectRepositoryTest : DependencyInjectionBase
     {
-        public ProjectRepositoryTest()
+        public ProjectRepositoryTest(ITestOutputHelper outputHelper, DependencyInjectionFixture dependencyInjection) : base(outputHelper, dependencyInjection)
         {
-            Bootstrap.Start();
         }
 
         [Fact]

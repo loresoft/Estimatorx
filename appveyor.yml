@@ -17,6 +17,7 @@ before_build:
 build:
   project: .\Code\Source\Estimatorx.sln
   publish_wap_octopus: true
+  verbosity: minimal
 
 test:
   assemblies:

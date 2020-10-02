@@ -1,5 +1,4 @@
 ﻿using System;
-using Estimatorx.Data.Mongo;
 using Estimatorx.Core;
 using KickStart;
 using NLog.Config;
@@ -7,9 +6,9 @@ using NLog.Targets;
 
 namespace Estimatorx.Data.Mongo.Tests
 {
-    public static class Bootstrap
+    public class DependencyInjectionFixture : IDisposable
     {
-        public static void Start()
+        public DependencyInjectionFixture()
         {
             Kick.Start(c => c
                 .IncludeAssemblyFor<Project>()
@@ -27,6 +26,12 @@ namespace Estimatorx.Data.Mongo.Tests
                 .UseMongoDB()
                 .UseStartupTask()
             );
+        }
+
+        public IServiceProvider ServiceProvider => Kick.ServiceProvider;
+
+        public void Dispose()
+        {
 
         }
     }

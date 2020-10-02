@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Estimatorx.Data.Mongo.Security;
 using FluentAssertions;
 using Xunit;
+using Xunit.Abstractions;
 
-namespace Estimatorx.Data.Mongo.Tests.Security
+namespace Estimatorx.Data.Mongo.Tests
 {
-    public class UserRepositoryTest : TestBase
+    public class UserRepositoryTest : DependencyInjectionBase
     {
+        public UserRepositoryTest(ITestOutputHelper outputHelper, DependencyInjectionFixture dependencyInjection)
+            : base(outputHelper, dependencyInjection)
+        {
+        }
 
         [Fact]
         public void OrganizationMembers()
