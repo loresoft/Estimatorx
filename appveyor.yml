@@ -12,7 +12,7 @@ assembly_info:
   assembly_informational_version: '{version}'
 
 before_build:
-- cmd: nuget restore .\Code\Source\Estimatorx.sln
+- cmd: nuget restore .\Code\Source\Estimatorx.sln -Verbosity quiet
 
 build:
   project: .\Code\Source\Estimatorx.sln
@@ -25,14 +25,10 @@ test:
       - Estimatorx.Core.Tests.dll
       - Estimatorx.Data.Mongo.Tests.dll
 
-artifacts:
-- path: dist
-  name: EstimatorX
-  type: OctopusPackage
 
 deploy:
 - provider: Octopus
   push_packages: true
-  server: https://loresoft.octopus.app/nuget/packages
+  server: https://loresoft.octopus.app/
   api_key:
     secure: eymfac+6wqP2I7lvyOEDiSICF026iLpOA2tBQLmi83E=
