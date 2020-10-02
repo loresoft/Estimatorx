@@ -11,6 +11,9 @@ assembly_info:
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
 
+before_build:
+  - nuget restore '.\Code\Source\Estimatorx.sln'
+
 build:
   project: '.\Code\Source\Estimatorx.sln'
   publish_wap_octopus: true
