@@ -1,17 +1,34 @@
-version: 1.5.0.{build}
+version: 1.6.0.{build}
 os: Visual Studio 2019
-skip_tags: true
-environment:
-  Major: 1
-  Minor: 5
-  Patch: 0
+
 configuration: Release
 services: mongodb
-before_build:
-- .\bootstrap.cmd
+
+assembly_info:
+  patch: true
+  file: '.\Code\Source\GlobalAssemblyInfo.cs'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+
 build:
-  project: master.proj
-  verbosity: minimal
-test: off
+  project: '.\Code\Source\Estimatorx.sln'
+  publish_wap_octopus: true
+
+test:
+  assemblies:
+    only:
+      - Estimatorx.Core.Tests.dll
+      - Estimatorx.Data.Mongo.Tests.dll
+
 artifacts:
-- path: Build\*.nupkg
+- path: dist
+  name: EstimatorX
+  type: OctopusPackage
+
+deploy:
+- provider: Octopus
+  push_packages: true
+  server: https://loresoft.octopus.app/nuget/packages
+  api_key:
+    secure: eymfac+6wqP2I7lvyOEDiSICF026iLpOA2tBQLmi83E=
