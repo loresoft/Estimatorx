@@ -75,17 +75,18 @@
     </table>
 </div>
 
-<uib-pagination ng-model="viewModel.result.Page"
-                total-items="viewModel.result.Total"
-                items-per-page="viewModel.result.PageSize"
-                max-size="10"
-                class="pagination"
-                boundary-links="true"
-                rotate="false"
-                previous-text="&lsaquo;"
-                next-text="&rsaquo;"
-                first-text="&laquo;"
-                last-text="&raquo;"
-                ng-change="viewModel.load()">
-</uib-pagination>
+<ul uib-pagination
+    ng-model="viewModel.result.Page"
+    total-items="viewModel.result.Total"
+    items-per-page="viewModel.result.PageSize"
+    max-size="10"
+    class="pagination"
+    boundary-links="true"
+    rotate="false"
+    previous-text="&lsaquo;"
+    next-text="&rsaquo;"
+    first-text="&laquo;"
+    last-text="&raquo;"
+    ng-change="viewModel.load()">
+</ul>
 
