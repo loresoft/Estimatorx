@@ -1,0 +1,83 @@
+﻿@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Login with password";
+    Layout = "_AccountLayout";
+}
+
+@section Header {
+<i class="fas fa-user"></i> Login
+
+<ul class="nav nav-tabs card-header-tabs float-end">
+    <li class="nav-item">
+        <a id="user-profile-tab"
+           title="Login with password"
+           class="nav-link active"
+           asp-page="/account/login"
+           asp-route-returnurl="@Model.ReturnUrl">Password Login</a>
+    </li>
+    <li class="nav-item">
+        <a id="user-password-tab"
+           title="Login via email link"
+           class="nav-link"
+           asp-page="/account/passwordless"
+           asp-route-returnurl="@Model.ReturnUrl">Email Login</a>
+    </li>
+</ul>
+
+}
+
+<form id="login-form"
+      name="login-form"
+      role="form"
+      method="post">
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label class="form-label" asp-for="Input.Email">Email Address</label>
+        <input asp-for="Input.Email"
+               type="email"
+               class="form-control"
+               placeholder="Email Address">
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="Input.Password">Password</label>
+        <input asp-for="Input.Password"
+               type="password"
+               class="form-control"
+               placeholder="Password">
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <div class="checkbox">
+            <label class="form-label" asp-for="Input.RememberMe">
+                <input asp-for="Input.RememberMe" />
+                Remember Me?
+            </label>
+        </div>
+    </div>
+
+    <button id="login-button"
+            type="submit"
+            class="btn btn-primary">
+        Login
+    </button>
+
+</form>
+
+@section Footer {
+<div class="row">
+    <div class="col text-center">
+        <a class="card-link"
+           asp-page="/Account/Register"
+           asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+    </div>
+    <div class="col text-center">
+        <a class="card-link"
+           asp-page="/Account/ForgotPassword">Forgot your password</a>
+    </div>
+</div>
+}
+

@@ -1,0 +1,116 @@
+﻿@page "/organizations/create"
+@attribute [Authorize]
+@inject NavigationManager Navigation
+@inject OrganizationRepository OrganizationRepository
+@inject NotificationService NotificationService
+
+@using Microsoft.AspNetCore.Authorization
+@using EstimatorX.Shared.Models
+@using EstimatorX.Client.Repositories
+@using Blazored.FluentValidation
+@using EstimatorX.Client.Services
+@using FluentValidation
+
+<div class="container-lg">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/organizations">Organizations</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Create
+            </li>
+        </ol>
+    </nav>
+    <div class="card mb-5">
+        <div class="card-header">
+            <i class="fas fa-user mr-2"
+               aria-hidden="true"></i> Organization Create
+        </div>
+        <div class="card-body">
+            <EditForm Model="@Organization" OnValidSubmit="@HandleSave">
+                @*<FluentValidationValidator Validator="Validator" />*@
+
+                <ValidationSummary />
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label for="Name" class="form-label">
+                                Name: <span class="text-danger">*</span>
+                            </label>
+                            <InputText @bind-Value="Organization.Name"
+                                       DisplayName="Name"
+                                       id="Name"
+                                       name="Name"
+                                       class="form-control"
+                                       placeholder="Name" />
+                            <ValidationMessage For="@(() => Organization.Name)" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Description" class="form-label">
+                                Description:
+                            </label>
+                            <InputTextArea @bind-Value="Organization.Description"
+                                           DisplayName="Description"
+                                           id="Description"
+                                           name="Description"
+                                           class="form-control"
+                                           placeholder="Description" />
+                            <ValidationMessage For="@(() => Organization.Description)" />
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button id="save-button"
+                                    type="submit"
+                                    class="btn btn-primary"
+                                    data-loading-text="<span class='spinner-border spinner-border-sm'></span> Saving...">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> AuthenticationStateTask { get; set; }
+
+    public OrganizationModel Organization { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateTask;
+        var username = authState.User?.Identity?.Name;
+        if (!string.IsNullOrEmpty(username))
+            Organization.Owners.Add(username);
+    }
+
+    protected void HandleCancel()
+    {
+        Navigation.ToAbsoluteUri("/organizations");
+    }
+
+    protected async Task HandleSave()
+    {
+        try
+        {
+            var organization = await OrganizationRepository.Create(Organization);
+            NotificationService.ShowSuccess("Organization saved successfully");
+            Navigation.ToAbsoluteUri($"/organizations/{organization.Id}/");
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+    }
+}

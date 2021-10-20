@@ -1,0 +1,41 @@
+﻿@page "/organizations/{id}/owners"
+@attribute [Authorize]
+@using Microsoft.AspNetCore.Authorization
+@using EstimatorX.Client.Components.Organizations
+
+<div class="container-lg">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/organizations">Organizations</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/organizations/@Id">Edit</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Owners
+            </li>
+        </ol>
+    </nav>
+
+    <div class="card mb-5">
+        <div class="card-header">
+            <i class="fas fa-user mr-2"
+               aria-hidden="true"></i> Organization Owners
+            <OrganizationTabs Id="@Id" />
+        </div>
+        <div class="card-body">
+
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+}
+

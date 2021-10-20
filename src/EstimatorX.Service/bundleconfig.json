@@ -1,0 +1,15 @@
+[
+  {
+    "outputFileName": "wwwroot/bundle.css",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap/dist/css/bootstrap.css",
+      "wwwroot/lib/fortawesome/fontawesome-free/css/all.css",
+      "wwwroot/css/error.css",
+      "wwwroot/css/site.css"
+    ],
+    "minify": {
+      "enabled": true
+    },
+    "sourceMap": true
+  }
+]

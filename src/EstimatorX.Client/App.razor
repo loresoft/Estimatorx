@@ -1,0 +1,31 @@
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <Authorizing>
+                    <div class="d-flex justify-content-center mb-3">
+                        <span class="spinner-border" style="width: 3rem; height: 3rem;" role="status"></span>
+                    </div>
+                    <h3 class="d-flex justify-content-center">
+                        Loading ...
+                    </h3>
+                </Authorizing>
+                <NotAuthorized>
+                    @if (!context.User.Identity.IsAuthenticated)
+                    {
+                        <RedirectLogin />
+                    }
+                    else
+                    {
+                        <AccessDenied />
+                    }
+                </NotAuthorized>
+            </AuthorizeRouteView>
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <NotFound />
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>

@@ -1,0 +1,21 @@
+﻿body {
+    padding-top: 4.5rem;
+}
+
+label {
+    font-weight: 600;
+}
+
+.footer {
+    margin: 5rem 0;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    font-size: 85%;
+}
+
+.navbar-default {
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #e7e7e7;
+}
+

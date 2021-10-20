@@ -1,0 +1,116 @@
+﻿@page "/organizations"
+@using Microsoft.AspNetCore.Authorization
+@using EstimatorX.Client.Repositories
+@using EstimatorX.Shared.Models
+@using System.Linq.Dynamic.Core;
+@using EstimatorX.Shared.Extensions
+
+@attribute [Authorize]
+@inject OrganizationRepository Repository
+
+<div class="container-lg">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Organizations
+            </li>
+        </ol>
+    </nav>
+
+    <div class="card">
+        <div class="card-header">
+            <form id="group-search-form"
+                  name="group-search-form"
+                  role="form"
+                  method="get">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <i class="fas fa-users mr-2"
+                           aria-hidden="true"></i> Organizations
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="input-group input-group-sm mr-2">
+                            <input type="search"
+                                   class="form-control"
+                                   placeholder="Search" />
+                            <div class="input-group-append">
+                                <button class="btn btn-sm btn-outline-secondary"
+                                        type="submit">
+                                    <i class="fas fa-search"
+                                       aria-hidden="true"></i>
+                                </button>
+                                <a class="btn btn-sm btn-primary"
+                                   title="Create New Organization"
+                                   href="/organizations/create">
+                                    Create
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <DataGrid Data="Organizations" TItem="OrganizationModel" class="table table-hover" @ref="DataGrid">
+                    <DataColumns>
+                        <DataColumn TItem="OrganizationModel" Property="p => p.Name" Width="200px" SortIndex="0">
+                            <Template Context="item">
+                                <a href="/organizations/@item.Id" class="d-block" title="@item.Name">@item.Name</a>
+                            </Template>
+                        </DataColumn>
+                        <DataColumn TItem="OrganizationModel" Property="p => p.Description" />
+                        <DataColumn TItem="OrganizationModel" Property="p => p.Updated" Width="95px">
+                            <Template Context="item">
+                                <abbr title="@item.Updated.ToString("f")">
+                                    <span>@item.Updated.ToString("d")</span>
+                                </abbr>
+                            </Template>
+                        </DataColumn>
+                        <DataColumn TItem="OrganizationModel" Property="p => p.UpdatedBy" Width="150px" />
+                    </DataColumns>
+                    <DataPagination Context="grid">
+                        <DataPager PageSize="20" ShowEmpty="true" />
+                        <DataSizer />
+                        <div>@grid.Pager.StartItem - @grid.Pager.EndItem of @grid.Pager.Total</div>
+                    </DataPagination>
+                </DataGrid>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <a class="btn btn-primary"
+               title="Create New Organization"
+               href="/organizations/create">
+                Create
+            </a>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private DataGrid<OrganizationModel> DataGrid { get; set; }
+
+    public ICollection<OrganizationModel> Organizations { get; set; } = new List<OrganizationModel>();
+
+
+    public string SearchText { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var items = await Repository.All();
+        Organizations = items.ToList();
+    }
+
+    public bool SearchFilter(OrganizationModel model, string text)
+    {
+        return model.Name.Contains(text, StringComparison.OrdinalIgnoreCase)
+               || model.Description.Contains(text, StringComparison.OrdinalIgnoreCase);
+    }
+}
