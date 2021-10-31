@@ -1,5 +1,127 @@
-﻿<h3>OrganizationForm</h3>
+﻿@using Blazored.FluentValidation
+@using EstimatorX.Client.Repositories
+@using EstimatorX.Client.Services
+@using EstimatorX.Client.Stores
+@using EstimatorX.Shared.Extensions
+@using EstimatorX.Shared.Models
+
+@inject NavigationManager Navigation
+@inject OrganizationRepository OrganizationRepository
+@inject NotificationService NotificationService
+@inject UserStore UserStore
+
+<EditForm Model="@Organization" OnValidSubmit="@HandleSave">
+    <FluentValidationValidator />
+    <ValidationSummary />
+
+    <div class="row">
+        <div class="col-6">
+            <div class="mb-3">
+                <label for="Name" class="form-label">
+                    Name: <span class="text-danger">*</span>
+                </label>
+                <InputText @bind-Value="Organization.Name"
+                           DisplayName="Name"
+                           id="Name"
+                           name="Name"
+                           class="form-control"
+                           placeholder="Name" />
+                <ValidationMessage For="@(() => Organization.Name)" />
+            </div>
+
+            <div class="mb-3">
+                <label for="Description" class="form-label">
+                    Description:
+                </label>
+                <InputTextArea @bind-Value="Organization.Description"
+                               DisplayName="Description"
+                               id="Description"
+                               name="Description"
+                               class="form-control"
+                               placeholder="Description" />
+                <ValidationMessage For="@(() => Organization.Description)" />
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col">
+                <button id="save-button"
+                        type="submit"
+                        class="btn btn-primary"
+                        data-loading-text="<span class='spinner-border spinner-border-sm'></span> Saving...">
+                    Save
+                </button>
+            </div>
+            <div class="col">
+                <button id="delete-button"
+                        type="button"
+                        class="btn btn-danger fa-pull-right">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</EditForm>
 
 @code {
+    [Parameter]
+    public string Id { get; set; }
 
+    private OrganizationModel Organization { get; set; } = new();
+
+    private bool IsUpdate => Id.HasValue();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (IsUpdate)
+        {
+            Organization = await OrganizationRepository.Get(Id);
+            return;
+        }
+
+        // create mode
+        if (UserStore.Model == null)
+            return;
+
+        var member = new OrganizationMember
+            {
+                Id = UserStore.Model.Id,
+                Name = UserStore.Model.Name,
+                IsOwner = true
+            };
+
+        Organization.Members.Add(member);
+    }
+
+    protected async Task HandleSave()
+    {
+        try
+        {
+            Organization = IsUpdate
+                ? await OrganizationRepository.Update(Id, Organization)
+                : await OrganizationRepository.Create(Organization);
+
+            NotificationService.ShowSuccess($"Organization '{Organization.Name}' saved successfully");
+            Navigation.NavigateTo($"/organizations/{Organization.Id}");
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+    }
+
+    protected async Task HandleDelete()
+    {
+        try
+        {
+            await OrganizationRepository.Delete(Id);
+
+            NotificationService.ShowSuccess($"Organization '{Organization.Name}' deleted successfully");
+            Navigation.NavigateTo($"/organizations");
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+    }
 }

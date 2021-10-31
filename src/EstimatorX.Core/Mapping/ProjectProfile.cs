@@ -2,15 +2,14 @@
 using EstimatorX.Core.Entities;
 using EstimatorX.Shared.Models;
 
-namespace EstimatorX.Core.Mapping
-{
-    public class ProjectProfile : Profile
-    {
-        public ProjectProfile()
-        {
-            CreateMap<ProjectModel, Project>();
+namespace EstimatorX.Core.Mapping;
 
-            CreateMap<Project, ProjectModel>();
-        }
+public class ProjectProfile : Profile
+{
+    public ProjectProfile()
+    {
+        CreateMap<ProjectModel, Project>();
+
+        CreateMap<Project, ProjectModel>();
     }
 }

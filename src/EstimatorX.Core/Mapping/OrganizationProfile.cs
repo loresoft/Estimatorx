@@ -2,15 +2,14 @@
 using EstimatorX.Core.Entities;
 using EstimatorX.Shared.Models;
 
-namespace EstimatorX.Core.Mapping
-{
-    public class OrganizationProfile : Profile
-    {
-        public OrganizationProfile()
-        {
-            CreateMap<OrganizationModel, Organization>();
+namespace EstimatorX.Core.Mapping;
 
-            CreateMap<Organization, OrganizationModel>();
-        }
+public class OrganizationProfile : Profile
+{
+    public OrganizationProfile()
+    {
+        CreateMap<OrganizationModel, Organization>();
+
+        CreateMap<Organization, OrganizationModel>();
     }
 }

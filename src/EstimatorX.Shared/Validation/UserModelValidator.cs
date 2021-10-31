@@ -3,13 +3,12 @@ using EstimatorX.Shared.Models;
 
 using FluentValidation;
 
-namespace EstimatorX.Shared.Validation
+namespace EstimatorX.Shared.Validation;
+
+public class UserModelValidator : AbstractValidator<UserModel>
 {
-    public class UserModelValidator : AbstractValidator<UserModel>
+    public UserModelValidator()
     {
-        public UserModelValidator()
-        {
-            RuleFor(p => p.Email).NotEmpty();
-        }
+        RuleFor(p => p.Email).NotEmpty();
     }
 }

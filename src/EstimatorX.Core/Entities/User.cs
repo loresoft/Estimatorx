@@ -1,56 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿
+using EstimatorX.Shared.Models;
 
-using Cosmos.Identity;
+namespace EstimatorX.Core.Entities;
 
-using MediatR.CommandQuery.Definitions;
-
-using Newtonsoft.Json;
-
-namespace EstimatorX.Core.Entities
+public class User : EntityBase
 {
-    public class User : IdentityUser, IHaveIdentifier<string>, ITrackCreated, ITrackUpdated
-    {
-        [JsonIgnore]
-        public string DisplayName
-        {
-            get => GetClaim(ClaimTypes.DisplayName);
-            set => SetClaim(ClaimTypes.DisplayName, value);
-        }
+    public string Name { get; set; }
 
-        public string CreatedBy { get; set; }
+    public string Email { get; set; }
 
-        public string UpdatedBy { get; set; }
+    public string Provider { get; set; }
 
-        public HashSet<string> Organizations { get; set; } = new HashSet<string>();
+    public string PrivateKey { get; set; }
 
-        protected void SetClaim(string type, string value)
-        {
-            var claim = Claims
-                .Where(c => c.Type == type)
-                .FirstOrDefault();
+    public HashSet<string> Roles { get; set; } = new();
 
-            if (claim == null)
-            {
-                claim = new IdentityClaim { Type = type };
-                Claims.Add(claim);
-            }
-
-            claim.Value = value;
-        }
-
-        protected string GetClaim(string type)
-        {
-            return Claims
-                .Where(c => c.Type == type)
-                .Select(c => c.Value)
-                .FirstOrDefault();
-        }
-
-        public static class ClaimTypes
-        {
-            public const string DisplayName = "displayName";
-        }
-
-    }
+    public List<IdentifierName> Organizations { get; set; } = new();
 }

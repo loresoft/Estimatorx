@@ -3,13 +3,12 @@ using EstimatorX.Shared.Models;
 
 using FluentValidation;
 
-namespace EstimatorX.Shared.Validation
+namespace EstimatorX.Shared.Validation;
+
+public class ProjectModelValidator : AbstractValidator<ProjectModel>
 {
-    public class ProjectModelValidator : AbstractValidator<ProjectModel>
+    public ProjectModelValidator()
     {
-        public ProjectModelValidator()
-        {
-            RuleFor(p => p.Name).NotEmpty();
-        }
+        RuleFor(p => p.Name).NotEmpty();
     }
 }

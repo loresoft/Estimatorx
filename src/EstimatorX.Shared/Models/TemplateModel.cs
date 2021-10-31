@@ -1,11 +1,10 @@
-﻿namespace EstimatorX.Shared.Models
+﻿namespace EstimatorX.Shared.Models;
+
+public class TemplateModel : ModelBase
 {
-    public class TemplateModel : ModelBase
-    {
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public string Description { get; set; }
+    public string Description { get; set; }
 
-        public string OrganizationId { get; set; }
-    }
+    public string OrganizationId { get; set; }
 }

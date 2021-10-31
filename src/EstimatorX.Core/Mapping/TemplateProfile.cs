@@ -2,15 +2,14 @@
 using EstimatorX.Core.Entities;
 using EstimatorX.Shared.Models;
 
-namespace EstimatorX.Core.Mapping
-{
-    public class TemplateProfile : Profile
-    {
-        public TemplateProfile()
-        {
-            CreateMap<TemplateModel, Template>();
+namespace EstimatorX.Core.Mapping;
 
-            CreateMap<Template, TemplateModel>();
-        }
+public class TemplateProfile : Profile
+{
+    public TemplateProfile()
+    {
+        CreateMap<TemplateModel, Template>();
+
+        CreateMap<Template, TemplateModel>();
     }
 }

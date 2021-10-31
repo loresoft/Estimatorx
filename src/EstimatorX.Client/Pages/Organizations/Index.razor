@@ -1,12 +1,18 @@
 ﻿@page "/organizations"
-@using Microsoft.AspNetCore.Authorization
+
+@using System.Linq.Dynamic.Core;
+@using EstimatorX.Client.Extensions
+@using EstimatorX.Client.Services
 @using EstimatorX.Client.Repositories
 @using EstimatorX.Shared.Models
-@using System.Linq.Dynamic.Core;
 @using EstimatorX.Shared.Extensions
+@using MediatR.CommandQuery.Queries
+@using Microsoft.AspNetCore.Authorization
 
 @attribute [Authorize]
+
 @inject OrganizationRepository Repository
+@inject NotificationService NotificationService
 
 <div class="container-lg">
     <nav aria-label="breadcrumb">
@@ -22,18 +28,16 @@
 
     <div class="card">
         <div class="card-header">
-            <form id="group-search-form"
-                  name="group-search-form"
-                  role="form"
-                  method="get">
+            <form @onsubmit="HandleSearch">
                 <div class="row">
                     <div class="col-sm-4">
-                        <i class="fas fa-users mr-2"
+                        <i class="fas fa-users me-2"
                            aria-hidden="true"></i> Organizations
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-8 d-flex">
                         <div class="input-group input-group-sm mr-2">
                             <input type="search"
+                                   @bind="SearchText"
                                    class="form-control"
                                    placeholder="Search" />
                             <div class="input-group-append">
@@ -42,41 +46,42 @@
                                     <i class="fas fa-search"
                                        aria-hidden="true"></i>
                                 </button>
-                                <a class="btn btn-sm btn-primary"
-                                   title="Create New Organization"
-                                   href="/organizations/create">
-                                    Create
-                                </a>
                             </div>
                         </div>
+                        <a class="btn btn-sm btn-primary ms-2"
+                           title="Create New Organization"
+                           href="/organizations/create">
+                            Create
+                        </a>
                     </div>
                 </div>
             </form>
         </div>
 
-        <div class="card-body">
+        <div class="card-body p-0">
             <div class="table-responsive">
-                <DataGrid Data="Organizations" TItem="OrganizationModel" class="table table-hover" @ref="DataGrid">
+                <DataGrid DataProvider="LoadData" TItem="OrganizationModel" class="table table-hover table-bordered mb-0" @ref="DataGrid">
                     <DataColumns>
-                        <DataColumn TItem="OrganizationModel" Property="p => p.Name" Width="200px" SortIndex="0">
+                        <DataColumn TItem="OrganizationModel" Property="p => p.Name" Width="250px" SortIndex="0">
                             <Template Context="item">
                                 <a href="/organizations/@item.Id" class="d-block" title="@item.Name">@item.Name</a>
                             </Template>
                         </DataColumn>
                         <DataColumn TItem="OrganizationModel" Property="p => p.Description" />
-                        <DataColumn TItem="OrganizationModel" Property="p => p.Updated" Width="95px">
+                        <DataColumn TItem="OrganizationModel" Property="p => p.Updated" Width="115px">
                             <Template Context="item">
                                 <abbr title="@item.Updated.ToString("f")">
                                     <span>@item.Updated.ToString("d")</span>
                                 </abbr>
                             </Template>
                         </DataColumn>
-                        <DataColumn TItem="OrganizationModel" Property="p => p.UpdatedBy" Width="150px" />
                     </DataColumns>
                     <DataPagination Context="grid">
-                        <DataPager PageSize="20" ShowEmpty="true" />
-                        <DataSizer />
-                        <div>@grid.Pager.StartItem - @grid.Pager.EndItem of @grid.Pager.Total</div>
+                        <div class="w-100 m-1 d-flex justify-content-between align-items-center">
+                            <DataPager PageSize="20" ShowEmpty="true" />
+                            <DataSizer />
+                            <div class="me-1">@grid.Pager.StartItem - @grid.Pager.EndItem of @grid.Pager.Total</div>
+                        </div>
                     </DataPagination>
                 </DataGrid>
             </div>
@@ -96,21 +101,52 @@
 @code {
     private DataGrid<OrganizationModel> DataGrid { get; set; }
 
-    public ICollection<OrganizationModel> Organizations { get; set; } = new List<OrganizationModel>();
+    private ICollection<OrganizationModel> Organizations { get; set; } = new List<OrganizationModel>();
 
+    private string SearchText { get; set; }
 
-    public string SearchText { get; set; }
-
-
-    protected override async Task OnInitializedAsync()
+    private async ValueTask<DataResult<OrganizationModel>> LoadData(DataRequest request)
     {
-        var items = await Repository.All();
-        Organizations = items.ToList();
+        try
+        {
+            var entityFilter = CreateFilter();
+            var entityQuery = new EntityQuery(entityFilter, request.Page, request.PageSize);
+            entityQuery.Sort = request.Sorts.ToEntitySort();
+
+            var result = await Repository.Page(entityQuery);
+
+            var response = new DataResult<OrganizationModel>((int)result.Total, result.Data);
+            return response;
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+
+            var response = new DataResult<OrganizationModel>(0, Enumerable.Empty<OrganizationModel>());
+            return response;
+        }
     }
 
-    public bool SearchFilter(OrganizationModel model, string text)
+    private async Task HandleSearch()
     {
-        return model.Name.Contains(text, StringComparison.OrdinalIgnoreCase)
-               || model.Description.Contains(text, StringComparison.OrdinalIgnoreCase);
+        await DataGrid.RefreshAsync(true);
+    }
+
+    private EntityFilter CreateFilter()
+    {
+        var entityFilter = new EntityFilter();
+        var search = SearchText;
+
+        if (search.IsNullOrWhiteSpace())
+            return entityFilter;
+
+        entityFilter.Logic = EntityFilterLogic.Or;
+        entityFilter.Filters = new List<EntityFilter>
+        {
+            new EntityFilter{ Name = nameof(OrganizationModel.Name), Value = SearchText, Operator = EntityFilterOperators.Contains },
+            new EntityFilter{ Name = nameof(OrganizationModel.Description), Value = SearchText, Operator = EntityFilterOperators.Contains }
+        };
+
+        return entityFilter;
     }
 }

@@ -1,19 +1,13 @@
-﻿using System.Collections.Generic;
-using Cosmos.Abstracts;
+﻿
+using EstimatorX.Shared.Models;
 
-namespace EstimatorX.Core.Entities
+namespace EstimatorX.Core.Entities;
+
+public class Organization : EntityBase
 {
-    public class Organization : EntityBase
-    {
-        public Organization()
-        {
-            Owners = new HashSet<string>();
-        }
+    public string Name { get; set; }
 
-        public string Name { get; set; }
+    public string Description { get; set; }
 
-        public string Description { get; set; }
-
-        public HashSet<string> Owners { get; set; }
-    }
+    public List<OrganizationMember> Members { get; set; } = new();
 }

@@ -1,7 +1,9 @@
 ﻿@page "/organizations/{id}"
-@attribute [Authorize]
-@using Microsoft.AspNetCore.Authorization
+
 @using EstimatorX.Client.Components.Organizations
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
 
 <div class="container-lg">
     <nav aria-label="breadcrumb">
@@ -25,7 +27,7 @@
             <OrganizationTabs Id="@Id" />
         </div>
         <div class="card-body">
-
+            <OrganizationForm Id="@Id" />
         </div>
     </div>
 </div>
@@ -33,5 +35,4 @@
 @code {
     [Parameter]
     public string Id { get; set; }
-
 }

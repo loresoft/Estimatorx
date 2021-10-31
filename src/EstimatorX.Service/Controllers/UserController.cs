@@ -1,41 +1,43 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
+﻿
+using EstimatorX.Core.Commands;
 using EstimatorX.Core.Extensions;
 using EstimatorX.Shared.Models;
 
 using MediatR;
 using MediatR.CommandQuery.Mvc;
-using MediatR.CommandQuery.Queries;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EstimatorX.Service.Controllers
+namespace EstimatorX.Service.Controllers;
+
+[Authorize(Roles = EstimatorX.Shared.Security.Roles.Administrators)]
+public class UserController : EntityCommandControllerBase<string, UserModel, UserModel, UserModel, UserModel>
 {
-    [Authorize(Roles = EstimatorX.Shared.Security.Roles.Administrators)]
-    public class UserController : EntityCommandControllerBase<string, UserModel, UserModel, UserModel, UserModel>
+    public UserController(IMediator mediator) : base(mediator)
     {
-        public UserController(IMediator mediator) : base(mediator)
-        {
-        }
+    }
 
-        [HttpGet("me")]
-        [AllowAnonymous]
-        public async Task<ActionResult<UserModel>> Me(CancellationToken cancellationToken)
-        {
-            if (!User.Identity.IsAuthenticated)
-                return Ok(new UserModel());
+    [HttpGet("me")]
+    [AllowAnonymous]
+    public async Task<ActionResult<UserModel>> Me(CancellationToken cancellationToken)
+    {
+        if (User.Identity?.IsAuthenticated != true)
+            return Ok(new UserModel());
 
-            var userId = User.GetUserId();
-            if (userId == null)
-                return Ok(new UserModel());
+        var userId = User.GetUserId();
+        if (userId == null)
+            return Ok(new UserModel());
 
-            var command = new EntityIdentifierQuery<string, UserModel>(User, userId);
-            var model = await Mediator.Send(command, cancellationToken);
-            model.IsAuthenticated = true;
+        var user = new UserModel();
+        user.Id = userId;
+        user.Name = User.GetName();
+        user.Email = User.GetEmail();
+        user.Provider = User.GetProvider();
 
-            return Ok(model);
-        }
+        var command = new UserUpdateCommand(User, userId, user);
+        var model = await Mediator.Send(command, cancellationToken);
+
+        return Ok(model);
     }
 }
