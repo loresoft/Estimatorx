@@ -1,0 +1,35 @@
+﻿@page "/organizations/create"
+
+@using EstimatorX.Client.Components.Organizations
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+<div class="container-lg">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/organizations">Organizations</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Create
+            </li>
+        </ol>
+    </nav>
+    <div class="card mb-5">
+        <div class="card-header">
+            <i class="fas fa-user mr-2"
+               aria-hidden="true"></i> Organization Create
+        </div>
+        <div class="card-body">
+            <OrganizationForm />
+        </div>
+    </div>
+</div>
+
+@code {
+
+}

@@ -1,0 +1,41 @@
+﻿<a @onclick="HandelSort"
+   style="display: block;">
+    @ChildContent
+
+    @if (Sort == Column)
+    {
+        <span>
+            if (Descending)
+            {
+            <i class="fas fa-sort-up"></i>
+            }
+            else
+            {
+            <i class="fas fa-sort-down"></i>
+            }
+        </span>
+    }
+</a>
+
+@code {
+    [Parameter]
+    public string Column { get; set; }
+
+    [Parameter]
+    public string Sort { get; set; }
+
+    [Parameter]
+    public bool Descending { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnSort { get; set; }
+
+    public async Task HandelSort()
+    {
+        await OnSort.InvokeAsync(Column);
+    }
+
+}

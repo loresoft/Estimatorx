@@ -1,0 +1,11 @@
+﻿@page "/templates/{id}"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+<h3>Template Edit</h3>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+}

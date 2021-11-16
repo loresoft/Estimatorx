@@ -1,0 +1,24 @@
+﻿<ul class="nav nav-tabs card-header-tabs float-end">
+    <li class="nav-item">
+        <NavLink id="organization-general-tab-link"
+                 Match="NavLinkMatch.All"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@($"/organizations/{Id}")"
+                 title="Organization Details">General</NavLink>
+    </li>
+    <li class="nav-item">
+        <NavLink id="organization-members-tab-link"
+                 Match="NavLinkMatch.All"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@($"/organizations/{Id}/members")"
+                 title="Organization Members">Members</NavLink>
+    </li>
+</ul>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+}

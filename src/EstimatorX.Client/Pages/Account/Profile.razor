@@ -1,0 +1,149 @@
+﻿@page "/account/profile"
+
+@using Blazored.FluentValidation
+@using EstimatorX.Client.Repositories
+@using EstimatorX.Client.Services
+@using EstimatorX.Client.Stores
+@using EstimatorX.Shared.Models
+@using Microsoft.AspNetCore.Authorization
+
+@inject NavigationManager Navigation
+@inject NotificationService NotificationService
+@inject UserRepository UserRepository
+@inject UserStore UserStore
+
+@attribute [Authorize]
+
+
+<div class="container-lg">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Profile
+            </li>
+        </ol>
+    </nav>
+
+    <div class="card mb-5">
+        <div class="card-header">
+            <i class="fas fa-user me-2"
+               aria-hidden="true"></i>Profile
+        </div>
+        <div class="card-body">
+            <EditForm Model="@UserModel" OnValidSubmit="@HandleSave">
+                <FluentValidationValidator />
+
+                <div class="row">
+                    <div class="col">
+                        <ValidationSummary />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="Name" class="form-label">
+                                Name: <span class="text-danger">*</span>
+                            </label>
+                            <InputText @bind-Value="UserModel.Name"
+                                       DisplayName="Name"
+                                       id="Name"
+                                       name="Name"
+                                       class="form-control"
+                                       placeholder="Name" />
+                            <ValidationMessage For="@(() => UserModel.Name)" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Email" class="form-label">
+                                Email: <span class="text-danger">*</span>
+                            </label>
+                            <InputText @bind-Value="UserModel.Email"
+                                       DisplayName="Email"
+                                       id="Email"
+                                       name="Email"
+                                       type="email"
+                                       class="form-control"
+                                       placeholder="Name" />
+                            <ValidationMessage For="@(() => UserModel.Email)" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <Gravatar Email="@UserStore.Model.Email"
+                                  class="rounded-circle d-block mx-auto"
+                                  Size="200"></Gravatar>
+
+                        <p class="text-center">
+                            You can change your picture at <a href="http://gravatar.com/" target="_blank">Gravatar.com</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <BusyButton id="save-button"
+                                    type="submit"
+                                    Busy="IsBusy"
+                                    Disabled="@(!IsDiry)"
+                                    class="btn btn-primary">
+                            <BusyTemplate>
+                                <span class='spinner-border spinner-border-sm'></span> Saving...
+                            </BusyTemplate>
+                            <ChildContent>
+                                Save
+                            </ChildContent>
+                        </BusyButton>
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+
+            </EditForm>
+
+        </div>
+    </div>
+</div>
+
+@code {
+    private UserModel UserModel { get; set; } = new();
+
+    private bool IsBusy { get; set; }
+
+    private int OriginalHash { get; set; }
+
+    private bool IsDiry => OriginalHash != UserModel.GetHashCode();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        UserModel = UserStore.Model;
+        OriginalHash = UserModel.GetHashCode();
+    }
+
+    protected async Task HandleSave()
+    {
+        try
+        {
+            IsBusy = true;
+            UserModel = await UserRepository.Update(UserModel.Id, UserModel);
+
+            UserStore.Set(UserModel);
+
+            OriginalHash = UserModel.GetHashCode();
+
+            NotificationService.ShowSuccess($"Profile '{UserModel.Name}' saved successfully");
+            Navigation.NavigateTo("/Account/Profile");
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+}
