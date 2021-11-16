@@ -1,4 +1,5 @@
-﻿using Cosmos.Abstracts;
+using Cosmos.Abstracts;
+
 using EstimatorX.Core.Entities;
 
 namespace EstimatorX.Core.Repositories;

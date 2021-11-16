@@ -11,6 +11,7 @@ using KickStart.DependencyInjection;
 using MediatR;
 using MediatR.CommandQuery.Cosmos;
 using MediatR.CommandQuery.Definitions;
+using MediatR.CommandQuery.Models;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -27,6 +28,9 @@ public class HandlerServiceRegistration : IDependencyInjectionRegistration
         RegisterDomain<ITemplateRepository, Template, TemplateModel>(services);
 
         services.TryAddTransient<IRequestHandler<UserUpdateCommand, UserModel>, UserUpdateHandler>();
+
+        services.TryAddTransient<IRequestHandler<OrganizationUpdateMembersCommand, CompleteModel>, OrganizationUpdateMembersHandler>();
+        services.TryAddTransient<IRequestHandler<OrganizationRemoveMembersCommand, CompleteModel>, OrganizationRemoveMembersHandler>();
 
     }
 

@@ -1,9 +1,11 @@
-﻿@using EstimatorX.Core.Extensions
+﻿@using EstimatorX.Client.Stores
+@using EstimatorX.Core.Extensions
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
 @inject NavigationManager NavigationManager
 @inject SignOutSessionStateManager SignOutManager
+@inject UserStore UserStore
 
 <nav id="navbar-main"
      class="navbar navbar-expand-lg navbar-light navbar-default fixed-top">
@@ -142,10 +144,10 @@
                                data-bs-toggle="dropdown"
                                aria-haspopup="true"
                                aria-expanded="false">
-                                <Gravatar Email="@context.User.GetEmail()"
+                                <Gravatar Email="@UserStore.Model.Email"
                                           class="rounded-circle"
                                           Size="24"></Gravatar>
-                                <span id="navbar-identity-username">@context.User.Identity?.Name</span>
+                                <span id="navbar-identity-username">@UserStore.Model.Name</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end"
                                  aria-labelledby="navbar-dropdown-user">
@@ -190,5 +192,15 @@
     {
         await SignOutManager.SetSignOutState();
         NavigationManager.NavigateTo("authentication/logout");
+    }
+
+    protected override void OnInitialized()
+    {
+        UserStore.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        UserStore.OnChange -= StateHasChanged;
     }
 }

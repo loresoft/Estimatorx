@@ -5,6 +5,8 @@ using FluentValidation.AspNetCore;
 
 using KickStart;
 
+using MediatR.CommandQuery.Mvc;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web;

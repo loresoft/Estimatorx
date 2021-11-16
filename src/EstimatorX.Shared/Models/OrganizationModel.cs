@@ -6,5 +6,19 @@ public class OrganizationModel : ModelBase
 
     public string Description { get; set; }
 
-    public HashSet<OrganizationMember> Members { get; set; } = new();
+    public List<OrganizationMember> Members { get; set; } = new();
+
+
+    public override int GetHashCode()
+    {
+        var hashCode = new HashCode();
+        hashCode.Add(base.GetHashCode());
+        hashCode.Add(Name);
+        hashCode.Add(Description);
+        
+        foreach (var member in Members)
+            hashCode.Add(member.GetHashCode());
+
+        return hashCode.ToHashCode();
+    }
 }

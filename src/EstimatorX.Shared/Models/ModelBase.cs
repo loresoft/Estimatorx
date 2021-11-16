@@ -14,4 +14,10 @@ public class ModelBase : IHaveIdentifier<string>, ITrackCreated, ITrackUpdated
     public DateTimeOffset Updated { get; set; } = DateTimeOffset.UtcNow;
 
     public string UpdatedBy { get; set; }
+
+   
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Id, Created, CreatedBy, Updated, UpdatedBy);
+    }
 }

@@ -55,6 +55,20 @@ public abstract class RepositoryBase<TModel>
         return result;
     }
 
+    public async Task<IReadOnlyCollection<TModel>> Select(EntitySelect entitySelect)
+    {
+        if (entitySelect is null)
+            throw new ArgumentNullException(nameof(entitySelect));
+
+        var result = await Gateway.PostAsync<IReadOnlyCollection<TModel>>(b => b
+            .AppendPath(GetBasePath())
+            .AppendPath("query")
+            .Content(entitySelect)
+        );
+
+        return result;
+    }
+    
     public async Task<TModel> Create(TModel model)
     {
         if (model == null)

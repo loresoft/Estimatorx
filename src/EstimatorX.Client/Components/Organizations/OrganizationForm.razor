@@ -1,4 +1,5 @@
 ﻿@using Blazored.FluentValidation
+@using EstimatorX.Client.Extensions
 @using EstimatorX.Client.Repositories
 @using EstimatorX.Client.Services
 @using EstimatorX.Client.Stores
@@ -9,10 +10,15 @@
 @inject OrganizationRepository OrganizationRepository
 @inject NotificationService NotificationService
 @inject UserStore UserStore
+@inject IJSRuntime JSRuntime
 
 <EditForm Model="@Organization" OnValidSubmit="@HandleSave">
     <FluentValidationValidator />
-    <ValidationSummary />
+    <div class="row">
+        <div class="col">
+            <ValidationSummary />
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-6">
@@ -43,22 +49,33 @@
             </div>
 
         </div>
-        <div class="row">
-            <div class="col">
-                <button id="save-button"
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <BusyButton id="save-button"
                         type="submit"
-                        class="btn btn-primary"
-                        data-loading-text="<span class='spinner-border spinner-border-sm'></span> Saving...">
+                        Busy="IsBusy"
+                        Disabled="@(!IsDiry)"
+                        class="btn btn-primary">
+                <BusyTemplate>
+                    <span class='spinner-border spinner-border-sm'></span> Saving...
+                </BusyTemplate>
+                <ChildContent>
                     Save
-                </button>
-            </div>
-            <div class="col">
+                </ChildContent>
+            </BusyButton>
+        </div>
+        <div class="col">
+            <ConditionalDisplay Show="IsUpdate">
                 <button id="delete-button"
                         type="button"
+                        @onclick="HandleDelete"
+                        disabled="@IsBusy"
                         class="btn btn-danger fa-pull-right">
                     Delete
                 </button>
-            </div>
+            </ConditionalDisplay>
         </div>
     </div>
 </EditForm>
@@ -71,35 +88,56 @@
 
     private bool IsUpdate => Id.HasValue();
 
+    private bool IsBusy { get; set; }
+
+    private int OriginalHash { get; set; }
+
+    private bool IsDiry => OriginalHash != Organization.GetHashCode();
+
     protected override async Task OnInitializedAsync()
     {
-        if (IsUpdate)
+        try
         {
-            Organization = await OrganizationRepository.Get(Id);
-            return;
-        }
-
-        // create mode
-        if (UserStore.Model == null)
-            return;
-
-        var member = new OrganizationMember
+            if (IsUpdate)
             {
-                Id = UserStore.Model.Id,
-                Name = UserStore.Model.Name,
-                IsOwner = true
-            };
+                Organization = await OrganizationRepository.Get(Id);
+                if (Organization == null)
+                    Navigation.NavigateTo("/organizations");
 
-        Organization.Members.Add(member);
+                OriginalHash = Organization.GetHashCode();
+                return;
+            }
+
+            // create mode
+            if (UserStore.Model == null)
+                return;
+
+            var member = new OrganizationMember
+                {
+                    Id = UserStore.Model.Id,
+                    Name = UserStore.Model.Name,
+                    IsOwner = true
+                };
+
+            Organization.Members.Add(member);
+
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
     }
 
     protected async Task HandleSave()
     {
         try
         {
+            IsBusy = true;
             Organization = IsUpdate
                 ? await OrganizationRepository.Update(Id, Organization)
                 : await OrganizationRepository.Create(Organization);
+
+            OriginalHash = Organization.GetHashCode();
 
             NotificationService.ShowSuccess($"Organization '{Organization.Name}' saved successfully");
             Navigation.NavigateTo($"/organizations/{Organization.Id}");
@@ -108,20 +146,33 @@
         {
             NotificationService.ShowError(ex);
         }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     protected async Task HandleDelete()
     {
         try
         {
+            if (!await JSRuntime.Confirm($"Are you sure you want to delete '{Organization.Name}'?"))
+                return;
+
+            IsBusy = true;
+
             await OrganizationRepository.Delete(Id);
 
             NotificationService.ShowSuccess($"Organization '{Organization.Name}' deleted successfully");
-            Navigation.NavigateTo($"/organizations");
+            Navigation.NavigateTo("/organizations");
         }
         catch (Exception ex)
         {
             NotificationService.ShowError(ex);
+        }
+        finally
+        {
+            IsBusy = false;
         }
     }
 }

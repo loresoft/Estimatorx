@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EstimatorX.Service.Controllers;
 
-[Authorize(Roles = EstimatorX.Shared.Security.Roles.Administrators)]
 public class UserController : EntityCommandControllerBase<string, UserModel, UserModel, UserModel, UserModel>
 {
     public UserController(IMediator mediator) : base(mediator)
@@ -39,5 +38,10 @@ public class UserController : EntityCommandControllerBase<string, UserModel, Use
         var model = await Mediator.Send(command, cancellationToken);
 
         return Ok(model);
+    }
+
+    public override Task<ActionResult<UserModel>> Create(CancellationToken cancellationToken, UserModel createModel)
+    {
+        return base.Create(cancellationToken, createModel);
     }
 }

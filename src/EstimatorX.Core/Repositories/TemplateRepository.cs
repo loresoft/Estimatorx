@@ -1,5 +1,7 @@
-﻿using Cosmos.Abstracts;
+using Cosmos.Abstracts;
+
 using EstimatorX.Core.Entities;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 

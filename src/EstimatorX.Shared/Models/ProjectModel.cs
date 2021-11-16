@@ -9,4 +9,17 @@ public class ProjectModel : ModelBase
     public string OrganizationId { get; set; }
 
     public string SecurityKey { get; set; }
+        
+
+    public override int GetHashCode()
+    {
+        var hash = new HashCode();
+        hash.Add(base.GetHashCode());
+        hash.Add(Name);
+        hash.Add(Description);
+        hash.Add(OrganizationId);
+        hash.Add(SecurityKey);
+
+        return hash.ToHashCode();
+    }
 }

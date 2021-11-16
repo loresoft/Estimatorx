@@ -1,23 +1,23 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="..\..\build\common.props" />
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\build\common.props" />
 
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<NoWarn>1591</NoWarn>
-	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="AutoMapper" Version="10.1.1" />
-		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-		<PackageReference Include="KickStart.DependencyInjection" Version="8.0.0.448" />
-		<PackageReference Include="MediatR.CommandQuery.Cosmos" Version="9.0.626" />
-		<PackageReference Include="SendGrid" Version="9.24.4" />
-		<PackageReference Include="SendGrid.Extensions.DependencyInjection" Version="1.0.1" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="KickStart.DependencyInjection" Version="9.0.467" />
+    <PackageReference Include="MediatR.CommandQuery.Cosmos" Version="10.0.671" />
+    <PackageReference Include="SendGrid" Version="9.24.4" />
+    <PackageReference Include="SendGrid.Extensions.DependencyInjection" Version="1.0.1" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\EstimatorX.Shared\EstimatorX.Shared.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EstimatorX.Shared\EstimatorX.Shared.csproj" />
+  </ItemGroup>
 
 </Project>

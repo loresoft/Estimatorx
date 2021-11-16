@@ -3,6 +3,7 @@
 @using EstimatorX.Client.Components.Organizations
 @using Microsoft.AspNetCore.Authorization
 
+
 @attribute [Authorize]
 
 <div class="container-lg">
@@ -22,7 +23,7 @@
 
     <div class="card mb-5">
         <div class="card-header">
-            <i class="fas fa-user mr-2"
+            <i class="fas fa-user me-2"
                aria-hidden="true"></i> Organization Edit
             <OrganizationTabs Id="@Id" />
         </div>

@@ -1,0 +1,87 @@
+﻿@page "/administrative/organizations/{id}"
+
+@using EstimatorX.Client.Repositories
+@using EstimatorX.Client.Services
+@using EstimatorX.Shared.Models
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize(Roles = EstimatorX.Shared.Security.Roles.Administrators)]
+
+@inject NavigationManager Navigation
+@inject OrganizationRepository OrganizationRepository
+@inject NotificationService NotificationService
+
+
+<div class="container-lg">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/administrative/organizations">Organizations</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Edit
+            </li>
+        </ol>
+    </nav>
+
+    <div class="card mb-5">
+        <div class="card-header">
+            <i class="fas fa-user me-2"
+               aria-hidden="true"></i> Organization @Organization.Name
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label for="Name" class="form-label">
+                            Name: <span class="text-danger">*</span>
+                        </label>
+                        <div class="form-control">@Organization.Name</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Description" class="form-label">
+                            Description:
+                        </label>
+                        <div class="form-control">@Organization.Description</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <h4>Members</h4>
+                    <div class="list-group">
+                    @foreach(var member in Organization.Members)
+                    {
+                        <div class="list-group-item">@member.Name</div>                        
+                    }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    private OrganizationModel Organization { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Organization = await OrganizationRepository.Get(Id);
+            if (Organization == null)
+                Navigation.NavigateTo("/administrative/organizations");
+
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+    }
+
+}
