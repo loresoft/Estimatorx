@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR.CommandQuery" Version="10.0.671" />
+    <PackageReference Include="MediatR.CommandQuery" Version="10.0.676" />
   </ItemGroup>
 
 </Project>
