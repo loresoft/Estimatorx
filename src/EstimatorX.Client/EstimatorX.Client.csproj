@@ -25,4 +25,8 @@
     <ProjectReference Include="..\EstimatorX.Shared\EstimatorX.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <TrimmerRootAssembly Include="Microsoft.Authentication.WebAssembly.Msal" />
+  </ItemGroup>
+
 </Project>

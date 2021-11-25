@@ -7,7 +7,7 @@ namespace EstimatorX.Service.Extensions;
 public static class HttpExtensions
 {
     public static T UserAgent<T>(this HttpRequest httpRequest)
-        where T : UserAgentDetail, new()
+        where T : BrowserDetail, new()
     {
         var model = new T();
 

@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Security.Claims;
 using System.Security.Principal;
 
-namespace EstimatorX.Core.Extensions;
+namespace EstimatorX.Shared.Extensions;
 
 public static class PrincipalExtensions
 {

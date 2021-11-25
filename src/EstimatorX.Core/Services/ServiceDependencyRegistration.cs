@@ -19,5 +19,7 @@ public class ServiceDependencyRegistration : IDependencyInjectionRegistration
             var configuration = serviceProvider.GetRequiredService<IOptions<SendGridConfiguration>>();
             options.ApiKey = configuration.Value.ApiKey;
         });
+
+        services.AddSingleton<IUserCache, UserCache>();
     }
 }

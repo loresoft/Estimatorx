@@ -1,6 +1,6 @@
 ﻿
 using EstimatorX.Core.Commands;
-using EstimatorX.Core.Extensions;
+using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
 using MediatR;

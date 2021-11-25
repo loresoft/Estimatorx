@@ -1,6 +1,8 @@
-﻿namespace EstimatorX.Shared.Models;
+using EstimatorX.Shared.Definitions;
 
-public class ProjectModel : ModelBase
+namespace EstimatorX.Shared.Models;
+
+public class ProjectModel : ModelBase, IHaveOrganization
 {
     public string Name { get; set; }
 
