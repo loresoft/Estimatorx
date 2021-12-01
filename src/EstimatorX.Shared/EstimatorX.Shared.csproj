@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <SupportedPlatform Include="browser" />
+    <PackageReference Include="FluentValidation" Version="10.3.5" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR.CommandQuery" Version="10.0.671" />
+    <SupportedPlatform Include="browser" />
   </ItemGroup>
 
 </Project>

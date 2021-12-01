@@ -1,13 +1,11 @@
-﻿using EstimatorX.Shared.Models;
-using MediatR;
-using MediatR.CommandQuery.Mvc;
+using EstimatorX.Core.Services;
+using EstimatorX.Shared.Models;
 
 namespace EstimatorX.Service.Controllers;
 
-public class ProjectController
-    : EntityCommandControllerBase<string, ProjectModel, ProjectModel, ProjectModel, ProjectModel>
+public class ProjectController : ServiceControllerBase<ProjectService, ProjectModel, ProjectSummary>
 {
-    public ProjectController(IMediator mediator) : base(mediator)
+    public ProjectController(ProjectService service) : base(service)
     {
     }
 }

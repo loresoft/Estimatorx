@@ -60,7 +60,7 @@ jobs:
         if: github.ref == 'refs/heads/develop'
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'ls-usc-app-ex-stage'
+          app-name: 'web-ls-app-eus-ex-stg-01'
           slot-name: 'Production'
           publish-profile: ${{secrets.PUBLISH_PROFILE_STAGING}}
           package: ./
@@ -69,7 +69,7 @@ jobs:
         if: github.ref == 'refs/heads/master'
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'ls-usc-app-ex-prod'
+          app-name: 'web-ls-app-eus-ex-prd-01'
           slot-name: 'Production'
           publish-profile: ${{secrets.PUBLISH_PROFILE_PRODUCTION}}
           package: ./

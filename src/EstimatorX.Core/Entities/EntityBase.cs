@@ -1,6 +1,6 @@
-﻿using Cosmos.Abstracts;
+using Cosmos.Abstracts;
 
-using MediatR.CommandQuery.Definitions;
+using EstimatorX.Shared.Definitions;
 
 namespace EstimatorX.Core.Entities;
 
@@ -8,5 +8,9 @@ public class EntityBase : CosmosEntity, IHaveIdentifier<string>, ITrackCreated, 
 {
     public string CreatedBy { get; set; }
 
+    public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
+
     public string UpdatedBy { get; set; }
+
+    public DateTimeOffset Updated { get; set; } = DateTimeOffset.UtcNow;
 }

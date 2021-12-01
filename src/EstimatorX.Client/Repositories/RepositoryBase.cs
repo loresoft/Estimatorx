@@ -1,15 +1,13 @@
-﻿
+
 using EstimatorX.Client.Services;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
 using FluentRest;
 
-using MediatR.CommandQuery.Queries;
-
 namespace EstimatorX.Client.Repositories;
 
-public abstract class RepositoryBase<TModel>
+public abstract class RepositoryBase<TModel, TSummary>
 {
     protected RepositoryBase(GatewayClient gateway)
     {
@@ -19,7 +17,7 @@ public abstract class RepositoryBase<TModel>
     protected GatewayClient Gateway { get; }
 
 
-    public async Task<TModel> Get(string id)
+    public async Task<TModel> Load(string id)
     {
         if (id is null)
             throw new ArgumentNullException(nameof(id));
@@ -32,67 +30,31 @@ public abstract class RepositoryBase<TModel>
         return result;
     }
 
-    public async Task<IReadOnlyCollection<TModel>> All()
+    public async Task<QueryResult<TSummary>> Search(QueryRequest queryRequest)
     {
-        var result = await Gateway.GetAsync<List<TModel>>(b => b
+        if (queryRequest is null)
+            throw new ArgumentNullException(nameof(queryRequest));
+
+        var result = await Gateway.GetAsync<QueryResult<TSummary>>(b => b
             .AppendPath(GetBasePath())
+            .QueryStringIf(() => queryRequest.Page != 1, nameof(QueryRequest.Page), queryRequest.Page)
+            .QueryStringIf(() => queryRequest.PageSize != 20, nameof(QueryRequest.PageSize), queryRequest.PageSize)
+            .QueryStringIf(queryRequest.Sort.HasValue, nameof(QueryRequest.Sort), queryRequest.Sort)
+            .QueryStringIf(() => queryRequest.Descending == true, nameof(QueryRequest.Descending), queryRequest.Descending)
+            .QueryStringIf(queryRequest.Search.HasValue, nameof(QueryRequest.Search), queryRequest.Search)
+            .QueryStringIf(queryRequest.Organization.HasValue, nameof(QueryRequest.Organization), queryRequest.Organization)
         );
 
         return result;
     }
 
-    public async Task<EntityPagedResult<TModel>> Page(EntityQuery entityQuery)
-    {
-        if (entityQuery is null)
-            throw new ArgumentNullException(nameof(entityQuery));
-
-        var result = await Gateway.PostAsync<EntityPagedResult<TModel>>(b => b
-            .AppendPath(GetBasePath())
-            .AppendPath("page")
-            .Content(entityQuery)
-        );
-
-        return result;
-    }
-
-    public async Task<IReadOnlyCollection<TModel>> Select(EntitySelect entitySelect)
-    {
-        if (entitySelect is null)
-            throw new ArgumentNullException(nameof(entitySelect));
-
-        var result = await Gateway.PostAsync<IReadOnlyCollection<TModel>>(b => b
-            .AppendPath(GetBasePath())
-            .AppendPath("query")
-            .Content(entitySelect)
-        );
-
-        return result;
-    }
-    
-    public async Task<TModel> Create(TModel model)
+    public async Task<TModel> Save(TModel model)
     {
         if (model == null)
             throw new ArgumentNullException(nameof(model));
 
         var result = await Gateway.PostAsync<TModel>(b => b
             .AppendPath(GetBasePath())
-            .Content(model)
-        );
-
-        return result;
-    }
-
-    public async Task<TModel> Update(string id, TModel model)
-    {
-        if (id is null)
-            throw new ArgumentNullException(nameof(id));
-
-        if (model == null)
-            throw new ArgumentNullException(nameof(model));
-
-        var result = await Gateway.PutAsync<TModel>(b => b
-            .AppendPath(GetBasePath())
-            .AppendPath(id)
             .Content(model)
         );
 

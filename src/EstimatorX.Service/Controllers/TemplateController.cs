@@ -1,13 +1,11 @@
-﻿using EstimatorX.Shared.Models;
-using MediatR;
-using MediatR.CommandQuery.Mvc;
+using EstimatorX.Core.Services;
+using EstimatorX.Shared.Models;
 
 namespace EstimatorX.Service.Controllers;
 
-public class TemplateController
-    : EntityCommandControllerBase<string, TemplateModel, TemplateModel, TemplateModel, TemplateModel>
+public class TemplateController : ServiceControllerBase<TemplateService, TemplateModel, TemplateSummary>
 {
-    public TemplateController(IMediator mediator) : base(mediator)
+    public TemplateController(TemplateService service) : base(service)
     {
     }
 }

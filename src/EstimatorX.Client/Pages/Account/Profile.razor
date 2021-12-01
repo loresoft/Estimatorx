@@ -1,4 +1,4 @@
-﻿@page "/account/profile"
+@page "/account/profile"
 
 @using Blazored.FluentValidation
 @using EstimatorX.Client.Repositories
@@ -108,7 +108,7 @@
 </div>
 
 @code {
-    private UserModel UserModel { get; set; } = new();
+    private UserModel UserModel { get; set; }
 
     private bool IsBusy { get; set; }
 
@@ -128,7 +128,7 @@
         try
         {
             IsBusy = true;
-            UserModel = await UserRepository.Update(UserModel.Id, UserModel);
+            UserModel = await UserRepository.Save(UserModel);
 
             UserStore.Set(UserModel);
 

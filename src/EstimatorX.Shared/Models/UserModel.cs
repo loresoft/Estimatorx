@@ -1,10 +1,10 @@
-﻿namespace EstimatorX.Shared.Models;
+namespace EstimatorX.Shared.Models;
 
 public class UserModel : ModelBase
 {
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; set; }
 
-    public string Email { get; set; } = string.Empty;
+    public string Email { get; set; }
 
     public string Provider { get; set; }
 

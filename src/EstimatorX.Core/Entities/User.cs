@@ -1,4 +1,4 @@
-﻿
+
 using EstimatorX.Shared.Models;
 
 namespace EstimatorX.Core.Entities;
@@ -13,7 +13,10 @@ public class User : EntityBase
 
     public string PrivateKey { get; set; }
 
+
     public HashSet<string> Roles { get; set; } = new();
 
     public List<IdentifierName> Organizations { get; set; } = new();
+
+    public List<BrowserDetail> Logins { get; set; } = new();
 }

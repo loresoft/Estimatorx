@@ -1,9 +1,161 @@
-﻿@page "/templates"
+@page "/templates"
+@using EstimatorX.Client.Extensions
+@using EstimatorX.Client.Services
+@using EstimatorX.Client.Repositories
+@using EstimatorX.Client.Stores
+@using EstimatorX.Shared.Models
+@using EstimatorX.Shared.Extensions
 @using Microsoft.AspNetCore.Authorization
+
 @attribute [Authorize]
 
-<h3>Templates</h3>
+@inject TemplateRepository Repository
+@inject NotificationService NotificationService
+@inject UserStore UserStore
+
+<div class="container-lg">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Templates
+            </li>
+        </ol>
+    </nav>
+
+    <div class="card">
+        <div class="card-header">
+            <form @onsubmit="HandleSearch">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <i class="fas fa-list me-2"
+                           aria-hidden="true"></i> Templates
+                    </div>
+                    <div class="col-sm-8 d-flex">
+                        <div class="input-group input-group-sm mr-2">
+                            <input type="search"
+                                   @bind="SearchText"
+                                   class="form-control"
+                                   placeholder="Search" />
+                            <div class="input-group-append">
+                                <button class="btn btn-sm btn-outline-secondary"
+                                        type="submit">
+                                    <i class="fas fa-search"
+                                       aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <select class="form-select form-select-sm ms-2"
+                                value="@SelectedOrganization"
+                                @onchange="HandleOrganizationChange">
+                            <option value="">-- All --</option>
+                            <option value="@UserStore.Model.PrivateKey">Private</option>
+                            @foreach (var organization in UserStore.Model.Organizations)
+                            {
+                                <option value="@organization.Id">@organization.Name</option>
+                            }
+                        </select>
+
+                        <a class="btn btn-sm btn-primary ms-2"
+                           title="Create New Template"
+                           href="/templates/create">
+                            Create
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <DataGrid DataProvider="LoadData" TItem="TemplateSummary" class="table table-hover table-bordered mb-0" @ref="DataGrid">
+                    <DataColumns>
+                        <DataColumn TItem="TemplateSummary" Property="p => p.Name" Width="250px" SortIndex="0">
+                            <Template Context="item">
+                                <a href="/templates/@item.Id" class="d-block" title="@item.Name">@item.Name</a>
+                            </Template>
+                        </DataColumn>
+                        <DataColumn TItem="TemplateSummary" Property="p => p.Description" />
+                        <DataColumn TItem="TemplateSummary" Property="p => p.Updated" Width="115px">
+                            <Template Context="item">
+                                <abbr title="@item.Updated.ToString("f")">
+                                    <span>@item.Updated.ToString("d")</span>
+                                </abbr>
+                            </Template>
+                        </DataColumn>
+                    </DataColumns>
+                    <DataPagination Context="grid">
+                        <div class="w-100 m-1 d-flex justify-content-between align-items-center">
+                            <DataPager PageSize="20" ShowEmpty="true" />
+                            <DataSizer />
+                            <div class="me-1">@grid.Pager.StartItem - @grid.Pager.EndItem of @grid.Pager.Total</div>
+                        </div>
+                    </DataPagination>
+                </DataGrid>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <a class="btn btn-primary"
+               title="Create New Template"
+               href="/templates/create">
+                Create
+            </a>
+        </div>
+    </div>
+</div>
+
 
 @code {
+    private DataGrid<TemplateSummary> DataGrid { get; set; }
 
+    private ICollection<TemplateSummary> Templates { get; set; } = new List<TemplateSummary>();
+
+    private string SearchText { get; set; }
+
+    private string SelectedOrganization { get; set; }
+
+    private async ValueTask<DataResult<TemplateSummary>> LoadData(DataRequest request)
+    {
+        try
+        {
+            var sort = request.Sorts.FirstOrDefault();
+
+            var query = new QueryRequest
+                {
+                    Page = request.Page,
+                    PageSize = request.PageSize,
+                    Sort = sort?.Property,
+                    Descending = sort?.Descending,
+                    Search = SearchText,
+                    Organization = SelectedOrganization
+                };
+
+            var result = await Repository.Search(query);
+
+            var response = new DataResult<TemplateSummary>(result.Total, result.Data);
+            return response;
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+
+            var response = new DataResult<TemplateSummary>(0, Enumerable.Empty<TemplateSummary>());
+            return response;
+        }
+    }
+
+    private async Task HandleOrganizationChange(ChangeEventArgs e)
+    {
+        SelectedOrganization = e.Value?.ToString();
+        await DataGrid.RefreshAsync(true);
+    }
+
+    private async Task HandleSearch()
+    {
+        await DataGrid.RefreshAsync(true);
+    }
 }

@@ -73,7 +73,7 @@
     {
         try
         {
-            Organization = await OrganizationRepository.Get(Id);
+            Organization = await OrganizationRepository.Load(Id);
             if (Organization == null)
                 Navigation.NavigateTo("/administrative/organizations");
 

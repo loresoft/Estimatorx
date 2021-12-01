@@ -1,11 +1,10 @@
-﻿@page "/administrative/organizations"
+@page "/administrative/organizations"
 
 @using EstimatorX.Client.Extensions
 @using EstimatorX.Client.Repositories
 @using EstimatorX.Client.Services
 @using EstimatorX.Shared.Extensions
 @using EstimatorX.Shared.Models
-@using MediatR.CommandQuery.Queries
 @using Microsoft.AspNetCore.Authorization
 
 
@@ -55,15 +54,15 @@
 
         <div class="card-body p-0">
             <div class="table-responsive">
-                <DataGrid DataProvider="LoadData" TItem="OrganizationModel" class="table table-hover table-bordered mb-0" @ref="DataGrid">
+                <DataGrid DataProvider="LoadData" TItem="OrganizationSummary" class="table table-hover table-bordered mb-0" @ref="DataGrid">
                     <DataColumns>
-                        <DataColumn TItem="OrganizationModel" Property="p => p.Name" Width="250px" SortIndex="0">
+                        <DataColumn TItem="OrganizationSummary" Property="p => p.Name" Width="250px" SortIndex="0">
                             <Template Context="item">
                                 <a href="/administrative/organizations/@item.Id" class="d-block" title="@item.Name">@item.Name</a>
                             </Template>
                         </DataColumn>
-                        <DataColumn TItem="OrganizationModel" Property="p => p.Description" />
-                        <DataColumn TItem="OrganizationModel" Property="p => p.Updated" Width="115px">
+                        <DataColumn TItem="OrganizationSummary" Property="p => p.Description" />
+                        <DataColumn TItem="OrganizationSummary" Property="p => p.Updated" Width="115px">
                             <Template Context="item">
                                 <abbr title="@item.Updated.ToString("f")">
                                     <span>@item.Updated.ToString("d")</span>
@@ -87,30 +86,37 @@
 
 
 @code {
-    private DataGrid<OrganizationModel> DataGrid { get; set; }
+    private DataGrid<OrganizationSummary> DataGrid { get; set; }
 
-    private ICollection<OrganizationModel> Organizations { get; set; } = new List<OrganizationModel>();
+    private ICollection<OrganizationSummary> Organizations { get; set; } = new List<OrganizationSummary>();
 
     private string SearchText { get; set; }
 
-    private async ValueTask<DataResult<OrganizationModel>> LoadData(DataRequest request)
+    private async ValueTask<DataResult<OrganizationSummary>> LoadData(DataRequest request)
     {
         try
         {
-            var entityFilter = CreateFilter();
-            var entityQuery = new EntityQuery(entityFilter, request.Page, request.PageSize);
-            entityQuery.Sort = request.Sorts.ToEntitySort();
+            var sort = request.Sorts.FirstOrDefault();
 
-            var result = await Repository.Page(entityQuery);
+            var query = new QueryRequest
+            {
+                Page = request.Page,
+                PageSize = request.PageSize,
+                Sort = sort?.Property,
+                Descending= sort?.Descending,
+                Search = SearchText
+            };
 
-            var response = new DataResult<OrganizationModel>((int)result.Total, result.Data);
+            var result = await Repository.Search(query);
+
+            var response = new DataResult<OrganizationSummary>(result.Total, result.Data);
             return response;
         }
         catch (Exception ex)
         {
             NotificationService.ShowError(ex);
 
-            var response = new DataResult<OrganizationModel>(0, Enumerable.Empty<OrganizationModel>());
+            var response = new DataResult<OrganizationSummary>(0, Enumerable.Empty<OrganizationSummary>());
             return response;
         }
     }
@@ -119,23 +125,4 @@
     {
         await DataGrid.RefreshAsync(true);
     }
-
-    private EntityFilter CreateFilter()
-    {
-        var entityFilter = new EntityFilter();
-        var search = SearchText;
-
-        if (search.IsNullOrWhiteSpace())
-            return entityFilter;
-
-        entityFilter.Logic = EntityFilterLogic.Or;
-        entityFilter.Filters = new List<EntityFilter>
-        {
-            new EntityFilter{ Name = nameof(OrganizationModel.Name), Value = SearchText, Operator = EntityFilterOperators.Contains },
-            new EntityFilter{ Name = nameof(OrganizationModel.Description), Value = SearchText, Operator = EntityFilterOperators.Contains }
-        };
-
-        return entityFilter;
-    }
-
 }

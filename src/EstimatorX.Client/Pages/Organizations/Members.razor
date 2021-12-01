@@ -1,4 +1,4 @@
-﻿@page "/organizations/{id}/members"
+@page "/organizations/{id}/members"
 
 @using Blazored.FluentValidation
 @using EstimatorX.Client.Components.Organizations
@@ -8,7 +8,6 @@
 @using EstimatorX.Client.Stores
 @using EstimatorX.Shared.Extensions
 @using EstimatorX.Shared.Models
-@using MediatR.CommandQuery.Queries
 @using Microsoft.AspNetCore.Authorization
 
 
@@ -149,7 +148,7 @@
 
         try
         {
-            Organization = await OrganizationRepository.Get(Id);
+            Organization = await OrganizationRepository.Load(Id);
             if (Organization == null)
                 Navigation.NavigateTo("/organizations");
 
@@ -203,7 +202,7 @@
         {
             IsBusy = true;
 
-            Organization = await OrganizationRepository.Update(Id, Organization);
+            Organization = await OrganizationRepository.Save(Organization);
             MemberList = Organization.Members;
 
             NotificationService.ShowSuccess($"Organization '{Organization.Name}' saved successfully");
@@ -220,41 +219,26 @@
         }
     }
 
-    protected async Task<IEnumerable<UserModel>> SearchUsers(string searchText)
+    protected async Task<IEnumerable<UserSummary>> SearchUsers(string searchText)
     {
         try
         {
-            var filter = UserSearchFilter(searchText);
-            var sort = EntitySort.Parse($"{nameof(UserModel.Name)}:asc");
+            var query = new QueryRequest
+            {
+                PageSize = 100,
+                Search = searchText,
+                Sort = nameof(UserModel.Name)
+            };
 
-            var select = new EntitySelect(filter, sort);
+            var result = await UserRepository.Search(query);
 
-            var result = await UserRepository.Select(select);
-
-            return result;
+            return result.Data;
         }
         catch (Exception ex)
         {
             NotificationService.ShowError(ex);
 
-            return Enumerable.Empty<UserModel>();
+            return Enumerable.Empty<UserSummary>();
         }
-    }
-
-    private EntityFilter UserSearchFilter(string searchText)
-    {
-        var entityFilter = new EntityFilter();
-
-        if (searchText.IsNullOrWhiteSpace())
-            return entityFilter;
-
-        entityFilter.Logic = EntityFilterLogic.Or;
-        entityFilter.Filters = new List<EntityFilter>
-        {
-            new EntityFilter{ Name = nameof(UserModel.Name), Value = searchText, Operator = EntityFilterOperators.Contains },
-            new EntityFilter{ Name = nameof(UserModel.Email), Value = searchText, Operator = EntityFilterOperators.Contains }
-        };
-
-        return entityFilter;
     }
 }

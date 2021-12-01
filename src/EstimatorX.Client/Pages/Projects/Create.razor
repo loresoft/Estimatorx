@@ -1,9 +1,109 @@
-﻿@page "/projects/create"
+@page "/projects/create"
+
+@using Blazored.FluentValidation
+@using EstimatorX.Client.Components.Projects
+@using EstimatorX.Client.Extensions
+@using EstimatorX.Client.Repositories
+@using EstimatorX.Client.Services
+@using EstimatorX.Client.Stores
+@using EstimatorX.Shared.Extensions
+@using EstimatorX.Shared.Models
 @using Microsoft.AspNetCore.Authorization
+
 @attribute [Authorize]
 
-<h3>Project Create</h3>
+@inject ProjectStore ProjectStore
+@inject UserStore UserStore
+@inject ProjectRepository ProjectRepository
+@inject NotificationService NotificationService
+@inject NavigationManager Navigation
 
+<div class="container-lg">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/projects">Projects</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Create
+            </li>
+        </ol>
+    </nav>
+    <div class="card mb-5">
+        <div class="card-header">
+            <i class="fas fa-user mr-2"
+               aria-hidden="true"></i> Project Create
+        </div>
+        <div class="card-body">
+            <EditForm Model="@Project" OnValidSubmit="@HandleSave">
+                <FluentValidationValidator />
+                <div class="row">
+                    <div class="col">
+                        <ValidationSummary />
+                    </div>
+                </div>
+
+                <ProjectDetailForm Project="Project" />
+
+                <div class="row">
+                    <div class="col">
+                        <BusyButton id="save-button"
+                                    type="submit"
+                                    Busy="IsBusy"
+                                    class="btn btn-primary">
+                            <BusyTemplate>
+                                <span class='spinner-border spinner-border-sm'></span> Saving...
+                            </BusyTemplate>
+                            <ChildContent>
+                                Save
+                            </ChildContent>
+                        </BusyButton>
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+            </EditForm>
+
+        </div>
+    </div>
+</div>
 @code {
+    private ProjectModel Project { get; set; }
 
+    private bool IsBusy { get; set; }
+
+    private int OriginalHash { get; set; }
+
+    private bool IsDiry => OriginalHash != Project.GetHashCode();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Project = new ProjectModel();
+        OriginalHash = Project.GetHashCode();
+    }
+
+    protected async Task HandleSave()
+    {
+        try
+        {
+            IsBusy = true;
+            var result = await ProjectRepository.Save(Project);
+
+            NotificationService.ShowSuccess($"Project '{result.Name}' saved successfully");
+            Navigation.NavigateTo($"/projects/{result.Id}");
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
 }

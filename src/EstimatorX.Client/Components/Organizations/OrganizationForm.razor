@@ -1,4 +1,4 @@
-﻿@using Blazored.FluentValidation
+@using Blazored.FluentValidation
 @using EstimatorX.Client.Extensions
 @using EstimatorX.Client.Repositories
 @using EstimatorX.Client.Services
@@ -100,7 +100,7 @@
         {
             if (IsUpdate)
             {
-                Organization = await OrganizationRepository.Get(Id);
+                Organization = await OrganizationRepository.Load(Id);
                 if (Organization == null)
                     Navigation.NavigateTo("/organizations");
 
@@ -133,10 +133,7 @@
         try
         {
             IsBusy = true;
-            Organization = IsUpdate
-                ? await OrganizationRepository.Update(Id, Organization)
-                : await OrganizationRepository.Create(Organization);
-
+            Organization = await OrganizationRepository.Save(Organization);
             OriginalHash = Organization.GetHashCode();
 
             NotificationService.ShowSuccess($"Organization '{Organization.Name}' saved successfully");

@@ -1,4 +1,4 @@
-﻿
+
 using EstimatorX.Shared.Models;
 
 using FluentValidation;
@@ -10,5 +10,6 @@ public class ProjectModelValidator : AbstractValidator<ProjectModel>
     public ProjectModelValidator()
     {
         RuleFor(p => p.Name).NotEmpty();
+        RuleFor(p => p.OrganizationId).NotEmpty();
     }
 }

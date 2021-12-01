@@ -17,7 +17,6 @@
     <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
     <PackageReference Include="Sotsera.Blazor.Toaster" Version="3.0.0" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.14" />
     <PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
   </ItemGroup>
 
@@ -27,6 +26,10 @@
 
   <ItemGroup>
     <TrimmerRootAssembly Include="Microsoft.Authentication.WebAssembly.Msal" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\Templates\" />
   </ItemGroup>
 
 </Project>

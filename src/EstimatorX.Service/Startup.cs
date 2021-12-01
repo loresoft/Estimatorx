@@ -1,16 +1,17 @@
-﻿
+
 using EstimatorX.Core.Options;
+using EstimatorX.Service.Middleware;
+using EstimatorX.Shared.Definitions;
 
 using FluentValidation.AspNetCore;
 
-using KickStart;
-
-using MediatR.CommandQuery.Mvc;
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
+
+using SendGrid.Extensions.DependencyInjection;
 
 namespace EstimatorX.Service;
 
@@ -25,13 +26,42 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        services.Scan(scan => scan
+            .FromAssembliesOf(typeof(Startup), typeof(HostingConfiguration))
+                .AddClasses(classes => classes.AssignableTo<ITransientService>())
+                    .AsSelfWithInterfaces()
+                    .WithTransientLifetime()
+                .AddClasses(classes => classes.AssignableTo<IScopedService>())
+                    .AsSelfWithInterfaces()
+                    .WithScopedLifetime()
+                .AddClasses(classes => classes.AssignableTo<ISingletonService>())
+                    .AsSelfWithInterfaces()
+                    .WithSingletonLifetime()
+        );
+
+        services.AddMemoryCache();
+        services.AddCosmosRepository();
+
+        services.AddSendGrid((serviceProvider, options) =>
+        {
+            var configuration = serviceProvider.GetRequiredService<IOptions<SendGridConfiguration>>();
+            options.ApiKey = configuration.Value.ApiKey;
+        });
+
+        services.AddAutoMapper(typeof(HostingConfiguration).Assembly);
+
         services
-            .KickStart(c => c
-                .IncludeAssemblyFor<ConfigurationDependencyRegistration>()
-                .IncludeAssemblyFor<Startup>()
-                .Data(ConfigurationDependencyRegistration.ConfigurationKey, Configuration)
-                .Data("hostProcess", "web")
-                .UseStartupTask()
+            .AddOptions<HostingConfiguration>()
+            .Configure<IConfiguration>((settings, configuration) => configuration
+                .GetSection(HostingConfiguration.ConfigurationName)
+                .Bind(settings)
+            );
+
+        services
+            .AddOptions<SendGridConfiguration>()
+            .Configure<IConfiguration>((settings, configuration) => configuration
+                .GetSection(SendGridConfiguration.ConfigurationName)
+                .Bind(settings)
             );
 
         services

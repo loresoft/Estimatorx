@@ -1,8 +1,10 @@
-﻿using Cosmos.Abstracts;
+using Cosmos.Abstracts;
+
+using EstimatorX.Shared.Definitions;
 
 namespace EstimatorX.Core.Entities;
 
-public class Template : EntityBase
+public class Template : EntityBase, IHaveOrganization
 {
     public string Name { get; set; }
 

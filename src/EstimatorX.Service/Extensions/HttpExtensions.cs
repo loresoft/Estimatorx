@@ -1,4 +1,4 @@
-﻿using EstimatorX.Shared.Models;
+using EstimatorX.Shared.Models;
 
 using UAParser;
 
@@ -6,10 +6,10 @@ namespace EstimatorX.Service.Extensions;
 
 public static class HttpExtensions
 {
-    public static T UserAgent<T>(this HttpRequest httpRequest)
+    public static T GetBrowserData<T>(this HttpRequest httpRequest)
         where T : BrowserDetail, new()
     {
-        var model = new T();
+        var model = new T { Created = DateTimeOffset.UtcNow };
 
         if (httpRequest == null)
             return model;

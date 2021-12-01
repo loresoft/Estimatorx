@@ -13,4 +13,5 @@ public class BrowserDetail
 
     public string IpAddress { get; set; }
 
+    public DateTimeOffset? Created { get; set; }
 }

@@ -1,11 +1,10 @@
-﻿using System.Net.Http;
 
 using EstimatorX.Client.Services;
 using EstimatorX.Shared.Models;
 
 namespace EstimatorX.Client.Repositories;
 
-public class UserRepository : RepositoryBase<UserModel>
+public class UserRepository : RepositoryBase<UserModel, UserSummary>
 {
     public UserRepository(GatewayClient gateway) : base(gateway)
     {

@@ -1,19 +1,15 @@
-﻿
-using EstimatorX.Core.Commands;
-using EstimatorX.Shared.Extensions;
+using EstimatorX.Core.Services;
+using EstimatorX.Service.Extensions;
 using EstimatorX.Shared.Models;
-
-using MediatR;
-using MediatR.CommandQuery.Mvc;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EstimatorX.Service.Controllers;
 
-public class UserController : EntityCommandControllerBase<string, UserModel, UserModel, UserModel, UserModel>
+public class UserController : ServiceControllerBase<UserService, UserModel, UserSummary>
 {
-    public UserController(IMediator mediator) : base(mediator)
+    public UserController(UserService service) : base(service)
     {
     }
 
@@ -21,27 +17,11 @@ public class UserController : EntityCommandControllerBase<string, UserModel, Use
     [AllowAnonymous]
     public async Task<ActionResult<UserModel>> Me(CancellationToken cancellationToken)
     {
-        if (User.Identity?.IsAuthenticated != true)
-            return Ok(new UserModel());
+        var browserDetails = Request.GetBrowserData<BrowserDetail>();
 
-        var userId = User.GetUserId();
-        if (userId == null)
-            return Ok(new UserModel());
+        var user = await Service.Login(browserDetails, User, cancellationToken);
 
-        var user = new UserModel();
-        user.Id = userId;
-        user.Name = User.GetName();
-        user.Email = User.GetEmail();
-        user.Provider = User.GetProvider();
-
-        var command = new UserUpdateCommand(User, userId, user);
-        var model = await Mediator.Send(command, cancellationToken);
-
-        return Ok(model);
+        return Ok(user);
     }
 
-    public override Task<ActionResult<UserModel>> Create(CancellationToken cancellationToken, UserModel createModel)
-    {
-        return base.Create(cancellationToken, createModel);
-    }
 }
