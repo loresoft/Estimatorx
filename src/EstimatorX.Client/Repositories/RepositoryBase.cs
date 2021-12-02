@@ -61,17 +61,19 @@ public abstract class RepositoryBase<TModel, TSummary>
         return result;
     }
 
-    public async Task<TModel> Delete(string id)
+    public async Task Delete(string id)
     {
         if (id is null)
             throw new ArgumentNullException(nameof(id));
 
-        var result = await Gateway.DeleteAsync<TModel>(b => b
+        var result = await Gateway.DeleteAsync(b => b
             .AppendPath(GetBasePath())
             .AppendPath(id)
         );
 
-        return result;
+        result.EnsureSuccessStatusCode();
+
+        return;
     }
 
 
