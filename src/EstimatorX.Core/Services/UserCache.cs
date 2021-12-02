@@ -17,7 +17,7 @@ public class UserCache : IUserCache, ISingletonService
         _userRepository = userRepository;
     }
 
-    public async Task<Entities.User> GetCachedUser(string userId, CancellationToken cancellationToken = default)
+    public async Task<Entities.User> Get(string userId, CancellationToken cancellationToken = default)
     {
         var key = CreateKey(userId);
 
@@ -28,13 +28,13 @@ public class UserCache : IUserCache, ISingletonService
         });
     }
 
-    public void RemoveCachedUser(string userId)
+    public void Clear(string userId)
     {
         var key = CreateKey(userId);
         _memoryCache.Remove(key);
     }
 
-    protected virtual string CreateKey(string userId)
+    public static string CreateKey(string userId)
     {
         return $"global::user:{userId}";
     }

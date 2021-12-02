@@ -2,10 +2,6 @@ using System.Security.Principal;
 
 using AutoMapper;
 
-using Azure.Core;
-
-using Cosmos.Abstracts;
-
 using EstimatorX.Core.Comparison;
 using EstimatorX.Core.Entities;
 using EstimatorX.Core.Query;
@@ -15,8 +11,6 @@ using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
 using Microsoft.Extensions.Logging;
-
-using Newtonsoft.Json.Linq;
 
 namespace EstimatorX.Core.Services;
 

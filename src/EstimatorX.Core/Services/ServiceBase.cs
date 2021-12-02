@@ -61,7 +61,7 @@ public abstract class ServiceBase<TRepository, TModel> : IService<TModel>
         string userId = principal.GetUserId();
 
         return userId.HasValue()
-            ? await UserCache.GetCachedUser(userId, cancellationToken)
+            ? await UserCache.Get(userId, cancellationToken)
             : default;
     }
 }
