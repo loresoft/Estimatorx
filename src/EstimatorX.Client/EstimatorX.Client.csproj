@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Blazored.FluentValidation" Version="2.0.3" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.1.5" />
-    <PackageReference Include="FluentRest" Version="8.0.282" />
+    <PackageReference Include="FluentRest" Version="9.0.295" />
     <PackageReference Include="LoreSoft.Blazor.Controls" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0" PrivateAssets="all" />
