@@ -22,11 +22,11 @@ public class UserService : ServiceBase<IUserRepository, UserModel>, IUserService
     {
     }
 
-    public override async Task Delete(string id, IPrincipal principal, CancellationToken cancellationToken)
+    public override async Task Delete(string id, string partitionKey, IPrincipal principal, CancellationToken cancellationToken)
     {
         string userId = principal.GetUserId();
 
-        var user = await Repository.FindAsync(id, cancellationToken: cancellationToken);
+        var user = await Repository.FindAsync(id, partitionKey, cancellationToken);
         if (user == null)
             return;
 
@@ -36,9 +36,9 @@ public class UserService : ServiceBase<IUserRepository, UserModel>, IUserService
         await Repository.DeleteAsync(id, cancellationToken: cancellationToken);
     }
 
-    public override async Task<UserModel> Load(string id, IPrincipal principal, CancellationToken cancellationToken)
+    public override async Task<UserModel> Load(string id, string partitionKey, IPrincipal principal, CancellationToken cancellationToken)
     {
-        var user = await Repository.FindAsync(id, cancellationToken: cancellationToken);
+        var user = await Repository.FindAsync(id, partitionKey, cancellationToken);
         if (user == null)
             return null; // throw NotFound?
 

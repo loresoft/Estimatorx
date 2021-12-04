@@ -75,7 +75,7 @@
                     <DataColumns>
                         <DataColumn TItem="TemplateSummary" Property="p => p.Name" Width="250px" SortIndex="0">
                             <Template Context="item">
-                                <a href="/templates/@item.Id" class="d-block" title="@item.Name">@item.Name</a>
+                                <a href="/templates/@item.Id/@item.OrganizationId" class="d-block" title="@item.Name">@item.Name</a>
                             </Template>
                         </DataColumn>
                         <DataColumn TItem="TemplateSummary" Property="p => p.Description" />

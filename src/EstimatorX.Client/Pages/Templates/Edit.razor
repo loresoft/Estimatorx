@@ -1,5 +1,19 @@
-﻿@page "/templates/{id}"
+@page "/templates/{id}/{organizationId}"
+@using Blazored.FluentValidation
+@using EstimatorX.Client.Extensions
+@using EstimatorX.Client.Repositories
+@using EstimatorX.Client.Services
+@using EstimatorX.Client.Stores
+@using EstimatorX.Shared.Extensions
+@using EstimatorX.Shared.Models
 @using Microsoft.AspNetCore.Authorization
+
+@inject NavigationManager Navigation
+@inject TemplateRepository TemplateRepository
+@inject NotificationService NotificationService
+@inject UserStore UserStore
+@inject IJSRuntime JSRuntime
+
 @attribute [Authorize]
 
 <h3>Template Edit</h3>
@@ -7,5 +21,80 @@
 @code {
     [Parameter]
     public string Id { get; set; }
+
+    [Parameter]
+    public string OrganizationId { get; set; }
+
+    private TemplateModel Template { get; set; } = new();
+
+    private bool IsUpdate => Id.HasValue();
+
+    private bool IsBusy { get; set; }
+
+    private int OriginalHash { get; set; }
+
+    private bool IsDiry => OriginalHash != Template.GetHashCode();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Template = await TemplateRepository.Load(Id, OrganizationId);
+            if (Template == null)
+                Navigation.NavigateTo("/templates");
+
+            OriginalHash = Template.GetHashCode();
+            return;
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+    }
+
+    protected async Task HandleSave()
+    {
+        try
+        {
+            IsBusy = true;
+            Template = await TemplateRepository.Save(Template);
+            OriginalHash = Template.GetHashCode();
+
+            NotificationService.ShowSuccess($"Template '{Template.Name}' saved successfully");
+            Navigation.NavigateTo($"/templates/{Template.Id}/{Template.OrganizationId}");
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    protected async Task HandleDelete()
+    {
+        try
+        {
+            if (!await JSRuntime.Confirm($"Are you sure you want to delete '{Template.Name}'?"))
+                return;
+
+            IsBusy = true;
+
+            await TemplateRepository.Delete(Id);
+
+            NotificationService.ShowSuccess($"Template '{Template.Name}' deleted successfully");
+            Navigation.NavigateTo("/templates");
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
 
 }

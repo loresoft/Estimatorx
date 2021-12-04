@@ -12,6 +12,6 @@ public class TemplateRepository : RepositoryBase<TemplateModel, TemplateSummary>
 
     protected override string GetBasePath()
     {
-        return "/api/Template";
+        return "/api/template";
     }
 }

@@ -12,6 +12,6 @@ public class OrganizationRepository : RepositoryBase<OrganizationModel, Organiza
 
     protected override string GetBasePath()
     {
-        return "/api/Organization";
+        return "/api/organization";
     }
 }

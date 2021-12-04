@@ -127,7 +127,7 @@
     private ICollection<OrganizationMember> MemberList { get; set; }
 
 
-    private UserModel SelectedUser { get; set; }
+    private UserSummary SelectedUser { get; set; }
 
 
     private bool IsBusy { get; set; }
@@ -188,8 +188,15 @@
     protected async Task HandleAddUser()
     {
         // prevent duplicate
-        if (SelectedUser == null || Organization.Members.Any(m => m.Id == SelectedUser.Id))
+        if (SelectedUser == null)
             return;
+
+        if (Organization.Members.Any(m => m.Id == SelectedUser.Id))
+        {
+            NotificationService.ShowError($"User '{SelectedUser.Name}' already a member of '{Organization.Name}'");
+
+            return;
+        }
 
         Organization.Members.Add(new OrganizationMember { Id = SelectedUser.Id, Name = SelectedUser.Name });
         await HandleSave();
@@ -224,11 +231,11 @@
         try
         {
             var query = new QueryRequest
-            {
-                PageSize = 100,
-                Search = searchText,
-                Sort = nameof(UserModel.Name)
-            };
+                {
+                    PageSize = 100,
+                    Search = searchText,
+                    Sort = nameof(UserModel.Name)
+                };
 
             var result = await UserRepository.Search(query);
 

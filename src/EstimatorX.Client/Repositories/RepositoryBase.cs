@@ -17,7 +17,7 @@ public abstract class RepositoryBase<TModel, TSummary>
     protected GatewayClient Gateway { get; }
 
 
-    public async Task<TModel> Load(string id)
+    public async Task<TModel> Load(string id, string partitionKey = null)
     {
         if (id is null)
             throw new ArgumentNullException(nameof(id));
@@ -25,6 +25,7 @@ public abstract class RepositoryBase<TModel, TSummary>
         var result = await Gateway.GetAsync<TModel>(b => b
             .AppendPath(GetBasePath())
             .AppendPath(id)
+            .AppendPathIf(partitionKey.HasValue, partitionKey)
         );
 
         return result;
@@ -61,7 +62,7 @@ public abstract class RepositoryBase<TModel, TSummary>
         return result;
     }
 
-    public async Task Delete(string id)
+    public async Task Delete(string id, string partitionKey = null)
     {
         if (id is null)
             throw new ArgumentNullException(nameof(id));
@@ -69,6 +70,7 @@ public abstract class RepositoryBase<TModel, TSummary>
         var result = await Gateway.DeleteAsync(b => b
             .AppendPath(GetBasePath())
             .AppendPath(id)
+            .AppendPathIf(partitionKey.HasValue, partitionKey)
         );
 
         result.EnsureSuccessStatusCode();

@@ -12,6 +12,6 @@ public class UserRepository : RepositoryBase<UserModel, UserSummary>
 
     protected override string GetBasePath()
     {
-        return "/api/User";
+        return "/api/user";
     }
 }

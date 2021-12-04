@@ -1,5 +1,20 @@
-﻿@page "/projects/{id}"
+@page "/projects/{id}/{organizationId}"
+
+@using Blazored.FluentValidation
+@using EstimatorX.Client.Extensions
+@using EstimatorX.Client.Repositories
+@using EstimatorX.Client.Services
+@using EstimatorX.Client.Stores
+@using EstimatorX.Shared.Extensions
+@using EstimatorX.Shared.Models
 @using Microsoft.AspNetCore.Authorization
+
+@inject NavigationManager Navigation
+@inject ProjectRepository ProjectRepository
+@inject NotificationService NotificationService
+@inject UserStore UserStore
+@inject IJSRuntime JSRuntime
+
 @attribute [Authorize]
 
 <h3>Project Edit</h3>
@@ -7,5 +22,80 @@
 @code {
     [Parameter]
     public string Id { get; set; }
+
+    [Parameter]
+    public string OrganizationId { get; set; }
+
+    private ProjectModel Project { get; set; } = new();
+
+    private bool IsUpdate => Id.HasValue();
+
+    private bool IsBusy { get; set; }
+
+    private int OriginalHash { get; set; }
+
+    private bool IsDiry => OriginalHash != Project.GetHashCode();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Project = await ProjectRepository.Load(Id, OrganizationId);
+            if (Project == null)
+                Navigation.NavigateTo("/projects");
+
+            OriginalHash = Project.GetHashCode();
+            return;
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+    }
+
+    protected async Task HandleSave()
+    {
+        try
+        {
+            IsBusy = true;
+            Project = await ProjectRepository.Save(Project);
+            OriginalHash = Project.GetHashCode();
+
+            NotificationService.ShowSuccess($"Project '{Project.Name}' saved successfully");
+            Navigation.NavigateTo($"/projects/{Project.Id}/{Project.OrganizationId}");
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    protected async Task HandleDelete()
+    {
+        try
+        {
+            if (!await JSRuntime.Confirm($"Are you sure you want to delete '{Project.Name}'?"))
+                return;
+
+            IsBusy = true;
+
+            await ProjectRepository.Delete(Id);
+
+            NotificationService.ShowSuccess($"Project '{Project.Name}' deleted successfully");
+            Navigation.NavigateTo("/projects");
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
 
 }

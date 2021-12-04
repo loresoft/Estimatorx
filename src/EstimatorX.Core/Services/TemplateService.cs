@@ -1,9 +1,7 @@
-using System.Security.Principal;
 
 using AutoMapper;
 
 using EstimatorX.Core.Entities;
-using EstimatorX.Core.Query;
 using EstimatorX.Core.Repositories;
 using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Extensions;

@@ -12,6 +12,6 @@ public class ProjectRepository : RepositoryBase<ProjectModel, ProjectSummary>
 
     protected override string GetBasePath()
     {
-        return "/api/Project";
+        return "/api/project";
     }
 }

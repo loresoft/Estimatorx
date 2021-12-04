@@ -24,7 +24,7 @@ public class OrganizationService : ServiceBase<IOrganizationRepository, Organiza
         _userRepository = userRepository;
     }
 
-    public override async Task Delete(string id, IPrincipal principal, CancellationToken cancellationToken)
+    public override async Task Delete(string id, string partitionKey, IPrincipal principal, CancellationToken cancellationToken)
     {
         string userId = principal.GetUserId();
 
@@ -34,7 +34,7 @@ public class OrganizationService : ServiceBase<IOrganizationRepository, Organiza
         await RemoveMembers(id, principal, cancellationToken);
     }
 
-    public override async Task<OrganizationModel> Load(string id, IPrincipal principal, CancellationToken cancellationToken)
+    public override async Task<OrganizationModel> Load(string id, string partitionKey, IPrincipal principal, CancellationToken cancellationToken)
     {
         var currentUser = await CurrentUser(principal, cancellationToken);
         if (currentUser == null)
@@ -44,7 +44,7 @@ public class OrganizationService : ServiceBase<IOrganizationRepository, Organiza
         if (!currentUser.Organizations.Any(o => o.Id == id))
             throw new DomainException(System.Net.HttpStatusCode.Unauthorized, "Not authorized to load this organization");
 
-        var organization = await Repository.FindAsync(id, cancellationToken: cancellationToken);
+        var organization = await Repository.FindAsync(id, partitionKey, cancellationToken);
         if (organization == null)
             return null; // throw NotFound?
 

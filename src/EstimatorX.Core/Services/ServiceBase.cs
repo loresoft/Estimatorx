@@ -30,9 +30,9 @@ public abstract class ServiceBase<TRepository, TModel> : IService<TModel>
     protected IUserCache UserCache { get; }
 
 
-    public abstract Task Delete(string id, IPrincipal principal, CancellationToken cancellationToken);
+    public abstract Task Delete(string id, string partitionKey, IPrincipal principal, CancellationToken cancellationToken);
 
-    public abstract Task<TModel> Load(string id, IPrincipal principal, CancellationToken cancellationToken);
+    public abstract Task<TModel> Load(string id, string partitionKey, IPrincipal principal, CancellationToken cancellationToken);
 
     public abstract Task<TModel> Save(TModel model, IPrincipal principal, CancellationToken cancellationToken);
 

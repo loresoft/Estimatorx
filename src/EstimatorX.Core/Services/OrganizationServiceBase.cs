@@ -1,4 +1,4 @@
-﻿using System.Security.Principal;
+using System.Security.Principal;
 
 using AutoMapper;
 
@@ -25,9 +25,9 @@ public abstract class OrganizationServiceBase<TRepository, TEntity, TModel> : Se
 
     }
 
-    public override async Task Delete(string id, IPrincipal principal, CancellationToken cancellationToken)
+    public override async Task Delete(string id, string partitionKey, IPrincipal principal, CancellationToken cancellationToken)
     {
-        var entity = await Repository.FindAsync(id, cancellationToken: cancellationToken);
+        var entity = await Repository.FindAsync(id, partitionKey, cancellationToken: cancellationToken);
         if (entity == null)
             return;
 
@@ -37,9 +37,9 @@ public abstract class OrganizationServiceBase<TRepository, TEntity, TModel> : Se
         await Repository.DeleteAsync(id, cancellationToken: cancellationToken);
     }
 
-    public override async Task<TModel> Load(string id, IPrincipal principal, CancellationToken cancellationToken)
+    public override async Task<TModel> Load(string id, string partitionKey, IPrincipal principal, CancellationToken cancellationToken)
     {
-        var entity = await Repository.FindAsync(id, cancellationToken: cancellationToken);
+        var entity = await Repository.FindAsync(id, partitionKey, cancellationToken: cancellationToken);
         if (entity == null)
             return null; // throw NotFound?
 
@@ -99,7 +99,7 @@ public abstract class OrganizationServiceBase<TRepository, TEntity, TModel> : Se
             return true; // allow create
 
         // user must be member 
-        return entity.OrganizationId == user.Id
+        return entity.OrganizationId == user.PrivateKey
             || user.Organizations.Any(o => o.Id == entity.OrganizationId);
     }
 

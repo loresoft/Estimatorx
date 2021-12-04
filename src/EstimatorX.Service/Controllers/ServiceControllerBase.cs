@@ -1,4 +1,4 @@
-﻿using System.Net.Mime;
+using System.Net.Mime;
 
 using EstimatorX.Core.Services;
 using EstimatorX.Shared.Models;
@@ -22,22 +22,22 @@ public class ServiceControllerBase<TService, TModel, TList> : ControllerBase
     protected TService Service { get; }
 
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id}/{partitionKey}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
-    public virtual async Task<ActionResult> Delete(CancellationToken cancellationToken, [FromRoute] string id)
+    public virtual async Task<ActionResult> Delete(CancellationToken cancellationToken, [FromRoute] string id, [FromRoute ] string partitionKey = null)
     {
-        await Service.Delete(id, User, cancellationToken);
+        await Service.Delete(id, partitionKey, User, cancellationToken);
 
         return NoContent();
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}/{partitionKey}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
-    public virtual async Task<ActionResult<TModel>> Load(CancellationToken cancellationToken, [FromRoute] string id)
+    public virtual async Task<ActionResult<TModel>> Load(CancellationToken cancellationToken, [FromRoute] string id, [FromRoute] string partitionKey = null)
     {
-        var result = await Service.Load(id, User, cancellationToken);
+        var result = await Service.Load(id, partitionKey, User, cancellationToken);
 
         return Ok(result);
     }
