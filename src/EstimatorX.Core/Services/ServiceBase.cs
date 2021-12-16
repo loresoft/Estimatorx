@@ -2,7 +2,6 @@ using System.Security.Principal;
 
 using AutoMapper;
 
-using EstimatorX.Core.Entities;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
@@ -34,13 +33,15 @@ public abstract class ServiceBase<TRepository, TModel> : IService<TModel>
 
     public abstract Task<TModel> Load(string id, string partitionKey, IPrincipal principal, CancellationToken cancellationToken);
 
-    public abstract Task<TModel> Save(TModel model, IPrincipal principal, CancellationToken cancellationToken);
+    public abstract Task<TModel> Save(string id, string partitionKey, TModel model, IPrincipal principal, CancellationToken cancellationToken);
+
+    public abstract Task<TModel> Create(TModel model, IPrincipal principal, CancellationToken cancellationToken);
 
     public abstract Task<QueryResult<TResult>> Search<TResult>(QueryRequest queryModel, IPrincipal principal, CancellationToken cancellationToken);
 
 
     protected T UpdateTracking<T>(T model, IPrincipal principal)
-        where T : EntityBase
+        where T : ModelBase
     {
         string userName = principal.GetEmail();
 
@@ -64,4 +65,5 @@ public abstract class ServiceBase<TRepository, TModel> : IService<TModel>
             ? await UserCache.Get(userId, cancellationToken)
             : default;
     }
+
 }

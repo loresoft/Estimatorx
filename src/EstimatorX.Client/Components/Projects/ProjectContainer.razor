@@ -1,0 +1,83 @@
+@using EstimatorX.Client.Components.Projects
+
+<div class="container-lg">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/projects">Projects</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Edit
+            </li>
+        </ol>
+    </nav>
+
+    @if (ProjectStore.Model == null)
+    {
+        <div class="card mb-5">
+            <div class="card-header">
+                <i class="fas fa-user me-2"
+               aria-hidden="true"></i> Project Edit - Loading ...
+            </div>
+            <div class="card-body">
+                <Loading />
+            </div>
+        </div>
+    }
+    else
+    {
+        <EditForm Model="@ProjectStore.Model" OnValidSubmit="@HandleSave">
+            <FluentValidationValidator />
+
+            <div class="card mb-5">
+                <div class="card-header">
+                    <i class="fas fa-user me-2"
+                   aria-hidden="true"></i> Project Edit - @ProjectStore.Model?.Name
+                    <ProjectTabs />
+                </div>
+                <div class="card-body p-0">
+
+                    <div class="row">
+                        <div class="col">
+                            <ValidationSummary />
+                        </div>
+                    </div>
+
+                    @ChildContent
+
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col">
+                            <BusyButton id="save-button"
+                                    type="submit"
+                                    Busy="ProjectStore.IsBusy"
+                                    class="btn btn-primary">
+                                <BusyTemplate>
+                                    <span class='spinner-border spinner-border-sm'></span> Saving...
+                                </BusyTemplate>
+                                <ChildContent>
+                                    Save
+                                </ChildContent>
+                            </BusyButton>
+                        </div>
+                        <div class="col">
+                            <button id="delete-button"
+                                type="button"
+                                @onclick="HandleDelete"
+                                disabled="@ProjectStore.IsBusy"
+                                class="btn btn-danger fa-pull-right">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    }
+</div>
+
+

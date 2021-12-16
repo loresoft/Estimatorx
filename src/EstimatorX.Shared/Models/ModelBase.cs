@@ -3,7 +3,7 @@ using EstimatorX.Shared.Definitions;
 
 namespace EstimatorX.Shared.Models;
 
-public class ModelBase : IHaveIdentifier<string>, ITrackCreated, ITrackUpdated
+public class ModelBase : IHaveIdentifier, ITrackCreated, ITrackUpdated
 {
     public string Id { get; set; }
 

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EstimatorX.Service.Controllers;
 
-public class UserController : ServiceControllerBase<UserService, UserModel, UserSummary>
+public class UserController : ServiceControllerBase<UserService, User, UserSummary>
 {
     public UserController(UserService service) : base(service)
     {
@@ -15,7 +15,7 @@ public class UserController : ServiceControllerBase<UserService, UserModel, User
 
     [HttpGet("me")]
     [AllowAnonymous]
-    public async Task<ActionResult<UserModel>> Me(CancellationToken cancellationToken)
+    public async Task<ActionResult<UserProfile>> Me(CancellationToken cancellationToken)
     {
         var browserDetails = Request.GetBrowserData<BrowserDetail>();
 

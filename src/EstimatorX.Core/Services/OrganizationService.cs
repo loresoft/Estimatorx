@@ -3,7 +3,6 @@ using System.Security.Principal;
 using AutoMapper;
 
 using EstimatorX.Core.Comparison;
-using EstimatorX.Core.Entities;
 using EstimatorX.Core.Query;
 using EstimatorX.Core.Repositories;
 using EstimatorX.Shared.Definitions;
@@ -14,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EstimatorX.Core.Services;
 
-public class OrganizationService : ServiceBase<IOrganizationRepository, OrganizationModel>, IOrganizationService, ITransientService
+public class OrganizationService : ServiceBase<IOrganizationRepository, Organization>, IOrganizationService, ITransientService
 {
     private readonly IUserRepository _userRepository;
 
@@ -34,30 +33,30 @@ public class OrganizationService : ServiceBase<IOrganizationRepository, Organiza
         await RemoveMembers(id, principal, cancellationToken);
     }
 
-    public override async Task<OrganizationModel> Load(string id, string partitionKey, IPrincipal principal, CancellationToken cancellationToken)
+    public override async Task<Organization> Load(string id, string partitionKey, IPrincipal principal, CancellationToken cancellationToken)
     {
         var currentUser = await CurrentUser(principal, cancellationToken);
         if (currentUser == null)
-            return null; // throw Unauthorized?
+            throw new DomainException(System.Net.HttpStatusCode.Unauthorized, "Could not load current user");
 
         // user must be member
         if (!currentUser.Organizations.Any(o => o.Id == id))
-            throw new DomainException(System.Net.HttpStatusCode.Unauthorized, "Not authorized to load this organization");
+            throw new DomainException(System.Net.HttpStatusCode.Forbidden, "Not authorized to load this organization");
 
         var organization = await Repository.FindAsync(id, partitionKey, cancellationToken);
         if (organization == null)
-            return null; // throw NotFound?
+            return null;
 
-        return Mapper.Map<OrganizationModel>(organization);
+        return organization;
     }
 
-    public override async Task<OrganizationModel> Save(OrganizationModel model, IPrincipal principal, CancellationToken cancellationToken)
+    public override async Task<Organization> Save(string id, string partitionKey, Organization model, IPrincipal principal, CancellationToken cancellationToken)
     {
         string userId = principal.GetUserId();
 
         var organization = await Repository.FindAsync(model.Id, cancellationToken: cancellationToken);
         if (organization != null && !organization.Members.Any(m => m.IsOwner && m.Id == userId))
-            throw new DomainException(System.Net.HttpStatusCode.Unauthorized, "Not authorized to save this organization");
+            throw new DomainException(System.Net.HttpStatusCode.Forbidden, "Not authorized to save this organization");
 
         if (organization == null)
             organization = new Organization();
@@ -68,18 +67,36 @@ public class OrganizationService : ServiceBase<IOrganizationRepository, Organiza
 
         var result = await Repository.SaveAsync(organization, cancellationToken);
         if (result == null)
-            return null; // throw NotFound?
+            throw new DomainException(System.Net.HttpStatusCode.InternalServerError, "Failed to save organization");
 
         await UpdateMembers(result, principal, cancellationToken);
 
-        return Mapper.Map<OrganizationModel>(result);
+        return result;
+    }
+
+    public override async Task<Organization> Create(Organization model, IPrincipal principal, CancellationToken cancellationToken)
+    {
+        string userId = principal.GetUserId();
+        var organization = new Organization();
+
+        Mapper.Map(model, organization);
+
+        UpdateTracking(organization, principal);
+
+        var result = await Repository.CreateAsync(organization, cancellationToken);
+        if (result == null)
+            throw new DomainException(System.Net.HttpStatusCode.InternalServerError, "Failed to save organization");
+
+        await UpdateMembers(result, principal, cancellationToken);
+
+        return result;
     }
 
     public override async Task<QueryResult<TResult>> Search<TResult>(QueryRequest queryRequest, IPrincipal principal, CancellationToken cancellationToken)
     {
         var currentUser = await CurrentUser(principal, cancellationToken);
         if (currentUser == null)
-            return null; // throw ?
+            throw new DomainException(System.Net.HttpStatusCode.Unauthorized, "Could not load current user");
 
         // only return orgs user has access to
         var organizations = currentUser.Organizations
@@ -101,8 +118,8 @@ public class OrganizationService : ServiceBase<IOrganizationRepository, Organiza
         }
 
         return await securyQuery
-            .ToDataResult<Organization, TResult>(
-                config => config
+            .ToDataResult(
+                (QueryOptionsBuilder<Organization, TResult> config) => config
                     .Request(queryRequest)
                     .Mapper(Mapper.ConfigurationProvider),
                 cancellationToken
@@ -209,8 +226,9 @@ public class OrganizationService : ServiceBase<IOrganizationRepository, Organiza
             return null;
 
         if (!organization.Members.Any(m => m.IsOwner && m.Id == userId))
-            return null; // throw Unauthorized?
+            throw new DomainException(System.Net.HttpStatusCode.Forbidden, "Not authorized owner for this organization");
 
         return organization;
     }
+
 }

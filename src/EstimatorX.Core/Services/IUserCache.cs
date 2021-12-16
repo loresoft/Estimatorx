@@ -1,5 +1,5 @@
 
-using EstimatorX.Core.Entities;
+using EstimatorX.Shared.Models;
 
 namespace EstimatorX.Core.Services;
 

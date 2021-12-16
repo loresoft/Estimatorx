@@ -1,11 +1,6 @@
-using System.Security.Principal;
 
 using AutoMapper;
 
-using Cosmos.Abstracts;
-
-using EstimatorX.Core.Entities;
-using EstimatorX.Core.Query;
 using EstimatorX.Core.Repositories;
 using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Extensions;
@@ -15,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EstimatorX.Core.Services;
 
-public class ProjectService : OrganizationServiceBase<IProjectRepository, Project, ProjectModel>, IProjectService, ITransientService
+public class ProjectService : OrganizationServiceBase<IProjectRepository, Project>, IProjectService, ITransientService
 {
     public ProjectService(ILoggerFactory loggerFactory, IMapper mapper, IProjectRepository repository, IUserCache userCache)
         : base(loggerFactory, mapper, repository, userCache)

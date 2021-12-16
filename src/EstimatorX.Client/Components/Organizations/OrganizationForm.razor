@@ -84,7 +84,7 @@
     [Parameter]
     public string Id { get; set; }
 
-    private OrganizationModel Organization { get; set; } = new();
+    private Organization Organization { get; set; } = new();
 
     private bool IsUpdate => Id.HasValue();
 
@@ -133,7 +133,7 @@
         try
         {
             IsBusy = true;
-            Organization = await OrganizationRepository.Save(Organization);
+            Organization = await OrganizationRepository.Save(Organization, Id);
             OriginalHash = Organization.GetHashCode();
 
             NotificationService.ShowSuccess($"Organization '{Organization.Name}' saved successfully");

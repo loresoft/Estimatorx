@@ -2,21 +2,7 @@
 
 @using Blazored.FluentValidation
 @using EstimatorX.Client.Components.Projects
-@using EstimatorX.Client.Extensions
-@using EstimatorX.Client.Repositories
-@using EstimatorX.Client.Services
-@using EstimatorX.Client.Stores
-@using EstimatorX.Shared.Extensions
-@using EstimatorX.Shared.Models
-@using Microsoft.AspNetCore.Authorization
 
-@attribute [Authorize]
-
-@inject ProjectStore ProjectStore
-@inject UserStore UserStore
-@inject ProjectRepository ProjectRepository
-@inject NotificationService NotificationService
-@inject NavigationManager Navigation
 
 <div class="container-lg">
     <nav aria-label="breadcrumb">
@@ -40,19 +26,20 @@
         <div class="card-body">
             <EditForm Model="@Project" OnValidSubmit="@HandleSave">
                 <FluentValidationValidator />
+
                 <div class="row">
                     <div class="col">
                         <ValidationSummary />
                     </div>
                 </div>
 
-                <ProjectDetailForm Project="Project" />
+                <ProjectForm />
 
                 <div class="row">
                     <div class="col">
                         <BusyButton id="save-button"
                                     type="submit"
-                                    Busy="IsBusy"
+                                    Busy="ProjectStore.IsBusy"
                                     class="btn btn-primary">
                             <BusyTemplate>
                                 <span class='spinner-border spinner-border-sm'></span> Saving...
@@ -70,40 +57,4 @@
         </div>
     </div>
 </div>
-@code {
-    private ProjectModel Project { get; set; }
 
-    private bool IsBusy { get; set; }
-
-    private int OriginalHash { get; set; }
-
-    private bool IsDiry => OriginalHash != Project.GetHashCode();
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        Project = new ProjectModel();
-        OriginalHash = Project.GetHashCode();
-    }
-
-    protected async Task HandleSave()
-    {
-        try
-        {
-            IsBusy = true;
-            var result = await ProjectRepository.Save(Project);
-
-            NotificationService.ShowSuccess($"Project '{result.Name}' saved successfully");
-            Navigation.NavigateTo($"/projects/{result.Id}");
-        }
-        catch (Exception ex)
-        {
-            NotificationService.ShowError(ex);
-        }
-        finally
-        {
-            IsBusy = false;
-        }
-    }
-}

@@ -1,0 +1,55 @@
+<div class="row">
+    @if (Project != null)
+    {
+        <div class="col-8">
+            <div class="mb-3">
+                <label for="Name" class="form-label">
+                    Project Name: <span class="text-danger">*</span>
+                </label>
+                <InputText @bind-Value="Project.Name"
+                       DisplayName="Name"
+                       id="Name"
+                       name="Name"
+                       class="form-control"
+                       placeholder="Name" />
+                <ValidationMessage For="@(() => Project.Name)" />
+            </div>
+
+            <div class="mb-3">
+                <label for="Description" class="form-label">
+                    Project Description:
+                </label>
+                <InputTextArea @bind-Value="Project.Description"
+                           DisplayName="Description"
+                           id="Description"
+                           name="Description"
+                           class="form-control"
+                           placeholder="Description" />
+                <ValidationMessage For="@(() => Project.Description)" />
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="mb-3">
+                <label for="Organization" class="form-label">
+                    Organization: <span class="text-danger">*</span>
+                </label>
+                <InputSelect @bind-Value="Project.OrganizationId"
+                         DisplayName="Organization"
+                         id="Organization"
+                         name="Organization"
+                         class="form-select">
+                    <option value="">-- Select --</option>
+                    <option value="@UserStore.Model.PrivateKey">Private</option>
+                    @foreach (var organization in UserStore.Model.Organizations)
+                    {
+                        <option value="@organization.Id">@organization.Name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => Project.OrganizationId)" />
+            </div>
+        </div>
+    }
+</div>
+
+
+

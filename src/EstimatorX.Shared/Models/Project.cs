@@ -2,7 +2,7 @@ using EstimatorX.Shared.Definitions;
 
 namespace EstimatorX.Shared.Models;
 
-public class ProjectModel : ModelBase, IHaveOrganization
+public class Project : ModelBase, IHaveOrganization
 {
     public string Name { get; set; }
 
@@ -15,7 +15,22 @@ public class ProjectModel : ModelBase, IHaveOrganization
 
 
     public string SecurityKey { get; set; }
-        
+
+
+    public List<string> Assumptions { get; init; } = new();
+
+    public ProjectSettings Settings { get; init; } = new();
+
+    public List<EpicEstimate> Epics { get; init; } = new();
+
+
+    public int? EstimatedTotal { get; set; }
+
+    public int? WeightedTotal { get; set; }
+
+
+    public double? ProjectCost { get; set; }
+
 
     public override int GetHashCode()
     {
@@ -25,6 +40,9 @@ public class ProjectModel : ModelBase, IHaveOrganization
         hash.Add(Description);
         hash.Add(OrganizationId);
         hash.Add(SecurityKey);
+
+        foreach (var assumption in Assumptions)
+            hash.Add(assumption);
 
         return hash.ToHashCode();
     }

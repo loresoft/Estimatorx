@@ -10,6 +10,7 @@ namespace EstimatorX.Service.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
+[ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
 public class ServiceControllerBase<TService, TModel, TList> : ControllerBase
     where TService : IService<TModel>
 {
@@ -22,17 +23,17 @@ public class ServiceControllerBase<TService, TModel, TList> : ControllerBase
     protected TService Service { get; }
 
 
-    [HttpDelete("{id}/{partitionKey}")]
+    [HttpDelete("{id}/{partitionKey?}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
-    public virtual async Task<ActionResult> Delete(CancellationToken cancellationToken, [FromRoute] string id, [FromRoute ] string partitionKey = null)
+    public virtual async Task<ActionResult> Delete(CancellationToken cancellationToken, [FromRoute] string id, [FromRoute] string partitionKey = null)
     {
         await Service.Delete(id, partitionKey, User, cancellationToken);
 
         return NoContent();
     }
 
-    [HttpGet("{id}/{partitionKey}")]
+    [HttpGet("{id}/{partitionKey?}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
     public virtual async Task<ActionResult<TModel>> Load(CancellationToken cancellationToken, [FromRoute] string id, [FromRoute] string partitionKey = null)
@@ -42,14 +43,26 @@ public class ServiceControllerBase<TService, TModel, TList> : ControllerBase
         return Ok(result);
     }
 
+    [HttpPost("{id}/{partitionKey?}")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
+    public virtual async Task<ActionResult<TModel>> Save(CancellationToken cancellationToken, [FromBody] TModel model, [FromRoute] string id, [FromRoute] string partitionKey = null)
+    {
+        var result = await Service.Save(id, partitionKey, model, User, cancellationToken);
+
+        return Ok(result);
+    }
+
     [HttpPost("")]
     [Consumes(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
-    public virtual async Task<ActionResult<TModel>> Save(CancellationToken cancellationToken, [FromBody] TModel model)
+    public virtual async Task<ActionResult<TModel>> Create(CancellationToken cancellationToken, [FromBody] TModel model)
     {
-        var result = await Service.Save(model, User, cancellationToken);
+        var result = await Service.Create(model, User, cancellationToken);
 
         return Ok(result);
     }

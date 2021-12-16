@@ -5,7 +5,7 @@ using FluentValidation;
 
 namespace EstimatorX.Shared.Validation;
 
-public class OrganizationModelValidator : AbstractValidator<OrganizationModel>
+public class OrganizationModelValidator : AbstractValidator<Organization>
 {
     public OrganizationModelValidator()
     {

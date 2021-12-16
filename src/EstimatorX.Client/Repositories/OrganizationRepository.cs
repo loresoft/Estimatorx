@@ -4,7 +4,7 @@ using EstimatorX.Shared.Models;
 
 namespace EstimatorX.Client.Repositories;
 
-public class OrganizationRepository : RepositoryBase<OrganizationModel, OrganizationSummary>
+public class OrganizationRepository : RepositorySearchBase<Organization, OrganizationSummary>
 {
     public OrganizationRepository(GatewayClient gateway) : base(gateway)
     {

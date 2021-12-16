@@ -1,7 +1,8 @@
 using Cosmos.Abstracts;
 
-using EstimatorX.Core.Entities;
 using EstimatorX.Shared.Definitions;
+using EstimatorX.Shared.Extensions;
+using EstimatorX.Shared.Models;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -16,4 +17,18 @@ public class OrganizationRepository
     {
 
     }
+
+    protected override void BeforeSave(Organization entity)
+    {
+        base.BeforeSave(entity);
+
+        if (entity.Id.IsNullOrEmpty())
+            entity.Id = ObjectId.GenerateNewId().ToString();
+
+        if (entity.Created == default)
+            entity.Created = DateTimeOffset.UtcNow;
+
+        entity.Updated = DateTimeOffset.UtcNow;
+    }
+
 }

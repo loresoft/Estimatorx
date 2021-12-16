@@ -1,6 +1,5 @@
 using AutoMapper;
 
-using EstimatorX.Core.Entities;
 using EstimatorX.Shared.Models;
 
 namespace EstimatorX.Core.Mapping;
@@ -9,7 +8,7 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
-        CreateMap<UserModel, User>()
+        CreateMap<User, User>()
             .ForMember(d => d.Id, opt => opt.Ignore())
             .ForMember(d => d.PrivateKey, opt => opt.Ignore())
             .ForMember(d => d.Created, opt => opt.Ignore())
@@ -17,8 +16,8 @@ public class UserProfile : Profile
             .ForMember(d => d.Updated, opt => opt.Ignore())
             .ForMember(d => d.UpdatedBy, opt => opt.Ignore());
 
-        CreateMap<User, UserModel>();
-
         CreateMap<User, UserSummary>();
+
+        CreateMap<User, Shared.Models.UserProfile>();
     }
 }

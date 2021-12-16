@@ -1,11 +1,14 @@
-﻿using EstimatorX.Shared.Models;
-using Microsoft.Extensions.Logging;
+using EstimatorX.Client.Repositories;
+using EstimatorX.Shared.Models;
 
 namespace EstimatorX.Client.Stores;
 
-public class ProjectStore : StoreBase<ProjectModel>
+public class ProjectStore : StoreEditBase<Project, ProjectRepository>
 {
-    public ProjectStore(ILoggerFactory loggerFactory) : base(loggerFactory)
+
+    public ProjectStore(ILoggerFactory loggerFactory, ProjectRepository projectRepository)
+        : base(loggerFactory, projectRepository)
     {
     }
+
 }

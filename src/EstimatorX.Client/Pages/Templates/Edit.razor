@@ -25,7 +25,7 @@
     [Parameter]
     public string OrganizationId { get; set; }
 
-    private TemplateModel Template { get; set; } = new();
+    private Template Template { get; set; } = new();
 
     private bool IsUpdate => Id.HasValue();
 
@@ -57,7 +57,7 @@
         try
         {
             IsBusy = true;
-            Template = await TemplateRepository.Save(Template);
+            Template = await TemplateRepository.Save(Template, Id, OrganizationId);
             OriginalHash = Template.GetHashCode();
 
             NotificationService.ShowSuccess($"Template '{Template.Name}' saved successfully");

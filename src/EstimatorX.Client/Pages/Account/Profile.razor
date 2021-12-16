@@ -108,7 +108,7 @@
 </div>
 
 @code {
-    private UserModel UserModel { get; set; }
+    private User UserModel { get; set; }
 
     private bool IsBusy { get; set; }
 
@@ -128,7 +128,7 @@
         try
         {
             IsBusy = true;
-            UserModel = await UserRepository.Save(UserModel);
+            UserModel = await UserRepository.Save(UserModel, UserModel.Id);
 
             UserStore.Set(UserModel);
 

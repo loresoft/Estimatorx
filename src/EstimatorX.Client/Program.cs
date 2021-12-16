@@ -73,10 +73,10 @@ public static class Program
         });
 
         services
-            .AddSingleton<OrganizationStore>()
-            .AddSingleton<UserStore>()
-            .AddSingleton<ProjectStore>()
-            .AddSingleton<TemplateStore>();
+            .AddScoped<OrganizationStore>()
+            .AddScoped<UserStore>()
+            .AddScoped<ProjectStore>()
+            .AddScoped<TemplateStore>();
 
         services
             .AddScoped<OrganizationRepository>()

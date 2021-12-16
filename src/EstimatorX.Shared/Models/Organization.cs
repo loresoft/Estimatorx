@@ -1,12 +1,12 @@
 namespace EstimatorX.Shared.Models;
 
-public class OrganizationModel : ModelBase
+public class Organization : ModelBase
 {
     public string Name { get; set; }
 
     public string Description { get; set; }
 
-    public List<OrganizationMember> Members { get; set; } = new();
+    public List<OrganizationMember> Members { get; init; } = new();
 
 
     public override int GetHashCode()

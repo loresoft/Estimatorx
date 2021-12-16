@@ -5,7 +5,7 @@ using FluentValidation;
 
 namespace EstimatorX.Shared.Validation;
 
-public class TemplateModelValidator : AbstractValidator<TemplateModel>
+public class TemplateModelValidator : AbstractValidator<Template>
 {
     public TemplateModelValidator()
     {

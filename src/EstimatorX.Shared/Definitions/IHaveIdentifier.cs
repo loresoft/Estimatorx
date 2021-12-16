@@ -1,6 +1,6 @@
-﻿namespace EstimatorX.Shared.Definitions;
+namespace EstimatorX.Shared.Definitions;
 
-public interface IHaveIdentifier<TKey>
+public interface IHaveIdentifier
 {
-    TKey Id { get; set; }
+    string Id { get; set; }
 }

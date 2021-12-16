@@ -1,0 +1,9 @@
+@page "/projects/{id}/{organizationId}/assumptions"
+@inherits ProjectBase
+
+@using EstimatorX.Client.Components.Projects
+@using EstimatorX.Client.Components.Shared
+
+<ProjectContainer Id="@Id" OrganizationId="@OrganizationId">
+    <AssumptionEdit Assumptions="ProjectStore.Model.Assumptions" />
+</ProjectContainer>

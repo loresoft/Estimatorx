@@ -1,6 +1,6 @@
 using Cosmos.Abstracts;
 
-using EstimatorX.Core.Entities;
+using EstimatorX.Shared.Models;
 
 namespace EstimatorX.Core.Repositories;
 

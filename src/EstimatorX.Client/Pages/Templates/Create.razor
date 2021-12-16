@@ -45,7 +45,7 @@
                     </div>
                 </div>
 
-                <TemplateDetailForm Template="Template" />
+                <TemplateForm Template="Template" />
 
                 <div class="row">
                     <div class="col">
@@ -70,7 +70,7 @@
     </div>
 </div>
 @code {
-    private TemplateModel Template { get; set; }
+    private Template Template { get; set; }
 
     private bool IsBusy { get; set; }
 
@@ -82,7 +82,7 @@
     {
         base.OnInitialized();
 
-        Template = new TemplateModel();
+        Template = new Template();
         OriginalHash = Template.GetHashCode();
     }
 
@@ -91,7 +91,7 @@
         try
         {
             IsBusy = true;
-            var result = await TemplateRepository.Save(Template);
+            var result = await TemplateRepository.Create(Template);
 
             NotificationService.ShowSuccess($"Template '{result.Name}' saved successfully");
             Navigation.NavigateTo($"/templates/{result.Id}");

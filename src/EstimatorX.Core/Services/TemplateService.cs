@@ -1,7 +1,6 @@
 
 using AutoMapper;
 
-using EstimatorX.Core.Entities;
 using EstimatorX.Core.Repositories;
 using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Extensions;
@@ -11,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EstimatorX.Core.Services;
 
-public class TemplateService : OrganizationServiceBase<ITemplateRepository, Template, TemplateModel>, ITemplateService, ITransientService
+public class TemplateService : OrganizationServiceBase<ITemplateRepository, Template>, ITemplateService, ITransientService
 {
     public TemplateService(ILoggerFactory loggerFactory, IMapper mapper, ITemplateRepository repository, IUserCache userCache)
         : base(loggerFactory, mapper, repository, userCache)

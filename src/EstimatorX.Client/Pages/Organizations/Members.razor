@@ -122,7 +122,7 @@
     private DataGrid<OrganizationMember> DataGrid { get; set; }
 
 
-    private OrganizationModel Organization { get; set; }
+    private Organization Organization { get; set; }
 
     private ICollection<OrganizationMember> MemberList { get; set; }
 
@@ -209,7 +209,7 @@
         {
             IsBusy = true;
 
-            Organization = await OrganizationRepository.Save(Organization);
+            Organization = await OrganizationRepository.Save(Organization, Id);
             MemberList = Organization.Members;
 
             NotificationService.ShowSuccess($"Organization '{Organization.Name}' saved successfully");
@@ -234,7 +234,7 @@
                 {
                     PageSize = 100,
                     Search = searchText,
-                    Sort = nameof(UserModel.Name)
+                    Sort = nameof(User.Name)
                 };
 
             var result = await UserRepository.Search(query);

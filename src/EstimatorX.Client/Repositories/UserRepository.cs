@@ -4,7 +4,7 @@ using EstimatorX.Shared.Models;
 
 namespace EstimatorX.Client.Repositories;
 
-public class UserRepository : RepositoryBase<UserModel, UserSummary>
+public class UserRepository : RepositorySearchBase<User, UserSummary>
 {
     public UserRepository(GatewayClient gateway) : base(gateway)
     {

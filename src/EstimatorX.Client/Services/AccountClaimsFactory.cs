@@ -37,7 +37,7 @@ public class AccountClaimsFactory : AccountClaimsPrincipalFactory<RemoteUserAcco
         {
             var gateway = _serviceProvider.GetRequiredService<GatewayClient>();
 
-            var userData = await gateway.HttpClient.GetFromJsonAsync<UserModel>("/api/user/me");
+            var userData = await gateway.HttpClient.GetFromJsonAsync<User>("/api/user/me");
             if (userData == null)
                 return initialUser;
 

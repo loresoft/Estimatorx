@@ -4,18 +4,18 @@ using AutoMapper;
 
 using Cosmos.Abstracts;
 
-using EstimatorX.Core.Entities;
 using EstimatorX.Core.Query;
 using EstimatorX.Core.Repositories;
 using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
+using Microsoft.Azure.Cosmos.Serialization.HybridRow;
 using Microsoft.Extensions.Logging;
 
 namespace EstimatorX.Core.Services;
 
-public class UserService : ServiceBase<IUserRepository, UserModel>, IUserService, ITransientService
+public class UserService : ServiceBase<IUserRepository, User>, IUserService, ITransientService
 {
     public UserService(ILoggerFactory loggerFactory, IMapper mapper, IUserRepository repository, IUserCache userCache)
         : base(loggerFactory, mapper, repository, userCache)
@@ -31,27 +31,27 @@ public class UserService : ServiceBase<IUserRepository, UserModel>, IUserService
             return;
 
         if (user.Id != userId)
-            throw new DomainException(System.Net.HttpStatusCode.Unauthorized, "Not authorized to delete this user");
+            throw new DomainException(System.Net.HttpStatusCode.Forbidden, "Not authorized to delete this user");
 
         await Repository.DeleteAsync(id, cancellationToken: cancellationToken);
     }
 
-    public override async Task<UserModel> Load(string id, string partitionKey, IPrincipal principal, CancellationToken cancellationToken)
+    public override async Task<User> Load(string id, string partitionKey, IPrincipal principal, CancellationToken cancellationToken)
     {
         var user = await Repository.FindAsync(id, partitionKey, cancellationToken);
         if (user == null)
             return null; // throw NotFound?
 
-        return Mapper.Map<UserModel>(user);
+        return user;
     }
 
-    public override async Task<UserModel> Save(UserModel model, IPrincipal principal, CancellationToken cancellationToken)
+    public override async Task<User> Save(string id, string partitionKey, User model, IPrincipal principal, CancellationToken cancellationToken)
     {
         string userId = principal.GetUserId();
 
         var user = await Repository.FindAsync(model.Id, cancellationToken: cancellationToken);
         if (user != null && user.Id != userId)
-            throw new DomainException(System.Net.HttpStatusCode.Unauthorized, "Not authorized to update this user");
+            throw new DomainException(System.Net.HttpStatusCode.Forbidden, "Not authorized to update this user");
 
         if (user == null)
         {
@@ -68,9 +68,30 @@ public class UserService : ServiceBase<IUserRepository, UserModel>, IUserService
 
         var result = await Repository.SaveAsync(user, cancellationToken);
         if (result == null)
-            return null; // throw error?
+            throw new DomainException(System.Net.HttpStatusCode.InternalServerError, "Failed to save user");
 
-        return Mapper.Map<UserModel>(result);
+        return result;
+    }
+
+    public override async Task<User> Create(User model, IPrincipal principal, CancellationToken cancellationToken)
+    {
+        string userId = principal.GetUserId();
+
+        var user = new User
+        {
+            Id = userId,
+            PrivateKey = ObjectId.GenerateNewId()
+        };
+
+        Mapper.Map(model, user);
+
+        UpdateTracking(user, principal);
+
+        var result = await Repository.SaveAsync(user, cancellationToken);
+        if (result == null)
+            throw new DomainException(System.Net.HttpStatusCode.InternalServerError, "Failed to save user");
+
+        return result;
     }
 
     public override async Task<QueryResult<TResult>> Search<TResult>(QueryRequest queryRequest, IPrincipal principal, CancellationToken cancellationToken)
@@ -97,14 +118,14 @@ public class UserService : ServiceBase<IUserRepository, UserModel>, IUserService
             );
     }
 
-    public async Task<UserModel> Login(BrowserDetail browserDetail, IPrincipal principal, CancellationToken cancellationToken)
+    public async Task<UserProfile> Login(BrowserDetail browserDetail, IPrincipal principal, CancellationToken cancellationToken)
     {
         if (principal.Identity?.IsAuthenticated != true)
-            return new UserModel();
+            return new UserProfile();
 
         var userId = principal.GetUserId();
         if (userId == null)
-            return new UserModel();
+            return new UserProfile();
 
         var user = await Repository.FindAsync(userId, cancellationToken: cancellationToken);
         if (user == null)
@@ -128,8 +149,10 @@ public class UserService : ServiceBase<IUserRepository, UserModel>, IUserService
         UpdateTracking(user, principal);
 
         var savedEntity = await Repository.SaveAsync(user, cancellationToken);
+        if (savedEntity == null)
+            throw new DomainException(System.Net.HttpStatusCode.InternalServerError, "Failed to save user");
 
-        return Mapper.Map<UserModel>(savedEntity);
+        return Mapper.Map<UserProfile>(savedEntity);
     }
 
 }

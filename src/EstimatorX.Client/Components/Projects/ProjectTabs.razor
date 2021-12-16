@@ -1,0 +1,47 @@
+<ul class="nav nav-tabs card-header-tabs float-end">
+    @if (Project != null)
+    {
+        <li class="nav-item">
+            <NavLink id="organization-general-tab-link"
+                 Match="NavLinkMatch.All"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@($"/projects/{Project.Id}/{Project.OrganizationId}")"
+                 title="Project Details">General</NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink id="organization-members-tab-link"
+                 Match="NavLinkMatch.All"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@($"/projects/{Project.Id}/{Project.OrganizationId}/assumptions")"
+                 title="Project Assumptions">Assumptions</NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink id="organization-members-tab-link"
+                 Match="NavLinkMatch.All"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@($"/projects/{Project.Id}/{Project.OrganizationId}/estimation")"
+                 title="Project Assumptions">Estimation</NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink id="organization-members-tab-link"
+                 Match="NavLinkMatch.All"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@($"/projects/{Project.Id}/{Project.OrganizationId}/summary")"
+                 title="Project Assumptions">Summary</NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink id="organization-members-tab-link"
+                 Match="NavLinkMatch.All"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@($"/projects/{Project.Id}/{Project.OrganizationId}/settings")"
+                 title="Project Assumptions">Settings</NavLink>
+        </li>
+    }
+</ul>
+
+

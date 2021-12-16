@@ -7,11 +7,22 @@ public static class Program
 {
     public static int Main(string[] args)
     {
+        // azure home directory
+        var homeDirectory = Environment.GetEnvironmentVariable("HOME") ?? ".";
+
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Verbose()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-            .WriteTo.Console()
-            .WriteTo.File("boot.txt", LogEventLevel.Debug, rollingInterval: RollingInterval.Day)
+            .Enrich.FromLogContext()
+            .WriteTo.Console(outputTemplate: "{Timestamp:HH:mm:ss.fff} [{Level:u1}] {Message:lj}{NewLine}{Exception}")
+            .WriteTo.File(
+                path: $"{homeDirectory}/LogFiles/EstimatorX/boot.txt",
+                rollingInterval: RollingInterval.Day,
+                shared: true,
+                flushToDiskInterval: TimeSpan.FromSeconds(1),
+                outputTemplate: "{Timestamp:HH:mm:ss.fff} [{Level:u1}] {Message:lj}{NewLine}{Exception}",
+                retainedFileCountLimit: 10
+            )
             .CreateBootstrapLogger();
 
         try

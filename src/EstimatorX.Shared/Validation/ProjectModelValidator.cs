@@ -5,7 +5,7 @@ using FluentValidation;
 
 namespace EstimatorX.Shared.Validation;
 
-public class ProjectModelValidator : AbstractValidator<ProjectModel>
+public class ProjectModelValidator : AbstractValidator<Project>
 {
     public ProjectModelValidator()
     {

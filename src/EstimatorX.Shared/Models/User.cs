@@ -1,6 +1,6 @@
 namespace EstimatorX.Shared.Models;
 
-public class UserModel : ModelBase
+public class User : ModelBase
 {
     public string Name { get; set; }
 
@@ -13,6 +13,9 @@ public class UserModel : ModelBase
     public List<string> Roles { get; set; } = new();
 
     public List<IdentifierName> Organizations { get; set; } = new();
+
+    public List<BrowserDetail> Logins { get; set; } = new();
+
 
     public override int GetHashCode()
     {
