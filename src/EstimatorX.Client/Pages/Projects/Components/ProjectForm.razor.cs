@@ -3,7 +3,7 @@ using EstimatorX.Shared.Models;
 
 using Microsoft.AspNetCore.Components;
 
-namespace EstimatorX.Client.Components.Projects;
+namespace EstimatorX.Client.Pages.Projects.Components;
 
 public partial class ProjectForm
 {

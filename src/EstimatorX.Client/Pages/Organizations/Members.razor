@@ -1,251 +1,73 @@
 @page "/organizations/{id}/members"
+@inherits OrganizationBase
 
-@using Blazored.FluentValidation
-@using EstimatorX.Client.Components.Organizations
-@using EstimatorX.Client.Extensions
-@using EstimatorX.Client.Repositories
-@using EstimatorX.Client.Services
-@using EstimatorX.Client.Stores
-@using EstimatorX.Shared.Extensions
-@using EstimatorX.Shared.Models
-@using Microsoft.AspNetCore.Authorization
+@using EstimatorX.Client.Pages.Organizations.Components
 
-
-@inject NavigationManager Navigation
-@inject OrganizationRepository OrganizationRepository
-@inject UserRepository UserRepository
-@inject NotificationService NotificationService
-@inject UserStore UserStore
-@inject IJSRuntime JSRuntime
-
-@attribute [Authorize]
-
-<div class="container-lg">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="/">Home</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="/organizations">Organizations</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="/organizations/@Id">Edit</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-                Members
-            </li>
-        </ol>
-    </nav>
-
-    <div class="card mb-5">
-        <div class="card-header">
-            <i class="fas fa-user me-2"
-               aria-hidden="true"></i> Organization Members
-            <OrganizationTabs Id="@Id" />
-        </div>
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                @if (MemberList != null)
-                {
-                    <DataGrid Data="MemberList"
-                          TItem="OrganizationMember"
-                          class="table table-hover table-bordered mb-0"
-                          @ref="DataGrid">
-                        <DataColumns>
-                            <DataColumn TItem="OrganizationMember" Property="p => p.Name" />
-                            <DataColumn TItem="OrganizationMember" Property="p => p.IsOwner" Title="Owner" Width="115px" />
-                            <DataColumn TItem="OrganizationMember" Property="p => p.Id" Width="100px" Title="Actions">
-                                <Template Context="item">
-                                    <button type="button"
-                                        title="Toggle Owner"
-                                        class="btn btn-outline-info btn-sm"
-                                        @onclick="() => HandleToggleOwner(item.Id)"
-                                        disabled="@IsSelf(item.Id)">
-                                        <i class="fas fa-user-shield"></i>
-                                    </button>
-                                    <button type="button"
-                                        title="Remove Member"
-                                        class="btn btn-outline-danger btn-sm"
-                                        @onclick="() => HandleRemoveUser(item.Id)"
-                                        disabled="@IsSelf(item.Id)">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </Template>
-                            </DataColumn>
-                        </DataColumns>
-                    </DataGrid>
-                }
-            </div>
-        </div>
-        <div class="card-footer">
-            <div class="row">
-                <div class="col">
-                    <Typeahead SearchMethod="@SearchUsers"
-                               @bind-Value="@SelectedUser"
-                               Placeholder="Add Member"
-                               MinimumLength="3">
-                        <SelectedTemplate Context="user">
-                            @user.Name
-                        </SelectedTemplate>
-                        <ResultTemplate Context="user">
-                            <div>@user.Name</div>
-                            <small>@user.Email</small>
-                        </ResultTemplate>
-                    </Typeahead>
-                </div>
-                <div class="col">
-                    <BusyButton id="add-user-button"
-                                type="button"
-                                Busy="IsBusy"
-                                Disabled="@(SelectedUser == null)"
-                                @onclick="@HandleAddUser"
-                                class="btn btn-primary">
-                        <BusyTemplate>
-                            <span class='spinner-border spinner-border-sm'></span> Saving...
-                        </BusyTemplate>
-                        <ChildContent>
-                            Add User
-                        </ChildContent>
-                    </BusyButton>
-                </div>
-            </div>
-        </div>
-
+<OrganizationContainer Id="@Id">
+    <div class="table-responsive">
+        @if (MemberList != null)
+        {
+            <DataGrid Data="MemberList"
+                  TItem="OrganizationMember"
+                  class="table table-hover table-bordered mb-0"
+                  @ref="DataGrid">
+                <DataColumns>
+                    <DataColumn TItem="OrganizationMember" Property="p => p.Name" />
+                    <DataColumn TItem="OrganizationMember" Property="p => p.IsOwner" Title="Owner" Width="115px" />
+                    <DataColumn TItem="OrganizationMember" Property="p => p.Id" Width="100px" Title="Actions">
+                        <Template Context="item">
+                            <button type="button"
+                                title="Toggle Owner"
+                                class="btn btn-outline-info btn-sm"
+                                @onclick="() => HandleToggleOwner(item.Id)"
+                                disabled="@IsSelf(item.Id)">
+                                <i class="fas fa-user-shield"></i>
+                            </button>
+                            <button type="button"
+                                title="Remove Member"
+                                class="btn btn-outline-danger btn-sm"
+                                @onclick="() => HandleRemoveUser(item.Id)"
+                                disabled="@IsSelf(item.Id)">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </Template>
+                    </DataColumn>
+                </DataColumns>
+            </DataGrid>
+        }
     </div>
-</div>
+    <div class="row mx-1 my-2">
+        <div class="col">
+            <CascadingValue Value=@(new EditContext(new {}))>
+                <Typeahead SearchMethod="@SearchUsers"
+                           @bind-Value="@SelectedUser"
+                           Placeholder="Add Member"
+                           MinimumLength="3">
+                    <SelectedTemplate Context="user">
+                        @user.Name
+                    </SelectedTemplate>
+                    <ResultTemplate Context="user">
+                        <div>@user.Name</div>
+                        <small>@user.Email</small>
+                    </ResultTemplate>
+                </Typeahead>
+            </CascadingValue>
+        </div>
+        <div class="col">
+            <BusyButton id="add-user-button"
+                        type="button"
+                        Busy="OrganizationStore.IsBusy"
+                        Disabled="@(SelectedUser == null)"
+                        @onclick="@HandleAddUser"
+                        class="btn btn-primary">
+                <BusyTemplate>
+                    <span class='spinner-border spinner-border-sm'></span> Saving...
+                </BusyTemplate>
+                <ChildContent>
+                    Add User
+                </ChildContent>
+            </BusyButton>
+        </div>
+    </div>
 
-@code {
-    [Parameter]
-    public string Id { get; set; }
-
-    private DataGrid<OrganizationMember> DataGrid { get; set; }
-
-
-    private Organization Organization { get; set; }
-
-    private ICollection<OrganizationMember> MemberList { get; set; }
-
-
-    private UserSummary SelectedUser { get; set; }
-
-
-    private bool IsBusy { get; set; }
-
-
-    protected bool IsSelf(string id)
-    {
-        return UserStore.Model.Id == id;
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        if (Id.IsNullOrWhiteSpace())
-        {
-            Navigation.NavigateTo("/organizations");
-            return;
-        }
-
-        try
-        {
-            Organization = await OrganizationRepository.Load(Id);
-            if (Organization == null)
-                Navigation.NavigateTo("/organizations");
-
-            MemberList = Organization.Members;
-        }
-        catch (Exception ex)
-        {
-            NotificationService.ShowError(ex);
-        }
-    }
-
-    protected async Task HandleToggleOwner(string id)
-    {
-        var member = Organization.Members.FirstOrDefault(m => m.Id == id);
-        if (member == null)
-            return;
-
-        member.IsOwner = !member.IsOwner;
-
-        await HandleSave();
-    }
-
-    protected async Task HandleRemoveUser(string id)
-    {
-        var member = Organization.Members.FirstOrDefault(m => m.Id == id);
-        if (member == null)
-            return;
-
-        if (!await JSRuntime.Confirm($"Are you sure you want to remove '{member.Name}'?"))
-            return;
-
-        Organization.Members.Remove(member);
-
-        await HandleSave();
-    }
-
-    protected async Task HandleAddUser()
-    {
-        // prevent duplicate
-        if (SelectedUser == null)
-            return;
-
-        if (Organization.Members.Any(m => m.Id == SelectedUser.Id))
-        {
-            NotificationService.ShowError($"User '{SelectedUser.Name}' already a member of '{Organization.Name}'");
-
-            return;
-        }
-
-        Organization.Members.Add(new OrganizationMember { Id = SelectedUser.Id, Name = SelectedUser.Name });
-        await HandleSave();
-        SelectedUser = null;
-    }
-
-    protected async Task HandleSave()
-    {
-        try
-        {
-            IsBusy = true;
-
-            Organization = await OrganizationRepository.Save(Organization, Id);
-            MemberList = Organization.Members;
-
-            NotificationService.ShowSuccess($"Organization '{Organization.Name}' saved successfully");
-
-            await DataGrid.RefreshAsync();
-        }
-        catch (Exception ex)
-        {
-            NotificationService.ShowError(ex);
-        }
-        finally
-        {
-            IsBusy = false;
-        }
-    }
-
-    protected async Task<IEnumerable<UserSummary>> SearchUsers(string searchText)
-    {
-        try
-        {
-            var query = new QueryRequest
-                {
-                    PageSize = 100,
-                    Search = searchText,
-                    Sort = nameof(User.Name)
-                };
-
-            var result = await UserRepository.Search(query);
-
-            return result.Data;
-        }
-        catch (Exception ex)
-        {
-            NotificationService.ShowError(ex);
-
-            return Enumerable.Empty<UserSummary>();
-        }
-    }
-}
+</OrganizationContainer>

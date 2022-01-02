@@ -1,9 +1,8 @@
-﻿@page "/organizations/{id}/invites"
-@attribute [Authorize]
-@using Microsoft.AspNetCore.Authorization
-@using EstimatorX.Client.Components.Organizations
+@page "/organizations/{id}/invites"
 
-<div class="container-lg">
+@using EstimatorX.Client.Pages.Organizations.Components
+
+<div class="container-xxl">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -33,8 +32,4 @@
     </div>
 </div>
 
-@code {
-    [Parameter]
-    public string Id { get; set; }
 
-}

@@ -1,11 +1,8 @@
-﻿@page "/organizations/create"
+@page "/organizations/create"
 
-@using EstimatorX.Client.Components.Organizations
-@using Microsoft.AspNetCore.Authorization
+@using EstimatorX.Client.Pages.Organizations.Components
 
-@attribute [Authorize]
-
-<div class="container-lg">
+<div class="container-xxl">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -19,17 +16,48 @@
             </li>
         </ol>
     </nav>
-    <div class="card mb-5">
-        <div class="card-header">
-            <i class="fas fa-user mr-2"
-               aria-hidden="true"></i> Organization Create
+    <EditForm EditContext="@EditContext" OnValidSubmit="@HandleSave">
+        <FluentValidationValidator />
+
+        <div class="card mb-5">
+            <div class="card-header">
+                <i class="fas fa-user mr-2" aria-hidden="true"></i> Organization Create
+                <ConditionalDisplay Show="@OrganizationStore.IsDirty">
+                    *
+                </ConditionalDisplay>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col">
+                        <ValidationSummary />
+                    </div>
+                </div>
+
+                <OrganizationForm />
+
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col">
+                        <BusyButton id="save-button"
+                                    type="submit"
+                                    Busy="OrganizationStore.IsBusy"
+                                    Disabled="OrganizationStore.IsClean"
+                                    class="btn btn-primary">
+                            <BusyTemplate>
+                                <span class='spinner-border spinner-border-sm'></span> Saving...
+                            </BusyTemplate>
+                            <ChildContent>
+                                Save
+                            </ChildContent>
+                        </BusyButton>
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <OrganizationForm />
-        </div>
-    </div>
+    </EditForm>
+
 </div>
-
-@code {
-
-}

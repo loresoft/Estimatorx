@@ -1,0 +1,79 @@
+@if (Epic != null)
+{
+    <div class="accordion-item">
+        <h2 class="accordion-header"
+        id="epic-header-@Id">
+            <button class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#epic-collapse-@Id"
+                aria-expanded="false"
+                aria-controls="epic-collapse-@Id">
+                <div class="w-100 pe-2 d-flex justify-content-between">
+                    <div class="accordion-header-item">
+                        @Epic.Name
+                    </div>
+                    <div class="accordion-header-item">
+                        <span class="accordion-header-label">Estimate:</span>
+                        <span class="text-nowrap">@(Epic.EstimatedTotal ?? 0) - @(Epic.WeightedTotal ?? 0)</span>
+                    </div>
+                </div>
+            </button>
+        </h2>
+        <div id="epic-collapse-@Id"
+         class="accordion-collapse collapse"
+         aria-labelledby="epic-header-@Id"
+         data-bs-parent="#@ParentCollapse">
+            <div class="accordion-body">
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="epic-name-@Id"
+                               class="form-label">Epic Name</label>
+                            <input type="text"
+                               class="form-control"
+                               id="epic-name-@Id"
+                               placeholder="Epic Name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="epic-description-@Id"
+                               class="form-label">Epic Description</label>
+                            <textarea class="form-control"
+                                  id="epic-description-@Id"
+                                  rows="4"></textarea>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="epic-assumptions-@Id"
+                               class="form-label">Epic Assumptions</label>
+                            <textarea class="form-control"
+                                  id="epic-assumptions-@Id"
+                                  rows="8"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                @if(Epic.Features != null)
+                {
+                    <div class="row">
+                        <div class="col">
+                            <FeatureContainer Features="Epic.Features" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string ParentCollapse { get; set; }
+
+    [Parameter]
+    public EpicEstimate Epic { get; set; }
+
+
+    private Guid Id => Guid.NewGuid();
+}

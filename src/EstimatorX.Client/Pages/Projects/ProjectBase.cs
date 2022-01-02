@@ -1,10 +1,10 @@
-using EstimatorX.Client.Extensions;
 using EstimatorX.Client.Services;
 using EstimatorX.Client.Stores;
 using EstimatorX.Shared.Models;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 
 namespace EstimatorX.Client.Pages.Projects;
@@ -33,13 +33,29 @@ public abstract class ProjectBase : ComponentBase, IDisposable
 
     public Project Project => ProjectStore.Model;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        ProjectStore.OnChange += StateHasChanged;
+        ProjectStore.OnChange += HandleModelChange;
+
+        try
+        {
+            await ProjectStore.Load(Id, OrganizationId);
+            if (ProjectStore.Model == null)
+                Navigation.NavigateTo("/projects");
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
     }
 
-    public void Dispose()
+    private void HandleModelChange()
     {
-        ProjectStore.OnChange -= StateHasChanged;
+        InvokeAsync(() => StateHasChanged());
+    }
+
+    public virtual void Dispose()
+    {
+        ProjectStore.OnChange -= HandleModelChange;
     }
 }

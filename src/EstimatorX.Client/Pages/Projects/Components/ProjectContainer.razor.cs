@@ -1,13 +1,15 @@
 using EstimatorX.Client.Extensions;
 using EstimatorX.Client.Services;
 using EstimatorX.Client.Stores;
+using EstimatorX.Shared.Models;
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 
-namespace EstimatorX.Client.Components.Projects;
+namespace EstimatorX.Client.Pages.Projects.Components;
 
-public partial class ProjectContainer
+public partial class ProjectContainer : IDisposable
 {
     [Parameter]
     public string Id { get; set; }
@@ -17,6 +19,9 @@ public partial class ProjectContainer
 
     [Parameter]
     public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string BodyClass { get; set; }
 
 
     [Inject]
@@ -31,16 +36,22 @@ public partial class ProjectContainer
     [Inject]
     public NavigationManager Navigation { get; set; }
 
+    public Project Project => ProjectStore.Model;
+
+    private EditContext EditContext { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        ProjectStore.OnChange += StateHasChanged;
+        ProjectStore.OnChange += HandleModelChange;
 
         try
         {
             await ProjectStore.Load(Id, OrganizationId);
             if (ProjectStore.Model == null)
                 Navigation.NavigateTo("/projects");
+
+            EditContext = new EditContext(ProjectStore.Model);
+            EditContext.OnFieldChanged += HandleFormChange;
         }
         catch (Exception ex)
         {
@@ -72,9 +83,10 @@ public partial class ProjectContainer
     {
         try
         {
-            var name = ProjectStore.Model.Name;
+            var name = Project.Name;
             if (!await JSRuntime.Confirm($"Are you sure you want to delete '{name}'?"))
                 return;
+
             await ProjectStore.Delete(Id, OrganizationId);
             NotificationService.ShowSuccess($"Project '{name}' deleted successfully");
             Navigation.NavigateTo("/projects");
@@ -85,9 +97,19 @@ public partial class ProjectContainer
         }
     }
 
+    private void HandleModelChange()
+    {
+        InvokeAsync(() => StateHasChanged());
+    }
+
+    private void HandleFormChange(object sender, FieldChangedEventArgs args)
+    {
+        ProjectStore.NotifyStateChanged();
+    }
 
     public void Dispose()
     {
-        ProjectStore.OnChange -= StateHasChanged;
+        ProjectStore.OnChange -= HandleModelChange;
+        EditContext.OnFieldChanged -= HandleFormChange;
     }
 }

@@ -41,8 +41,13 @@ public class Project : ModelBase, IHaveOrganization
         hash.Add(OrganizationId);
         hash.Add(SecurityKey);
 
+        hash.Add(Settings.GetHashCode());
+
         foreach (var assumption in Assumptions)
             hash.Add(assumption);
+
+        foreach (var epic in Epics)
+            hash.Add(epic.GetHashCode());
 
         return hash.ToHashCode();
     }

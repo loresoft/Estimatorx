@@ -1,3 +1,4 @@
+
 using EstimatorX.Client.Repositories;
 using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Extensions;
@@ -22,10 +23,38 @@ public class StoreEditBase<TModel, TRepository> : StoreBase<TModel>
 
     public bool IsDirty => Model?.GetHashCode() != OriginalHash;
 
+    public bool IsClean => Model?.GetHashCode() == OriginalHash;
 
-    public async Task<TModel> Load(string id, string partitionKey = null)
+    public override void Set(TModel model)
     {
-        if (Model?.Id == id)
+        OriginalHash = model.GetHashCode();
+        Model = model;
+
+        Logger.LogDebug("Store model '{modelType}' changed.", typeof(TModel).Name);
+        NotifyStateChanged();
+    }
+
+    public override void Clear()
+    {
+        OriginalHash = 0;
+        Model = default;
+
+        Logger.LogDebug("Store model '{modelType}' cleared.", typeof(TModel).Name);
+        NotifyStateChanged();
+    }
+
+    public override void New()
+    {
+        Model = new TModel();
+        OriginalHash = Model.GetHashCode();
+
+        Logger.LogDebug("Store model '{modelType}' created.", typeof(TModel).Name);
+        NotifyStateChanged();
+    }
+
+    public async Task<TModel> Load(string id, string partitionKey = null, bool force = false)
+    {
+        if (!force && Model?.Id == id)
             return Model;
 
         try

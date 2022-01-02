@@ -1,8 +1,8 @@
 @page "/projects/{id}/{organizationId}/settings"
 @inherits ProjectBase
 
-@using EstimatorX.Client.Components.Projects
+@using EstimatorX.Client.Pages.Projects.Components
 
 <ProjectContainer Id="@Id" OrganizationId="@OrganizationId">
-    <h2>Settings</h2>
+    <SettingsEditor ProjectSettings="ProjectStore.Model.Settings" ProjectSettingsChanged="HandleModelChange" />
 </ProjectContainer>

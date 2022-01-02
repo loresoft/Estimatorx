@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace EstimatorX.Shared.Extensions;
 
@@ -131,5 +132,14 @@ public static class StringExtensions
             sb.AppendLine(text);
 
         return sb;
+    }
+
+    public static string ToTitle(this string text)
+    {
+        if (string.IsNullOrWhiteSpace(text) || text.Length < 2)
+            return text;
+
+        var words = Regex.Matches(text, "([A-Z][a-z]*)|([0-9]+)");
+        return string.Join(" ", words.Select(w => w.Value));
     }
 }

@@ -1,0 +1,10 @@
+@import "variables";
+@import "accordion-type";
+
+.accordion-epic {
+  @include accordion-type($estimate-epic-icon, $estimate-epic-active-icon, $estimate-epic-color)
+}
+
+.accordion-feature {
+  @include accordion-type($estimate-feature-icon, $estimate-feature-active-icon, $estimate-feature-color)
+}

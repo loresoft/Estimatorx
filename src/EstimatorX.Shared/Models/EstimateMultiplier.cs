@@ -6,7 +6,11 @@ public class EstimateMultiplier
 
     public ClarityScale Clarity { get; set; }
 
-    public Criticality Criticality { get; set; }
-
     public double Value { get; set; }
+
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Confidence, Clarity, Value);
+    }
 }

@@ -1,7 +1,7 @@
 @page "/templates/create"
 @using Blazored.FluentValidation
-@using EstimatorX.Client.Components.Templates
 @using EstimatorX.Client.Extensions
+@using EstimatorX.Client.Pages.Templates.Components
 @using EstimatorX.Client.Repositories
 @using EstimatorX.Client.Services
 @using EstimatorX.Client.Stores
@@ -17,7 +17,7 @@
 @inject NotificationService NotificationService
 @inject NavigationManager Navigation
 
-<div class="container-lg">
+<div class="container-xxl">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -69,6 +69,7 @@
         </div>
     </div>
 </div>
+
 @code {
     private Template Template { get; set; }
 

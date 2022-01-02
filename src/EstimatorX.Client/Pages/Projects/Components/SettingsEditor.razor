@@ -1,0 +1,255 @@
+<div class="row">
+    <div class="col">
+
+        <fieldset class="standard">
+            <legend>Multiplier Matrix</legend>
+
+            <table class="table table-borderless">
+
+                <tbody>
+                    <tr>
+                        <th colspan="7" class="text-muted text-center">Confidence</th>
+                    </tr>
+                    <tr>
+                        <th rowspan="6" class="text-nowrap align-middle">
+                            <span class="text-vertical text-muted text-center">Clarity</span>
+                        </th>
+                        <th></th>
+                        @foreach (var confidence in Enum.GetNames<ConfidenceScale>())
+                        {
+                            <th>@confidence.ToTitle()</th>
+                        }
+                    </tr>
+                    @foreach (var group in ProjectSettings.Multipliers.GroupBy(m => m.Clarity))
+                    {
+                        <tr>
+                            <th>
+                                @group.Key.ToString().ToTitle()
+                            </th>
+                            @foreach (var multiplier in group)
+                            {
+                                <td>
+                                    <input type="number"
+                                   class="form-control"
+                                   value="@multiplier.Value"
+                                   step="0.01" max="100" min="0"
+                                   @onchange="@((e) => MultiplierUpdate(multiplier, e))" />
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <fieldset class="standard">
+            <legend>Risk Level</legend>
+
+            <table class="table table-borderless">
+                <colgroup>
+                    <col style="" />
+                    <col style="" />
+                    <col style="width: 40px" />
+                </colgroup>
+
+                <thead>
+                    <tr>
+                        <th>Multiplier</th>
+                        <th>Risk</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var riskLevel in ProjectSettings.RiskLevels)
+                    {
+                        <tr>
+                            <td>
+                                <input type="number"
+                                   class="form-control"
+                                   value="@riskLevel.Multiplier"
+                                   step="0.01" max="100" min="0"
+                                   @onchange="@((e) => RiskUpdateMultiplier(riskLevel, e))" />
+                            </td>
+                            <td>
+                                <input type="text"
+                                   class="form-control"
+                                   value="@riskLevel.Risk"
+                                   required
+                                   @onchange="@((e) => RiskUpdateText(riskLevel, e))" />
+                            </td>
+                            <td class="active text-center">
+                                <button type="button"
+                                    @onclick="() => RiskDelete(riskLevel)"
+                                    title="Delete Effort Value"
+                                    class="btn btn-outline-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <button type="button"
+                                    id="risk-add-button"
+                                    @onclick="RiskAdd"
+                                    class="btn btn-outline-secondary btn-sm">
+                                <i class="fas fa-plus"></i> Add Risk
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </fieldset>
+
+    </div>
+    <div class="col">
+        <fieldset class="standard">
+            <legend>Effort Values</legend>
+
+            <table class="table table-borderless">
+                <colgroup>
+                    <col style="" />
+                    <col style="" />
+                    <col style="width: 40px" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Effort</th>
+                        <th>Level</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var effortLevel in ProjectSettings.EffortLevels)
+                    {
+                        <tr>
+                            <td>
+                                <input type="number"
+                                   class="form-control"
+                                   value="@effortLevel.Effort"
+                                   max="100"
+                                   min="0"
+                                   @onchange="@((e) => EffortUpdateValue(effortLevel, e))" />
+                            </td>
+                            <td>
+                                <input type="text"
+                                   class="form-control"
+                                   value="@effortLevel.Level"
+                                   @onchange="@((e) => EffortUpdateLevel(effortLevel, e))" />
+                            </td>
+                            <td class="active text-center">
+                                <button type="button"
+                                    @onclick="() => EffortDelete(effortLevel)"
+                                    title="Delete Effort Value"
+                                    class="btn btn-outline-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <button type="button"
+                                    id="effort-add-button"
+                                    @onclick="EffortAdd"
+                                    class="btn btn-outline-secondary btn-sm">
+                                <i class="fas fa-plus"></i> Add Effort
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+
+            </table>
+        </fieldset>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col">
+        <fieldset class="standard">
+            <legend>Overhead Tasks</legend>
+
+            <table class="table table-borderless">
+                <colgroup>
+                    <col style="" />
+                    <col style="" />
+                    <col style="width: 130px" />
+                    <col style="width: 40px" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Multiplier</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var overhead in ProjectSettings.Overhead)
+                    {
+                        <tr>
+                            <td>
+                                <input type="text"
+                                   class="form-control"
+                                   value="@overhead.Name"
+                                   required
+                                   @onchange="@((e) => OverheadUpdateName(overhead, e))" />
+
+                            </td>
+                            <td>
+                                <input type="text"
+                                   class="form-control"
+                                   value="@overhead.Description"
+                                   required
+                                   @onchange="@((e) => OverheadUpdateDescription(overhead, e))" />
+
+                            </td>
+                            <td>
+                                <input type="number"
+                                   class="form-control"
+                                   value="@overhead.Multiplier"
+                                   step="0.01" max="100" min="0"
+                                   @onchange="@((e) => OverheadUpdateMultiplier(overhead, e))" />
+
+                            </td>
+                            <td class="active text-center">
+                                <button type="button"
+                                    @onclick="() => OverheadDelete(overhead)"
+                                    title="Delete Overhead Value"
+                                    class="btn btn-outline-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <button type="button"
+                                    id="overhead-add-button"
+                                    @onclick="OverheadAdd"
+                                    class="btn btn-outline-secondary btn-sm">
+                                <i class="fas fa-plus"></i> Add Overhead
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+
+            </table>
+
+        </fieldset>
+
+    </div>
+</div>

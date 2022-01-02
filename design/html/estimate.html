@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible"
+        content="IE=edge">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <title>Estimate</title>
+
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+        crossorigin="anonymous" />
+
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css"
+        integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4="
+        crossorigin="anonymous" />
+
+  <link rel="stylesheet"
+        href="main.css" />
+
+  <style>
+    /*
+    .accordion-epic {
+      border: 1px solid rgb(224, 108, 0);
+    }
+
+    .accordion-epic .accordion-button:not(.collapsed) {
+      color: #fff;
+      background-color: rgba(224, 108, 0, 0.7);
+      box-shadow: inset 0 -1px 0 rgb(224 108 0 / 13%);
+    }
+
+    .accordion-epic .accordion-button {
+      padding: 1em 0.75em;
+      color: #000;
+      background-color: rgba(224, 108, 0, 0.4);
+      box-shadow: inset 0 -1px 0 rgb(224 108 0 / 13%);
+    }
+
+    .accordion-epic .accordion-button::before {
+      flex-shrink: 0;
+      width: 1.25rem;
+      height: 1.25rem;
+      content: "";
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'%3E%3Cpath fill='currentColor' d='M528 448H112c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm64-320c-26.5 0-48 21.5-48 48 0 7.1 1.6 13.7 4.4 19.8L476 239.2c-15.4 9.2-35.3 4-44.2-11.6L350.3 85C361 76.2 368 63 368 48c0-26.5-21.5-48-48-48s-48 21.5-48 48c0 15 7 28.2 17.7 37l-81.5 142.6c-8.9 15.6-28.9 20.8-44.2 11.6l-72.3-43.4c2.7-6 4.4-12.7 4.4-19.8 0-26.5-21.5-48-48-48S0 149.5 0 176s21.5 48 48 48c2.6 0 5.2-.4 7.7-.8L128 416h384l72.3-192.8c2.5.4 5.1.8 7.7.8 26.5 0 48-21.5 48-48s-21.5-48-48-48z'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-size: 1.25rem;
+    }
+
+    .accordion-epic .accordion-button:not(.collapsed)::before {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'%3E%3Cpath fill='white' d='M528 448H112c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm64-320c-26.5 0-48 21.5-48 48 0 7.1 1.6 13.7 4.4 19.8L476 239.2c-15.4 9.2-35.3 4-44.2-11.6L350.3 85C361 76.2 368 63 368 48c0-26.5-21.5-48-48-48s-48 21.5-48 48c0 15 7 28.2 17.7 37l-81.5 142.6c-8.9 15.6-28.9 20.8-44.2 11.6l-72.3-43.4c2.7-6 4.4-12.7 4.4-19.8 0-26.5-21.5-48-48-48S0 149.5 0 176s21.5 48 48 48c2.6 0 5.2-.4 7.7-.8L128 416h384l72.3-192.8c2.5.4 5.1.8 7.7.8 26.5 0 48-21.5 48-48s-21.5-48-48-48z'%3E%3C/path%3E%3C/svg%3E");
+    }
+
+
+    .accordion-feature {
+      border: 1px solid rgb(119, 59, 147);
+    }
+
+    .accordion-feature .accordion-button:not(.collapsed) {
+      color: #fff;
+      background-color: rgba(119, 59, 147, 0.7);
+      box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
+    }
+
+
+    .accordion-feature .accordion-button {
+      padding: 1em 0.75em;
+      color: #000;
+      background-color: rgba(119, 59, 147, 0.4);
+      box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
+    }
+
+    .accordion-feature .accordion-button::before {
+      flex-shrink: 0;
+      width: 1.25rem;
+      height: 1.25rem;
+      content: "";
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'%3E%3Cpath fill='currentColor' d='M552 64H448V24c0-13.3-10.7-24-24-24H152c-13.3 0-24 10.7-24 24v40H24C10.7 64 0 74.7 0 88v56c0 35.7 22.5 72.4 61.9 100.7 31.5 22.7 69.8 37.1 110 41.7C203.3 338.5 240 360 240 360v72h-48c-35.3 0-64 20.7-64 56v12c0 6.6 5.4 12 12 12h296c6.6 0 12-5.4 12-12v-12c0-35.3-28.7-56-64-56h-48v-72s36.7-21.5 68.1-73.6c40.3-4.6 78.6-19 110-41.7 39.3-28.3 61.9-65 61.9-100.7V88c0-13.3-10.7-24-24-24zM99.3 192.8C74.9 175.2 64 155.6 64 144v-16h64.2c1 32.6 5.8 61.2 12.8 86.2-15.1-5.2-29.2-12.4-41.7-21.4zM512 144c0 16.1-17.7 36.1-35.3 48.8-12.5 9-26.7 16.2-41.8 21.4 7-25 11.8-53.6 12.8-86.2H512v16z'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-size: 1.25rem;
+    }
+
+    .accordion-feature .accordion-button:not(.collapsed)::before {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'%3E%3Cpath fill='white' d='M552 64H448V24c0-13.3-10.7-24-24-24H152c-13.3 0-24 10.7-24 24v40H24C10.7 64 0 74.7 0 88v56c0 35.7 22.5 72.4 61.9 100.7 31.5 22.7 69.8 37.1 110 41.7C203.3 338.5 240 360 240 360v72h-48c-35.3 0-64 20.7-64 56v12c0 6.6 5.4 12 12 12h296c6.6 0 12-5.4 12-12v-12c0-35.3-28.7-56-64-56h-48v-72s36.7-21.5 68.1-73.6c40.3-4.6 78.6-19 110-41.7 39.3-28.3 61.9-65 61.9-100.7V88c0-13.3-10.7-24-24-24zM99.3 192.8C74.9 175.2 64 155.6 64 144v-16h64.2c1 32.6 5.8 61.2 12.8 86.2-15.1-5.2-29.2-12.4-41.7-21.4zM512 144c0 16.1-17.7 36.1-35.3 48.8-12.5 9-26.7 16.2-41.8 21.4 7-25 11.8-53.6 12.8-86.2H512v16z'%3E%3C/path%3E%3C/svg%3E");
+    }
+*/
+
+    .accordion-header-item {
+      padding: 0 0.5em;
+    }
+
+    .accordion-header-label {
+      opacity: 0.6;
+    }
+
+  </style>
+  <style></style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="accordion-epic"
+         id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header"
+            id="headingOne">
+          <button class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseOne"
+                  aria-expanded="true"
+                  aria-controls="collapseOne">
+            <div class="w-100 pe-2 d-flex justify-content-between">
+              <div class="accordion-header-item">
+                Make Client Eligibility One to Many
+              </div>
+              <div class="accordion-header-item">
+                <span class="accordion-header-label">Estimate:</span> <span class="text-nowrap">2 - 4</span>
+              </div>
+            </div>
+          </button>
+        </h2>
+        <div id="collapseOne"
+             class="accordion-collapse collapse show"
+             aria-labelledby="headingOne"
+             data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <div class="row">
+              <div class="col">
+                <div class="mb-3">
+                  <label for="epicName"
+                         class="form-label">Epic Name</label>
+                  <input type="text"
+                         class="form-control"
+                         id="epicName"
+                         placeholder="Epic Name">
+                </div>
+                <div class="mb-3">
+                  <label for="epicDescription"
+                         class="form-label">Epic Description</label>
+                  <textarea class="form-control"
+                            id="epicDescription"
+                            rows="4"></textarea>
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="epicAssumptions"
+                         class="form-label">Epic Assumptions</label>
+                  <textarea class="form-control"
+                            id="epicAssumptions"
+                            rows="8"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+
+                <div class="accordion-feature"
+                     id="featureAccordion">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header"
+                        id="nestedOne">
+                      <button class="accordion-button"
+                              type="button"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#featureOne"
+                              aria-expanded="true"
+                              aria-controls="featureOne">
+                        <div class="w-100 pe-2 d-flex justify-content-between">
+                          <div class="accordion-header-item">
+                            It is important to ensure that the contrast ratio between the background
+                          </div>
+                          <div class="accordion-header-item">
+                            <span class="accordion-header-label">Estimate:</span> <span class="text-nowrap">2 - 4</span>
+                          </div>
+                          <div class="accordion-header-item">
+                            <span class="accordion-header-label">Risk:</span> <span class="text-nowrap">Medium
+                              High</span>
+                          </div>
+                          <div class="accordion-header-item">
+                            <span class="accordion-header-label">Effort:</span> <span class="text-nowrap">Medium
+                              High</span>
+                          </div>
+                        </div>
+
+                      </button>
+                    </h2>
+                    <div id="featureOne"
+                         class="accordion-collapse collapse show"
+                         aria-labelledby="nestedOne"
+                         data-bs-parent="#featureAccordion">
+                      <div class="accordion-body">
+                        <div class="row">
+                          <div class="col">
+                            <div class="mb-3">
+                              <label for="featureName"
+                                     class="form-label">Feature Name</label>
+                              <input type="text"
+                                     class="form-control"
+                                     id="featureName"
+                                     placeholder="Feature Name">
+                            </div>
+                            <div class="mb-3">
+                              <label for="featureDescription"
+                                     class="form-label">Feature Description</label>
+                              <textarea class="form-control"
+                                        id="featureDescription"
+                                        rows="4"></textarea>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="mb-3">
+                              <label for="featureAssumptions"
+                                     class="form-label">Feature Assumptions</label>
+                              <textarea class="form-control"
+                                        id="featureAssumptions"
+                                        rows="8"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <div class="mb-3">
+                              <label for="featureEstimate"
+                                     class="form-label">Estimate</label>
+                              <input type="number"
+                                     list="estimate-values"
+                                     class="form-control"
+                                     id="featureEstimate" />
+                              <datalist id="estimate-values">
+                                <option value="2">
+                                <option value="4">
+                                <option value="8">
+                                <option value="12">
+                                <option value="24">
+                                <option value="48">
+                              </datalist>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="mb-3">
+                              <label for="featureClarity"
+                                     class="form-label">Clarity</label>
+                              <select class="form-select"
+                                      name="featureClarity">
+                                <option value="0">Low</option>
+                                <option value="1">Medium Low</option>
+                                <option value="2">Medium</option>
+                                <option value="3">Medium High</option>
+                                <option value="4">High</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="mb-3">
+                              <label for="featureConfidence"
+                                     class="form-label">Confidence</label>
+                              <select class="form-select"
+                                      name="featureConfidence">
+                                <option value="0">Low</option>
+                                <option value="1">Medium Low</option>
+                                <option value="2">Medium</option>
+                                <option value="3">Medium High</option>
+                                <option value="4">High</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="mb-3">
+                              <label for="featureCriticality"
+                                     class="form-label">Criticality</label>
+                              <select class="form-select"
+                                      name="featureCriticality">
+                                <option value="0">Required</option>
+                                <option value="1">Stretch</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="accordion-item">
+                    <h2 class="accordion-header"
+                        id="nestedTwo">
+                      <button class="accordion-button collapsed"
+                              type="button"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#featureTwo"
+                              aria-expanded="false"
+                              aria-controls="featureTwo">
+                        Accordion Item #2
+                      </button>
+                    </h2>
+                    <div id="featureTwo"
+                         class="accordion-collapse collapse"
+                         aria-labelledby="nestedTwo"
+                         data-bs-parent="#featureAccordion">
+                      <div class="accordion-body">
+                        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the
+                        collapse plugin adds the appropriate classes that we use to style each element. These classes
+                        control the overall appearance, as well as the showing and hiding via CSS transitions. You can
+                        modify any of this with custom CSS or overriding our default variables. It's also worth noting
+                        that just about any HTML can go within the <code>.accordion-body</code>, though the transition
+                        does limit overflow.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="accordion-item">
+                    <h2 class="accordion-header"
+                        id="nestedThree">
+                      <button class="accordion-button collapsed"
+                              type="button"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#featureThree"
+                              aria-expanded="false"
+                              aria-controls="featureThree">
+                        Accordion Item #3
+                      </button>
+                    </h2>
+                    <div id="featureThree"
+                         class="accordion-collapse collapse"
+                         aria-labelledby="nestedThree"
+                         data-bs-parent="#featureAccordion">
+                      <div class="accordion-body">
+                        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the
+                        collapse plugin adds the appropriate classes that we use to style each element. These classes
+                        control the overall appearance, as well as the showing and hiding via CSS transitions. You can
+                        modify any of this with custom CSS or overriding our default variables. It's also worth noting
+                        that just about any HTML can go within the <code>.accordion-body</code>, though the transition
+                        does limit overflow.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header"
+            id="headingTwo">
+          <button class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseTwo"
+                  aria-expanded="false"
+                  aria-controls="collapseTwo">
+            Move Delayed Billing to Service Note
+          </button>
+        </h2>
+        <div id="collapseTwo"
+             class="accordion-collapse collapse"
+             aria-labelledby="headingTwo"
+             data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse
+            plugin adds the appropriate classes that we use to style each element. These classes control the overall
+            appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom
+            CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the
+            <code>.accordion-body</code>, though the transition does limit overflow.
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header"
+            id="headingThree">
+          <button class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseThree"
+                  aria-expanded="false"
+                  aria-controls="collapseThree">
+            New Report for Billing
+          </button>
+        </h2>
+        <div id="collapseThree"
+             class="accordion-collapse collapse"
+             aria-labelledby="headingThree"
+             data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse
+            plugin
+            adds the appropriate classes that we use to style each element. These classes control the overall
+            appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom
+            CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the
+            <code>.accordion-body</code>, though the transition does limit overflow.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+          crossorigin="anonymous">
+  </script>
+</body>
+
+</html>

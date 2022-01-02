@@ -1,0 +1,79 @@
+@if (Feature != null)
+{
+    <div class="accordion-item">
+        <h2 class="accordion-header"
+        id="feature-header-@Id">
+            <button class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#feature-collapse-@Id"
+                aria-expanded="false"
+                aria-controls="feature-collapse-@Id">
+                <div class="w-100 pe-2 d-flex justify-content-between">
+                    <div class="accordion-header-item">
+                        @Feature.Name
+                    </div>
+                    <div class="accordion-header-item">
+                        <span class="accordion-header-label">Estimate:</span>
+                        <span class="text-nowrap">@(Feature.EstimatedTotal ?? 0) - @(Feature.WeightedTotal ?? 0)</span>
+                    </div>
+                    <div class="accordion-header-item">
+                        <span class="accordion-header-label">Risk:</span>
+                        <span class="text-nowrap">@Feature.RiskLevel</span>
+                    </div>
+                    <div class="accordion-header-item">
+                        <span class="accordion-header-label">Effort:</span>
+                        <span class="text-nowrap">@Feature.EffortLevel</span>
+                    </div>
+                </div>
+            </button>
+        </h2>
+        <div id="feature-collapse-@Id"
+         class="accordion-collapse collapse"
+         aria-labelledby="feature-header-@Id"
+         data-bs-parent="#@ParentCollapse">
+            <div class="accordion-body">
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="feature-name-@Id"
+                               class="form-label">Feature Name</label>
+                            <input type="text"
+                               class="form-control"
+                               id="feature-name-@Id"
+                               placeholder="Feature Name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="feature-description-@Id"
+                               class="form-label">Feature Description</label>
+                            <textarea class="form-control"
+                                  id="feature-description-@Id"
+                                  rows="4"></textarea>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="feature-assumptions-@Id"
+                               class="form-label">Feature Assumptions</label>
+                            <textarea class="form-control"
+                                  id="feature-assumptions-@Id"
+                                  rows="8"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string ParentCollapse { get; set; }
+
+    [Parameter]
+    public FeatureEstimate Feature { get; set; }
+
+
+    private Guid Id => Guid.NewGuid();
+}

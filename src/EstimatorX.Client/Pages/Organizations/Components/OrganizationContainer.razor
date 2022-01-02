@@ -1,13 +1,11 @@
-@using EstimatorX.Client.Components.Projects
-
-<div class="container-lg">
+<div class="container-xxl">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="/">Home</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="/projects">Projects</a>
+                <a href="/organizations">Organizations</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 Edit
@@ -15,12 +13,12 @@
         </ol>
     </nav>
 
-    @if (ProjectStore.Model == null)
+    @if (EditContext == null)
     {
         <div class="card mb-5">
             <div class="card-header">
                 <i class="fas fa-user me-2"
-               aria-hidden="true"></i> Project Edit - Loading ...
+               aria-hidden="true"></i> Organization Edit - Loading ...
             </div>
             <div class="card-body">
                 <Loading />
@@ -29,14 +27,16 @@
     }
     else
     {
-        <EditForm Model="@ProjectStore.Model" OnValidSubmit="@HandleSave">
+        <EditForm EditContext="@EditContext" OnValidSubmit="@HandleSave">
             <FluentValidationValidator />
 
             <div class="card mb-5">
                 <div class="card-header">
-                    <i class="fas fa-user me-2"
-                   aria-hidden="true"></i> Project Edit - @ProjectStore.Model?.Name
-                    <ProjectTabs />
+                    <i class="fas fa-user me-2" aria-hidden="true"></i> Organization Edit - @OrganizationStore.Model?.Name
+                    <ConditionalDisplay Show="@OrganizationStore.IsDirty">
+                        *
+                    </ConditionalDisplay>
+                    <OrganizationTabs />
                 </div>
                 <div class="card-body p-0">
 
@@ -54,7 +54,8 @@
                         <div class="col">
                             <BusyButton id="save-button"
                                     type="submit"
-                                    Busy="ProjectStore.IsBusy"
+                                    Busy="OrganizationStore.IsBusy"
+                                    Disabled="OrganizationStore.IsClean"
                                     class="btn btn-primary">
                                 <BusyTemplate>
                                     <span class='spinner-border spinner-border-sm'></span> Saving...
@@ -68,7 +69,7 @@
                             <button id="delete-button"
                                 type="button"
                                 @onclick="HandleDelete"
-                                disabled="@ProjectStore.IsBusy"
+                                disabled="@OrganizationStore.IsBusy"
                                 class="btn btn-danger fa-pull-right">
                                 Delete
                             </button>

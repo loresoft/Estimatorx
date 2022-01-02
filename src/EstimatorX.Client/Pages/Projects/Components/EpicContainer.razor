@@ -1,0 +1,22 @@
+<div class="accordion-epic"
+     id="@ParentCollapse">
+
+    @if (Epics != null)
+    {
+        foreach (var epic in Epics)
+        {
+            <EpicEditor Epic="epic" ParentCollapse="ParentCollapse" />
+        }
+    }
+</div>
+
+@code {
+
+    [Parameter]
+    public List<EpicEstimate> Epics { get; set; }
+
+
+    private Guid Id => Guid.NewGuid();
+
+    private string ParentCollapse => $"epic-parent-{Id}";
+}

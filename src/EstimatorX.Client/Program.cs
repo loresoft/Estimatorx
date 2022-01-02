@@ -7,6 +7,7 @@ using Blazored.LocalStorage;
 using EstimatorX.Client.Repositories;
 using EstimatorX.Client.Services;
 using EstimatorX.Client.Stores;
+using EstimatorX.Shared.Services;
 
 using FluentRest;
 
@@ -86,6 +87,9 @@ public static class Program
 
         services
             .AddScoped<NotificationService>();
+
+        services
+            .AddScoped<IProjectBuilder, ProjectBuilder>();
 
         await builder.Build().RunAsync();
     }

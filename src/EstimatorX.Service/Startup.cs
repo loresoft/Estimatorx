@@ -1,6 +1,7 @@
 
 using EstimatorX.Core.Options;
 using EstimatorX.Service.Middleware;
+using EstimatorX.Shared;
 using EstimatorX.Shared.Definitions;
 
 using FluentValidation.AspNetCore;
@@ -27,7 +28,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.Scan(scan => scan
-            .FromAssembliesOf(typeof(Startup), typeof(HostingConfiguration))
+            .FromAssembliesOf(typeof(Startup), typeof(HostingConfiguration), typeof(AssemblyMetadata))
                 .AddClasses(classes => classes.AssignableTo<ITransientService>())
                     .AsSelfWithInterfaces()
                     .WithTransientLifetime()

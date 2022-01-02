@@ -81,6 +81,18 @@ public class OrganizationService : ServiceBase<IOrganizationRepository, Organiza
 
         Mapper.Map(model, organization);
 
+        if (!organization.Members.Any(member => member.Id == userId))
+        {
+            var user = await CurrentUser(principal, cancellationToken);
+            var member = new OrganizationMember
+            {
+                Id = user.Id,
+                Name = user.Name,
+                IsOwner = true
+            };
+            organization.Members.Add(member);
+        }
+
         UpdateTracking(organization, principal);
 
         var result = await Repository.CreateAsync(organization, cancellationToken);

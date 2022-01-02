@@ -1,6 +1,6 @@
 namespace EstimatorX.Client.Pages.Projects;
 
-public partial class Assumptions
+public partial class Assumptions : ProjectBase
 {
 
 }
