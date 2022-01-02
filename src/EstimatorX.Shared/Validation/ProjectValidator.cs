@@ -5,11 +5,13 @@ using FluentValidation;
 
 namespace EstimatorX.Shared.Validation;
 
-public class ProjectModelValidator : AbstractValidator<Project>
+public class ProjectValidator : AbstractValidator<Project>
 {
-    public ProjectModelValidator()
+    public ProjectValidator()
     {
         RuleFor(p => p.Name).NotEmpty();
         RuleFor(p => p.OrganizationId).NotEmpty();
+
+        RuleFor(p => p.Settings).SetValidator(new ProjectSettingsValidator());
     }
 }

@@ -33,7 +33,7 @@
             <div class="card mb-5">
                 <div class="card-header">
                     <i class="fas fa-user me-2" aria-hidden="true"></i> Project Edit - @ProjectStore.Model?.Name
-                    <ConditionalDisplay Show="@ProjectStore.IsDirty">*</ConditionalDisplay>
+                    <Conditional Show="@ProjectStore.IsDirty">*</Conditional>
                     <ProjectTabs />
                 </div>
                 <div class="card-body @BodyClass">

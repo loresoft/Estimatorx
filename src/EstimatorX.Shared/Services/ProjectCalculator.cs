@@ -4,10 +4,15 @@ using EstimatorX.Shared.Models;
 
 namespace EstimatorX.Shared.Services;
 
-public class ProjectCalculator
+public class ProjectCalculator : IProjectCalculator, ISingletonService
 {
     public void UpdateProject(Project project)
     {
+        project.EstimatedTotal = 0;
+        project.WeightedTotal = 0;
+        project.EstimatedCost = 0;
+        project.WeightedCost = 0;
+
         foreach (var epic in project.Epics)
         {
             UpdateEpic(project, epic);
@@ -15,11 +20,19 @@ public class ProjectCalculator
             // update parent totals
             project.EstimatedTotal += epic.EstimatedTotal;
             project.WeightedTotal += epic.WeightedTotal;
+            project.EstimatedCost += epic.EstimatedCost;
+            project.WeightedCost += epic.WeightedCost;
+
         }
     }
 
     public void UpdateEpic(Project project, EpicEstimate epic)
     {
+        epic.EstimatedTotal = 0;
+        epic.WeightedTotal = 0;
+        epic.EstimatedCost = 0;
+        epic.WeightedCost = 0;
+
         foreach (var feature in epic.Features)
         {
             UpdateFeature(project, feature);
@@ -27,6 +40,8 @@ public class ProjectCalculator
             // update parent totals
             epic.EstimatedTotal += feature.EstimatedTotal;
             epic.WeightedTotal += feature.WeightedTotal;
+            epic.EstimatedCost += feature.EstimatedCost;
+            epic.WeightedCost += feature.WeightedCost;
         }
     }
 
@@ -37,9 +52,7 @@ public class ProjectCalculator
             UpdateWeightedEstimate(project, feature);
             UpdateRisk(project, feature);
             UpdateEffort(project, feature);
-
-            feature.EstimatedTotal = feature.Estimate;
-            feature.WeightedTotal = feature.WeightedEstimate;
+            UpdateTotals(project, feature);
         }
 
         foreach (var story in feature.Stories)
@@ -49,6 +62,8 @@ public class ProjectCalculator
             // update parent totals
             feature.EstimatedTotal += story.Estimate;
             feature.WeightedTotal += story.WeightedEstimate;
+            feature.EstimatedCost += story.EstimatedCost;
+            feature.WeightedCost += story.WeightedCost;
         }
     }
 
@@ -57,6 +72,26 @@ public class ProjectCalculator
         UpdateWeightedEstimate(project, story);
         UpdateRisk(project, story);
         UpdateEffort(project, story);
+        UpdateTotals(project, story);
+    }
+
+    private static void UpdateTotals(Project project, IHaveEstimate estimate)
+    {
+        double estimatedTotal = estimate.Estimate ?? 0;
+        double weightedTotal = estimate.WeightedEstimate ?? 0;
+
+        foreach (var overhead in project.Settings.Overhead)
+        {
+            estimatedTotal *= overhead.Multiplier;
+            weightedTotal *= overhead.Multiplier;
+        }
+
+        // always round up
+        estimate.EstimatedTotal = (int)Math.Round(estimatedTotal, 0, MidpointRounding.AwayFromZero);
+        estimate.WeightedTotal = (int)Math.Round(weightedTotal, 0, MidpointRounding.AwayFromZero);
+
+        estimate.EstimatedCost = estimate.EstimatedTotal * project.Settings.EstimateRate;
+        estimate.WeightedCost = estimate.WeightedTotal * project.Settings.EstimateRate;
     }
 
     private static void UpdateRisk(Project project, IHaveEstimate estimate)
@@ -65,7 +100,7 @@ public class ProjectCalculator
             return;
 
         var multiplier = estimate.Multiplier.Value;
-        
+
         // find risk based on closest multiplier
         var risk = project.Settings.RiskLevels
             .Select(r => new
@@ -109,7 +144,7 @@ public class ProjectCalculator
             return;
 
         // always round up
-        estimate.WeightedEstimate = (int)Math.Ceiling(weighted.Value);
+        estimate.WeightedEstimate = (int)Math.Round(weighted.Value, 0, MidpointRounding.AwayFromZero);
     }
 
 

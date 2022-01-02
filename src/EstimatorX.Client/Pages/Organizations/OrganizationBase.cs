@@ -35,7 +35,7 @@ public abstract class OrganizationBase : ComponentBase, IDisposable
 
     protected override async Task OnInitializedAsync()
     {
-        OrganizationStore.OnChange += StateHasChanged;
+        OrganizationStore.OnChange += HandleModelChange;
 
         try
         {
@@ -49,9 +49,14 @@ public abstract class OrganizationBase : ComponentBase, IDisposable
         }
     }
 
+    private void HandleModelChange()
+    {
+        InvokeAsync(() => StateHasChanged());
+    }
+
     public void Dispose()
     {
-        OrganizationStore.OnChange -= StateHasChanged;
+        OrganizationStore.OnChange -= HandleModelChange;
     }
 
 }

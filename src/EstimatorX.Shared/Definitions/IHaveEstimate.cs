@@ -30,5 +30,8 @@ public interface IHaveEstimate
     string EffortLevel { get; set; }
 
 
-    double? EstimateCost { get; set; }
+    double? EstimatedCost { get; set; }
+
+    double? WeightedCost { get; set; }
+
 }

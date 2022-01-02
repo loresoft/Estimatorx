@@ -2,6 +2,7 @@ using EstimatorX.Client.Extensions;
 using EstimatorX.Client.Services;
 using EstimatorX.Client.Stores;
 using EstimatorX.Shared.Models;
+using EstimatorX.Shared.Services;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -32,6 +33,9 @@ public partial class ProjectContainer : IDisposable
 
     [Inject]
     public ProjectStore ProjectStore { get; set; }
+
+    [Inject]
+    public IProjectCalculator ProjectCalculator { get; set; }
 
     [Inject]
     public NavigationManager Navigation { get; set; }
@@ -99,6 +103,8 @@ public partial class ProjectContainer : IDisposable
 
     private void HandleModelChange()
     {
+        ProjectCalculator.UpdateProject(Project);
+
         InvokeAsync(() => StateHasChanged());
     }
 

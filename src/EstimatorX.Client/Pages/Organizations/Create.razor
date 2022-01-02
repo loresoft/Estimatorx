@@ -22,9 +22,9 @@
         <div class="card mb-5">
             <div class="card-header">
                 <i class="fas fa-user mr-2" aria-hidden="true"></i> Organization Create
-                <ConditionalDisplay Show="@OrganizationStore.IsDirty">
+                <Conditional Show="@OrganizationStore.IsDirty">
                     *
-                </ConditionalDisplay>
+                </Conditional>
             </div>
             <div class="card-body">
 

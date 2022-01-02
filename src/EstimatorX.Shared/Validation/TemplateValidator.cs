@@ -1,13 +1,13 @@
-﻿
+
 using EstimatorX.Shared.Models;
 
 using FluentValidation;
 
 namespace EstimatorX.Shared.Validation;
 
-public class TemplateModelValidator : AbstractValidator<Template>
+public class TemplateValidator : AbstractValidator<Template>
 {
-    public TemplateModelValidator()
+    public TemplateValidator()
     {
         RuleFor(p => p.Name).NotEmpty();
     }

@@ -1,10 +1,32 @@
 @import "variables";
 @import "accordion-type";
 
+.accordion-header-item {
+  padding: 0 0.5em;
+}
+
+.accordion-header-label {
+  opacity: 0.6;
+}
+
 .accordion-epic {
-  @include accordion-type($estimate-epic-icon, $estimate-epic-active-icon, $estimate-epic-color)
+  @include accordion-type($estimate-epic-icon, $estimate-epic-color);
+
+  .accordion-item {
+    .accordion-header {
+      position: sticky;
+      top: 3.7rem;
+      z-index: 1050;
+    }
+  }
 }
 
 .accordion-feature {
-  @include accordion-type($estimate-feature-icon, $estimate-feature-active-icon, $estimate-feature-color)
+  @include accordion-type($estimate-feature-icon, $estimate-feature-color);
+
+  .accordion-item {
+    .accordion-header {
+      position: inherit;
+    }
+  }
 }

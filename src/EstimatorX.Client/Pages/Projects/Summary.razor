@@ -1,8 +1,8 @@
 @page "/projects/{id}/{organizationId}/summary"
-@using EstimatorX.Client.Pages.Projects.Components
 @inherits ProjectBase
 
+@using EstimatorX.Client.Pages.Projects.Components
 
 <ProjectContainer Id="@Id" OrganizationId="@OrganizationId">
-    <h2>Summary</h2>
+    <ProjectSummary />
 </ProjectContainer>

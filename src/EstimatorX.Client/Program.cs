@@ -89,6 +89,7 @@ public static class Program
             .AddScoped<NotificationService>();
 
         services
+            .AddScoped<IProjectCalculator, ProjectCalculator>()
             .AddScoped<IProjectBuilder, ProjectBuilder>();
 
         await builder.Build().RunAsync();

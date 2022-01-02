@@ -1,13 +1,13 @@
-﻿
+
 using EstimatorX.Shared.Models;
 
 using FluentValidation;
 
 namespace EstimatorX.Shared.Validation;
 
-public class OrganizationModelValidator : AbstractValidator<Organization>
+public class OrganizationValidator : AbstractValidator<Organization>
 {
-    public OrganizationModelValidator()
+    public OrganizationValidator()
     {
         RuleFor(p => p.Name).NotEmpty();
     }

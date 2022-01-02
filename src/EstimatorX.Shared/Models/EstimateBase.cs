@@ -35,7 +35,9 @@ public abstract class EstimateBase : IHaveEstimate
     public string EffortLevel { get; set; }
 
 
-    public double? EstimateCost { get; set; }
+    public double? EstimatedCost { get; set; }
+
+    public double? WeightedCost { get; set; }
 
 
     public override int GetHashCode()
@@ -55,7 +57,8 @@ public abstract class EstimateBase : IHaveEstimate
         hash.Add(WeightedTotal);
         hash.Add(RiskLevel);
         hash.Add(EffortLevel);
-        hash.Add(EstimateCost);
+        hash.Add(EstimatedCost);
+        hash.Add(WeightedCost);
 
         return hash.ToHashCode();
     }

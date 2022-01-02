@@ -24,16 +24,35 @@ public class ProjectBuilder : IProjectBuilder, ISingletonService
 
         if (settings.Multipliers.Count == 0)
         {
-            var multipliers = from clarityScale in Enum.GetValues<ClarityScale>()
-                              from confidenceScale in Enum.GetValues<ConfidenceScale>()
-                              let multiplier = new EstimateMultiplier
-                              {
-                                  Clarity = clarityScale,
-                                  Confidence = confidenceScale,
-                              }
-                              select multiplier;
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.Low, Confidence = ConfidenceScale.Low, Value = 6 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.Low, Confidence = ConfidenceScale.MediumLow, Value = 5 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.Low, Confidence = ConfidenceScale.Medium, Value = 4 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.Low, Confidence = ConfidenceScale.MediumHigh, Value = 3 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.Low, Confidence = ConfidenceScale.High, Value = 2.5 });
 
-            settings.Multipliers.AddRange(multipliers);
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.MediumLow, Confidence = ConfidenceScale.Low, Value = 5 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.MediumLow, Confidence = ConfidenceScale.MediumLow, Value = 4 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.MediumLow, Confidence = ConfidenceScale.Medium, Value = 3 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.MediumLow, Confidence = ConfidenceScale.MediumHigh, Value = 2.5 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.MediumLow, Confidence = ConfidenceScale.High, Value = 2 });
+
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.Medium, Confidence = ConfidenceScale.Low, Value = 4 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.Medium, Confidence = ConfidenceScale.MediumLow, Value = 3 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.Medium, Confidence = ConfidenceScale.Medium, Value = 2.5 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.Medium, Confidence = ConfidenceScale.MediumHigh, Value = 2 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.Medium, Confidence = ConfidenceScale.High, Value = 1.5 });
+
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.MediumHigh, Confidence = ConfidenceScale.Low, Value = 3 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.MediumHigh, Confidence = ConfidenceScale.MediumLow, Value = 2.5 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.MediumHigh, Confidence = ConfidenceScale.Medium, Value = 2 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.MediumHigh, Confidence = ConfidenceScale.MediumHigh, Value = 1.5 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.MediumHigh, Confidence = ConfidenceScale.High, Value = 1.25 });
+
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.High, Confidence = ConfidenceScale.Low, Value = 2.5 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.High, Confidence = ConfidenceScale.MediumLow, Value = 2 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.High, Confidence = ConfidenceScale.Medium, Value = 1.5 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.High, Confidence = ConfidenceScale.MediumHigh, Value = 1.25 });
+            settings.Multipliers.Add(new EstimateMultiplier { Clarity = ClarityScale.High, Confidence = ConfidenceScale.High, Value = 1 });
         }
 
         if (settings.RiskLevels.Count == 0)

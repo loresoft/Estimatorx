@@ -1,22 +1,31 @@
-<div class="accordion-epic"
-     id="@ParentCollapse">
-
-    @if (Epics != null)
-    {
-        foreach (var epic in Epics)
-        {
-            <EpicEditor Epic="epic" ParentCollapse="ParentCollapse" />
-        }
-    }
+<div class="row">
+    <div class="col">
+        <div class="accordion-epic" id="@ParentCollapse">
+            <Repeater Items="Epics">
+                <Row Context="epic">
+                    <EpicEditor Epic="epic" ParentCollapse="@ParentCollapse" />
+                </Row>
+            </Repeater>
+        </div>
+    </div>
 </div>
 
-@code {
+<div class="row pt-1">
+    <div class="col">
+        <button type="button"
+                id="@(Identifier("add-button"))"
+                @onclick="EpicAdd"
+                class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-plus"></i> Add Epic
+        </button>
 
-    [Parameter]
-    public List<EpicEstimate> Epics { get; set; }
+        <button type="button"
+                id="@(Identifier("order-button"))"
+                @onclick="EpicReporder"
+                class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-sort"></i> Reorder Epics
+        </button>
+    </div>
+</div>
 
 
-    private Guid Id => Guid.NewGuid();
-
-    private string ParentCollapse => $"epic-parent-{Id}";
-}

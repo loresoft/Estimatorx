@@ -6,16 +6,19 @@ public class EpicEstimate
 
     public string Description { get; set; }
 
-    public List<string> Assumptions { get; init; } = new();
+    public string Assumptions { get; set; }
 
     public List<FeatureEstimate> Features { get; init; } = new();
 
-
+    // computed
     public int? EstimatedTotal { get; set; }
 
     public int? WeightedTotal { get; set; }
 
-    public double? EpicCost { get; set; }
+    public double? EstimatedCost { get; set; }
+
+    public double? WeightedCost { get; set; }
+
 
     public override int GetHashCode()
     {
@@ -24,10 +27,8 @@ public class EpicEstimate
         hash.Add(Description);
         hash.Add(EstimatedTotal);
         hash.Add(WeightedTotal);
-        hash.Add(EpicCost);
-
-        foreach (var assumption in Assumptions)
-            hash.Add(assumption);
+        hash.Add(EstimatedCost);
+        hash.Add(WeightedCost);
 
         foreach (var feature in Features)
             hash.Add(feature.GetHashCode());

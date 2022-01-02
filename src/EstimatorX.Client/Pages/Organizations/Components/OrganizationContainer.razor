@@ -33,9 +33,9 @@
             <div class="card mb-5">
                 <div class="card-header">
                     <i class="fas fa-user me-2" aria-hidden="true"></i> Organization Edit - @OrganizationStore.Model?.Name
-                    <ConditionalDisplay Show="@OrganizationStore.IsDirty">
+                    <Conditional Show="@OrganizationStore.IsDirty">
                         *
-                    </ConditionalDisplay>
+                    </Conditional>
                     <OrganizationTabs />
                 </div>
                 <div class="card-body p-0">

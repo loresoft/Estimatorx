@@ -29,11 +29,7 @@
                             @foreach (var multiplier in group)
                             {
                                 <td>
-                                    <input type="number"
-                                   class="form-control"
-                                   value="@multiplier.Value"
-                                   step="0.01" max="100" min="0"
-                                   @onchange="@((e) => MultiplierUpdate(multiplier, e))" />
+                                    <InputNumber @bind-Value="multiplier.Value" class="form-control" step="0.01" max="100" min="0" />
                                 </td>
                             }
                         </tr>
@@ -68,18 +64,10 @@
                     {
                         <tr>
                             <td>
-                                <input type="number"
-                                   class="form-control"
-                                   value="@riskLevel.Multiplier"
-                                   step="0.01" max="100" min="0"
-                                   @onchange="@((e) => RiskUpdateMultiplier(riskLevel, e))" />
+                                <InputNumber @bind-Value="riskLevel.Multiplier" class="form-control" />
                             </td>
                             <td>
-                                <input type="text"
-                                   class="form-control"
-                                   value="@riskLevel.Risk"
-                                   required
-                                   @onchange="@((e) => RiskUpdateText(riskLevel, e))" />
+                                <InputText @bind-Value="riskLevel.Risk" class="form-control" />
                             </td>
                             <td class="active text-center">
                                 <button type="button"
@@ -131,18 +119,10 @@
                     {
                         <tr>
                             <td>
-                                <input type="number"
-                                   class="form-control"
-                                   value="@effortLevel.Effort"
-                                   max="100"
-                                   min="0"
-                                   @onchange="@((e) => EffortUpdateValue(effortLevel, e))" />
+                                <InputNumber @bind-Value="effortLevel.Effort" class="form-control" />
                             </td>
                             <td>
-                                <input type="text"
-                                   class="form-control"
-                                   value="@effortLevel.Level"
-                                   @onchange="@((e) => EffortUpdateLevel(effortLevel, e))" />
+                                <InputText @bind-Value="effortLevel.Level" class="form-control" />
                             </td>
                             <td class="active text-center">
                                 <button type="button"
@@ -199,28 +179,13 @@
                     {
                         <tr>
                             <td>
-                                <input type="text"
-                                   class="form-control"
-                                   value="@overhead.Name"
-                                   required
-                                   @onchange="@((e) => OverheadUpdateName(overhead, e))" />
-
+                                <InputText @bind-Value="overhead.Name" class="form-control" />
                             </td>
                             <td>
-                                <input type="text"
-                                   class="form-control"
-                                   value="@overhead.Description"
-                                   required
-                                   @onchange="@((e) => OverheadUpdateDescription(overhead, e))" />
-
+                                <InputText @bind-Value="overhead.Description" class="form-control" />
                             </td>
                             <td>
-                                <input type="number"
-                                   class="form-control"
-                                   value="@overhead.Multiplier"
-                                   step="0.01" max="100" min="0"
-                                   @onchange="@((e) => OverheadUpdateMultiplier(overhead, e))" />
-
+                                <InputNumber @bind-Value="overhead.Multiplier" class="form-control" step="0.01" max="100" min="0" />
                             </td>
                             <td class="active text-center">
                                 <button type="button"

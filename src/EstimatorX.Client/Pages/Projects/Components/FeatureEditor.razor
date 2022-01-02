@@ -1,16 +1,9 @@
-@if (Feature != null)
-{
+<Conditional Show="@(Feature != null)">
     <div class="accordion-item">
-        <h2 class="accordion-header"
-        id="feature-header-@Id">
-            <button class="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#feature-collapse-@Id"
-                aria-expanded="false"
-                aria-controls="feature-collapse-@Id">
+        <h2 class="accordion-header" id="@Identifier("header")">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#@Identifier("collapse")" aria-expanded="false" aria-controls="@Identifier("collapse")">
                 <div class="w-100 pe-2 d-flex justify-content-between">
-                    <div class="accordion-header-item">
+                    <div class="accordion-header-item flex-grow-1">
                         @Feature.Name
                     </div>
                     <div class="accordion-header-item">
@@ -28,52 +21,173 @@
                 </div>
             </button>
         </h2>
-        <div id="feature-collapse-@Id"
-         class="accordion-collapse collapse"
-         aria-labelledby="feature-header-@Id"
-         data-bs-parent="#@ParentCollapse">
+        <div id="@Identifier("collapse")" class="accordion-collapse collapse" aria-labelledby="@Identifier("header")" data-bs-parent="#@ParentCollapse">
             <div class="accordion-body">
                 <div class="row">
                     <div class="col">
-                        <div class="mb-3">
-                            <label for="feature-name-@Id"
-                               class="form-label">Feature Name</label>
-                            <input type="text"
-                               class="form-control"
-                               id="feature-name-@Id"
-                               placeholder="Feature Name">
+                        <div class="mb-2">
+                            <label for="@Identifier("name")" class="form-label">
+                                Feature Name: <span class="text-danger">*</span>
+                            </label>
+                            <InputText id="@Identifier("name")" @bind-Value="Feature.Name" class="form-control" />
+                            <ValidationMessage For="@(() => Feature.Name)" />
                         </div>
-                        <div class="mb-3">
-                            <label for="feature-description-@Id"
-                               class="form-label">Feature Description</label>
-                            <textarea class="form-control"
-                                  id="feature-description-@Id"
-                                  rows="4"></textarea>
+                        <div class="mb-2">
+                            <label for="@Identifier("description")" class="form-label">
+                                Feature Description:
+                            </label>
+                            <InputTextArea id="@Identifier("description")" @bind-Value="Feature.Description" class="form-control" rows="4" />
+                            <ValidationMessage For="@(() => Feature.Description)" />
                         </div>
                     </div>
                     <div class="col">
-                        <div class="mb-3">
-                            <label for="feature-assumptions-@Id"
-                               class="form-label">Feature Assumptions</label>
-                            <textarea class="form-control"
-                                  id="feature-assumptions-@Id"
-                                  rows="8"></textarea>
+                        <div class="mb-2">
+                            <label for="@Identifier("assumptions")" class="form-label">
+                                Feature Assumptions:
+                            </label>
+                            <InputTextArea id="@Identifier("assumptions")" @bind-Value="Feature.Assumptions" class="form-control" rows="7" />
+                            <ValidationMessage For="@(() => Feature.Assumptions)" />
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-2">
+                            <label for="@Identifier("estimate")" class="form-label">
+                                Estimate:
+                            </label>
+                            <InputSelect id="@Identifier("estimate")" @bind-Value="Feature.Estimate" class="form-select">
+                                <option value=""></option>
+                                <Repeater Items="ProjectSettings.EffortLevels">
+                                    <Row Context="item">
+                                        <option value="@item.Effort">@item.Effort</option>
+                                    </Row>
+                                </Repeater>
+                            </InputSelect>
+                            <ValidationMessage For="@(() => Feature.Estimate)" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-2">
+                            <label for="@Identifier("clarity")" class="form-label">
+                                Clarity:
+                            </label>
+                            <InputSelect id="@Identifier("clarity")" @bind-Value="Feature.Clarity" class="form-select">
+                                <option value=""></option>
+                                <Repeater Items="@(Enum.GetNames<ClarityScale>().ToList())">
+                                    <Row Context="item">
+                                        <option value="@item">@item.ToTitle()</option>
+                                    </Row>
+                                </Repeater>
+                            </InputSelect>
+                            <ValidationMessage For="@(() => Feature.Clarity)" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-2">
+                            <label for="@Identifier("confidence")" class="form-label">
+                                Confidence:
+                            </label>
+                            <InputSelect id="@Identifier("confidence")" @bind-Value="Feature.Confidence" class="form-select">
+                                <option value=""></option>
+                                <Repeater Items="@(Enum.GetNames<ConfidenceScale>().ToList())">
+                                    <Row Context="item">
+                                        <option value="@item">@item.ToTitle()</option>
+                                    </Row>
+                                </Repeater>
+                            </InputSelect>
+                            <ValidationMessage For="@(() => Feature.Confidence)" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-2">
+                            <label for="@Identifier("criticality")" class="form-label">
+                                Criticality:
+                            </label>
+                            <InputSelect id="@Identifier("criticality")" @bind-Value="Feature.Criticality" class="form-select">
+                                <option value=""></option>
+                                <Repeater Items="@(Enum.GetNames<Criticality>().ToList())">
+                                    <Row Context="item">
+                                        <option value="@item">@item.ToTitle()</option>
+                                    </Row>
+                                </Repeater>
+                            </InputSelect>
+                            <ValidationMessage For="@(() => Feature.Criticality)" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label">
+                            Weighted Estimate:
+                        </label>
+                        <div class="form-control-static">
+                            @Feature.WeightedEstimate
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label class="form-label">
+                            Multiplier:
+                        </label>
+                        <div class="form-control-static">
+                            @Feature.Multiplier
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label class="form-label">
+                            Estimated Cost:
+                        </label>
+                        <div class="form-control-static">
+                            @((Feature.EstimatedCost ?? 0).ToString("C"))
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label class="form-label">
+                            Weighted Cost:
+                        </label>
+                        <div class="form-control-static">
+                            @((Feature.WeightedCost ?? 0).ToString("C"))
+                        </div>
 
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <table id="@Identifier("overhead-table")" class="table table-sm table-borderless">
+                            <colgroup>
+                                <col style="" />
+                                <col style="width: 130px" />
+                                <col style="width: 130px" />
+                                <col style="width: 140px" />
+                                <col style="width: 140px" />
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Overhead Task</th>
+                                    <th>Estimated</th>
+                                    <th>Weighted</th>
+                                    <th>Estimated Cost</th>
+                                    <th>Weighted Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <Repeater Items="ProjectSettings.Overhead">
+                                    <Row Context="item">
+                                        <tr>
+                                            <td>@item.Name</td>
+                                            <td>@(OverheadEstimate(item.Multiplier, Feature.Estimate))</td>
+                                            <td>@(OverheadEstimate(item.Multiplier, Feature.WeightedEstimate))</td>
+                                            <td>@(OverheadAmmount(item.Multiplier, Feature.Estimate)?.ToString("C"))</td>
+                                            <td>@(OverheadAmmount(item.Multiplier, Feature.WeightedEstimate)?.ToString("C"))</td>
+                                        </tr>
+                                    </Row>
+                                </Repeater>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-}
-
-@code {
-    [Parameter]
-    public string ParentCollapse { get; set; }
-
-    [Parameter]
-    public FeatureEstimate Feature { get; set; }
-
-
-    private Guid Id => Guid.NewGuid();
-}
+</Conditional>
