@@ -1,7 +1,7 @@
 <div class="row">
     @if (Project != null)
     {
-        <div class="col-8">
+        <div class="col-4">
             <div class="mb-3">
                 <label for="Name" class="form-label">
                     Project Name: <span class="text-danger">*</span>
@@ -14,21 +14,6 @@
                        placeholder="Name" />
                 <ValidationMessage For="@(() => Project.Name)" />
             </div>
-
-            <div class="mb-3">
-                <label for="Description" class="form-label">
-                    Project Description:
-                </label>
-                <InputTextArea @bind-Value="Project.Description"
-                           DisplayName="Description"
-                           id="Description"
-                           name="Description"
-                           class="form-control"
-                           placeholder="Description" />
-                <ValidationMessage For="@(() => Project.Description)" />
-            </div>
-        </div>
-        <div class="col-4">
             <div class="mb-3">
                 <label for="Organization" class="form-label">
                     Organization: <span class="text-danger">*</span>
@@ -59,6 +44,22 @@
                          name="Rate"
                          class="form-control" />
                 <ValidationMessage For="@(() => Project.Settings.EstimateRate)" />
+            </div>
+
+        </div>
+        <div class="col-8">
+            <div class="mb-3">
+                <label for="Description" class="form-label">
+                    Project Description:
+                </label>
+                <InputTextArea @bind-Value="Project.Description"
+                           DisplayName="Description"
+                           id="Description"
+                           name="Description"
+                           class="form-control"
+                           rows="10"
+                           placeholder="Description" />
+                <ValidationMessage For="@(() => Project.Description)" />
             </div>
         </div>
     }

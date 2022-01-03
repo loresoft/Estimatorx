@@ -2,12 +2,20 @@
     @if (Project != null)
     {
         <li class="nav-item">
-            <NavLink id="organization-general-tab-link"
+            <NavLink id="organization-members-tab-link"
                  Match="NavLinkMatch.All"
                  ActiveClass="active"
                  class="nav-link"
                  href="@($"/projects/{Project.Id}/{Project.OrganizationId}")"
-                 title="Project Details">General</NavLink>
+                 title="Project Assumptions">Summary</NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink id="organization-general-tab-link"
+                 Match="NavLinkMatch.All"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@($"/projects/{Project.Id}/{Project.OrganizationId}/details")"
+                 title="Project Details">Details</NavLink>
         </li>
         <li class="nav-item">
             <NavLink id="organization-members-tab-link"
@@ -16,14 +24,6 @@
                  class="nav-link"
                  href="@($"/projects/{Project.Id}/{Project.OrganizationId}/estimation")"
                  title="Project Assumptions">Estimation</NavLink>
-        </li>
-        <li class="nav-item">
-            <NavLink id="organization-members-tab-link"
-                 Match="NavLinkMatch.All"
-                 ActiveClass="active"
-                 class="nav-link"
-                 href="@($"/projects/{Project.Id}/{Project.OrganizationId}/summary")"
-                 title="Project Assumptions">Summary</NavLink>
         </li>
         <li class="nav-item">
             <NavLink id="organization-members-tab-link"
