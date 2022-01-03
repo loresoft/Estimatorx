@@ -1,11 +1,13 @@
 using System.Text.Json;
 
-using EstimatorX.Client.Extensions;
+using Blazored.Modal;
+using Blazored.Modal.Services;
+
+using EstimatorX.Client.Components;
 using EstimatorX.Client.Stores;
 using EstimatorX.Shared.Models;
 
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 
 namespace EstimatorX.Client.Pages.Projects.Components;
 
@@ -14,8 +16,8 @@ public partial class FeatureContainer
     [Parameter]
     public EpicEstimate Epic { get; set; }
 
-    [Inject]
-    public IJSRuntime JSRuntime { get; set; }
+    [CascadingParameter]
+    public IModalService Modal { get; set; }
 
     [Inject]
     public ProjectStore ProjectStore { get; set; }
@@ -40,7 +42,14 @@ public partial class FeatureContainer
     private async Task EpicDelete()
     {
         var name = Epic.Name;
-        if (!await JSRuntime.Confirm($"Are you sure you want to delete epic '{name}'?"))
+
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(ConfirmDelete.Message), $"Are you sure you want to delete epic '{name}'?");
+
+        var messageForm = Modal.Show<ConfirmDelete>("Confirm Delete", parameters);
+        var result = await messageForm.Result;
+
+        if (result.Cancelled)
             return;
 
         Project.Epics.Remove(Epic);

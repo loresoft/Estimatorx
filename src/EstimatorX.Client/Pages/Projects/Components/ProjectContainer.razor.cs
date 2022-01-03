@@ -1,4 +1,7 @@
-using EstimatorX.Client.Extensions;
+using Blazored.Modal;
+using Blazored.Modal.Services;
+
+using EstimatorX.Client.Components;
 using EstimatorX.Client.Services;
 using EstimatorX.Client.Stores;
 using EstimatorX.Shared.Models;
@@ -25,8 +28,9 @@ public partial class ProjectContainer : IDisposable
     public string BodyClass { get; set; }
 
 
-    [Inject]
-    public IJSRuntime JSRuntime { get; set; }
+    [CascadingParameter]
+    public IModalService Modal { get; set; }
+
 
     [Inject]
     public NotificationService NotificationService { get; set; }
@@ -95,7 +99,14 @@ public partial class ProjectContainer : IDisposable
         try
         {
             var name = Project.Name;
-            if (!await JSRuntime.Confirm($"Are you sure you want to delete '{name}'?"))
+
+            var parameters = new ModalParameters();
+            parameters.Add(nameof(ConfirmDelete.Message), $"Are you sure you want to delete project '{name}'?");
+
+            var messageForm = Modal.Show<ConfirmDelete>("Confirm Delete", parameters);
+            var result = await messageForm.Result;
+
+            if (result.Cancelled)
                 return;
 
             await ProjectStore.Delete(Id, OrganizationId);

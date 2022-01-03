@@ -1,4 +1,5 @@
 using System.Security.Principal;
+using System.Threading;
 
 using AutoMapper;
 
@@ -59,6 +60,7 @@ public abstract class OrganizationServiceBase<TRepository, TModel> : ServiceBase
         Mapper.Map(model, entity);
 
         UpdateTracking(entity, principal);
+        await UpdateOrganizationName(entity, principal, cancellationToken);
 
         var result = await Repository.SaveAsync(entity, cancellationToken);
         if (result == null)
@@ -71,6 +73,7 @@ public abstract class OrganizationServiceBase<TRepository, TModel> : ServiceBase
         return result;
 
     }
+
 
     public override async Task<TModel> Create(TModel model, IPrincipal principal, CancellationToken cancellationToken)
     {
@@ -140,4 +143,23 @@ public abstract class OrganizationServiceBase<TRepository, TModel> : ServiceBase
     }
 
     protected abstract IQueryable<TModel> SearchQuery(IQueryable<TModel> query, string searchTerm);
+
+
+    protected async Task UpdateOrganizationName(TModel entity, IPrincipal principal, CancellationToken cancellationToken)
+{
+        var user = await CurrentUser(principal, cancellationToken);
+        if (user == null)
+            return;
+
+        if (entity.OrganizationId == user.PrivateKey)
+        {
+            entity.OrganizationName = "Private";
+            return;
+        }
+
+        var organization = user.Organizations
+            .FirstOrDefault(o => o.Id == entity.OrganizationId);
+
+        entity.OrganizationName = organization?.Name;
+    }
 }

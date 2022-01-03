@@ -1,3 +1,7 @@
+using Blazored.Modal;
+using Blazored.Modal.Services;
+
+using EstimatorX.Client.Components;
 using EstimatorX.Client.Stores;
 using EstimatorX.Shared.Models;
 
@@ -7,14 +11,20 @@ namespace EstimatorX.Client.Pages.Projects.Components;
 
 public partial class SettingsEditor
 {
+    [CascadingParameter]
+    public IModalService Modal { get; set; }
+
     [Inject]
     public ProjectStore ProjectStore { get; set; }
 
     private ProjectSettings ProjectSettings => ProjectStore.Model.Settings;
 
 
-    private void RiskDelete(RiskLevel riskLevel)
+    private async Task RiskDelete(RiskLevel riskLevel)
     {
+        if (!await Confirm())
+            return;
+
         ProjectSettings.RiskLevels.Remove(riskLevel);
         ProjectStore.NotifyStateChanged();
     }
@@ -26,8 +36,11 @@ public partial class SettingsEditor
     }
 
 
-    private void EffortDelete(EffortLevel effortLevel)
+    private async Task EffortDelete(EffortLevel effortLevel)
     {
+        if (!await Confirm())
+            return;
+
         ProjectSettings.EffortLevels.Remove(effortLevel);
         ProjectStore.NotifyStateChanged();
     }
@@ -48,8 +61,11 @@ public partial class SettingsEditor
     }
 
 
-    private void OverheadDelete(ProjectOverhead overhead)
+    private async Task OverheadDelete(ProjectOverhead overhead)
     {
+        if (!await Confirm())
+            return;
+
         ProjectSettings.Overhead.Remove(overhead);
         ProjectStore.NotifyStateChanged();
     }
@@ -58,5 +74,16 @@ public partial class SettingsEditor
     {
         ProjectSettings.Overhead.Add(new ProjectOverhead());
         ProjectStore.NotifyStateChanged();
+    }
+
+    private async Task<bool> Confirm()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(ConfirmDelete.Message), "Are you sure you want to delete this?");
+
+        var messageForm = Modal.Show<ConfirmDelete>("Confirm Delete", parameters);
+        var result = await messageForm.Result;
+
+        return !result.Cancelled;
     }
 }

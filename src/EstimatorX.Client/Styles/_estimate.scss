@@ -16,7 +16,7 @@
     .accordion-header {
       position: sticky;
       top: 3.7rem;
-      z-index: 1050;
+      z-index: 1045;
     }
   }
 }
@@ -27,6 +27,7 @@
   .accordion-item {
     .accordion-header {
       position: inherit;
+      z-index: inherit;
     }
   }
 }

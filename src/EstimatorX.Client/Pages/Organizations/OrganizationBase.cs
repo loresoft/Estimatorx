@@ -1,10 +1,11 @@
+using Blazored.Modal.Services;
+
 using EstimatorX.Client.Services;
 using EstimatorX.Client.Stores;
 using EstimatorX.Shared.Models;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 
 namespace EstimatorX.Client.Pages.Organizations;
 
@@ -15,8 +16,9 @@ public abstract class OrganizationBase : ComponentBase, IDisposable
     public string Id { get; set; }
 
 
-    [Inject]
-    public IJSRuntime JSRuntime { get; set; }
+    [CascadingParameter]
+    public IModalService Modal { get; set; }
+
 
     [Inject]
     public NotificationService NotificationService { get; set; }

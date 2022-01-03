@@ -1,10 +1,12 @@
-using EstimatorX.Client.Extensions;
+using Blazored.Modal;
+using Blazored.Modal.Services;
+
+using EstimatorX.Client.Components;
 using EstimatorX.Client.Services;
 using EstimatorX.Client.Stores;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.JSInterop;
 
 namespace EstimatorX.Client.Pages.Organizations.Components;
 
@@ -17,8 +19,9 @@ public partial class OrganizationContainer : IDisposable
     public RenderFragment ChildContent { get; set; }
 
 
-    [Inject]
-    public IJSRuntime JSRuntime { get; set; }
+    [CascadingParameter]
+    public IModalService Modal { get; set; }
+
 
     [Inject]
     public NotificationService NotificationService { get; set; }
@@ -71,7 +74,14 @@ public partial class OrganizationContainer : IDisposable
         try
         {
             var name = OrganizationStore.Model.Name;
-            if (!await JSRuntime.Confirm($"Are you sure you want to delete '{name}'?"))
+
+            var parameters = new ModalParameters();
+            parameters.Add(nameof(ConfirmDelete.Message), $"Are you sure you want to delete organization '{name}'?");
+
+            var messageForm = Modal.Show<ConfirmDelete>("Confirm Delete", parameters);
+            var result = await messageForm.Result;
+
+            if (result.Cancelled)
                 return;
 
             await OrganizationStore.Delete(Id);

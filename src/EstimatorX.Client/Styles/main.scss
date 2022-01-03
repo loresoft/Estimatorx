@@ -43,6 +43,22 @@ label {
   width: 20px;
 }
 
+.blazored-modal-container {
+  z-index: 1050;
+}
+
+.blazored-modal-overlay {
+  z-index: 1055;
+}
+
+.blazored-modal {
+  z-index: 1055;
+}
+
+.blazored-modal-header {
+  padding: 0 0 1rem 0;
+}
+
 @import "validation";
 @import "error";
 @import "table";

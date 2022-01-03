@@ -1,6 +1,5 @@
 @page "/projects"
 
-@using EstimatorX.Client.Extensions
 @using EstimatorX.Client.Services
 @using EstimatorX.Client.Repositories
 @using EstimatorX.Client.Stores
@@ -79,7 +78,11 @@
                                 <a href="/projects/@item.Id/@item.OrganizationId" class="d-block" title="@item.Name">@item.Name</a>
                             </Template>
                         </DataColumn>
-                        <DataColumn TItem="ProjectSummary" Property="p => p.Description" />
+                        <DataColumn TItem="ProjectSummary" Property="p => p.OrganizationName" Title="Organization" />
+                        <DataColumn TItem="ProjectSummary" Property="p => p.EstimatedTotal" Title="Estimated" Width="120px" ClassName="text-end" />
+                        <DataColumn TItem="ProjectSummary" Property="p => p.WeightedTotal" Title="Weighted" Width="120px" ClassName="text-end" />
+                        <DataColumn TItem="ProjectSummary" Property="p => p.EstimatedCost" Title="Estimated Cost" Width="140px" Format="C" ClassName="text-end" />
+                        <DataColumn TItem="ProjectSummary" Property="p => p.WeightedCost" Title="Weighted Cost" Width="140px" Format="C" ClassName="text-end" />
                         <DataColumn TItem="ProjectSummary" Property="p => p.Updated" Width="115px">
                             <Template Context="item">
                                 <abbr title="@item.Updated.ToString("f")">

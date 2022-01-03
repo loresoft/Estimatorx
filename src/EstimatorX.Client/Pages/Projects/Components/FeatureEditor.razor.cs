@@ -1,13 +1,13 @@
 using System.Text.Json;
 
-using EstimatorX.Client.Extensions;
-using EstimatorX.Client.Services;
-using EstimatorX.Client.Shared;
+using Blazored.Modal;
+using Blazored.Modal.Services;
+
+using EstimatorX.Client.Components;
 using EstimatorX.Client.Stores;
 using EstimatorX.Shared.Models;
 
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 
 namespace EstimatorX.Client.Pages.Projects.Components;
 
@@ -22,8 +22,8 @@ public partial class FeatureEditor
     [Parameter]
     public FeatureEstimate Feature { get; set; }
 
-    [Inject]
-    public IJSRuntime JSRuntime { get; set; }
+    [CascadingParameter]
+    public IModalService Modal { get; set; }
 
     [Inject]
     public ProjectStore ProjectStore { get; set; }
@@ -48,7 +48,14 @@ public partial class FeatureEditor
     private async Task FeatureDelete()
     {
         var name = Feature.Name;
-        if (!await JSRuntime.Confirm($"Are you sure you want to feature delete '{name}'?"))
+
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(ConfirmDelete.Message), $"Are you sure you want to delete feature '{name}'?");
+
+        var messageForm = Modal.Show<ConfirmDelete>("Confirm Delete", parameters);
+        var result = await messageForm.Result;
+
+        if (result.Cancelled)
             return;
 
         Epic.Features.Remove(Feature);

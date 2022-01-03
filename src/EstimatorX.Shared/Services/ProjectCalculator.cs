@@ -47,13 +47,10 @@ public class ProjectCalculator : IProjectCalculator, ISingletonService
 
     public void UpdateFeature(Project project, FeatureEstimate feature)
     {
-        if (feature.Estimate.HasValue)
-        {
-            UpdateWeightedEstimate(project, feature);
-            UpdateRisk(project, feature);
-            UpdateEffort(project, feature);
-            UpdateTotals(project, feature);
-        }
+        UpdateWeightedEstimate(project, feature);
+        UpdateRisk(project, feature);
+        UpdateEffort(project, feature);
+        UpdateTotals(project, feature);
 
         foreach (var story in feature.Stories)
         {
@@ -97,7 +94,10 @@ public class ProjectCalculator : IProjectCalculator, ISingletonService
     private static void UpdateRisk(Project project, IHaveEstimate estimate)
     {
         if (!estimate.Multiplier.HasValue || estimate.Multiplier.Value == 0)
+        {
+            estimate.RiskLevel = null;
             return;
+        }
 
         var multiplier = estimate.Multiplier.Value;
 
@@ -116,11 +116,14 @@ public class ProjectCalculator : IProjectCalculator, ISingletonService
     private static void UpdateEffort(Project project, IHaveEstimate estimate)
     {
         if (!estimate.Estimate.HasValue || estimate.Estimate.Value == 0)
+        {
+            estimate.EffortLevel = null;
             return;
+        }
 
         var value = estimate.Estimate.Value;
 
-        // find risk based on closest effort value
+        // find effort based on closest effort value
         var effort = project.Settings.EffortLevels
             .Select(r => new
             {
@@ -135,7 +138,12 @@ public class ProjectCalculator : IProjectCalculator, ISingletonService
     private static void UpdateWeightedEstimate(Project project, IHaveEstimate estimate)
     {
         if (!estimate.Estimate.HasValue || estimate.Estimate.Value == 0)
+        {
+            estimate.Multiplier = null;
+            estimate.WeightedEstimate = null;
             return;
+        }
+
 
         estimate.Multiplier = GetWeightedMultiplier(project, estimate);
 

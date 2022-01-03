@@ -4,8 +4,6 @@ using EstimatorX.Shared.Models;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.JSInterop;
 
 namespace EstimatorX.Client.Pages.Projects;
 
@@ -18,9 +16,6 @@ public abstract class ProjectBase : ComponentBase, IDisposable
     [Parameter]
     public string OrganizationId { get; set; }
 
-
-    [Inject]
-    public IJSRuntime JSRuntime { get; set; }
 
     [Inject]
     public NotificationService NotificationService { get; set; }

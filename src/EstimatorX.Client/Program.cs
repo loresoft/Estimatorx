@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 using Blazored.LocalStorage;
+using Blazored.Modal;
 
 using EstimatorX.Client.Repositories;
 using EstimatorX.Client.Services;
@@ -65,6 +66,7 @@ public static class Program
 
         services.AddProgressBar();
         services.AddBlazoredLocalStorage();
+        services.AddBlazoredModal();
         services.AddToaster(config =>
         {
             config.PositionClass = Defaults.Classes.Position.TopCenter;
