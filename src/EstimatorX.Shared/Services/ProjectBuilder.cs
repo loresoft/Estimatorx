@@ -6,13 +6,36 @@ namespace EstimatorX.Shared.Services;
 
 public class ProjectBuilder : IProjectBuilder, ISingletonService
 {
-    public Project Build(Project project)
+    public Project UpdateProject(Project project)
     {
         project ??= new Project();
 
         UpdateSettings(project.Settings);
 
+        UpdateSamples(project);
+
         return project;
+    }
+
+    private void UpdateSamples(Project project)
+    {
+        if (project.Epics.Any())
+            return;
+
+        var epic = new EpicEstimate { Name = "Sample Epic Estimate" };
+
+        var feature = new FeatureEstimate
+        {
+            Name = "Sample Feature Estimate",
+            Estimate = project.Settings.EffortLevels.Select(e => e.Effort).FirstOrDefault(),
+            Clarity = ClarityScale.High,
+            Confidence = ConfidenceScale.High,
+            Criticality = Criticality.Required,
+        };
+
+        epic.Features.Add(feature);
+
+        project.Epics.Add(epic);
     }
 
     public ProjectSettings UpdateSettings(ProjectSettings settings)

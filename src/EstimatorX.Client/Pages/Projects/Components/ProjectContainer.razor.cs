@@ -38,6 +38,10 @@ public partial class ProjectContainer : IDisposable
     public IProjectCalculator ProjectCalculator { get; set; }
 
     [Inject]
+    public IProjectBuilder ProjectBuilder { get; set; }
+
+
+    [Inject]
     public NavigationManager Navigation { get; set; }
 
     public Project Project => ProjectStore.Model;
@@ -56,6 +60,9 @@ public partial class ProjectContainer : IDisposable
 
             EditContext = new EditContext(ProjectStore.Model);
             EditContext.OnFieldChanged += HandleFormChange;
+
+            ProjectBuilder.UpdateProject(Project);
+            ProjectCalculator.UpdateProject(Project);
         }
         catch (Exception ex)
         {

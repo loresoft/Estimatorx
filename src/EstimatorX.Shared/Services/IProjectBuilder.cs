@@ -1,9 +1,10 @@
-﻿using EstimatorX.Shared.Models;
+using EstimatorX.Shared.Models;
 
 namespace EstimatorX.Shared.Services;
 
 public interface IProjectBuilder
 {
-    Project Build(Project project);
+    Project UpdateProject(Project project);
+
     ProjectSettings UpdateSettings(ProjectSettings settings);
 }

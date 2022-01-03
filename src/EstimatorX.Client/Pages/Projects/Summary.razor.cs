@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
+
 namespace EstimatorX.Client.Pages.Projects;
 
-public partial class Summary
+[Authorize]
+public partial class Summary : ProjectBase
 {
 }

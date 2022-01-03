@@ -4,7 +4,7 @@
         <fieldset class="standard">
             <legend>Multiplier Matrix</legend>
 
-            <table class="table table-borderless">
+            <table class="table table-borderless table-sm">
 
                 <tbody>
                     <tr>
@@ -15,25 +15,30 @@
                             <span class="text-vertical text-muted text-center">Clarity</span>
                         </th>
                         <th></th>
-                        @foreach (var confidence in Enum.GetNames<ConfidenceScale>())
-                        {
-                            <th>@confidence.ToTitle()</th>
-                        }
+                        <Repeater Items="@(Enum.GetNames<ConfidenceScale>().ToList())">
+                            <Row Context="confidence">
+                                <th>@confidence.ToTitle()</th>
+                            </Row>
+                        </Repeater>
                     </tr>
-                    @foreach (var group in ProjectSettings.Multipliers.GroupBy(m => m.Clarity))
-                    {
-                        <tr>
-                            <th>
-                                @group.Key.ToString().ToTitle()
-                            </th>
-                            @foreach (var multiplier in group)
-                            {
-                                <td>
-                                    <InputNumber @bind-Value="multiplier.Value" class="form-control" step="0.01" max="100" min="0" />
-                                </td>
-                            }
-                        </tr>
-                    }
+                    <Repeater Items="@(ProjectSettings.Multipliers.GroupBy(m => m.Clarity).ToList())">
+                        <Row Context="group">
+                            <tr>
+                                <th>
+                                    @group.Key.ToString().ToTitle()
+                                </th>
+                                <Repeater Items="@group.ToList()">
+                                    <Row Context="multiplier">
+                                        <td>
+                                            <InputNumber class="form-control form-control-sm"
+                                                         @bind-Value="multiplier.Value"
+                                                         step="0.01" max="100" min="0" />
+                                        </td>
+                                    </Row>
+                                </Repeater>
+                            </tr>
+                        </Row>
+                    </Repeater>
                 </tbody>
             </table>
         </fieldset>
@@ -45,7 +50,7 @@
         <fieldset class="standard">
             <legend>Risk Level</legend>
 
-            <table class="table table-borderless">
+            <table class="table table-borderless table-sm">
                 <colgroup>
                     <col style="" />
                     <col style="" />
@@ -60,26 +65,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var riskLevel in ProjectSettings.RiskLevels)
-                    {
-                        <tr>
-                            <td>
-                                <InputNumber @bind-Value="riskLevel.Multiplier" class="form-control" />
-                            </td>
-                            <td>
-                                <InputText @bind-Value="riskLevel.Risk" class="form-control" />
-                            </td>
-                            <td class="active text-center">
-                                <button type="button"
-                                    @onclick="() => RiskDelete(riskLevel)"
-                                    title="Delete Effort Value"
-                                    class="btn btn-outline-danger btn-sm">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </td>
-
-                        </tr>
-                    }
+                    <Repeater Items="ProjectSettings.RiskLevels">
+                        <Row Context="riskLevel">
+                            <tr>
+                                <td>
+                                    <InputNumber class="form-control form-control-sm"
+                                                 @bind-Value="riskLevel.Multiplier"
+                                                 step="0.01" max="100" min="0" />
+                                </td>
+                                <td>
+                                    <InputText class="form-control form-control-sm"
+                                               @bind-Value="riskLevel.Risk" />
+                                </td>
+                                <td class="active text-center">
+                                    <button type="button"
+                                            @onclick="() => RiskDelete(riskLevel)"
+                                            title="Delete Effort Value"
+                                            class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </Row>
+                    </Repeater>
                 </tbody>
                 <tfoot>
                     <tr>
@@ -101,7 +109,7 @@
         <fieldset class="standard">
             <legend>Effort Values</legend>
 
-            <table class="table table-borderless">
+            <table class="table table-borderless table-sm">
                 <colgroup>
                     <col style="" />
                     <col style="" />
@@ -115,25 +123,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var effortLevel in ProjectSettings.EffortLevels)
-                    {
-                        <tr>
-                            <td>
-                                <InputNumber @bind-Value="effortLevel.Effort" class="form-control" />
-                            </td>
-                            <td>
-                                <InputText @bind-Value="effortLevel.Level" class="form-control" />
-                            </td>
-                            <td class="active text-center">
-                                <button type="button"
-                                    @onclick="() => EffortDelete(effortLevel)"
-                                    title="Delete Effort Value"
-                                    class="btn btn-outline-danger btn-sm">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    }
+                    <Repeater Items="ProjectSettings.EffortLevels">
+                        <Row Context="effortLevel">
+                            <tr>
+                                <td>
+                                    <InputNumber class="form-control form-control-sm"
+                                                 @bind-Value="effortLevel.Effort" />
+                                </td>
+                                <td>
+                                    <InputText class="form-control form-control-sm"
+                                               @bind-Value="effortLevel.Level" />
+                                </td>
+                                <td class="active text-center">
+                                    <button type="button"
+                                            @onclick="() => EffortDelete(effortLevel)"
+                                            title="Delete Effort Value"
+                                            class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                        </Row>
+                    </Repeater>
                 </tbody>
                 <tfoot>
                     <tr>
@@ -159,7 +171,7 @@
         <fieldset class="standard">
             <legend>Overhead Tasks</legend>
 
-            <table class="table table-borderless">
+            <table class="table table-borderless table-sm">
                 <colgroup>
                     <col style="" />
                     <col style="" />
@@ -175,29 +187,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var overhead in ProjectSettings.Overhead)
-                    {
-                        <tr>
-                            <td>
-                                <InputText @bind-Value="overhead.Name" class="form-control" />
-                            </td>
-                            <td>
-                                <InputText @bind-Value="overhead.Description" class="form-control" />
-                            </td>
-                            <td>
-                                <InputNumber @bind-Value="overhead.Multiplier" class="form-control" step="0.01" max="100" min="0" />
-                            </td>
-                            <td class="active text-center">
-                                <button type="button"
-                                    @onclick="() => OverheadDelete(overhead)"
-                                    title="Delete Overhead Value"
-                                    class="btn btn-outline-danger btn-sm">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </td>
+                    <Repeater Items="ProjectSettings.Overhead">
+                        <Row Context="overhead">
+                            <tr>
+                                <td>
+                                    <InputText class="form-control form-control-sm"
+                                        @bind-Value="overhead.Name" />
+                                </td>
+                                <td>
+                                    <InputText class="form-control form-control-sm"
+                                        @bind-Value="overhead.Description" />
+                                </td>
+                                <td>
+                                    <InputNumber class="form-control form-control-sm"
+                                        @bind-Value="overhead.Multiplier"
+                                        step="0.01" max="100" min="0" />
+                                </td>
+                                <td class="active text-center">
+                                    <button type="button"
+                                            @onclick="() => OverheadDelete(overhead)"
+                                            title="Delete Overhead Value"
+                                            class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
 
-                        </tr>
-                    }
+                            </tr>
+                        </Row>
+                    </Repeater>
                 </tbody>
                 <tfoot>
                     <tr>
