@@ -16,7 +16,6 @@ public partial class EpicEditor
     [Inject]
     public ProjectStore ProjectStore { get; set; }
 
-    private Guid Id = Guid.NewGuid();
 
-    private string Identifier(string name) => $"epic-{name}-{Id}";
+    private string Identifier(string name) => $"epic-{name}-{Epic?.Id}";
 }

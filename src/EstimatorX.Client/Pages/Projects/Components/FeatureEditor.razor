@@ -187,6 +187,29 @@
 
                     </div>
                 </div>
+                <div class="row pt-1">
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                        <button type="button"
+                                id="@(Identifier("delete-button"))"
+                                @onclick="FeatureDelete"
+                                disabled="@ProjectStore.IsBusy"
+                                class="btn btn-outline-danger btn-sm ms-2 fa-pull-right">
+                            <i class="fas fa-trash-alt"></i> Delete Feature
+                        </button>
+
+                        <button type="button"
+                                id="@(Identifier("duplicate-button"))"
+                                @onclick="FeatureDuplicate"
+                                disabled="@ProjectStore.IsBusy"
+                                class="btn btn-outline-secondary btn-sm ms-2 fa-pull-right">
+                            <i class="fas fa-copy"></i> Duplicate Feature
+                        </button>
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </div>

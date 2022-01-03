@@ -13,11 +13,11 @@ public partial class EpicContainer
     [Inject]
     public ProjectStore ProjectStore { get; set; }
 
-    private Guid Id = Guid.NewGuid();
+    public Project Project => ProjectStore.Model;
 
-    private string ParentCollapse => $"epic-parent-{Id}";
+    private string ParentCollapse => $"epic-parent-{Project?.Id}";
 
-    private string Identifier(string name) => $"epic-{name}-{Id}";
+    private string Identifier(string name) => $"epic-{name}-{Project?.Id}";
 
     private void EpicAdd()
     {

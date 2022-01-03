@@ -40,12 +40,25 @@
                          class="form-select">
                     <option value="">-- Select --</option>
                     <option value="@UserStore.Model.PrivateKey">Private</option>
-                    @foreach (var organization in UserStore.Model.Organizations)
-                    {
-                        <option value="@organization.Id">@organization.Name</option>
-                    }
+                    <Repeater Items="UserStore.Model.Organizations">
+                        <Row Context="organization">
+                            <option value="@organization.Id">@organization.Name</option>
+                        </Row>
+                    </Repeater>
                 </InputSelect>
                 <ValidationMessage For="@(() => Project.OrganizationId)" />
+            </div>
+
+            <div class="mb-3">
+                <label for="Rate" class="form-label">
+                    Unit Rate: <span class="text-danger">*</span>
+                </label>
+                <InputNumber @bind-Value="Project.Settings.EstimateRate"
+                         DisplayName="Rate"
+                         id="Rate"
+                         name="Rate"
+                         class="form-control" />
+                <ValidationMessage For="@(() => Project.Settings.EstimateRate)" />
             </div>
         </div>
     }
