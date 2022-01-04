@@ -1,6 +1,8 @@
-﻿namespace EstimatorX.Shared.Models;
+using EstimatorX.Shared.Definitions;
 
-public class OrganizationSummary : ModelBase
+namespace EstimatorX.Shared.Models;
+
+public class OrganizationSummary : ModelBase, IHaveName
 {
     public string Name { get; set; }
 

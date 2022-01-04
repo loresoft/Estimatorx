@@ -1,10 +1,8 @@
-using System.Text.Json;
-
-using Blazored.Modal;
 using Blazored.Modal.Services;
 
-using EstimatorX.Client.Components;
+using EstimatorX.Client.Extensions;
 using EstimatorX.Client.Stores;
+using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
 using Microsoft.AspNetCore.Components;
@@ -25,8 +23,6 @@ public partial class FeatureEditor
     [CascadingParameter]
     public IModalService Modal { get; set; }
 
-    [Inject]
-    public ProjectStore ProjectStore { get; set; }
 
     public ProjectSettings ProjectSettings => ProjectStore.Model?.Settings;
 
@@ -49,13 +45,7 @@ public partial class FeatureEditor
     {
         var name = Feature.Name;
 
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(ConfirmDelete.Message), $"Are you sure you want to delete feature '{name}'?");
-
-        var messageForm = Modal.Show<ConfirmDelete>("Confirm Delete", parameters);
-        var result = await messageForm.Result;
-
-        if (result.Cancelled)
+        if (!await Modal.ConfirmDelete($"Are you sure you want to delete feature '{name}'?"))
             return;
 
         Epic.Features.Remove(Feature);
@@ -65,8 +55,7 @@ public partial class FeatureEditor
 
     private void FeatureDuplicate()
     {
-        var json = JsonSerializer.Serialize(Feature);
-        var clone = JsonSerializer.Deserialize<FeatureEstimate>(json);
+        var clone = Feature.Clone();
 
         clone.Id = Guid.NewGuid().ToString("N");
         clone.Name += " - Copy";

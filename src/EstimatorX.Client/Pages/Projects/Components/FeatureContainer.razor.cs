@@ -1,10 +1,9 @@
-using System.Text.Json;
 
-using Blazored.Modal;
 using Blazored.Modal.Services;
 
-using EstimatorX.Client.Components;
+using EstimatorX.Client.Extensions;
 using EstimatorX.Client.Stores;
+using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
 using Microsoft.AspNetCore.Components;
@@ -19,10 +18,6 @@ public partial class FeatureContainer
     [CascadingParameter]
     public IModalService Modal { get; set; }
 
-    [Inject]
-    public ProjectStore ProjectStore { get; set; }
-
-    public Project Project => ProjectStore.Model;
 
     private string ParentCollapse => $"feature-parent-{Epic?.Id}";
 
@@ -34,8 +29,9 @@ public partial class FeatureContainer
         ProjectStore.NotifyStateChanged();
     }
 
-    private void FeatureReporder()
+    private async Task FeatureReporder()
     {
+        var result = await Modal.Reorder(Epic.Features);
         ProjectStore.NotifyStateChanged();
     }
 
@@ -43,14 +39,9 @@ public partial class FeatureContainer
     {
         var name = Epic.Name;
 
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(ConfirmDelete.Message), $"Are you sure you want to delete epic '{name}'?");
-
-        var messageForm = Modal.Show<ConfirmDelete>("Confirm Delete", parameters);
-        var result = await messageForm.Result;
-
-        if (result.Cancelled)
+        if (!await Modal.ConfirmDelete($"Are you sure you want to delete epic '{name}'?"))
             return;
+
 
         Project.Epics.Remove(Epic);
 
@@ -59,8 +50,7 @@ public partial class FeatureContainer
 
     private void EpicDuplicate()
     {
-        var json = JsonSerializer.Serialize(Epic);
-        var clone = JsonSerializer.Deserialize<EpicEstimate>(json);
+        var clone = Epic.Clone();
 
         clone.Id = Guid.NewGuid().ToString("N");
         clone.Name += " - Copy";

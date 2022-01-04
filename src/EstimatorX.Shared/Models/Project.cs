@@ -2,7 +2,7 @@ using EstimatorX.Shared.Definitions;
 
 namespace EstimatorX.Shared.Models;
 
-public class Project : ModelBase, IHaveOrganization
+public class Project : ModelBase, IHaveOrganization, IHaveName
 {
     public string Name { get; set; }
 

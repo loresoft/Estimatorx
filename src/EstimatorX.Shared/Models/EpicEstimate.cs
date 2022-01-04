@@ -1,6 +1,8 @@
+using EstimatorX.Shared.Definitions;
+
 namespace EstimatorX.Shared.Models;
 
-public class EpicEstimate
+public class EpicEstimate : IHaveIdentifier, IHaveName
 {
     public string Id { get; set; } = Guid.NewGuid().ToString("N");
 
@@ -25,6 +27,7 @@ public class EpicEstimate
     public override int GetHashCode()
     {
         var hash = new HashCode();
+        hash.Add(Id);
         hash.Add(Name);
         hash.Add(Description);
         hash.Add(EstimatedTotal);

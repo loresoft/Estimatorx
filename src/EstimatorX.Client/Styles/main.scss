@@ -52,11 +52,25 @@ label {
 }
 
 .blazored-modal {
+  min-width: 600px;
   z-index: 1055;
 }
 
 .blazored-modal-header {
   padding: 0 0 1rem 0;
+}
+
+[draggable="true"] {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+ul.reorder {
+  li {
+    cursor: move;
+  }
 }
 
 @import "validation";

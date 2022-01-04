@@ -1,7 +1,6 @@
-using Blazored.Modal;
 using Blazored.Modal.Services;
 
-using EstimatorX.Client.Components;
+using EstimatorX.Client.Extensions;
 using EstimatorX.Client.Stores;
 using EstimatorX.Shared.Models;
 
@@ -14,15 +13,13 @@ public partial class SettingsEditor
     [CascadingParameter]
     public IModalService Modal { get; set; }
 
-    [Inject]
-    public ProjectStore ProjectStore { get; set; }
 
     private ProjectSettings ProjectSettings => ProjectStore.Model.Settings;
 
 
     private async Task RiskDelete(RiskLevel riskLevel)
     {
-        if (!await Confirm())
+        if (!await Modal.ConfirmDelete())
             return;
 
         ProjectSettings.RiskLevels.Remove(riskLevel);
@@ -38,7 +35,7 @@ public partial class SettingsEditor
 
     private async Task EffortDelete(EffortLevel effortLevel)
     {
-        if (!await Confirm())
+        if (!await Modal.ConfirmDelete())
             return;
 
         ProjectSettings.EffortLevels.Remove(effortLevel);
@@ -63,7 +60,7 @@ public partial class SettingsEditor
 
     private async Task OverheadDelete(ProjectOverhead overhead)
     {
-        if (!await Confirm())
+        if (!await Modal.ConfirmDelete())
             return;
 
         ProjectSettings.Overhead.Remove(overhead);
@@ -76,14 +73,4 @@ public partial class SettingsEditor
         ProjectStore.NotifyStateChanged();
     }
 
-    private async Task<bool> Confirm()
-    {
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(ConfirmDelete.Message), "Are you sure you want to delete this?");
-
-        var messageForm = Modal.Show<ConfirmDelete>("Confirm Delete", parameters);
-        var result = await messageForm.Result;
-
-        return !result.Cancelled;
-    }
 }

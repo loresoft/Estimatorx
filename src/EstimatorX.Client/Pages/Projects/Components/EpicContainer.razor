@@ -1,7 +1,9 @@
+@inherits ProjectComponentBase
+
 <div class="row">
     <div class="col">
         <div class="accordion-epic" id="@ParentCollapse">
-            <Repeater Items="Epics">
+            <Repeater Items="Project.Epics">
                 <Row Context="epic">
                     <EpicEditor Epic="epic" ParentCollapse="@ParentCollapse" />
                 </Row>

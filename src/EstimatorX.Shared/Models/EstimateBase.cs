@@ -2,7 +2,7 @@ using EstimatorX.Shared.Definitions;
 
 namespace EstimatorX.Shared.Models;
 
-public abstract class EstimateBase : IHaveEstimate
+public abstract class EstimateBase : IHaveIdentifier, IHaveName, IHaveEstimate
 {
     public string Id { get; set; } = Guid.NewGuid().ToString("N");
 
@@ -45,6 +45,7 @@ public abstract class EstimateBase : IHaveEstimate
     public override int GetHashCode()
     {
         var hash = new HashCode();
+        hash.Add(Id);
         hash.Add(Name);
         hash.Add(Description);
         hash.Add(Assumptions);

@@ -1,6 +1,4 @@
-using Blazored.Modal;
-
-using EstimatorX.Client.Components;
+using EstimatorX.Client.Extensions;
 using EstimatorX.Client.Repositories;
 using EstimatorX.Client.Services;
 using EstimatorX.Client.Stores;
@@ -55,13 +53,7 @@ public partial class Members : OrganizationBase
 
         var name = member.Name;
 
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(ConfirmDelete.Message), $"Are you sure you want to remove '{member.Name}'?");
-
-        var messageForm = Modal.Show<ConfirmDelete>("Confirm Delete", parameters);
-        var result = await messageForm.Result;
-
-        if (result.Cancelled)
+        if (!await Modal.ConfirmDelete($"Are you sure you want to remove '{name}'?"))
             return;
 
         Organization.Members.Remove(member);

@@ -1,3 +1,7 @@
+
+using Blazored.Modal.Services;
+
+using EstimatorX.Client.Extensions;
 using EstimatorX.Client.Stores;
 using EstimatorX.Shared.Models;
 
@@ -7,13 +11,8 @@ namespace EstimatorX.Client.Pages.Projects.Components;
 
 public partial class EpicContainer
 {
-    [Parameter]
-    public List<EpicEstimate> Epics { get; set; }
-
-    [Inject]
-    public ProjectStore ProjectStore { get; set; }
-
-    public Project Project => ProjectStore.Model;
+    [CascadingParameter]
+    public IModalService Modal { get; set; }
 
     private string ParentCollapse => $"epic-parent-{Project?.Id}";
 
@@ -21,12 +20,13 @@ public partial class EpicContainer
 
     private void EpicAdd()
     {
-        Epics.Add(new EpicEstimate { Name = "New Epic Estimate" });
+        Project.Epics.Add(new EpicEstimate { Name = "New Epic Estimate" });
         ProjectStore.NotifyStateChanged();
     }
 
-    private void EpicReporder()
+    private async Task EpicReporder()
     {
+        var result = await Modal.Reorder(Project.Epics);
         ProjectStore.NotifyStateChanged();
     }
 }

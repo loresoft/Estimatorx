@@ -1,7 +1,6 @@
-using Blazored.Modal;
 using Blazored.Modal.Services;
 
-using EstimatorX.Client.Components;
+using EstimatorX.Client.Extensions;
 using EstimatorX.Client.Services;
 using EstimatorX.Client.Stores;
 
@@ -75,14 +74,9 @@ public partial class OrganizationContainer : IDisposable
         {
             var name = OrganizationStore.Model.Name;
 
-            var parameters = new ModalParameters();
-            parameters.Add(nameof(ConfirmDelete.Message), $"Are you sure you want to delete organization '{name}'?");
-
-            var messageForm = Modal.Show<ConfirmDelete>("Confirm Delete", parameters);
-            var result = await messageForm.Result;
-
-            if (result.Cancelled)
+            if (!await Modal.ConfirmDelete($"Are you sure you want to delete organization '{name}'?"))
                 return;
+
 
             await OrganizationStore.Delete(Id);
             NotificationService.ShowSuccess($"Organization '{name}' deleted successfully");

@@ -1,6 +1,8 @@
-﻿namespace EstimatorX.Shared.Models;
+using EstimatorX.Shared.Definitions;
 
-public class IdentifierName
+namespace EstimatorX.Shared.Models;
+
+public class IdentifierName : IHaveIdentifier, IHaveName
 {
     public string Id { get; set; }
 

@@ -1,6 +1,8 @@
+using EstimatorX.Shared.Definitions;
+
 namespace EstimatorX.Shared.Models;
 
-public class ProjectOverhead
+public class ProjectOverhead : IHaveName
 {
     public string Name { get; set; }
 

@@ -1,5 +1,6 @@
 @page "/templates/{id}/{organizationId}"
 @using Blazored.FluentValidation
+@using EstimatorX.Client.Extensions
 @using EstimatorX.Client.Repositories
 @using EstimatorX.Client.Services
 @using EstimatorX.Client.Stores
@@ -80,14 +81,9 @@
         {
             var name = Template.Name;
 
-            var parameters = new ModalParameters();
-            parameters.Add(nameof(ConfirmDelete.Message), $"Are you sure you want to delete template '{name}'?");
-
-            var messageForm = Modal.Show<ConfirmDelete>("Confirm Delete", parameters);
-            var result = await messageForm.Result;
-
-            if (result.Cancelled)
+            if (!await Modal.ConfirmDelete($"Are you sure you want to delete template '{name}'?"))
                 return;
+
 
             IsBusy = true;
 
