@@ -1,0 +1,28 @@
+.table-edit {
+  > tbody {
+    > tr {
+      > td {
+        padding: 0;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  .form-control {
+    padding-right: 6px;
+    padding-left: 6px;
+    border-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+
+    &:focus {
+      border-color: #66afe9;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
+      outline: 0 none;
+    }
+  }
+
+  .form-control-static {
+    padding: 6px 12px;
+  }
+}

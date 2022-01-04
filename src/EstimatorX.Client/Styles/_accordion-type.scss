@@ -1,0 +1,70 @@
+@mixin accordion-type($type-icon, $type-color) {
+  $icon-width: 1.25rem;
+  $text-color: #212529;
+
+  $button-color: $text-color;
+  $button-bg: lighten($type-color, 55%);
+
+  $button-active-color: $text-color;
+  $button-active-bg: lighten($type-color, 45%);
+
+  $border-width: 1px;
+  $border-color: $type-color;
+
+
+  .accordion-button {
+    padding: 1em 0.75em;
+    color: $button-color;
+    background-color: $button-bg;
+    border: 0;
+    border-radius: 0;
+
+    &:not(.collapsed) {
+      color: $button-active-color;
+      background-color: $button-active-bg;
+    }
+
+    &::before {
+      flex-shrink: 0;
+      width: $icon-width;
+      height: $icon-width;
+      content: "";
+      background-image: $type-icon;
+      background-repeat: no-repeat;
+      background-size: $icon-width;
+    }
+  }
+
+  .accordion-item {
+    border: $border-width solid $border-color;
+    border-radius: 0;
+
+    &:not(:first-of-type) {
+      border-top: 0;
+    }
+
+    &:first-of-type {
+      .accordion-button {
+        border-radius: 0;
+      }
+    }
+
+    &:last-of-type {
+      border-radius: 0;
+
+      .accordion-button {
+        &.collapsed {
+          border-radius: 0;
+        }
+      }
+
+      .accordion-collapse {
+        border-radius: 0;
+      }
+    }
+
+    .accordion-body {
+      padding: 0.75em 1em;
+    }
+  }
+}

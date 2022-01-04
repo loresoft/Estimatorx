@@ -1,0 +1,108 @@
+@page "/templates/create"
+@using Blazored.FluentValidation
+@using EstimatorX.Client.Pages.Templates.Components
+@using EstimatorX.Client.Repositories
+@using EstimatorX.Client.Services
+@using EstimatorX.Client.Stores
+@using EstimatorX.Shared.Extensions
+@using EstimatorX.Shared.Models
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+@inject TemplateStore TemplateStore
+@inject UserStore UserStore
+@inject TemplateRepository TemplateRepository
+@inject NotificationService NotificationService
+@inject NavigationManager Navigation
+
+<div class="container-xxl">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/templates">Templates</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Create
+            </li>
+        </ol>
+    </nav>
+    <div class="card mb-5">
+        <div class="card-header">
+            <i class="fas fa-user mr-2"
+               aria-hidden="true"></i> Template Create
+        </div>
+        <div class="card-body">
+            <EditForm Model="@Template" OnValidSubmit="@HandleSave">
+                <FluentValidationValidator />
+                <div class="row">
+                    <div class="col">
+                        <ValidationSummary />
+                    </div>
+                </div>
+
+                <TemplateForm Template="Template" />
+
+                <div class="row">
+                    <div class="col">
+                        <BusyButton id="save-button"
+                                    type="submit"
+                                    Busy="IsBusy"
+                                    class="btn btn-primary">
+                            <BusyTemplate>
+                                <span class='spinner-border spinner-border-sm'></span> Saving...
+                            </BusyTemplate>
+                            <ChildContent>
+                                Save
+                            </ChildContent>
+                        </BusyButton>
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+            </EditForm>
+
+        </div>
+    </div>
+</div>
+
+@code {
+    private Template Template { get; set; }
+
+    private bool IsBusy { get; set; }
+
+    private int OriginalHash { get; set; }
+
+    private bool IsDiry => OriginalHash != Template.GetHashCode();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Template = new Template();
+        OriginalHash = Template.GetHashCode();
+    }
+
+    protected async Task HandleSave()
+    {
+        try
+        {
+            IsBusy = true;
+            var result = await TemplateRepository.Create(Template);
+
+            NotificationService.ShowSuccess($"Template '{result.Name}' saved successfully");
+            Navigation.NavigateTo($"/templates/{result.Id}");
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+}

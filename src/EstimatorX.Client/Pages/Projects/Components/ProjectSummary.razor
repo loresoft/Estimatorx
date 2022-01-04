@@ -1,0 +1,48 @@
+@inherits ProjectComponentBase
+
+<h3>Project Summary</h3>
+
+<table class="table table-borderless">
+    <colgroup>
+        <col style="" />
+        <col style="width: 150px" />
+        <col style="width: 150px" />
+        <col style="width: 150px" />
+        <col style="width: 150px" />
+        <col style="width: 150px" />
+    </colgroup>
+    <thead>
+        <tr>
+            <th>Deliverable</th>
+            <th>Rate</th>
+            <th>Estimated</th>
+            <th>Weighted</th>
+            <th>Estimated Cost</th>
+            <th>Weighted Cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        <Repeater Items="Project.Epics">
+            <Row Context="item">
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@Project.Settings.EstimateRate.ToString("C")</td>
+                    <td>@item.EstimatedTotal</td>
+                    <td>@item.WeightedTotal</td>
+                    <td>@item.EstimatedCost?.ToString("C")</td>
+                    <td>@item.WeightedCost?.ToString("C")</td>
+                </tr>
+            </Row>
+        </Repeater>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="2">Grand Total</th>
+            <th>@Project.EstimatedTotal</th>
+            <th>@Project.WeightedTotal</th>
+            <th>@Project.EstimatedCost?.ToString("C")</th>
+            <th>@Project.WeightedCost?.ToString("C")</th>
+        </tr>
+    </tfoot>
+</table>
+

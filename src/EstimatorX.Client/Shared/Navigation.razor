@@ -1,0 +1,206 @@
+@using EstimatorX.Client.Stores
+@using EstimatorX.Shared.Extensions
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+@inject NavigationManager NavigationManager
+@inject SignOutSessionStateManager SignOutManager
+@inject UserStore UserStore
+
+<nav id="navbar-main"
+     class="navbar navbar-expand-lg navbar-light navbar-default fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand"
+           href="/"
+           style="padding: 0">
+            <img src="/images/full-logo.svg"
+                 alt="EstimatorX"
+                 height="35" />
+        </a>
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbar-main-menu"
+                aria-controls="navbar-main-menu"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"
+             id="navbar-main-menu">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <!-- Projects -->
+                <li class="nav-item dropdown">
+                    <a id="navbar-main-projects"
+                       role="button"
+                       href="#"
+                       class="nav-link dropdown-toggle"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Projects
+                    </a>
+                    <ul class="dropdown-menu"
+                        aria-labelledby="navbar-main-projects">
+                        <li>
+                            <a id="navbar-main-project-view"
+                               class="dropdown-item"
+                               href="/projects">
+                                View Projects
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a id="navbar-main-project-create"
+                               class="dropdown-item"
+                               href="/projects/create">
+                                Create Project
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Templates -->
+                <li class="nav-item dropdown">
+                    <a id="navbar-main-templates"
+                       role="button"
+                       href="#"
+                       class="nav-link dropdown-toggle"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Templates
+                    </a>
+                    <ul class="dropdown-menu"
+                        aria-labelledby="navbar-main-templates">
+                        <li>
+                            <a id="navbar-main-template-view"
+                               class="dropdown-item"
+                               href="/templates">
+                                View Templates
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a id="navbar-main-template-create"
+                               class="dropdown-item"
+                               href="/templates/create">
+                                Create Template
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <AuthorizeView Roles="@EstimatorX.Shared.Security.Roles.Administrators">
+                    <!-- Administrative -->
+                    <li class="nav-item dropdown">
+                        <a id="navbar-main-administrative"
+                           role="button"
+                           href="#"
+                           class="nav-link dropdown-toggle"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Administrative
+                        </a>
+                        <ul class="dropdown-menu"
+                            aria-labelledby="navbar-main-administrative">
+                            <li>
+                                <a id="navbar-main-administrative-organizations"
+                                   class="dropdown-item"
+                                   href="/administrative/organizations">
+                                    Organizations
+                                </a>
+                            </li>
+                            <li>
+                                <a id="navbar-main-administrative-users"
+                                   class="dropdown-item"
+                                   href="/administrative/users">
+                                    Users
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a id="navbar-main-administrative-logs"
+                                   class="dropdown-item"
+                                   href="/administrative/logs">
+                                    Logs
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </AuthorizeView>
+            </ul>
+            <!-- User Menu -->
+            <ul class="navbar-nav"
+                style="margin-right: 15px;">
+                <AuthorizeView>
+                    <Authorized>
+                        <li class="nav-item dropdown">
+                            <a id="navbar-dropdown-user"
+                               href="#"
+                               class="nav-link dropdown-toggle"
+                               data-bs-toggle="dropdown"
+                               aria-haspopup="true"
+                               aria-expanded="false">
+                                <Gravatar Email="@UserStore.Model.Email"
+                                          class="rounded-circle"
+                                          Size="24"></Gravatar>
+                                <span id="navbar-identity-username">@UserStore.Model.Name</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end"
+                                 aria-labelledby="navbar-dropdown-user">
+                                <a id="navbar-identity-profile-link"
+                                   class="dropdown-item"
+                                   href="/account/profile">
+                                    <i class="fas fa-user"></i> Profile
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a id="navbar-identity-organizations-link"
+                                   class="dropdown-item"
+                                   href="/organizations">
+                                    <i class="fas fa-users"></i> Organizations
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <button id="navbar-identity-logout-link"
+                                        type="button"
+                                        class="dropdown-item"
+                                        @onclick="BeginLogout">
+                                    <i class="fas fa-power-off"></i> Logout
+                                </button>
+                            </div>
+                        </li>
+                    </Authorized>
+                    <NotAuthorized>
+                        <li class="nav-item">
+                            <a id="navbar-identity-login-link"
+                               class="nav-link"
+                               href="/authentication/login">
+                                Login
+                            </a>
+                        </li>
+                    </NotAuthorized>
+                </AuthorizeView>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+@code {
+    private async Task BeginLogout(MouseEventArgs args)
+    {
+        await SignOutManager.SetSignOutState();
+        NavigationManager.NavigateTo("authentication/logout");
+    }
+
+    protected override void OnInitialized()
+    {
+        UserStore.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        UserStore.OnChange -= StateHasChanged;
+    }
+}

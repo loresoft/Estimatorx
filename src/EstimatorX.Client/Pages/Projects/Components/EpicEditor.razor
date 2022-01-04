@@ -1,0 +1,56 @@
+@inherits ProjectComponentBase
+
+<Conditional Show="@(Epic != null)">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="@Identifier("header")">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#@Identifier("collapse")" aria-expanded="false" aria-controls="@Identifier("collapse")">
+                <div class="w-100 pe-2 d-flex justify-content-between">
+                    <div class="accordion-header-item flex-grow-1">
+                        @Epic.Name
+                    </div>
+                    <div class="accordion-header-item">
+                        <span class="accordion-header-label">Estimate:</span>
+                        <span class="text-nowrap">@(Epic.EstimatedTotal ?? 0) - @(Epic.WeightedTotal ?? 0)</span>
+                    </div>
+                    <div class="accordion-header-item">
+                        <span class="accordion-header-label">Cost:</span>
+                        <span class="text-nowrap">@((Epic.EstimatedCost ?? 0).ToString("C")) - @((Epic.WeightedCost ?? 0).ToString("C"))</span>
+                    </div>
+                </div>
+            </button>
+        </h2>
+        <div id="@Identifier("collapse")" class="accordion-collapse collapse" aria-labelledby="@Identifier("header")" data-bs-parent="#@ParentCollapse">
+            <div class="accordion-body">
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-2">
+                            <label for="@Identifier("name")" class="form-label">
+                                Epic Name: <span class="text-danger">*</span>
+                            </label>
+                            <InputText id="@Identifier("name")" @bind-Value="Epic.Name" class="form-control" />
+                            <ValidationMessage For="@(() => Epic.Name)" />
+                        </div>
+                        <div class="mb-2">
+                            <label for="@Identifier("description")" class="form-label">
+                                Epic Description:
+                            </label>
+                            <InputTextArea id="@Identifier("description")" @bind-Value="Epic.Description" class="form-control" rows="4" />
+                            <ValidationMessage For="@(() => Epic.Description)" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-2">
+                            <label for="@Identifier("assumptions")" class="form-label">
+                                Epic Assumptions:
+                            </label>
+                            <InputTextArea id="@Identifier("assumptions")" @bind-Value="Epic.Assumptions" class="form-control" rows="7" />
+                            <ValidationMessage For="@(() => Epic.Assumptions)" />
+                        </div>
+                    </div>
+                </div>
+
+                <FeatureContainer Epic="Epic" />
+            </div>
+        </div>
+    </div>
+</Conditional>

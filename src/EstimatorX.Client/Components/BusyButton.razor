@@ -1,0 +1,10 @@
+<button @attributes="AdditionalAttributes" disabled="@(Disabled || Busy)">
+    @if (Busy)
+    {
+        @BusyTemplate
+    }
+    else
+    {
+        @ChildContent
+    }
+</button>

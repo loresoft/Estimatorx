@@ -1,0 +1,126 @@
+#blazor-error-ui {
+  background: lightyellow;
+  bottom: 0;
+  box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+  display: none;
+  left: 0;
+  padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+
+  .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+  }
+}
+
+#error-page {
+  position: relative;
+  height: 100vh;
+}
+
+#error-page .error-page {
+  position: absolute;
+  left: 50%;
+  top: 200px;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.error-page {
+  max-width: 620px;
+  width: 100%;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.error-page .error-page-404,
+.error-page .error-page-500 {
+  position: relative;
+  height: 240px;
+}
+
+.error-page .error-page-404 h1,
+.error-page .error-page-500 h1 {
+  font-family: 'Montserrat', sans-serif;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-size: 252px;
+  font-weight: 900;
+  margin: 0px;
+  color: #6F6F6F;
+  text-transform: uppercase;
+  letter-spacing: -40px;
+  margin-left: -20px;
+}
+
+.error-page .error-page-404 h1 > span,
+.error-page .error-page-500 h1 > span {
+  text-shadow: -8px 0px 0px #fff;
+}
+
+.error-page .error-page-404 h3,
+.error-page .error-page-500 h3 {
+  font-family: 'Cabin', sans-serif;
+  position: relative;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #262626;
+  margin: 0px;
+  letter-spacing: 3px;
+  padding-left: 6px;
+}
+
+.error-page .error-page-500 h1,
+.error-page .error-page-500 h3 {
+  color: #990000;
+}
+
+.error-page h2 {
+  font-family: 'Cabin', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #000;
+  margin-top: 0px;
+  margin-bottom: 25px;
+}
+
+@media only screen and (max-width: 767px) {
+  .error-page .error-page-404,
+  .error-page .error-page-500 {
+    height: 200px;
+  }
+
+  .error-page .error-page-404 h1,
+  .error-page .error-page-500 h1 {
+    font-size: 200px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .error-page .error-page-404,
+  .error-page .error-page-500 {
+    height: 162px;
+  }
+
+  .error-page .error-page-404 h1,
+  .error-page .error-page-500 h1 {
+    font-size: 162px;
+    height: 150px;
+    line-height: 162px;
+  }
+
+  .error-page h2 {
+    font-size: 16px;
+  }
+}

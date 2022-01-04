@@ -1,0 +1,82 @@
+@import "variables";
+@import "accordion-type";
+
+body {
+  padding-top: 4.5rem;
+}
+
+label {
+  font-weight: 600;
+}
+
+.footer {
+  margin: 5rem 0;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  font-size: 85%;
+}
+
+// top main nav bar
+.navbar-default {
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #e7e7e7;
+}
+
+// fix bootstrap dark boarder around header
+.table > :not(:first-child) {
+  border-top: 1px solid rgb(222, 226, 230);
+}
+
+// make toast container bigger
+#toast-container > div,
+#toast-container.toast-bottom-center > div,
+#toast-container.toast-top-center > div {
+  width: 500px
+}
+
+.text-vertical {
+  display: inline-block;
+  transform: rotate(-90deg);
+  transform-origin: left;
+  white-space: nowrap;
+  width: 20px;
+}
+
+.blazored-modal-container {
+  z-index: 1050;
+}
+
+.blazored-modal-overlay {
+  z-index: 1055;
+}
+
+.blazored-modal {
+  min-width: 600px;
+  z-index: 1055;
+}
+
+.blazored-modal-header {
+  padding: 0 0 1rem 0;
+}
+
+[draggable="true"] {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+ul.reorder {
+  li {
+    cursor: move;
+  }
+}
+
+@import "validation";
+@import "error";
+@import "table";
+@import "fieldset";
+@import "estimate";
+@import "collapse";
+

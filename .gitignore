@@ -258,3 +258,4 @@ client/dist/
 temp/
 coverage.opencover.xml
 Tools/
+*.clef

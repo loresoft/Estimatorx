@@ -1,0 +1,9 @@
+@page "/projects/{id}/{organizationId}/details"
+@inherits ProjectBase
+
+@using EstimatorX.Client.Pages.Projects.Components
+
+
+<ProjectContainer Id="@Id" OrganizationId="@OrganizationId">
+    <ProjectForm />
+</ProjectContainer>

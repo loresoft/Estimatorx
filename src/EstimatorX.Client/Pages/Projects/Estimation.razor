@@ -1,0 +1,8 @@
+@page "/projects/{id}/{organizationId}/estimation"
+@inherits ProjectBase
+
+@using EstimatorX.Client.Pages.Projects.Components
+
+<ProjectContainer Id="@Id" OrganizationId="@OrganizationId">
+    <EpicContainer  />
+</ProjectContainer>
