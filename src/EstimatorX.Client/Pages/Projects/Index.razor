@@ -1,18 +1,5 @@
 @page "/projects"
 
-@using EstimatorX.Client.Services
-@using EstimatorX.Client.Repositories
-@using EstimatorX.Client.Stores
-@using EstimatorX.Shared.Models
-@using EstimatorX.Shared.Extensions
-@using Microsoft.AspNetCore.Authorization
-
-@attribute [Authorize]
-
-@inject ProjectRepository Repository
-@inject NotificationService NotificationService
-@inject UserStore UserStore
-
 <div class="container-xxl">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -113,53 +100,4 @@
 </div>
 
 
-@code {
-    private DataGrid<ProjectSummary> DataGrid { get; set; }
 
-    private ICollection<ProjectSummary> Projects { get; set; } = new List<ProjectSummary>();
-
-    private string SearchText { get; set; }
-
-    private string SelectedOrganization { get; set; }
-
-    private async ValueTask<DataResult<ProjectSummary>> LoadData(DataRequest request)
-    {
-        try
-        {
-            var sort = request.Sorts.FirstOrDefault();
-
-            var query = new QueryRequest
-                {
-                    Page = request.Page,
-                    PageSize = request.PageSize,
-                    Sort = sort?.Property,
-                    Descending = sort?.Descending,
-                    Search = SearchText,
-                    Organization = SelectedOrganization
-                };
-
-            var result = await Repository.Search(query);
-
-            var response = new DataResult<ProjectSummary>(result.Total, result.Data);
-            return response;
-        }
-        catch (Exception ex)
-        {
-            NotificationService.ShowError(ex);
-
-            var response = new DataResult<ProjectSummary>(0, Enumerable.Empty<ProjectSummary>());
-            return response;
-        }
-    }
-
-    private async Task HandleOrganizationChange(ChangeEventArgs e)
-    {
-        SelectedOrganization = e.Value?.ToString();
-        await DataGrid.RefreshAsync(true);
-    }
-
-    private async Task HandleSearch()
-    {
-        await DataGrid.RefreshAsync(true);
-    }
-}

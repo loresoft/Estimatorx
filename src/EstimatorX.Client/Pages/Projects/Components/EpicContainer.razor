@@ -3,11 +3,13 @@
 <div class="row">
     <div class="col">
         <div class="accordion-epic" id="@ParentCollapse">
-            <Repeater Items="Project.Epics">
-                <Row Context="epic">
-                    <EpicEditor Epic="epic" ParentCollapse="@ParentCollapse" />
-                </Row>
-            </Repeater>
+            <Conditional Show="Project != null">
+                <Repeater Items="Project.Epics">
+                    <Row Context="epic">
+                        <EpicEditor Epic="epic" ParentCollapse="@ParentCollapse" />
+                    </Row>
+                </Repeater>
+            </Conditional>
         </div>
     </div>
 </div>

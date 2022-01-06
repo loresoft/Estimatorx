@@ -1,3 +1,5 @@
+using AutoMapper;
+
 using Blazored.Modal.Services;
 
 using EstimatorX.Client.Extensions;
@@ -23,6 +25,8 @@ public partial class FeatureEditor
     [CascadingParameter]
     public IModalService Modal { get; set; }
 
+    [Inject]
+    public IMapper Mapper { get; set; }
 
     public ProjectSettings ProjectSettings => ProjectStore.Model?.Settings;
 
@@ -55,7 +59,7 @@ public partial class FeatureEditor
 
     private void FeatureDuplicate()
     {
-        var clone = Feature.Clone();
+        var clone = Mapper.Map<FeatureEstimate>(Feature);
 
         clone.Id = Guid.NewGuid().ToString("N");
         clone.Name += " - Copy";

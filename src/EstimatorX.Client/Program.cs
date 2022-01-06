@@ -8,6 +8,8 @@ using Blazored.Modal;
 using EstimatorX.Client.Repositories;
 using EstimatorX.Client.Services;
 using EstimatorX.Client.Stores;
+using EstimatorX.Shared;
+using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Services;
 
 using FluentRest;
@@ -63,6 +65,7 @@ public static class Program
             })
             .AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, RemoteUserAccount, AccountClaimsFactory>();
 
+        services.AddAutoMapper(typeof(AssemblyMetadata).Assembly);
 
         services.AddProgressBar();
         services.AddBlazoredLocalStorage();
@@ -75,24 +78,18 @@ public static class Program
             config.MaxDisplayedToasts = 2;
         });
 
-        services
-            .AddScoped<OrganizationStore>()
-            .AddScoped<UserStore>()
-            .AddScoped<ProjectStore>()
-            .AddScoped<TemplateStore>();
-
-        services
-            .AddScoped<OrganizationRepository>()
-            .AddScoped<UserRepository>()
-            .AddScoped<ProjectRepository>()
-            .AddScoped<TemplateRepository>();
-
-        services
-            .AddScoped<NotificationService>();
-
-        services
-            .AddScoped<IProjectCalculator, ProjectCalculator>()
-            .AddScoped<IProjectBuilder, ProjectBuilder>();
+        services.Scan(scan => scan
+            .FromAssembliesOf(typeof(Program), typeof(AssemblyMetadata))
+                .AddClasses(classes => classes.AssignableTo<ITransientService>())
+                    .AsSelfWithInterfaces()
+                    .WithTransientLifetime()
+                .AddClasses(classes => classes.AssignableTo<IScopedService>())
+                    .AsSelfWithInterfaces()
+                    .WithScopedLifetime()
+                .AddClasses(classes => classes.AssignableTo<ISingletonService>())
+                    .AsSelfWithInterfaces()
+                    .WithSingletonLifetime()
+        );
 
         await builder.Build().RunAsync();
     }

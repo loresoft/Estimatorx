@@ -64,13 +64,34 @@
                             </BusyButton>
                         </div>
                         <div class="col">
-                            <button id="delete-button"
-                                type="button"
-                                @onclick="HandleDelete"
-                                disabled="@ProjectStore.IsBusy"
-                                class="btn btn-danger fa-pull-right">
-                                Delete
-                            </button>
+                            <div class="dropdown">
+                                <button id="project-action-button"
+                                    type="button"
+                                    class="btn btn-secondary dropdown-toggle fa-pull-right"
+                                    disabled="@ProjectStore.IsBusy"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Actions
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="project-action-button">
+                                    <li>
+                                        <button type="button" class="dropdown-item" @onclick="HandleDuplicate">
+                                            Duplicate Project
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="dropdown-item" @onclick="HandleMakeTemplate">
+                                            Make into Template
+                                        </button>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <button type="button" class="dropdown-item" @onclick="HandleDelete">
+                                            Delete Project
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -165,11 +165,11 @@
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th>Overhead Task</th>
-                                    <th>Estimated</th>
-                                    <th>Weighted</th>
-                                    <th>Estimated Cost</th>
-                                    <th>Weighted Cost</th>
+                                    <th>Supporting Task</th>
+                                    <th class="text-end">Estimated</th>
+                                    <th class="text-end">Weighted</th>
+                                    <th class="text-end">Estimated Cost</th>
+                                    <th class="text-end">Weighted Cost</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -177,10 +177,10 @@
                                     <Row Context="item">
                                         <tr>
                                             <td>@item.Name</td>
-                                            <td>@(OverheadEstimate(item.Multiplier, Feature.Estimate))</td>
-                                            <td>@(OverheadEstimate(item.Multiplier, Feature.WeightedEstimate))</td>
-                                            <td>@(OverheadAmmount(item.Multiplier, Feature.Estimate)?.ToString("C"))</td>
-                                            <td>@(OverheadAmmount(item.Multiplier, Feature.WeightedEstimate)?.ToString("C"))</td>
+                                            <td class="text-end">@(OverheadEstimate(item.Multiplier, Feature.Estimate))</td>
+                                            <td class="text-end">@(OverheadEstimate(item.Multiplier, Feature.WeightedEstimate))</td>
+                                            <td class="text-end">@(OverheadAmmount(item.Multiplier, Feature.Estimate)?.ToString("C"))</td>
+                                            <td class="text-end">@(OverheadAmmount(item.Multiplier, Feature.WeightedEstimate)?.ToString("C"))</td>
                                         </tr>
                                     </Row>
                                 </Repeater>

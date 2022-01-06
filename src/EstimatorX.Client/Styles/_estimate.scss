@@ -12,22 +12,15 @@
 .accordion-epic {
   @include accordion-type($estimate-epic-icon, $estimate-epic-color);
 
-  .accordion-item {
-    .accordion-header {
+  > .accordion-item {
+    > .accordion-header {
       position: sticky;
       top: 3.7rem;
-      z-index: 1045;
+      z-index: 1040;
     }
   }
 }
 
 .accordion-feature {
   @include accordion-type($estimate-feature-icon, $estimate-feature-color);
-
-  .accordion-item {
-    .accordion-header {
-      position: inherit;
-      z-index: inherit;
-    }
-  }
 }

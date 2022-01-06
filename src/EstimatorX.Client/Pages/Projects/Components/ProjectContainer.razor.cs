@@ -1,3 +1,7 @@
+using System.Reflection;
+
+using AutoMapper;
+
 using Blazored.Modal.Services;
 
 using EstimatorX.Client.Extensions;
@@ -42,9 +46,12 @@ public partial class ProjectContainer : IDisposable
     [Inject]
     public IProjectBuilder ProjectBuilder { get; set; }
 
-
     [Inject]
     public NavigationManager Navigation { get; set; }
+
+    [Inject]
+    public IMapper Mapper { get; set; }
+
 
     public Project Project => ProjectStore.Model;
 
@@ -72,7 +79,7 @@ public partial class ProjectContainer : IDisposable
         }
     }
 
-    protected virtual async Task HandleSave()
+    private async Task HandleSave()
     {
         try
         {
@@ -92,7 +99,7 @@ public partial class ProjectContainer : IDisposable
         }
     }
 
-    protected virtual async Task HandleDelete()
+    private async Task HandleDelete()
     {
         try
         {
@@ -112,9 +119,36 @@ public partial class ProjectContainer : IDisposable
         }
     }
 
+    private async Task HandleDuplicate()
+    {
+        try
+        {
+            var name = Project.Name;
+
+            var clone = Mapper.Map<Project>(Project);
+            clone.Name += " - Copy";
+
+            var result = await ProjectStore.Repository.Create(clone);
+
+            NotificationService.ShowSuccess($"Project '{name}' duplicated successfully");
+
+            Navigation.NavigateTo($"/projects");
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+    }
+
+    private async Task HandleMakeTemplate()
+    {
+
+    }
+
     private void HandleModelChange()
     {
-        ProjectCalculator.UpdateProject(Project);
+        if (Project != null)
+            ProjectCalculator.UpdateProject(Project);
 
         InvokeAsync(() => StateHasChanged());
     }

@@ -4,45 +4,80 @@
 
 <table class="table table-borderless">
     <colgroup>
+        <col style="width: 30px" />
         <col style="" />
-        <col style="width: 150px" />
-        <col style="width: 150px" />
-        <col style="width: 150px" />
+        <col style="width: 130px" />
+        <col style="width: 130px" />
+        <col style="width: 130px" />
         <col style="width: 150px" />
         <col style="width: 150px" />
     </colgroup>
     <thead>
         <tr>
+            <th></th>
             <th>Deliverable</th>
-            <th>Rate</th>
-            <th>Estimated</th>
-            <th>Weighted</th>
-            <th>Estimated Cost</th>
-            <th>Weighted Cost</th>
+            <th class="text-end">Rate</th>
+            <th class="text-end">Estimated</th>
+            <th class="text-end">Weighted</th>
+            <th class="text-end">Estimated Cost</th>
+            <th class="text-end">Weighted Cost</th>
         </tr>
     </thead>
-    <tbody>
-        <Repeater Items="Project.Epics">
-            <Row Context="item">
-                <tr>
-                    <td>@item.Name</td>
-                    <td>@Project.Settings.EstimateRate.ToString("C")</td>
-                    <td>@item.EstimatedTotal</td>
-                    <td>@item.WeightedTotal</td>
-                    <td>@item.EstimatedCost?.ToString("C")</td>
-                    <td>@item.WeightedCost?.ToString("C")</td>
-                </tr>
-            </Row>
-        </Repeater>
-    </tbody>
-    <tfoot>
-        <tr>
-            <th colspan="2">Grand Total</th>
-            <th>@Project.EstimatedTotal</th>
-            <th>@Project.WeightedTotal</th>
-            <th>@Project.EstimatedCost?.ToString("C")</th>
-            <th>@Project.WeightedCost?.ToString("C")</th>
-        </tr>
-    </tfoot>
+    <Conditional Show="Project != null">
+        <tbody>
+            <Repeater Items="Project.Epics">
+                <Row Context="item">
+                    <tr>
+                        <td class="text-center">
+                            <button type="button"
+                                    id="@($"epic-collapse-{item.Id}-button")"
+                                    class="btn btn-sm"
+                                    @onclick="() => ToggleCollapse(item.Id)">
+                                @if (CollapseState(item.Id))
+                                {
+                                    <i class="fas fa-caret-down"></i>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-caret-right"></i>
+                                }
+                            </button>
+                        </td>
+                        <td>@item.Name</td>
+                        <td class="text-end">@Project.Settings.EstimateRate.ToString("C")</td>
+                        <td class="text-end">@item.EstimatedTotal</td>
+                        <td class="text-end">@item.WeightedTotal</td>
+                        <td class="text-end">@item.EstimatedCost?.ToString("C")</td>
+                        <td class="text-end">@item.WeightedCost?.ToString("C")</td>
+                    </tr>
+                    @if (CollapseState(item.Id))
+                    {
+                        <Repeater Items="item.Features">
+                            <Row Context="feature">
+                                <tr class="text-muted">
+                                    <td></td>
+                                    <td style="padding-left: 1.5em">@feature.Name</td>
+                                    <td></td>
+                                    <td class="text-end">@feature.EstimatedTotal</td>
+                                    <td class="text-end">@feature.WeightedTotal</td>
+                                    <td class="text-end">@feature.EstimatedCost?.ToString("C")</td>
+                                    <td class="text-end">@feature.WeightedCost?.ToString("C")</td>
+                                </tr>
+                            </Row>
+                        </Repeater>
+                    }
+                </Row>
+            </Repeater>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="3" class="text-end">Grand Total:</th>
+                <th class="text-end">@Project.EstimatedTotal</th>
+                <th class="text-end">@Project.WeightedTotal</th>
+                <th class="text-end">@Project.EstimatedCost?.ToString("C")</th>
+                <th class="text-end">@Project.WeightedCost?.ToString("C")</th>
+            </tr>
+        </tfoot>
+    </Conditional>
 </table>
 

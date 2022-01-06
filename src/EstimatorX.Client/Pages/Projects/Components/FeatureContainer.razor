@@ -1,51 +1,51 @@
 @inherits ProjectComponentBase
 
-<div class="row">
-    <div class="col">
-        <div class="accordion-feature" id="@ParentCollapse">
-            <Repeater Items="Epic.Features">
-                <Row Context="feature">
-                    <FeatureEditor Epic="Epic" Feature="feature" ParentCollapse="@ParentCollapse" />
-                </Row>
-            </Repeater>
+<Conditional Show="Epic != null">
+    <div class="row">
+        <div class="col">
+            <div class="accordion-feature" id="@ParentCollapse">
+                <Repeater Items="Epic.Features">
+                    <Row Context="feature">
+                        <FeatureEditor Epic="Epic" Feature="feature" ParentCollapse="@ParentCollapse" />
+                    </Row>
+                </Repeater>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="row pt-2">
-    <div class="col">
-        <button type="button"
-                id="@(Identifier("add-button"))"
-                @onclick="FeatureAdd"
-                class="btn btn-outline-secondary btn-sm">
-            <i class="fas fa-plus"></i> Add Feature
-        </button>
+    <div class="row pt-2">
+        <div class="col">
+            <button type="button"
+                    id="@(Identifier("add-button"))"
+                    @onclick="FeatureAdd"
+                    class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-plus"></i> Add Feature
+            </button>
 
-        <button type="button"
-                id="@(Identifier("order-button"))"
-                @onclick="FeatureReporder"
-                class="btn btn-outline-secondary btn-sm">
-            <i class="fas fa-sort"></i> Reorder Features
-        </button>
+            <button type="button"
+                    id="@(Identifier("order-button"))"
+                    @onclick="FeatureReporder"
+                    class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-sort"></i> Reorder Features
+            </button>
+        </div>
+        <div class="col">
+            <button type="button"
+                    id="@(Identifier("delete-button"))"
+                    @onclick="EpicDelete"
+                    disabled="@ProjectStore.IsBusy"
+                    class="btn btn-outline-danger btn-sm ms-2 fa-pull-right">
+                <i class="fas fa-trash-alt"></i> Delete Epic
+            </button>
+
+            <button type="button"
+                    id="@(Identifier("duplicate-button"))"
+                    @onclick="EpicDuplicate"
+                    disabled="@ProjectStore.IsBusy"
+                    class="btn btn-outline-secondary btn-sm ms-2 fa-pull-right">
+                <i class="fas fa-copy"></i> Duplicate Epic
+            </button>
+        </div>
+
     </div>
-    <div class="col">
-        <button type="button"
-                id="@(Identifier("delete-button"))"
-                @onclick="EpicDelete"
-                disabled="@ProjectStore.IsBusy"
-                class="btn btn-outline-danger btn-sm ms-2 fa-pull-right">
-            <i class="fas fa-trash-alt"></i> Delete Epic
-        </button>
-
-        <button type="button"
-                id="@(Identifier("duplicate-button"))"
-                @onclick="EpicDuplicate"
-                disabled="@ProjectStore.IsBusy"
-                class="btn btn-outline-secondary btn-sm ms-2 fa-pull-right">
-            <i class="fas fa-copy"></i> Duplicate Epic
-        </button>
-    </div>
-
-</div>
-
-
+</Conditional>
