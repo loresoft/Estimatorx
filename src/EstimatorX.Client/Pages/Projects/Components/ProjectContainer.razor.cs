@@ -1,3 +1,7 @@
+using System.Reflection;
+
+using AutoMapper;
+
 using Blazored.Modal.Services;
 
 using EstimatorX.Client.Extensions;
@@ -11,7 +15,7 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace EstimatorX.Client.Pages.Projects.Components;
 
-public partial class ProjectContainer : IDisposable
+public partial class ProjectContainer : ProjectComponentBase
 {
     [Parameter]
     public string Id { get; set; }
@@ -34,45 +38,33 @@ public partial class ProjectContainer : IDisposable
     public NotificationService NotificationService { get; set; }
 
     [Inject]
-    public ProjectStore ProjectStore { get; set; }
-
-    [Inject]
-    public IProjectCalculator ProjectCalculator { get; set; }
-
-    [Inject]
-    public IProjectBuilder ProjectBuilder { get; set; }
-
-
-    [Inject]
     public NavigationManager Navigation { get; set; }
 
-    public Project Project => ProjectStore.Model;
+    [Inject]
+    public IMapper Mapper { get; set; }
+
 
     private EditContext EditContext { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnParametersSet()
     {
-        ProjectStore.OnChange += HandleModelChange;
+        base.OnParametersSet();
 
-        try
+        // create edit context after project loaded
+        if (Project != null && EditContext == null)
         {
-            await ProjectStore.Load(Id, OrganizationId);
-            if (ProjectStore.Model == null)
-                Navigation.NavigateTo("/projects");
-
             EditContext = new EditContext(ProjectStore.Model);
             EditContext.OnFieldChanged += HandleFormChange;
-
-            ProjectBuilder.UpdateProject(Project);
-            ProjectCalculator.UpdateProject(Project);
-        }
-        catch (Exception ex)
-        {
-            NotificationService.ShowError(ex);
         }
     }
 
-    protected virtual async Task HandleSave()
+    public override void Dispose()
+    {
+        base.Dispose();
+        EditContext.OnFieldChanged -= HandleFormChange;
+    }
+
+    private async Task HandleSave()
     {
         try
         {
@@ -92,7 +84,7 @@ public partial class ProjectContainer : IDisposable
         }
     }
 
-    protected virtual async Task HandleDelete()
+    private async Task HandleDelete()
     {
         try
         {
@@ -112,21 +104,34 @@ public partial class ProjectContainer : IDisposable
         }
     }
 
-    private void HandleModelChange()
+    private async Task HandleDuplicate()
     {
-        ProjectCalculator.UpdateProject(Project);
+        try
+        {
+            var name = Project.Name;
 
-        InvokeAsync(() => StateHasChanged());
+            var clone = Mapper.Map<Project>(Project);
+            clone.Name += " - Copy";
+
+            var result = await ProjectStore.Repository.Create(clone);
+
+            NotificationService.ShowSuccess($"Project '{name}' duplicated successfully");
+
+            Navigation.NavigateTo($"/projects");
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+    }
+
+    private async Task HandleMakeTemplate()
+    {
+
     }
 
     private void HandleFormChange(object sender, FieldChangedEventArgs args)
     {
         ProjectStore.NotifyStateChanged();
-    }
-
-    public void Dispose()
-    {
-        ProjectStore.OnChange -= HandleModelChange;
-        EditContext.OnFieldChanged -= HandleFormChange;
     }
 }

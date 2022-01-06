@@ -2,7 +2,7 @@ using AutoMapper;
 
 using EstimatorX.Shared.Models;
 
-namespace EstimatorX.Core.Mapping;
+namespace EstimatorX.Shared.Mapping;
 
 public class UserProfile : Profile
 {
@@ -18,6 +18,6 @@ public class UserProfile : Profile
 
         CreateMap<User, UserSummary>();
 
-        CreateMap<User, Shared.Models.UserProfile>();
+        CreateMap<User, Models.UserProfile>();
     }
 }

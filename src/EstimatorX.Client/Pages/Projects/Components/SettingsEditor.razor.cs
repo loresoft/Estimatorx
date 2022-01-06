@@ -14,7 +14,7 @@ public partial class SettingsEditor
     public IModalService Modal { get; set; }
 
 
-    private ProjectSettings ProjectSettings => ProjectStore.Model.Settings;
+    private ProjectSettings ProjectSettings => ProjectStore?.Model?.Settings;
 
 
     private async Task RiskDelete(RiskLevel riskLevel)

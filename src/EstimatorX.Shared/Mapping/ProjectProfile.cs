@@ -2,19 +2,21 @@ using AutoMapper;
 
 using EstimatorX.Shared.Models;
 
-namespace EstimatorX.Core.Mapping;
+namespace EstimatorX.Shared.Mapping;
 
-public class OrganizationProfile : Profile
+public class ProjectProfile : Profile
 {
-    public OrganizationProfile()
+    public ProjectProfile()
     {
-        CreateMap<Organization, Organization>()
+        CreateMap<Project, Project>()
             .ForMember(d => d.Id, opt => opt.Ignore())
+            .ForMember(d => d.SecurityKey, opt => opt.Ignore())
             .ForMember(d => d.Created, opt => opt.Ignore())
             .ForMember(d => d.CreatedBy, opt => opt.Ignore())
             .ForMember(d => d.Updated, opt => opt.Ignore())
             .ForMember(d => d.UpdatedBy, opt => opt.Ignore());
 
-        CreateMap<Organization, OrganizationSummary>();
+        CreateMap<Project, ProjectSummary>();
+
     }
 }

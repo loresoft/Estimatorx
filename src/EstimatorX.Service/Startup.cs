@@ -8,6 +8,7 @@ using FluentValidation.AspNetCore;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
@@ -49,7 +50,7 @@ public class Startup
             options.ApiKey = configuration.Value.ApiKey;
         });
 
-        services.AddAutoMapper(typeof(HostingConfiguration).Assembly);
+        services.AddAutoMapper(typeof(HostingConfiguration).Assembly, typeof(AssemblyMetadata).Assembly);
 
         services
             .AddOptions<HostingConfiguration>()

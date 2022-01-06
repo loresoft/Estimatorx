@@ -1,4 +1,6 @@
 
+using AutoMapper;
+
 using Blazored.Modal.Services;
 
 using EstimatorX.Client.Extensions;
@@ -18,6 +20,8 @@ public partial class FeatureContainer
     [CascadingParameter]
     public IModalService Modal { get; set; }
 
+    [Inject]
+    public IMapper Mapper { get; set; }
 
     private string ParentCollapse => $"feature-parent-{Epic?.Id}";
 
@@ -50,7 +54,7 @@ public partial class FeatureContainer
 
     private void EpicDuplicate()
     {
-        var clone = Epic.Clone();
+        var clone = Mapper.Map<EpicEstimate>(Epic);
 
         clone.Id = Guid.NewGuid().ToString("N");
         clone.Name += " - Copy";
