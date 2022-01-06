@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace EstimatorX.Client.Pages.Projects.Components;
 
-public partial class ProjectContainer : IDisposable
+public partial class ProjectContainer : ProjectComponentBase
 {
     [Parameter]
     public string Id { get; set; }
@@ -38,45 +38,30 @@ public partial class ProjectContainer : IDisposable
     public NotificationService NotificationService { get; set; }
 
     [Inject]
-    public ProjectStore ProjectStore { get; set; }
-
-    [Inject]
-    public IProjectCalculator ProjectCalculator { get; set; }
-
-    [Inject]
-    public IProjectBuilder ProjectBuilder { get; set; }
-
-    [Inject]
     public NavigationManager Navigation { get; set; }
 
     [Inject]
     public IMapper Mapper { get; set; }
 
 
-    public Project Project => ProjectStore.Model;
-
     private EditContext EditContext { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnParametersSet()
     {
-        ProjectStore.OnChange += HandleModelChange;
+        base.OnParametersSet();
 
-        try
+        // create edit context after project loaded
+        if (Project != null && EditContext == null)
         {
-            await ProjectStore.Load(Id, OrganizationId);
-            if (ProjectStore.Model == null)
-                Navigation.NavigateTo("/projects");
-
             EditContext = new EditContext(ProjectStore.Model);
             EditContext.OnFieldChanged += HandleFormChange;
+        }
+    }
 
-            ProjectBuilder.UpdateProject(Project);
-            ProjectCalculator.UpdateProject(Project);
-        }
-        catch (Exception ex)
-        {
-            NotificationService.ShowError(ex);
-        }
+    public override void Dispose()
+    {
+        base.Dispose();
+        EditContext.OnFieldChanged -= HandleFormChange;
     }
 
     private async Task HandleSave()
@@ -145,22 +130,8 @@ public partial class ProjectContainer : IDisposable
 
     }
 
-    private void HandleModelChange()
-    {
-        if (Project != null)
-            ProjectCalculator.UpdateProject(Project);
-
-        InvokeAsync(() => StateHasChanged());
-    }
-
     private void HandleFormChange(object sender, FieldChangedEventArgs args)
     {
         ProjectStore.NotifyStateChanged();
-    }
-
-    public void Dispose()
-    {
-        ProjectStore.OnChange -= HandleModelChange;
-        EditContext.OnFieldChanged -= HandleFormChange;
     }
 }
