@@ -13,16 +13,16 @@
                      Match="NavLinkMatch.All"
                      ActiveClass="active"
                      class="nav-link"
-                     href="@($"/projects/{Model.Id}/{Model.OrganizationId}/details")"
-                     title="Project Details">Details</NavLink>
+                     href="@($"/projects/{Model.Id}/{Model.OrganizationId}/general")"
+                     title="Project General Details">General</NavLink>
         </li>
         <li class="nav-item">
             <NavLink id="organization-members-tab-link"
                      Match="NavLinkMatch.All"
                      ActiveClass="active"
                      class="nav-link"
-                     href="@($"/projects/{Model.Id}/{Model.OrganizationId}/estimation")"
-                     title="Project Assumptions">Estimation</NavLink>
+                     href="@($"/projects/{Model.Id}/{Model.OrganizationId}/details")"
+                     title="Project Detailed Estimation">Details</NavLink>
         </li>
         <li class="nav-item">
             <NavLink id="organization-members-tab-link"

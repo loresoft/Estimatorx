@@ -5,7 +5,6 @@
 @using EstimatorX.Client.Repositories
 @using EstimatorX.Client.Stores
 
-
 <ProjectContainer Id="@Id" OrganizationId="@OrganizationId" TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project">
-    <ProjectForm TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project"/>
+    <EpicContainer TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project" />
 </ProjectContainer>
