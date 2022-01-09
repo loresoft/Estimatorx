@@ -5,6 +5,8 @@
 @using EstimatorX.Client.Repositories
 @using EstimatorX.Client.Stores
 
+<PageTitle>Project @Model?.Name - Estimate - EstimatorX</PageTitle>
+
 <ProjectContainer Id="@Id" OrganizationId="@OrganizationId" TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project" BodyClass="p-0">
     <EstimationEditor TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project" />
 </ProjectContainer>

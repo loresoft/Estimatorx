@@ -33,7 +33,7 @@ public abstract class TemplateBase : ComponentBase, IDisposable
     [Inject]
     public IProjectBuilder ProjectBuilder { get; set; }
 
-    public Project Project => TemplateStore.Model;
+    public Project Model => TemplateStore.Model;
 
     protected override async Task OnInitializedAsync()
     {
@@ -45,8 +45,8 @@ public abstract class TemplateBase : ComponentBase, IDisposable
             if (TemplateStore.Model == null)
                 Navigation.NavigateTo("/templates");
 
-            ProjectBuilder.UpdateProject(Project);
-            ProjectCalculator.UpdateProject(Project);
+            ProjectBuilder.UpdateProject(Model);
+            ProjectCalculator.UpdateProject(Model);
         }
         catch (Exception ex)
         {
@@ -56,8 +56,8 @@ public abstract class TemplateBase : ComponentBase, IDisposable
 
     private void HandleModelChange()
     {
-        if (Project != null)
-            ProjectCalculator.UpdateProject(Project);
+        if (Model != null)
+            ProjectCalculator.UpdateProject(Model);
 
         InvokeAsync(() => StateHasChanged());
     }
