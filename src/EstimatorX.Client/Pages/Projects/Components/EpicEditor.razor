@@ -1,4 +1,7 @@
-@inherits ProjectComponentBase
+@inherits ProjectComponentBase<TStore, TRepository, TModel>
+@typeparam TStore
+@typeparam TRepository
+@typeparam TModel
 
 <Conditional Show="@(Epic != null)">
     <div class="accordion-item">
@@ -49,7 +52,7 @@
                     </div>
                 </div>
 
-                <FeatureContainer Epic="Epic" />
+                <FeatureContainer Epic="Epic" TStore="TStore" TRepository="TRepository" TModel="TModel" />
             </div>
         </div>
     </div>

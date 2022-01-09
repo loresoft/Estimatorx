@@ -1,20 +1,25 @@
 using Blazored.Modal.Services;
 
 using EstimatorX.Client.Extensions;
+using EstimatorX.Client.Repositories;
 using EstimatorX.Client.Stores;
+using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Models;
 
 using Microsoft.AspNetCore.Components;
 
 namespace EstimatorX.Client.Pages.Projects.Components;
 
-public partial class SettingsEditor
+public partial class SettingsEditor<TStore, TRepository, TModel>
+    where TStore : StoreEditBase<TModel, TRepository>
+    where TRepository : RepositoryEditBase<TModel>
+    where TModel : Project, IHaveIdentifier, new()
 {
     [CascadingParameter]
     public IModalService Modal { get; set; }
 
 
-    private ProjectSettings ProjectSettings => ProjectStore?.Model?.Settings;
+    private ProjectSettings ProjectSettings => Store?.Model?.Settings;
 
 
     private async Task RiskDelete(RiskLevel riskLevel)
@@ -23,13 +28,13 @@ public partial class SettingsEditor
             return;
 
         ProjectSettings.RiskLevels.Remove(riskLevel);
-        ProjectStore.NotifyStateChanged();
+        Store.NotifyStateChanged();
     }
 
     private void RiskAdd()
     {
         ProjectSettings.RiskLevels.Add(new RiskLevel());
-        ProjectStore.NotifyStateChanged();
+        Store.NotifyStateChanged();
     }
 
 
@@ -39,7 +44,7 @@ public partial class SettingsEditor
             return;
 
         ProjectSettings.EffortLevels.Remove(effortLevel);
-        ProjectStore.NotifyStateChanged();
+        Store.NotifyStateChanged();
     }
 
     private void EffortAdd()
@@ -54,7 +59,7 @@ public partial class SettingsEditor
                 Level = lastEffort.Level
             });
 
-        ProjectStore.NotifyStateChanged();
+        Store.NotifyStateChanged();
     }
 
 
@@ -64,13 +69,13 @@ public partial class SettingsEditor
             return;
 
         ProjectSettings.Overhead.Remove(overhead);
-        ProjectStore.NotifyStateChanged();
+        Store.NotifyStateChanged();
     }
 
     private void OverheadAdd()
     {
         ProjectSettings.Overhead.Add(new ProjectOverhead());
-        ProjectStore.NotifyStateChanged();
+        Store.NotifyStateChanged();
     }
 
 }

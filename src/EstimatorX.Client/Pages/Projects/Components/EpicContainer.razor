@@ -1,12 +1,15 @@
-@inherits ProjectComponentBase
+@inherits ProjectComponentBase<TStore, TRepository, TModel>
+@typeparam TStore
+@typeparam TRepository
+@typeparam TModel
 
 <div class="row">
     <div class="col">
         <div class="accordion-epic" id="@ParentCollapse">
-            <Conditional Show="Project != null">
-                <Repeater Items="Project.Epics">
+            <Conditional Show="Model != null">
+                <Repeater Items="Model.Epics">
                     <Row Context="epic">
-                        <EpicEditor Epic="epic" ParentCollapse="@ParentCollapse" />
+                        <EpicEditor Epic="epic" ParentCollapse="@ParentCollapse" TStore="TStore" TRepository="TRepository" TModel="TModel" />
                     </Row>
                 </Repeater>
             </Conditional>

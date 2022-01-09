@@ -1,6 +1,8 @@
 @page "/projects/create"
 
 @using EstimatorX.Client.Pages.Projects.Components
+@using EstimatorX.Client.Repositories
+@using EstimatorX.Client.Stores
 
 <div class="container-xxl">
     <nav aria-label="breadcrumb">
@@ -22,7 +24,7 @@
                aria-hidden="true"></i> Project Create
         </div>
         <div class="card-body">
-            <EditForm Model="@Project" OnValidSubmit="@HandleSave">
+            <EditForm Model="@Model" OnValidSubmit="@HandleSave">
                 <FluentValidationValidator />
 
                 <div class="row">
@@ -31,13 +33,39 @@
                     </div>
                 </div>
 
-                <ProjectForm />
+                <ProjectForm TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project" />
+
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="Template" class="form-label">
+                                Template: <span class="text-danger">*</span>
+                            </label>
+                            <InputSelect @bind-Value="Model.TemplateKey"
+                                         DisplayName="Template"
+                                         id="Template"
+                                         name="Template"
+                                         class="form-select">
+                                <option value="">-- Select --</option>
+                                <Repeater Items="Templates">
+                                    <Row Context="template">
+                                        <option value="@CosmosKey.Encode(template.Id, template.OrganizationId)">@template.Name</option>
+                                    </Row>
+                                </Repeater>
+                            </InputSelect>
+                            <ValidationMessage For="@(() => Model.OrganizationId)" />
+                        </div>
+                    </div>
+                    <div class="col">
+
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col">
                         <BusyButton id="save-button"
                                     type="submit"
-                                    Busy="ProjectStore.IsBusy"
+                                    Busy="Store.IsBusy"
                                     class="btn btn-primary">
                             <BusyTemplate>
                                 <span class='spinner-border spinner-border-sm'></span> Saving...

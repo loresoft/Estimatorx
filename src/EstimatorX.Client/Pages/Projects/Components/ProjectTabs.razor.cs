@@ -8,8 +8,8 @@ namespace EstimatorX.Client.Pages.Projects.Components;
 public partial class ProjectTabs
 {
     [Inject]
-    public ProjectStore ProjectStore { get; set; }
+    public ProjectStore Store { get; set; }
 
-    public Project Project => ProjectStore.Model;
+    public Project Model => Store.Model;
 
 }

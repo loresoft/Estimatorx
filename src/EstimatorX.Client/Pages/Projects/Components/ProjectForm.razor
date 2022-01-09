@@ -1,25 +1,28 @@
-@inherits ProjectComponentBase
+@inherits ProjectComponentBase<TStore, TRepository, TModel>
+@typeparam TStore
+@typeparam TRepository
+@typeparam TModel
 
 <div class="row">
-    <Conditional Show="Project != null">
+    <Conditional Show="Model != null">
         <div class="col-4">
             <div class="mb-3">
                 <label for="Name" class="form-label">
-                    Project Name: <span class="text-danger">*</span>
+                    Name: <span class="text-danger">*</span>
                 </label>
-                <InputText @bind-Value="Project.Name"
+                <InputText @bind-Value="Model.Name"
                            DisplayName="Name"
                            id="Name"
                            name="Name"
                            class="form-control"
                            placeholder="Name" />
-                <ValidationMessage For="@(() => Project.Name)" />
+                <ValidationMessage For="@(() => Model.Name)" />
             </div>
             <div class="mb-3">
                 <label for="Organization" class="form-label">
                     Organization: <span class="text-danger">*</span>
                 </label>
-                <InputSelect @bind-Value="Project.OrganizationId"
+                <InputSelect @bind-Value="Model.OrganizationId"
                              DisplayName="Organization"
                              id="Organization"
                              name="Organization"
@@ -32,35 +35,35 @@
                         </Row>
                     </Repeater>
                 </InputSelect>
-                <ValidationMessage For="@(() => Project.OrganizationId)" />
+                <ValidationMessage For="@(() => Model.OrganizationId)" />
             </div>
 
             <div class="mb-3">
                 <label for="Rate" class="form-label">
                     Unit Rate: <span class="text-danger">*</span>
                 </label>
-                <InputNumber @bind-Value="Project.Settings.EstimateRate"
+                <InputNumber @bind-Value="Model.Settings.EstimateRate"
                              DisplayName="Rate"
                              id="Rate"
                              name="Rate"
                              class="form-control" />
-                <ValidationMessage For="@(() => Project.Settings.EstimateRate)" />
+                <ValidationMessage For="@(() => Model.Settings.EstimateRate)" />
             </div>
 
         </div>
         <div class="col-8">
             <div class="mb-3">
                 <label for="Description" class="form-label">
-                    Project Description:
+                    Description:
                 </label>
-                <InputTextArea @bind-Value="Project.Description"
+                <InputTextArea @bind-Value="Model.Description"
                                DisplayName="Description"
                                id="Description"
                                name="Description"
                                class="form-control"
                                rows="10"
                                placeholder="Description" />
-                <ValidationMessage For="@(() => Project.Description)" />
+                <ValidationMessage For="@(() => Model.Description)" />
             </div>
         </div>
     </Conditional>

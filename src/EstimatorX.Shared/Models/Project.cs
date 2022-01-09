@@ -16,6 +16,8 @@ public class Project : ModelBase, IHaveOrganization, IHaveName
 
     public string SecurityKey { get; set; }
 
+    public string TemplateKey { get; set; }
+
 
     public ProjectSettings Settings { get; init; } = new();
 

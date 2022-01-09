@@ -3,15 +3,19 @@ using AutoMapper;
 using Blazored.Modal.Services;
 
 using EstimatorX.Client.Extensions;
+using EstimatorX.Client.Repositories;
 using EstimatorX.Client.Stores;
-using EstimatorX.Shared.Extensions;
+using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Models;
 
 using Microsoft.AspNetCore.Components;
 
 namespace EstimatorX.Client.Pages.Projects.Components;
 
-public partial class FeatureEditor
+public partial class FeatureEditor<TStore, TRepository, TModel>
+    where TStore : StoreEditBase<TModel, TRepository>
+    where TRepository : RepositoryEditBase<TModel>
+    where TModel : Project, IHaveIdentifier, new()
 {
     [Parameter]
     public string ParentCollapse { get; set; }
@@ -28,7 +32,7 @@ public partial class FeatureEditor
     [Inject]
     public IMapper Mapper { get; set; }
 
-    public ProjectSettings ProjectSettings => ProjectStore.Model?.Settings;
+    public ProjectSettings ProjectSettings => Store.Model?.Settings;
 
 
     private string Identifier(string name) => $"feature-{name}-{Feature?.Id}";
@@ -54,7 +58,7 @@ public partial class FeatureEditor
 
         Epic.Features.Remove(Feature);
 
-        ProjectStore.NotifyStateChanged();
+        Store.NotifyStateChanged();
     }
 
     private void FeatureDuplicate()
@@ -66,6 +70,6 @@ public partial class FeatureEditor
 
         Epic.Features.Add(clone);
 
-        ProjectStore.NotifyStateChanged();
+        Store.NotifyStateChanged();
     }
 }

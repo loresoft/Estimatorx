@@ -4,15 +4,19 @@ using AutoMapper;
 using Blazored.Modal.Services;
 
 using EstimatorX.Client.Extensions;
+using EstimatorX.Client.Repositories;
 using EstimatorX.Client.Stores;
-using EstimatorX.Shared.Extensions;
+using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Models;
 
 using Microsoft.AspNetCore.Components;
 
 namespace EstimatorX.Client.Pages.Projects.Components;
 
-public partial class FeatureContainer
+public partial class FeatureContainer<TStore, TRepository, TModel>
+    where TStore : StoreEditBase<TModel, TRepository>
+    where TRepository : RepositoryEditBase<TModel>
+    where TModel : Project, IHaveIdentifier, new()
 {
     [Parameter]
     public EpicEstimate Epic { get; set; }
@@ -30,13 +34,13 @@ public partial class FeatureContainer
     private void FeatureAdd()
     {
         Epic.Features.Add(new FeatureEstimate { Name = "New Feature Estimate" });
-        ProjectStore.NotifyStateChanged();
+        Store.NotifyStateChanged();
     }
 
     private async Task FeatureReporder()
     {
         var result = await Modal.Reorder(Epic.Features);
-        ProjectStore.NotifyStateChanged();
+        Store.NotifyStateChanged();
     }
 
     private async Task EpicDelete()
@@ -47,9 +51,9 @@ public partial class FeatureContainer
             return;
 
 
-        Project.Epics.Remove(Epic);
+        Model.Epics.Remove(Epic);
 
-        ProjectStore.NotifyStateChanged();
+        Store.NotifyStateChanged();
     }
 
     private void EpicDuplicate()
@@ -59,8 +63,8 @@ public partial class FeatureContainer
         clone.Id = Guid.NewGuid().ToString("N");
         clone.Name += " - Copy";
 
-        Project.Epics.Add(clone);
+        Model.Epics.Add(clone);
 
-        ProjectStore.NotifyStateChanged();
+        Store.NotifyStateChanged();
     }
 }

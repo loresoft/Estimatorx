@@ -1,20 +1,25 @@
+using EstimatorX.Client.Repositories;
 using EstimatorX.Client.Stores;
-using EstimatorX.Shared.Models;
+using EstimatorX.Shared.Definitions;
 
 using Microsoft.AspNetCore.Components;
 
 namespace EstimatorX.Client.Pages.Projects.Components;
 
-public abstract class ProjectComponentBase : ComponentBase, IDisposable
+public abstract class ProjectComponentBase<TStore, TRepository, TModel>
+    : ComponentBase, IDisposable
+    where TStore : StoreEditBase<TModel, TRepository>
+    where TRepository : RepositoryEditBase<TModel>
+    where TModel : class, IHaveIdentifier, new()
 {
     [Inject]
-    public ProjectStore ProjectStore { get; set; }
+    public TStore Store { get; set; }
 
-    public Project Project => ProjectStore.Model;
+    public TModel Model => Store.Model;
 
     protected override void OnInitialized()
     {
-        ProjectStore.OnChange += HandleModelChange;
+        Store.OnChange += HandleModelChange;
     }
 
     private void HandleModelChange()
@@ -24,7 +29,7 @@ public abstract class ProjectComponentBase : ComponentBase, IDisposable
 
     public virtual void Dispose()
     {
-        ProjectStore.OnChange -= HandleModelChange;
+        Store.OnChange -= HandleModelChange;
     }
 
 }

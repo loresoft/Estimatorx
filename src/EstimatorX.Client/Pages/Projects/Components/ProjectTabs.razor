@@ -1,11 +1,11 @@
 <ul class="nav nav-tabs card-header-tabs float-end">
-    <Conditional Show="Project != null">
+    <Conditional Show="Model != null">
         <li class="nav-item">
             <NavLink id="organization-members-tab-link"
                      Match="NavLinkMatch.All"
                      ActiveClass="active"
                      class="nav-link"
-                     href="@($"/projects/{Project.Id}/{Project.OrganizationId}")"
+                     href="@($"/projects/{Model.Id}/{Model.OrganizationId}")"
                      title="Project Assumptions">Summary</NavLink>
         </li>
         <li class="nav-item">
@@ -13,7 +13,7 @@
                      Match="NavLinkMatch.All"
                      ActiveClass="active"
                      class="nav-link"
-                     href="@($"/projects/{Project.Id}/{Project.OrganizationId}/details")"
+                     href="@($"/projects/{Model.Id}/{Model.OrganizationId}/details")"
                      title="Project Details">Details</NavLink>
         </li>
         <li class="nav-item">
@@ -21,7 +21,7 @@
                      Match="NavLinkMatch.All"
                      ActiveClass="active"
                      class="nav-link"
-                     href="@($"/projects/{Project.Id}/{Project.OrganizationId}/estimation")"
+                     href="@($"/projects/{Model.Id}/{Model.OrganizationId}/estimation")"
                      title="Project Assumptions">Estimation</NavLink>
         </li>
         <li class="nav-item">
@@ -29,7 +29,7 @@
                      Match="NavLinkMatch.All"
                      ActiveClass="active"
                      class="nav-link"
-                     href="@($"/projects/{Project.Id}/{Project.OrganizationId}/settings")"
+                     href="@($"/projects/{Model.Id}/{Model.OrganizationId}/settings")"
                      title="Project Assumptions">Settings</NavLink>
         </li>
     </Conditional>

@@ -1,0 +1,11 @@
+@page "/templates/{id}/{organizationId}/settings"
+@inherits TemplateBase
+
+@using EstimatorX.Client.Pages.Projects.Components
+@using EstimatorX.Client.Pages.Templates.Components
+@using EstimatorX.Client.Repositories
+@using EstimatorX.Client.Stores
+
+<TemplateContainer Id="@Id" OrganizationId="@OrganizationId" TStore="TemplateStore" TRepository="TemplateRepository" TModel="Template">
+    <SettingsEditor TStore="TemplateStore" TRepository="TemplateRepository" TModel="Template" />
+</TemplateContainer>

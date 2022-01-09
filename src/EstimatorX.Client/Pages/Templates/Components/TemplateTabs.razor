@@ -1,0 +1,30 @@
+<ul class="nav nav-tabs card-header-tabs float-end">
+    <Conditional Show="Model != null">
+        <li class="nav-item">
+            <NavLink id="organization-general-tab-link"
+                     Match="NavLinkMatch.All"
+                     ActiveClass="active"
+                     class="nav-link"
+                     href="@($"/templates/{Model.Id}/{Model.OrganizationId}")"
+                     title="Template Details">Details</NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink id="organization-members-tab-link"
+                     Match="NavLinkMatch.All"
+                     ActiveClass="active"
+                     class="nav-link"
+                     href="@($"/templates/{Model.Id}/{Model.OrganizationId}/estimation")"
+                     title="Estimation Entry">Estimation</NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink id="organization-members-tab-link"
+                     Match="NavLinkMatch.All"
+                     ActiveClass="active"
+                     class="nav-link"
+                     href="@($"/templates/{Model.Id}/{Model.OrganizationId}/settings")"
+                     title="Project Setting">Settings</NavLink>
+        </li>
+    </Conditional>
+</ul>
+
+
