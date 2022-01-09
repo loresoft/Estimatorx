@@ -1,12 +1,12 @@
+using EstimatorX.Client.Repositories;
 using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Models;
-using Microsoft.Extensions.Logging;
 
 namespace EstimatorX.Client.Stores;
 
-public class TemplateStore : StoreBase<Template>, IScopedService
+public class TemplateStore : StoreEditBase<Template, TemplateRepository>, IScopedService
 {
-    public TemplateStore(ILoggerFactory loggerFactory) : base(loggerFactory)
+    public TemplateStore(ILoggerFactory loggerFactory, TemplateRepository repository) : base(loggerFactory, repository)
     {
     }
 }

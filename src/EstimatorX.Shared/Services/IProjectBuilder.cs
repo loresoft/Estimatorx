@@ -4,7 +4,9 @@ namespace EstimatorX.Shared.Services;
 
 public interface IProjectBuilder
 {
-    Project UpdateProject(Project project);
+    Project UpdateProject(Project project, bool includeSample = false);
 
-    ProjectSettings UpdateSettings(ProjectSettings settings);
+    ProjectSettings UpdateSettings(ProjectSettings settings, bool includeSample = false);
+
+    void UpdateSamples(Project project);
 }

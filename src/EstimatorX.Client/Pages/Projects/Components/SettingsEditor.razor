@@ -1,4 +1,7 @@
-@inherits ProjectComponentBase
+@inherits ProjectComponentBase<TStore, TRepository, TModel>
+@typeparam TStore
+@typeparam TRepository
+@typeparam TModel
 
 <Conditional Show="ProjectSettings != null">
     <div class="row">

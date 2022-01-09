@@ -6,18 +6,19 @@ namespace EstimatorX.Shared.Services;
 
 public class ProjectBuilder : IProjectBuilder, ISingletonService
 {
-    public Project UpdateProject(Project project)
+    public Project UpdateProject(Project project, bool includeSample = false)
     {
         project ??= new Project();
 
-        UpdateSettings(project.Settings);
+        UpdateSettings(project.Settings, includeSample);
 
-        UpdateSamples(project);
+        if (includeSample)
+            UpdateSamples(project);
 
         return project;
     }
 
-    private void UpdateSamples(Project project)
+    public void UpdateSamples(Project project)
     {
         if (project.Epics.Any())
             return;
@@ -38,7 +39,7 @@ public class ProjectBuilder : IProjectBuilder, ISingletonService
         project.Epics.Add(epic);
     }
 
-    public ProjectSettings UpdateSettings(ProjectSettings settings)
+    public ProjectSettings UpdateSettings(ProjectSettings settings, bool includeSample = false)
     {
         settings ??= new ProjectSettings();
 
@@ -99,7 +100,7 @@ public class ProjectBuilder : IProjectBuilder, ISingletonService
             settings.EffortLevels.Add(new EffortLevel { Effort = 48, Level = "High" });
         }
 
-        if (settings.Overhead.Count == 0)
+        if (settings.Overhead.Count == 0 && includeSample)
         {
             settings.Overhead.Add(new ProjectOverhead { Name = "Unit Tests", Multiplier = 1.1, Description = "Overhead to create unit tests" });
             settings.Overhead.Add(new ProjectOverhead { Name = "Quality Assurance", Multiplier = 1.1, Description = "Overhead for quality assurance testing" });

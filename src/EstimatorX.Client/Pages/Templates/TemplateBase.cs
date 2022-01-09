@@ -6,10 +6,10 @@ using EstimatorX.Shared.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
-namespace EstimatorX.Client.Pages.Projects;
+namespace EstimatorX.Client.Pages.Templates;
 
 [Authorize]
-public abstract class ProjectBase : ComponentBase, IDisposable
+public abstract class TemplateBase : ComponentBase, IDisposable
 {
     [Parameter]
     public string Id { get; set; }
@@ -22,7 +22,7 @@ public abstract class ProjectBase : ComponentBase, IDisposable
     public NotificationService NotificationService { get; set; }
 
     [Inject]
-    public ProjectStore Store { get; set; }
+    public TemplateStore TemplateStore { get; set; }
 
     [Inject]
     public NavigationManager Navigation { get; set; }
@@ -33,17 +33,17 @@ public abstract class ProjectBase : ComponentBase, IDisposable
     [Inject]
     public IProjectBuilder ProjectBuilder { get; set; }
 
-    public Project Model => Store.Model;
+    public Project Model => TemplateStore.Model;
 
     protected override async Task OnInitializedAsync()
     {
-        Store.OnChange += HandleModelChange;
+        TemplateStore.OnChange += HandleModelChange;
 
         try
         {
-            await Store.Load(Id, OrganizationId);
-            if (Store.Model == null)
-                Navigation.NavigateTo("/projects");
+            await TemplateStore.Load(Id, OrganizationId);
+            if (TemplateStore.Model == null)
+                Navigation.NavigateTo("/templates");
 
             ProjectBuilder.UpdateProject(Model);
             ProjectCalculator.UpdateProject(Model);
@@ -64,6 +64,6 @@ public abstract class ProjectBase : ComponentBase, IDisposable
 
     public virtual void Dispose()
     {
-        Store.OnChange -= HandleModelChange;
+        TemplateStore.OnChange -= HandleModelChange;
     }
 }

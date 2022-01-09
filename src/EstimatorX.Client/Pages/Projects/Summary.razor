@@ -2,7 +2,11 @@
 @inherits ProjectBase
 
 @using EstimatorX.Client.Pages.Projects.Components
+@using EstimatorX.Client.Repositories
+@using EstimatorX.Client.Stores
 
-<ProjectContainer Id="@Id" OrganizationId="@OrganizationId">
-    <ProjectSummary />
+<PageTitle>Project @Model?.Name - Summary - EstimatorX</PageTitle>
+
+<ProjectContainer Id="@Id" OrganizationId="@OrganizationId" TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project">
+    <ProjectSummary TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project" />
 </ProjectContainer>

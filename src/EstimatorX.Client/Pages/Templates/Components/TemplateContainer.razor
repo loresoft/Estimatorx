@@ -3,6 +3,8 @@
 @typeparam TRepository
 @typeparam TModel
 
+@using EstimatorX.Client.Pages.Projects.Components
+
 <div class="container-xxl">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -10,7 +12,7 @@
                 <a href="/">Home</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="/projects">Projects</a>
+                <a href="/templates">Templates</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 Edit
@@ -22,7 +24,7 @@
     {
         <div class="card mb-5">
             <div class="card-header">
-                <i class="fas fa-calculator me-2"></i> Project - Loading ...
+                <i class="fas fa-share-alt me-2"></i> Template - Loading ...
             </div>
             <div class="card-body">
                 <Loading />
@@ -36,9 +38,9 @@
 
             <div class="card mb-5">
                 <div class="card-header">
-                    <i class="fas fa-calculator me-2"></i> Project - @Store.Model?.Name
+                    <i class="fas fa-share-alt me-2"></i> Template - @Store.Model?.Name
                     <Conditional Show="@Store.IsDirty">*</Conditional>
-                    <ProjectTabs />
+                    <TemplateTabs />
                 </div>
                 <div class="card-body @BodyClass">
 
@@ -69,7 +71,7 @@
                         </div>
                         <div class="col">
                             <div class="dropdown">
-                                <button id="project-action-button"
+                                <button id="template-action-button"
                                     type="button"
                                     class="btn btn-secondary dropdown-toggle fa-pull-right"
                                     disabled="@Store.IsBusy"
@@ -77,21 +79,16 @@
                                     aria-expanded="false">
                                     Actions
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="project-action-button">
+                                <ul class="dropdown-menu" aria-labelledby="template-action-button">
                                     <li>
                                         <button type="button" class="dropdown-item" @onclick="HandleDuplicate">
-                                            Duplicate Project
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="dropdown-item" @onclick="HandleMakeTemplate">
-                                            Make into Template
+                                            Duplicate Template
                                         </button>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <button type="button" class="dropdown-item" @onclick="HandleDelete">
-                                            Delete Project
+                                            Delete Template
                                         </button>
                                     </li>
                                 </ul>

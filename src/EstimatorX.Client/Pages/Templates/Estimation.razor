@@ -1,0 +1,13 @@
+@page "/templates/{id}/{organizationId}/estimation"
+@inherits TemplateBase
+
+@using EstimatorX.Client.Pages.Projects.Components
+@using EstimatorX.Client.Pages.Templates.Components
+@using EstimatorX.Client.Repositories
+@using EstimatorX.Client.Stores
+
+<PageTitle>Template @Model?.Name - Estimate - EstimatorX</PageTitle>
+
+<TemplateContainer Id="@Id" OrganizationId="@OrganizationId" TStore="TemplateStore" TRepository="TemplateRepository" TModel="Template">
+    <EpicContainer TStore="TemplateStore" TRepository="TemplateRepository" TModel="Template" />
+</TemplateContainer>

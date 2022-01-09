@@ -13,9 +13,9 @@ using EstimatorX.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
-namespace EstimatorX.Client.Pages.Projects.Components;
+namespace EstimatorX.Client.Pages.Templates.Components;
 
-public partial class ProjectContainer<TStore, TRepository, TModel>
+public partial class TemplateContainer<TStore, TRepository, TModel>
     where TStore : StoreEditBase<TModel, TRepository>
     where TRepository : RepositoryEditBase<TModel>
     where TModel : Project, IHaveIdentifier, new()
@@ -46,9 +46,6 @@ public partial class ProjectContainer<TStore, TRepository, TModel>
     [Inject]
     public IMapper Mapper { get; set; }
 
-    [Inject]
-    public TemplateRepository TemplateRepository { get; set; }
-
 
     private EditContext EditContext { get; set; }
 
@@ -78,11 +75,11 @@ public partial class ProjectContainer<TStore, TRepository, TModel>
 
             var model = Store.Model;
 
-            NotificationService.ShowSuccess($"Project '{model.Name}' saved successfully");
+            NotificationService.ShowSuccess($"Template '{model.Name}' saved successfully");
 
             // route if org changed
             if (model.OrganizationId != OrganizationId)
-                Navigation.NavigateTo($"/projects/{model.Id}/{model.OrganizationId}");
+                Navigation.NavigateTo($"/templates/{model.Id}/{model.OrganizationId}");
         }
         catch (Exception ex)
         {
@@ -96,13 +93,13 @@ public partial class ProjectContainer<TStore, TRepository, TModel>
         {
             var name = Model.Name;
 
-            if (!await Modal.ConfirmDelete($"Are you sure you want to delete project '{name}'?"))
+            if (!await Modal.ConfirmDelete($"Are you sure you want to delete template '{name}'?"))
                 return;
 
 
             await Store.Delete(Id, OrganizationId);
-            NotificationService.ShowSuccess($"Project '{name}' deleted successfully");
-            Navigation.NavigateTo("/projects");
+            NotificationService.ShowSuccess($"Template '{name}' deleted successfully");
+            Navigation.NavigateTo("/templates");
         }
         catch (Exception ex)
         {
@@ -121,26 +118,7 @@ public partial class ProjectContainer<TStore, TRepository, TModel>
 
             var result = await Store.Repository.Create(clone);
 
-            NotificationService.ShowSuccess($"Project '{name}' duplicated successfully");
-
-            Navigation.NavigateTo($"/projects");
-        }
-        catch (Exception ex)
-        {
-            NotificationService.ShowError(ex);
-        }
-    }
-
-    private async Task HandleMakeTemplate()
-    {
-        try
-        {
-            var clone = Mapper.Map<Template>(Model);
-            clone.Name += " - Template";
-
-            var result = await TemplateRepository.Create(clone);
-
-            NotificationService.ShowSuccess($"Template '{ clone.Name}' created successfully");
+            NotificationService.ShowSuccess($"Template '{name}' duplicated successfully");
 
             Navigation.NavigateTo($"/templates");
         }

@@ -1,4 +1,7 @@
-@inherits ProjectComponentBase
+@inherits ProjectComponentBase<TStore, TRepository, TModel>
+@typeparam TStore
+@typeparam TRepository
+@typeparam TModel
 
 <h3>Project Summary</h3>
 
@@ -23,9 +26,9 @@
             <th class="text-end">Weighted Cost</th>
         </tr>
     </thead>
-    <Conditional Show="Project != null">
+    <Conditional Show="Model != null">
         <tbody>
-            <Repeater Items="Project.Epics">
+            <Repeater Items="Model.Epics">
                 <Row Context="item">
                     <tr>
                         <td class="text-center">
@@ -44,7 +47,7 @@
                             </button>
                         </td>
                         <td>@item.Name</td>
-                        <td class="text-end">@Project.Settings.EstimateRate.ToString("C")</td>
+                        <td class="text-end">@Model.Settings.EstimateRate.ToString("C")</td>
                         <td class="text-end">@item.EstimatedTotal</td>
                         <td class="text-end">@item.WeightedTotal</td>
                         <td class="text-end">@item.EstimatedCost?.ToString("C")</td>
@@ -72,10 +75,10 @@
         <tfoot>
             <tr>
                 <th colspan="3" class="text-end">Grand Total:</th>
-                <th class="text-end">@Project.EstimatedTotal</th>
-                <th class="text-end">@Project.WeightedTotal</th>
-                <th class="text-end">@Project.EstimatedCost?.ToString("C")</th>
-                <th class="text-end">@Project.WeightedCost?.ToString("C")</th>
+                <th class="text-end">@Model.EstimatedTotal</th>
+                <th class="text-end">@Model.WeightedTotal</th>
+                <th class="text-end">@Model.EstimatedCost?.ToString("C")</th>
+                <th class="text-end">@Model.WeightedCost?.ToString("C")</th>
             </tr>
         </tfoot>
     </Conditional>

@@ -1,0 +1,222 @@
+@inherits ProjectComponentBase<TStore, TRepository, TModel>
+@typeparam TStore
+@typeparam TRepository
+@typeparam TModel
+
+<table class="table table-edit table-bordered">
+    <colgroup>
+        <col style="width: 50px" />
+        <col style="" />
+        <col style="width: 130px" />
+        <col style="width: 130px" />
+        <col style="width: 130px" />
+        <col style="width: 130px" />
+        <col style="width: 120px" />
+        <col style="width: 120px" />
+    </colgroup>
+    <thead>
+        <tr class="header-sticky">
+            <th></th>
+            <th>Name</th>
+            <th>Effort</th>
+            <th>Clarity</th>
+            <th>Confidence</th>
+            <th>Criticality</th>
+            <th class="text-end">Estimated</th>
+            <th class="text-end">Weighted</th>
+        </tr>
+    </thead>
+    <Conditional Show="Model != null">
+        <tbody>
+            <Repeater Items="Model.Epics">
+                <Row Context="epic">
+                    <tr class="table-epic-row">
+                        <td class="text-center">
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle" type="button" id="@Identifier("epic", "action", epic.Id)" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span style="color: rgb(224, 108, 0)"><i class="fas fa-crown"></i></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="@Identifier("epic", "action", epic.Id)">
+                                    <li>
+                                        <button type="button" class="dropdown-item" @onclick="EpicAdd">
+                                            Add Epic
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="dropdown-item" @onclick="() => EpicDuplicate(epic)">
+                                            Duplicate Epic
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="dropdown-item" @onclick="EpicReorder">
+                                            Reorder Epic
+                                        </button>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <button type="button" class="dropdown-item" @onclick="() => EpicDelete(epic)">
+                                            Delete Epic
+                                        </button>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <button type="button" class="dropdown-item" @onclick="() => FeatureAdd(epic)">
+                                            Add Feature
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td colspan="5">
+                            <InputText id="@Identifier("epic", "name", epic.Id)" @bind-Value="epic.Name" class="form-control" />
+                        </td>
+                        <th class="text-end table-active">
+                            <div class="form-control-static">@epic.EstimatedTotal</div>
+                        </th>
+                        <th class="text-end table-active">
+                            <div class="form-control-static">@epic.WeightedTotal</div>
+                        </th>
+                    </tr>
+                    <Repeater Items="epic.Features">
+                        <Row Context="feature">
+                            <tr class="table-feature-row">
+                                <td class="text-center">
+                                    <div class="dropdown">
+                                        <button class="btn dropdown-toggle" type="button" id="@Identifier("feature", "action", feature.Id)" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <span style="color: rgb(119, 59, 147)"><i class="fas fa-trophy"></i></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="@Identifier("feature", "action", feature.Id)">
+                                            <li>
+                                                <button type="button" class="dropdown-item" @onclick="() => FeatureAdd(epic)">
+                                                    Add Feature
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button type="button" class="dropdown-item" @onclick="() => FeatureDuplicate(epic, feature)">
+                                                    Duplicate Feature
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button type="button" class="dropdown-item" @onclick="() => FeatureReporder(epic)">
+                                                    Reorder Features
+                                                </button>
+                                            </li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li>
+                                                <button type="button" class="dropdown-item" @onclick="() => FeatureDelete(epic, feature)">
+                                                    Delete Feature
+                                                </button>
+                                            </li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li>
+                                                <button type="button" class="dropdown-item" @onclick="EpicAdd">
+                                                    Add Epic
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button type="button" class="dropdown-item" @onclick="() => EpicDuplicate(epic)">
+                                                    Duplicate Epic
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button type="button" class="dropdown-item" @onclick="EpicReorder">
+                                                    Reorder Epics
+                                                </button>
+                                            </li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li>
+                                                <button type="button" class="dropdown-item" @onclick="() => EpicDelete(epic)">
+                                                    Delete Epic
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td class="epic-name-cell">
+                                    <InputText id="@Identifier("feature", "name", feature.Id)" @bind-Value="feature.Name" class="form-control" />
+                                </td>
+                                <td>
+                                    <InputSelect id="@Identifier("feature", "estimate", feature.Id)" @bind-Value="feature.Estimate" class="form-control no-style">
+                                        <option value=""></option>
+                                        <Repeater Items="ProjectSettings.EffortLevels">
+                                            <Row Context="item">
+                                                <option value="@item.Effort">@item.Effort</option>
+                                            </Row>
+                                        </Repeater>
+                                    </InputSelect>
+                                </td>
+                                <td>
+                                    <InputSelect id="@Identifier("feature", "clarity", feature.Id)" @bind-Value="feature.Clarity" class="form-control no-style">
+                                        <option value=""></option>
+                                        <Repeater Items="@(Enum.GetNames<ClarityScale>().ToList())">
+                                            <Row Context="item">
+                                                <option value="@item">@item.ToTitle()</option>
+                                            </Row>
+                                        </Repeater>
+                                    </InputSelect>
+                                </td>
+                                <td>
+                                    <InputSelect id="@Identifier("feature", "confidence", feature.Id)" @bind-Value="feature.Confidence" class="form-control no-style">
+                                        <option value=""></option>
+                                        <Repeater Items="@(Enum.GetNames<ConfidenceScale>().ToList())">
+                                            <Row Context="item">
+                                                <option value="@item">@item.ToTitle()</option>
+                                            </Row>
+                                        </Repeater>
+                                    </InputSelect>
+                                </td>
+                                <td>
+                                    <InputSelect id="@Identifier("feature", "criticality", feature.Id)" @bind-Value="feature.Criticality" class="form-control no-style">
+                                        <option value=""></option>
+                                        <Repeater Items="@(Enum.GetNames<Criticality>().ToList())">
+                                            <Row Context="item">
+                                                <option value="@item">@item.ToTitle()</option>
+                                            </Row>
+                                        </Repeater>
+                                    </InputSelect>
+                                </td>
+                                <th class="text-end table-active">
+                                    <div class="form-control-static">@feature.EstimatedTotal</div>
+                                </th>
+                                <th class="text-end table-active">
+                                    <div class="form-control-static">@feature.WeightedTotal</div>
+                                </th>
+                            </tr>
+                        </Row>
+                    </Repeater>
+                </Row>
+            </Repeater>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="6" class="text-end">
+                    Grand Total:
+                </th>
+                <th class="text-end">
+                    @Model.EstimatedTotal
+                </th>
+                <th class="text-end">
+                    @Model.WeightedTotal
+                </th>
+            </tr>
+        </tfoot>
+    </Conditional>
+</table>
+
+<div class="row p-2">
+    <div class="col">
+        <button type="button"
+                id="epic-add-button"
+                @onclick="EpicAdd"
+                class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-plus"></i> Add Epic
+        </button>
+
+        <button type="button"
+                id="epic-reorder-button"
+                @onclick="EpicReorder"
+                class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-sort"></i> Reorder Epics
+        </button>
+    </div>
+</div>
