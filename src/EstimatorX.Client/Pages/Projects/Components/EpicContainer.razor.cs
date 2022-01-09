@@ -29,7 +29,7 @@ public partial class EpicContainer<TStore, TRepository, TModel>
         Store.NotifyStateChanged();
     }
 
-    private async Task EpicReporder()
+    private async Task EpicReorder()
     {
         var result = await Modal.Reorder(Model.Epics);
         Store.NotifyStateChanged();

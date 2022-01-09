@@ -1,0 +1,14 @@
+@page "/projects/{id}/{organizationId}/estimation"
+@inherits ProjectBase
+
+@using EstimatorX.Client.Pages.Projects.Components
+@using EstimatorX.Client.Repositories
+@using EstimatorX.Client.Stores
+
+<ProjectContainer Id="@Id" OrganizationId="@OrganizationId" TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project" BodyClass="p-0">
+    <EstimationEditor TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project" />
+</ProjectContainer>
+
+@code {
+
+}
