@@ -102,10 +102,10 @@ public class ProjectBuilder : IProjectBuilder, ISingletonService
 
         if (settings.Overhead.Count == 0 && includeSample)
         {
-            settings.Overhead.Add(new ProjectOverhead { Name = "Unit Tests", Multiplier = 1.1, Description = "Overhead to create unit tests" });
-            settings.Overhead.Add(new ProjectOverhead { Name = "Quality Assurance", Multiplier = 1.1, Description = "Overhead for quality assurance testing" });
-            settings.Overhead.Add(new ProjectOverhead { Name = "Project Management", Multiplier = 1.1, Description = "Overhead for project management activities" });
-            settings.Overhead.Add(new ProjectOverhead { Name = "Meetings", Multiplier = 1.05, Description = "Overhead for team meeetings" });
+            settings.Overhead.Add(new ProjectOverhead { Name = "Unit Tests", Multiplier = 1.1, Description = "Create unit tests" });
+            settings.Overhead.Add(new ProjectOverhead { Name = "Quality Assurance", Multiplier = 1.1, Description = "Quality assurance testing" });
+            settings.Overhead.Add(new ProjectOverhead { Name = "Project Management", Multiplier = 1.1, Description = "Project management activities" });
+            settings.Overhead.Add(new ProjectOverhead { Name = "Meetings", Multiplier = 1.05, Description = "Team meeetings" });
         }
 
         return settings;
