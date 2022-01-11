@@ -80,6 +80,7 @@
                             </Template>
                         </DataColumn>
                         <DataColumn TItem="TemplateSummary" Property="p => p.Description" />
+                        <DataColumn TItem="TemplateSummary" Property="p => p.OrganizationName" Title="Organization" Width="220px" />
                         <DataColumn TItem="TemplateSummary" Property="p => p.Updated" Width="115px">
                             <Template Context="item">
                                 <abbr title="@item.Updated.ToString("f")">

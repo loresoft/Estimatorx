@@ -146,7 +146,7 @@ public abstract class OrganizationServiceBase<TRepository, TModel> : ServiceBase
 
 
     protected async Task UpdateOrganizationName(TModel entity, IPrincipal principal, CancellationToken cancellationToken)
-{
+    {
         var user = await CurrentUser(principal, cancellationToken);
         if (user == null)
             return;
