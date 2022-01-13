@@ -1,9 +1,8 @@
-![EstimatorX](https://raw.githubusercontent.com/loresoft/Estimatorx/master/Code/Source/Estimatorx.Web/Content/EstimatorX-logo.png)
+![EstimatorX](https://raw.githubusercontent.com/loresoft/Estimatorx/develop/design/full-logo.svg)
 
 A simple project estimation application.   
 [http://estimatorx.com](http://estimatorx.com "EstimatorX")
 
-[![Build status](https://ci.appveyor.com/api/projects/status/8pc9g61vm9yxqrbc)](https://ci.appveyor.com/project/LoreSoft/estimatorx)
 
 ## Features
 
