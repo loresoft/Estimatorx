@@ -9,11 +9,11 @@
     <colgroup>
         <col style="width: 30px" />
         <col style="" />
-        <col style="width: 130px" />
-        <col style="width: 130px" />
-        <col style="width: 130px" />
-        <col style="width: 150px" />
-        <col style="width: 150px" />
+        <col style="width: 100px" />
+        <col style="width: 100px" />
+        <col style="width: 100px" />
+        <col style="width: 140px" />
+        <col style="width: 140px" />
     </colgroup>
     <thead>
         <tr>
@@ -29,14 +29,14 @@
     <Conditional Show="Model != null">
         <tbody>
             <Repeater Items="Model.Epics">
-                <Row Context="item">
+                <Row Context="epic">
                     <tr>
                         <td class="text-center">
                             <button type="button"
-                                    id="@($"epic-collapse-{item.Id}-button")"
+                                    id="@($"epic-collapse-{epic.Id}-button")"
                                     class="btn btn-sm"
-                                    @onclick="() => ToggleCollapse(item.Id)">
-                                @if (CollapseState(item.Id))
+                                    @onclick="() => ToggleCollapse(epic.Id)">
+                                @if (CollapseState(epic.Id))
                                 {
                                     <i class="fas fa-caret-down"></i>
                                 }
@@ -46,21 +46,20 @@
                                 }
                             </button>
                         </td>
-                        <td>@item.Name</td>
+                        <td>@epic.Name</td>
                         <td class="text-end">@Model.Settings.EstimateRate.ToString("C")</td>
-                        <td class="text-end">@item.EstimatedTotal</td>
-                        <td class="text-end">@item.WeightedTotal</td>
-                        <td class="text-end">@item.EstimatedCost?.ToString("C")</td>
-                        <td class="text-end">@item.WeightedCost?.ToString("C")</td>
+                        <td class="text-end">@epic.EstimatedTotal</td>
+                        <td class="text-end">@epic.WeightedTotal</td>
+                        <td class="text-end">@epic.EstimatedCost?.ToString("C")</td>
+                        <td class="text-end">@epic.WeightedCost?.ToString("C")</td>
                     </tr>
-                    @if (CollapseState(item.Id))
+                    @if (CollapseState(epic.Id))
                     {
-                        <Repeater Items="item.Features">
+                        <Repeater Items="epic.Features">
                             <Row Context="feature">
                                 <tr class="text-muted">
                                     <td></td>
-                                    <td style="padding-left: 1.5em">@feature.Name</td>
-                                    <td></td>
+                                    <td style="padding-left: 1.5em" colspan="2">@feature.Name</td>
                                     <td class="text-end">@feature.EstimatedTotal</td>
                                     <td class="text-end">@feature.WeightedTotal</td>
                                     <td class="text-end">@feature.EstimatedCost?.ToString("C")</td>

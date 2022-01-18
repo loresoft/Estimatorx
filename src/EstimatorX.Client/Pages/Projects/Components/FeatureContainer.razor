@@ -9,7 +9,12 @@
             <div class="accordion-feature" id="@ParentCollapse">
                 <Repeater Items="Epic.Features">
                     <Row Context="feature">
-                        <FeatureEditor Epic="Epic" Feature="feature" ParentCollapse="@ParentCollapse" TStore="TStore" TRepository="TRepository" TModel="TModel" />
+                        <FeatureEditor Epic="Epic"
+                                       Feature="feature"
+                                       ParentCollapse="@ParentCollapse"
+                                       TStore="TStore"
+                                       TRepository="TRepository"
+                                       TModel="TModel" />
                     </Row>
                 </Repeater>
             </div>

@@ -8,7 +8,7 @@
 @attribute [Authorize(Roles = EstimatorX.Shared.Security.Roles.Administrators)]
 
 @inject NavigationManager Navigation
-@inject OrganizationRepository OrganizationRepository
+@inject AdministrativeRepository Repository
 @inject NotificationService NotificationService
 
 
@@ -22,7 +22,7 @@
                 <a href="/administrative/organizations">Organizations</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                Edit
+                @Organization.Name
             </li>
         </ol>
     </nav>
@@ -73,7 +73,7 @@
     {
         try
         {
-            Organization = await OrganizationRepository.Load(Id);
+            Organization = await Repository.LoadOrganization(Id);
             if (Organization == null)
                 Navigation.NavigateTo("/administrative/organizations");
 

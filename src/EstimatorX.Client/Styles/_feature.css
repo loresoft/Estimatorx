@@ -1,0 +1,13 @@
+.feature {
+    display: table;
+}
+
+.feature > * {
+    display: table-cell;
+}
+
+.feature-icon {
+    font-size: 20px;
+    width: 1%;
+    padding-right: 10px;
+}
