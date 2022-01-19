@@ -28,7 +28,9 @@ public static class ModalExtensions
         var parameters = new ModalParameters();
         parameters.Add(nameof(ReorderModal<T>.Items), items);
 
-        var messageForm = modalService.Show<ReorderModal<T>>("Reorder Items", parameters);
+        var options = new ModalOptions { ContentScrollable = true };
+
+        var messageForm = modalService.Show<ReorderModal<T>>("Reorder Items", parameters, options);
         var result = await messageForm.Result;
 
         return !result.Cancelled;

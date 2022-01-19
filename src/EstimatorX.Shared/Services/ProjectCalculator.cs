@@ -8,6 +8,8 @@ public class ProjectCalculator : IProjectCalculator, ISingletonService
 {
     public void UpdateProject(Project project)
     {
+        UpdateSettings(project);
+
         project.EstimatedTotal = 0;
         project.WeightedTotal = 0;
         project.EstimatedCost = 0;
@@ -62,6 +64,12 @@ public class ProjectCalculator : IProjectCalculator, ISingletonService
             feature.EstimatedCost += story.EstimatedCost;
             feature.WeightedCost += story.WeightedCost;
         }
+    }
+
+    public void UpdateSettings(Project project)
+    {
+        project.Settings.RiskLevels.Sort((x, y) => x.Multiplier.CompareTo(y.Multiplier));
+        project.Settings.EffortLevels.Sort((x, y) => x.Effort.CompareTo(y.Effort));
     }
 
     private void UpdateStory(Project project, StoryEstimate story)
