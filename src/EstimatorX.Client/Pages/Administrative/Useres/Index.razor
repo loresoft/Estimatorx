@@ -1,10 +1,127 @@
-﻿@page "/administrative/users"
+@page "/administrative/users"
+
+@using EstimatorX.Client.Repositories
+@using EstimatorX.Client.Services
+@using EstimatorX.Shared.Extensions
+@using EstimatorX.Shared.Models
 @using Microsoft.AspNetCore.Authorization
+
+
 @attribute [Authorize(Roles = EstimatorX.Shared.Security.Roles.Administrators)]
 
+@inject AdministrativeRepository Repository
+@inject NotificationService NotificationService
 
-<h3>Users</h3>
+<div class="container-xxl">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Users
+            </li>
+        </ol>
+    </nav>
+
+    <div class="card">
+        <div class="card-header">
+            <form @onsubmit="HandleSearch">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <i class="fas fa-users me-2"
+                           aria-hidden="true"></i> Users
+                    </div>
+                    <div class="col-sm-8 d-flex">
+                        <div class="input-group input-group-sm mr-2">
+                            <input type="search"
+                                   @bind="SearchText"
+                                   class="form-control"
+                                   placeholder="Search" />
+                            <div class="input-group-append">
+                                <button class="btn btn-sm btn-outline-secondary"
+                                        type="submit">
+                                    <i class="fas fa-search"
+                                       aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <DataGrid DataProvider="LoadData" TItem="UserSummary" class="table table-hover table-bordered mb-0" @ref="DataGrid">
+                    <DataColumns>
+                        <DataColumn TItem="UserSummary" Property="p => p.Name" Width="250px" SortIndex="0">
+                            <Template Context="item">
+                                <a href="/administrative/users/@item.Id" class="d-block" title="@item.Name">@item.Name</a>
+                            </Template>
+                        </DataColumn>
+                        <DataColumn TItem="UserSummary" Property="p => p.Email" />
+                        <DataColumn TItem="UserSummary" Property="p => p.Updated" Width="115px">
+                            <Template Context="item">
+                                <abbr title="@item.Updated.ToString("f")">
+                                    <span>@item.Updated.ToString("d")</span>
+                                </abbr>
+                            </Template>
+                        </DataColumn>
+                    </DataColumns>
+                    <DataPagination Context="grid">
+                        <div class="w-100 m-1 d-flex justify-content-between align-items-center">
+                            <DataPager PageSize="20" ShowEmpty="true" />
+                            <DataSizer />
+                            <div class="me-1">@grid.Pager.StartItem - @grid.Pager.EndItem of @grid.Pager.Total</div>
+                        </div>
+                    </DataPagination>
+                </DataGrid>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 
 @code {
+    private DataGrid<UserSummary> DataGrid { get; set; }
 
+    private ICollection<UserSummary> Users { get; set; } = new List<UserSummary>();
+
+    private string SearchText { get; set; }
+
+    private async ValueTask<DataResult<UserSummary>> LoadData(DataRequest request)
+    {
+        try
+        {
+            var sort = request.Sorts.FirstOrDefault();
+
+            var query = new QueryRequest
+            {
+                Page = request.Page,
+                PageSize = request.PageSize,
+                Sort = sort?.Property,
+                Descending= sort?.Descending,
+                Search = SearchText
+            };
+
+            var result = await Repository.SearchUsers(query);
+
+            var response = new DataResult<UserSummary>(result.Total, result.Data);
+            return response;
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+
+            var response = new DataResult<UserSummary>(0, Enumerable.Empty<UserSummary>());
+            return response;
+        }
+    }
+
+    private async Task HandleSearch()
+    {
+        await DataGrid.RefreshAsync(true);
+    }
 }

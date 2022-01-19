@@ -3,10 +3,12 @@ using System.Net.Mime;
 using EstimatorX.Core.Services;
 using EstimatorX.Shared.Models;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EstimatorX.Service.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]

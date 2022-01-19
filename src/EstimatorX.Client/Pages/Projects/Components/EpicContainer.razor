@@ -9,7 +9,11 @@
             <Conditional Show="Model != null">
                 <Repeater Items="Model.Epics">
                     <Row Context="epic">
-                        <EpicEditor Epic="epic" ParentCollapse="@ParentCollapse" TStore="TStore" TRepository="TRepository" TModel="TModel" />
+                        <EpicEditor Epic="epic"
+                                    ParentCollapse="@ParentCollapse"
+                                    TStore="TStore"
+                                    TRepository="TRepository"
+                                    TModel="TModel" />
                     </Row>
                 </Repeater>
             </Conditional>

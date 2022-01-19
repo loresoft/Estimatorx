@@ -1,46 +1,68 @@
+# EstimatorX
+
 ![EstimatorX](https://raw.githubusercontent.com/loresoft/Estimatorx/develop/design/full-logo.svg)
 
-A simple project estimation application.   
+A simple project estimation application.
+
 [http://estimatorx.com](http://estimatorx.com "EstimatorX")
 
-
-## Features
+## EstimatorX Features
 
 ### Projects
 
-A project contains all the details that make up an estimate. An estimate is broken down into Assumptions, Factors and Tasks. The estimate is padded with a contingency rate.
+A project contains all the details that make up an estimate. An estimate is broken down into Epics and Features.
+
+### Epics
+
+A high level deliverable that provides business value, this is the largest units of work in most projects and groups together one or more features.
+
+### Features
+
+Features are broken down components that are individually deliverable, and when combined comprise the epic. A feature should provide business value in support of an Epic.
 
 ### Assumptions
 
 When making an estimate, there are assumptions the estimator makes to come up with the estimate. Document those assumptions to help raise the red flag in the future when an assumptions proves not to be true.
 
-### Factors
+### Estimate
 
-Factors are a type of task with hours associated with the complexity of that task. Factors allow the estimator to state hours based on a specific type of task, regardless of the project.
+The estimated value for the feature. The available values are customizable via the project settings.
 
-### Tasks
+### Clarity
 
-Tasks are a specific item or feature of the project being estimated. A task is assigned a Factor. The estimator enters the number of tasks per complexity level.
+How well has the feature been outlined and defined? How well do you understand it? This is not a "simplicity" call - this is a measure for understanding.
 
-Tasks are part of a Section. Sections are a way to group a set of common features. Tasks totals are also rolled up to the section level.
+- **Low** There is no documentation, the item has not have even been covered with the customer
+- **Medium Low** There is not much documentation, the item may not have even been covered with the customer
+- **Medium** There is not much documentation, but the customer was able to walk through the desired functionality
+- **Medium High** There is some documentation, the desired functionality is understood but may not be well documented
+- **High** There is extensive documentation, up to and including technical requirements, examples, the desired outcome is well understood and acceptance criteria is understood
 
-### Reports
+### Confidence
 
-Project estimates can be displayed as a simple report. The estimator can create a public shared link to allow anonymous view access to the report. The report can also be downloaded as a PDF.
+How confident/comfortable are you in the estimate based on everything you know? Have you done something like this before? Are you familiar with all technologies involved? Have they all been identified?
 
-### Contingency
+- **Low** Solution is not know and more discovery is required
+- **Medium Low** Approach is not clear and research / proof of concept WILL be required. Current understanding of the requirements support reasonable feasibility for this work being achievable.
+- **Medium** Haven’t done something super similar, but have done stuff related. Have ideas of approaches but no clear direction, some research and discussion will be needed to pick an approach
+- **Medium High** Have done similar but not this, have an idea of the technology and approach we would use
+- **High** Have done it before, pretty sure on the numbers
 
-Contingency percentage rate is the confidence level in the information used to create the estimate. The contingency percentage rate is used to padded the estimate with a percentage rate.
+### Multiplier
 
-### Complexity
+Multiplier is a computed value used to pad the estimate based on the Clarity and Confidence of the feature. The multiplier matrix is customizable via the project settings
 
-Tasks and Factors use following complexity scale.
+### Weighted Estimate
 
-* **Very Simple** - Task is trivial, owner knows how to solve the problem and can be done quickly.
-* **Simple** - Owner knows how to solve the problem.
-* **Medium** - Owner needs to do a little bit of research to solve the problem, but the resulting solution is not complex.
-* **Complex** - Task needs research and some clarification on details. Resulting solution is not trivial.
-* **Very Complex** - Task needs research and clarification. Resulting solution requires significant new work or change.
+The estimated value times the multiplier is the weighted estimate.
+
+### Risk
+
+How risky is the feature, based on the computed multiplier. The Risk Scale can be customized via the project settings.
+
+### Effort
+
+What is the high level effort of the feature, based on the estimate. The Effort Scale can be customized via the project settings.
 
 ### Organizations
 
@@ -50,4 +72,4 @@ Select 'Private' to make the Project or Template accessible by only you.
 
 ### Templates
 
-A template is a group of factors you can quickly add to a project. Templates allow reuse of common factors across projects.
+A template is a project pre-configured with settings and optionally epics and features. Use templates as a quick way to get started with an estimate based on standard settings.

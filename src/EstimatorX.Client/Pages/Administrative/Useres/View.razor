@@ -1,0 +1,131 @@
+@page "/administrative/users/{id}"
+
+@using EstimatorX.Client.Repositories
+@using EstimatorX.Client.Services
+@using EstimatorX.Shared.Models
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize(Roles = EstimatorX.Shared.Security.Roles.Administrators)]
+
+@inject NavigationManager Navigation
+@inject AdministrativeRepository Repository
+@inject NotificationService NotificationService
+
+
+<div class="container-xxl">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/administrative/users">Users</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                @User.Name
+            </li>
+        </ol>
+    </nav>
+
+    <div class="card mb-5">
+        <div class="card-header">
+            <i class="fas fa-user me-2"
+               aria-hidden="true"></i> User @User.Name
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label for="Name" class="form-label">
+                            Name: <span class="text-danger">*</span>
+                        </label>
+                        <div class="form-control">@User.Name</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Email" class="form-label">
+                            Email:
+                        </label>
+                        <div class="form-control">@User.Email</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Provider" class="form-label">
+                            Provider:
+                        </label>
+                        <div class="form-control">@User.Provider</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <h4>Organizations</h4>
+                    <div class="list-group">
+                        @foreach (var member in User.Organizations)
+                        {
+                            <div class="list-group-item">@member.Name</div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <h4>Logins</h4>
+
+                <table class="table">
+                    <colgroup>
+                        <col style="width: 110px" />
+                        <col style="width: 100px" />
+                        <col style="width: 130px" />
+                        <col style="width: 130px" />
+                        <col style="" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>IP Address</th>
+                            <th>Browser</th>
+                            <th>OS</th>
+                            <th>User-Agent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var login in User.Logins.OrderByDescending(l => l.Created))
+                        {
+                            <tr>
+                                <td>
+                                    <abbr title="@login.Created?.ToString("f")">
+                                        <span>@login.Created?.ToString("d")</span>
+                                    </abbr>
+                                </td>
+                                <td>@login.IpAddress</td>
+                                <td>@login.Browser</td>
+                                <td>@login.OperatingSystem</td>
+                                <td>@login.UserAgent</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    private User User { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            User = await Repository.LoadUser(Id);
+            if (User == null)
+                Navigation.NavigateTo("/administrative/users");
+
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+    }
+
+}

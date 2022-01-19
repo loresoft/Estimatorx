@@ -9,7 +9,7 @@
 
 @attribute [Authorize(Roles = EstimatorX.Shared.Security.Roles.Administrators)]
 
-@inject OrganizationRepository Repository
+@inject AdministrativeRepository Repository
 @inject NotificationService NotificationService
 
 <div class="container-xxl">
@@ -106,7 +106,7 @@
                 Search = SearchText
             };
 
-            var result = await Repository.Search(query);
+            var result = await Repository.SearchOrganizations(query);
 
             var response = new DataResult<OrganizationSummary>(result.Total, result.Data);
             return response;
