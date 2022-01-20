@@ -23,13 +23,13 @@ await Host.CreateDefaultBuilder(args)
     {
         services.Scan(scan => scan
             .FromAssembliesOf(typeof(Program), typeof(HostingConfiguration), typeof(AssemblyMetadata))
-                .AddClasses(classes => classes.AssignableTo<ITransientService>())
+                .AddClasses(classes => classes.AssignableTo<IServiceTransient>())
                     .AsSelfWithInterfaces()
                     .WithTransientLifetime()
-                .AddClasses(classes => classes.AssignableTo<IScopedService>())
+                .AddClasses(classes => classes.AssignableTo<IServiceScoped>())
                     .AsSelfWithInterfaces()
                     .WithScopedLifetime()
-                .AddClasses(classes => classes.AssignableTo<ISingletonService>())
+                .AddClasses(classes => classes.AssignableTo<IServiceSingleton>())
                     .AsSelfWithInterfaces()
                     .WithSingletonLifetime()
         );

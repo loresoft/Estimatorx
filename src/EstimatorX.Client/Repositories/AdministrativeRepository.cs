@@ -8,7 +8,7 @@ using FluentRest;
 
 namespace EstimatorX.Client.Repositories;
 
-public class AdministrativeRepository : IScopedService
+public class AdministrativeRepository : IServiceScoped
 {
     protected GatewayClient Gateway { get; }
 

@@ -13,16 +13,28 @@ using Microsoft.Extensions.Logging;
 
 namespace EstimatorX.Core.Services;
 
-public class ProjectService : OrganizationServiceBase<IProjectRepository, Project>, IProjectService, ITransientService
+public class ProjectService : OrganizationServiceBase<IProjectRepository, Project>, IProjectService, IServiceTransient
 {
     private readonly ITemplateRepository _templateRepository;
     private readonly IProjectBuilder _projectBuilder;
+    private readonly IProjectCalculator _projectCalculator;
 
     public ProjectService(ILoggerFactory loggerFactory, IMapper mapper, IProjectRepository repository, IUserCache userCache, ITemplateRepository templateRepository, IProjectBuilder projectBuilder)
         : base(loggerFactory, mapper, repository, userCache)
     {
         _templateRepository = templateRepository;
         _projectBuilder = projectBuilder;
+    }
+
+    public override Task<Project> Save(string id, string partitionKey, Project model, IPrincipal principal, CancellationToken cancellationToken)
+    {
+        // ensure valid settings
+        _projectBuilder.UpdateSettings(model.Settings);
+
+        // re-calculate the computed values
+        _projectCalculator.UpdateProject(model);
+
+        return base.Save(id, partitionKey, model, principal, cancellationToken);
     }
 
     public override async Task<Project> Create(Project model, IPrincipal principal, CancellationToken cancellationToken)
@@ -35,11 +47,17 @@ public class ProjectService : OrganizationServiceBase<IProjectRepository, Projec
             var template = await _templateRepository.FindAsync(id, key);
             if (template != null)
                 Mapper.Map(template, model);
+
+            // ensure valid settings
+            _projectBuilder.UpdateSettings(model.Settings);
         }
         else
         {
             _projectBuilder.UpdateProject(model, true);
         }
+
+        // re-calculate the computed values
+        _projectCalculator.UpdateProject(model);
 
         return await base.Create(model, principal, cancellationToken);
     }

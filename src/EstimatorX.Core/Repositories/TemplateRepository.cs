@@ -11,7 +11,7 @@ using Microsoft.Extensions.Options;
 namespace EstimatorX.Core.Repositories;
 
 public class TemplateRepository
-    : CosmosRepository<Template>, ITemplateRepository, ISingletonService
+    : CosmosRepository<Template>, ITemplateRepository, IServiceSingleton
 {
     public TemplateRepository(ILoggerFactory logFactory, IOptions<CosmosRepositoryOptions> repositoryOptions, ICosmosFactory databaseFactory)
         : base(logFactory, repositoryOptions, databaseFactory)

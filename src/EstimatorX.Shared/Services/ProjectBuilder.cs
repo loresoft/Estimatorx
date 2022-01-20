@@ -4,7 +4,7 @@ using EstimatorX.Shared.Models;
 
 namespace EstimatorX.Shared.Services;
 
-public class ProjectBuilder : IProjectBuilder, ISingletonService
+public class ProjectBuilder : IProjectBuilder, IServiceSingleton
 {
     public Project UpdateProject(Project project, bool includeSample = false)
     {
@@ -89,6 +89,7 @@ public class ProjectBuilder : IProjectBuilder, ISingletonService
             settings.RiskLevels.Add(new RiskLevel { Multiplier = 3, Risk = "High" });
             settings.RiskLevels.Add(new RiskLevel { Multiplier = 4, Risk = "Needs Refinement" });
         }
+        settings.RiskLevels.Sort((x, y) => x.Multiplier.CompareTo(y.Multiplier));
 
         if (settings.EffortLevels.Count == 0)
         {
@@ -99,6 +100,7 @@ public class ProjectBuilder : IProjectBuilder, ISingletonService
             settings.EffortLevels.Add(new EffortLevel { Effort = 24, Level = "Medium High" });
             settings.EffortLevels.Add(new EffortLevel { Effort = 48, Level = "High" });
         }
+        settings.EffortLevels.Sort((x, y) => x.Effort.CompareTo(y.Effort));
 
         if (settings.Overhead.Count == 0 && includeSample)
         {
