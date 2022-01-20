@@ -19,11 +19,12 @@ public class ProjectService : OrganizationServiceBase<IProjectRepository, Projec
     private readonly IProjectBuilder _projectBuilder;
     private readonly IProjectCalculator _projectCalculator;
 
-    public ProjectService(ILoggerFactory loggerFactory, IMapper mapper, IProjectRepository repository, IUserCache userCache, ITemplateRepository templateRepository, IProjectBuilder projectBuilder)
+    public ProjectService(ILoggerFactory loggerFactory, IMapper mapper, IProjectRepository repository, IUserCache userCache, ITemplateRepository templateRepository, IProjectBuilder projectBuilder, IProjectCalculator projectCalculator)
         : base(loggerFactory, mapper, repository, userCache)
     {
         _templateRepository = templateRepository;
         _projectBuilder = projectBuilder;
+        _projectCalculator = projectCalculator;
     }
 
     public override Task<Project> Save(string id, string partitionKey, Project model, IPrincipal principal, CancellationToken cancellationToken)
