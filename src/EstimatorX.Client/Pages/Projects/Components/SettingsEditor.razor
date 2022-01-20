@@ -38,7 +38,7 @@
                                             <td>
                                                 <InputNumber class="form-control form-control-sm"
                                                              @bind-Value="multiplier.Value"
-                                                             step="0.01" max="100" min="0" />
+                                                             step="0.001" max="100" min="0" />
                                             </td>
                                         </Row>
                                     </Repeater>
@@ -77,7 +77,7 @@
                                     <td>
                                         <InputNumber class="form-control form-control-sm"
                                                      @bind-Value="riskLevel.Multiplier"
-                                                     step="0.01" max="100" min="0" />
+                                                     step="0.001" max="100" min="0" />
                                     </td>
                                     <td>
                                         <InputText class="form-control form-control-sm"
@@ -207,7 +207,7 @@
                                     <td>
                                         <InputNumber class="form-control form-control-sm"
                                                      @bind-Value="overhead.Multiplier"
-                                                     step="0.01" max="100" min="0" />
+                                                     step="0.001" max="100" min="0" />
                                     </td>
                                     <td class="active text-center">
                                         <button type="button"
