@@ -14,7 +14,7 @@ public enum NotificationLevel
 
 public record Notification(NotificationLevel Level, string Message);
 
-public class NotificationService : IScopedService
+public class NotificationService : IServiceScoped
 {
     private readonly ILogger<NotificationService> _logger;
     private readonly IToaster _toaster;

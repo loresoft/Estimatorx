@@ -11,7 +11,7 @@ using Microsoft.Extensions.Options;
 namespace EstimatorX.Core.Repositories;
 
 public class ProjectRepository
-    : CosmosRepository<Project>, IProjectRepository, ISingletonService
+    : CosmosRepository<Project>, IProjectRepository, IServiceSingleton
 {
     public ProjectRepository(ILoggerFactory logFactory, IOptions<CosmosRepositoryOptions> repositoryOptions, ICosmosFactory databaseFactory)
         : base(logFactory, repositoryOptions, databaseFactory)

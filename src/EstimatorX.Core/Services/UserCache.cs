@@ -6,7 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace EstimatorX.Core.Services;
 
-public class UserCache : IUserCache, ISingletonService
+public class UserCache : IUserCache, IServiceSingleton
 {
     private readonly IUserRepository _userRepository;
     private readonly IMemoryCache _memoryCache;

@@ -1,0 +1,24 @@
+<div class="accordion-item">
+    <h2 id="@Identifier("header")"
+        class="accordion-header">
+        <button class="@ButtonClass"
+                type="button"
+                @onclick="ToggleCollapsed"
+                aria-expanded="@Shown.ToString().ToLower()"
+                aria-controls="@Identifier("collapse")">
+            @Header
+        </button>
+    </h2>
+    @if (Shown)
+    {
+        <div id="@Identifier("collapse")"
+         class="@BodyClass"
+         aria-labelledby="@Identifier("header")">
+            <div class="accordion-body">
+                @Body
+            </div>
+        </div>
+    }
+</div>
+
+

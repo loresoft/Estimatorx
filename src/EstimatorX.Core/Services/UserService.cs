@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EstimatorX.Core.Services;
 
-public class UserService : ServiceBase<IUserRepository, User>, IUserService, ITransientService
+public class UserService : ServiceBase<IUserRepository, User>, IUserService, IServiceTransient
 {
     public UserService(ILoggerFactory loggerFactory, IMapper mapper, IUserRepository repository, IUserCache userCache)
         : base(loggerFactory, mapper, repository, userCache)

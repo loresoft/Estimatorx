@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 namespace EstimatorX.Core.Repositories;
 
 public class OrganizationRepository
-    : CosmosRepository<Organization>, IOrganizationRepository, ISingletonService
+    : CosmosRepository<Organization>, IOrganizationRepository, IServiceSingleton
 {
     public OrganizationRepository(ILoggerFactory logFactory, IOptions<CosmosRepositoryOptions> repositoryOptions, ICosmosFactory databaseFactory)
         : base(logFactory, repositoryOptions, databaseFactory)

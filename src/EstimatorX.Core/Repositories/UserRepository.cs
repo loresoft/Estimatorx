@@ -13,7 +13,7 @@ using Microsoft.Extensions.Options;
 namespace EstimatorX.Core.Repositories;
 
 public class UserRepository
-    : CosmosRepository<User>, IUserRepository, ISingletonService
+    : CosmosRepository<User>, IUserRepository, IServiceSingleton
 {
     private readonly IMemoryCache _memoryCache;
 

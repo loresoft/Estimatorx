@@ -20,7 +20,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EstimatorX.Core.Services;
 
-public class AdministrativeService : IAdministrativeService, ITransientService
+public class AdministrativeService : IAdministrativeService, IServiceTransient
 {
     private readonly ILogger<AdministrativeService> _logger;
     private readonly IMapper _mapper;

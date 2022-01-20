@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EstimatorX.Core.Services;
 
-public class OrganizationService : ServiceBase<IOrganizationRepository, Organization>, IOrganizationService, ITransientService
+public class OrganizationService : ServiceBase<IOrganizationRepository, Organization>, IOrganizationService, IServiceTransient
 {
     private readonly IUserRepository _userRepository;
 

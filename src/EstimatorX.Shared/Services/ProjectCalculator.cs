@@ -4,12 +4,10 @@ using EstimatorX.Shared.Models;
 
 namespace EstimatorX.Shared.Services;
 
-public class ProjectCalculator : IProjectCalculator, ISingletonService
+public class ProjectCalculator : IProjectCalculator, IServiceSingleton
 {
     public void UpdateProject(Project project)
     {
-        UpdateSettings(project);
-
         project.EstimatedTotal = 0;
         project.WeightedTotal = 0;
         project.EstimatedCost = 0;
