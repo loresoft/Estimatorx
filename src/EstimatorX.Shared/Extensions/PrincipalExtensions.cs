@@ -7,6 +7,7 @@ namespace EstimatorX.Shared.Extensions;
 public static class PrincipalExtensions
 {
     private const string ObjectIdenttifier = "oid";
+    private const string Subject = "sub";
     private const string NameClaim = "name";
     private const string EmailClaim = "email";
     private const string EmailsClaim = "emails";
@@ -34,7 +35,8 @@ public static class PrincipalExtensions
 
         var claimPrincipal = principal as ClaimsPrincipal;
         var claim = claimPrincipal?.FindFirst(ClaimTypes.NameIdentifier)
-            ?? claimPrincipal?.FindFirst(ObjectIdenttifier);
+            ?? claimPrincipal?.FindFirst(ObjectIdenttifier)
+            ?? claimPrincipal?.FindFirst(Subject);
 
         return claim?.Value ?? string.Empty;
     }
