@@ -73,6 +73,13 @@ ul.reorder {
   }
 }
 
+.text-estimate-epic {
+  color: $estimate-epic-color;
+}
+.text-estimate-feature {
+  color: $estimate-feature-color;
+}
+
 @import "validation";
 @import "error";
 @import "table";

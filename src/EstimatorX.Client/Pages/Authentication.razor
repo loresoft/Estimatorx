@@ -4,9 +4,35 @@
 <PageTitle>Authentication - EstimatorX</PageTitle>
 
 <div class="container">
-    <RemoteAuthenticatorView Action="@Action"  />
+    <RemoteAuthenticatorView Action="@Action">
+        <LoggingIn>
+            <Loading Text="Checking login..." />
+        </LoggingIn>
+        <LogInFailed>
+            <div class="alert alert-danger" role="alert">
+                There was an error trying to log you in: @context
+            </div>
+        </LogInFailed>
+        <CompletingLoggingIn>
+            <Loading Text="Completing login..." />
+        </CompletingLoggingIn>
+
+        <LogOut>
+            <Loading Text="Processing logout..." />
+        </LogOut>
+        <LogOutSucceeded>
+            <div class="alert alert-success" role="alert">
+                You are logged out.
+            </div>
+        </LogOutSucceeded>
+        <LogOutFailed>
+            <div class="alert alert-danger" role="alert">
+                There was an error trying to log you out: @context
+            </div>
+        </LogOutFailed>
+    </RemoteAuthenticatorView>
 </div>
 
-@code{
+@code {
     [Parameter] public string Action { get; set; }
 }

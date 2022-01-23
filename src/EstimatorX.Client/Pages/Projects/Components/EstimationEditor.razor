@@ -39,29 +39,29 @@
                                 <ul class="dropdown-menu" aria-labelledby="@Identifier("epic", "action", epic.Id)">
                                     <li>
                                         <button type="button" class="dropdown-item" @onclick="EpicAdd">
-                                            Add Epic
+                                            <i class="fas fa-plus text-estimate-epic me-1"></i> Add Epic
                                         </button>
                                     </li>
                                     <li>
                                         <button type="button" class="dropdown-item" @onclick="() => EpicDuplicate(epic)">
-                                            Duplicate Epic
+                                            <i class="fas fa-copy text-estimate-epic me-1"></i> Duplicate Epic
                                         </button>
                                     </li>
                                     <li>
                                         <button type="button" class="dropdown-item" @onclick="EpicReorder">
-                                            Reorder Epic
+                                            <i class="fas fa-sort text-estimate-epic me-1"></i> Reorder Epic
                                         </button>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <button type="button" class="dropdown-item" @onclick="() => EpicDelete(epic)">
-                                            Delete Epic
+                                            <i class="fas fa-trash-alt text-estimate-epic me-1"></i> Delete Epic
                                         </button>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <button type="button" class="dropdown-item" @onclick="() => FeatureAdd(epic)">
-                                            Add Feature
+                                            <i class="fas fa-plus text-estimate-feature me-1"></i> Add Feature
                                         </button>
                                     </li>
                                 </ul>
@@ -88,45 +88,50 @@
                                         <ul class="dropdown-menu" aria-labelledby="@Identifier("feature", "action", feature.Id)">
                                             <li>
                                                 <button type="button" class="dropdown-item" @onclick="() => FeatureAdd(epic)">
-                                                    Add Feature
+                                                    <i class="fas fa-plus text-estimate-feature me-1"></i> Add Feature
                                                 </button>
                                             </li>
                                             <li>
                                                 <button type="button" class="dropdown-item" @onclick="() => FeatureDuplicate(epic, feature)">
-                                                    Duplicate Feature
+                                                    <i class="fas fa-copy text-estimate-feature me-1"></i> Duplicate Feature
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button type="button" class="dropdown-item" @onclick="() => FeatureMove(feature)">
+                                                    <i class="fas fa-exchange-alt text-estimate-feature me-1"></i> Move Feature
                                                 </button>
                                             </li>
                                             <li>
                                                 <button type="button" class="dropdown-item" @onclick="() => FeatureReporder(epic)">
-                                                    Reorder Features
+                                                    <i class="fas fa-sort text-estimate-feature me-1"></i> Reorder Features
                                                 </button>
                                             </li>
                                             <li><hr class="dropdown-divider"></li>
                                             <li>
                                                 <button type="button" class="dropdown-item" @onclick="() => FeatureDelete(epic, feature)">
-                                                    Delete Feature
+                                                    <i class="fas fa-trash-alt text-estimate-feature me-1"></i> Delete Feature
                                                 </button>
                                             </li>
                                             <li><hr class="dropdown-divider"></li>
                                             <li>
                                                 <button type="button" class="dropdown-item" @onclick="EpicAdd">
-                                                    Add Epic
+                                                    <i class="fas fa-plus text-estimate-epic me-1"></i> Add Epic
                                                 </button>
                                             </li>
                                             <li>
                                                 <button type="button" class="dropdown-item" @onclick="() => EpicDuplicate(epic)">
-                                                    Duplicate Epic
+                                                    <i class="fas fa-copy text-estimate-epic me-1"></i> Duplicate Epic
                                                 </button>
                                             </li>
                                             <li>
                                                 <button type="button" class="dropdown-item" @onclick="EpicReorder">
-                                                    Reorder Epics
+                                                    <i class="fas fa-sort text-estimate-epic me-1"></i> Reorder Epics
                                                 </button>
                                             </li>
                                             <li><hr class="dropdown-divider"></li>
                                             <li>
                                                 <button type="button" class="dropdown-item" @onclick="() => EpicDelete(epic)">
-                                                    Delete Epic
+                                                    <i class="fas fa-trash-alt text-estimate-epic me-1"></i> Delete Epic
                                                 </button>
                                             </li>
                                         </ul>
