@@ -1,0 +1,26 @@
+<div>
+
+    <p class="text-muted text-center p-1">
+        Select Epic to move feature to
+    </p>
+
+    <div class="mb-3">
+        <select @bind="EpicId"                
+                name="Epic"
+                class="form-select">
+            <option value="">-- Select --</option>
+            <Repeater Items="Project.Epics">
+                <Row Context="epic">
+                    <option value="@epic.Id">@epic.Name</option>
+                </Row>
+            </Repeater>
+        </select>
+    </div>
+
+    <div class="pt-1 text-end">
+        <button @onclick="Close" class="btn btn-primary me-1">Ok</button>
+        <button @onclick="Cancel" class="btn btn-secondary">Cancel</button>
+    </div>
+</div>
+
+

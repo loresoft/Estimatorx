@@ -10,7 +10,6 @@ using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
-using Microsoft.Azure.Cosmos.Serialization.HybridRow;
 using Microsoft.Extensions.Logging;
 
 namespace EstimatorX.Core.Services;

@@ -1,8 +1,10 @@
 using AutoMapper;
 using AutoMapper.Features;
 
+using Blazored.Modal;
 using Blazored.Modal.Services;
 
+using EstimatorX.Client.Components;
 using EstimatorX.Client.Extensions;
 using EstimatorX.Client.Repositories;
 using EstimatorX.Client.Stores;
@@ -106,4 +108,19 @@ public partial class EstimationEditor<TStore, TRepository, TModel>
 
         Store.NotifyStateChanged();
     }
+
+    private async Task FeatureMove(FeatureEstimate feature)
+    {
+        var name = feature.Name;
+
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(FeatureMoveModal.Project), Store.Model);
+        parameters.Add(nameof(FeatureMoveModal.Feature), feature);
+
+        var messageForm = Modal.Show<FeatureMoveModal>("Move Feature", parameters);
+        var result = await messageForm.Result;
+
+        Store.NotifyStateChanged();
+    }
+
 }

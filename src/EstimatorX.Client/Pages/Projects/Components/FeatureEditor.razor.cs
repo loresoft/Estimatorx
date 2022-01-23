@@ -1,5 +1,6 @@
 using AutoMapper;
 
+using Blazored.Modal;
 using Blazored.Modal.Services;
 
 using EstimatorX.Client.Extensions;
@@ -69,6 +70,18 @@ public partial class FeatureEditor<TStore, TRepository, TModel>
         clone.Name += " - Copy";
 
         Epic.Features.Add(clone);
+
+        Store.NotifyStateChanged();
+    }
+
+    private async Task FeatureMove()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(FeatureMoveModal.Project), Store.Model);
+        parameters.Add(nameof(FeatureMoveModal.Feature), Feature);
+
+        var messageForm = Modal.Show<FeatureMoveModal>("Move Feature", parameters);
+        var result = await messageForm.Result;
 
         Store.NotifyStateChanged();
     }
