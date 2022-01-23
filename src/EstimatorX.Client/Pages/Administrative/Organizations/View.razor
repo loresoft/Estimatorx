@@ -54,7 +54,10 @@
                     <div class="list-group">
                     @foreach(var member in Organization.Members)
                     {
-                        <div class="list-group-item">@member.Name</div>                        
+                        <div class="list-group-item">
+                            <div>@member.Name</div>
+                            <small>@member.Email</small>
+                        </div>                        
                     }
                     </div>
                 </div>

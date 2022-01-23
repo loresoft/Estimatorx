@@ -75,7 +75,12 @@ public partial class Members : OrganizationBase
             return;
         }
 
-        Organization.Members.Add(new OrganizationMember { Id = SelectedUser.Id, Name = SelectedUser.Name });
+        Organization.Members.Add(new OrganizationMember
+        {
+            Id = SelectedUser.Id,
+            Name = SelectedUser.Name,
+            Email = SelectedUser.Email
+        });
 
         OrganizationStore.NotifyStateChanged();
         await DataGrid.RefreshAsync();

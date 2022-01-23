@@ -57,7 +57,7 @@ public static class Program
             {
                 builder.Configuration.Bind("AzureAdB2C", options.ProviderOptions.Authentication);
                 options.ProviderOptions.DefaultAccessTokenScopes.Add(DefaultScope);
-                options.ProviderOptions.LoginMode = "redirect"; // "popup";
+                options.ProviderOptions.LoginMode = "popup"; // "popup"  "redirect";
                 options.ProviderOptions.Cache.CacheLocation = "sessionStorage";
             })
             .AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, RemoteUserAccount, AccountClaimsFactory>();

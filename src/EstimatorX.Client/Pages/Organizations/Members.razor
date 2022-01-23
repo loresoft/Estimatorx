@@ -15,6 +15,7 @@
                   @ref="DataGrid">
                 <DataColumns>
                     <DataColumn TItem="OrganizationMember" Property="p => p.Name" />
+                    <DataColumn TItem="OrganizationMember" Property="p => p.Email" />
                     <DataColumn TItem="OrganizationMember" Property="p => p.IsOwner" Title="Owner" Width="115px" />
                     <DataColumn TItem="OrganizationMember" Property="p => p.Id" Width="100px" Title="Actions">
                         <Template Context="item">
