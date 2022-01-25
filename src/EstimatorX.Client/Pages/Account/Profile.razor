@@ -1,21 +1,6 @@
 @page "/account/profile"
 
-@using Blazored.FluentValidation
-@using EstimatorX.Client.Repositories
-@using EstimatorX.Client.Services
-@using EstimatorX.Client.Stores
-@using EstimatorX.Shared.Models
-@using Microsoft.AspNetCore.Authorization
-
-@inject NavigationManager Navigation
-@inject NotificationService NotificationService
-@inject UserRepository UserRepository
-@inject UserStore UserStore
-
-@attribute [Authorize]
-
 <PageTitle>Profile - EstimatorX</PageTitle>
-
 
 <div class="container-xxl">
     <nav aria-label="breadcrumb">
@@ -108,44 +93,3 @@
         </div>
     </div>
 </div>
-
-@code {
-    private User UserModel { get; set; }
-
-    private bool IsBusy { get; set; }
-
-    private int OriginalHash { get; set; }
-
-    private bool IsDiry => OriginalHash != UserModel.GetHashCode();
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        UserModel = UserStore.Model;
-        OriginalHash = UserModel.GetHashCode();
-    }
-
-    protected async Task HandleSave()
-    {
-        try
-        {
-            IsBusy = true;
-            UserModel = await UserRepository.Save(UserModel, UserModel.Id);
-
-            UserStore.Set(UserModel);
-
-            OriginalHash = UserModel.GetHashCode();
-
-            NotificationService.ShowSuccess($"Profile '{UserModel.Name}' saved successfully");
-            Navigation.NavigateTo("/Account/Profile");
-        }
-        catch (Exception ex)
-        {
-            NotificationService.ShowError(ex);
-        }
-        finally
-        {
-            IsBusy = false;
-        }
-    }
-}
