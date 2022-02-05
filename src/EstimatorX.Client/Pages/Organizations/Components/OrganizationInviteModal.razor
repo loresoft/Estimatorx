@@ -1,0 +1,63 @@
+<div>
+    <EditForm Model="@Invite" OnValidSubmit="@HandleSave">
+        <FluentValidationValidator />
+
+        <div class="row">
+            <div class="col">
+                <ValidationSummary />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="Name" class="form-label">
+                        Name: <span class="text-danger">*</span>
+                    </label>
+                    <InputText @bind-Value="Invite.Name"
+                               DisplayName="Name"
+                               id="Name"
+                               name="Name"
+                               class="form-control"
+                               placeholder="Name" />
+                    <ValidationMessage For="@(() => Invite.Name)" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="Email" class="form-label">
+                        Email: <span class="text-danger">*</span>
+                    </label>
+                    <InputText @bind-Value="Invite.Email"
+                               DisplayName="Email"
+                               id="Email"
+                               name="Email"
+                               type="email"
+                               class="form-control"
+                               placeholder="Name" />
+                    <ValidationMessage For="@(() => Invite.Email)" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+            </div>
+            <div class="col text-end">
+                <BusyButton id="save-button"
+                            type="submit"
+                            Busy="IsBusy"
+                            class="btn btn-primary">
+                    <BusyTemplate>
+                        <span class='spinner-border spinner-border-sm'></span> Saving...
+                    </BusyTemplate>
+                    <ChildContent>
+                        Save
+                    </ChildContent>
+                </BusyButton>
+                <button @onclick="Cancel" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+
+    </EditForm>
+</div>
+

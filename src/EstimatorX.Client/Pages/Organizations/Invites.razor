@@ -1,35 +1,57 @@
 @page "/organizations/{id}/invites"
+@inherits OrganizationBase
 
 @using EstimatorX.Client.Pages.Organizations.Components
 
-<div class="container-xxl">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="/">Home</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="/organizations">Organizations</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="/organizations/@Id">Edit</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-                Invites
-            </li>
-        </ol>
-    </nav>
+<PageTitle>Organization @Organization?.Name - Members - EstimatorX</PageTitle>
 
-    <div class="card mb-5">
-        <div class="card-header">
-            <i class="fas fa-user mr-2"
-               aria-hidden="true"></i> Organization Invites
-            <OrganizationTabs Id="@Id" />
-        </div>
-        <div class="card-body">
-
-        </div>
+<OrganizationContainer Id="@Id">
+    <div class="table-responsive">
+        <Conditional Show="Organization != null">
+            <DataGrid DataProvider="LoadData"
+                      TItem="InviteSummary"
+                      class="table table-hover table-bordered mb-0"
+                      @ref="DataGrid">
+                <DataColumns>
+                    <DataColumn TItem="InviteSummary" Property="p => p.Name" />
+                    <DataColumn TItem="InviteSummary" Property="p => p.Email" />
+                    <DataColumn TItem="InviteSummary" Property="p => p.Id" Width="100px" Title="Actions">
+                        <Template Context="item">
+                            <button type="button"
+                                    title="Re-Send Invite"
+                                    class="btn btn-outline-info btn-sm"
+                                    @onclick="() => HandleSendInvite(item)">
+                                <i class="fas fa-envelope"></i>
+                            </button>
+                            <button type="button"
+                                    title="Delete Invite"
+                                    class="btn btn-outline-danger btn-sm"
+                                    @onclick="() => HandleDeleteInvite(item)">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </Template>
+                    </DataColumn>
+                </DataColumns>
+                <DataPagination Context="grid">
+                    <div class="w-100 m-1 d-flex justify-content-between align-items-center">
+                        <DataPager PageSize="20" ShowEmpty="true" />
+                        <DataSizer />
+                        <div class="me-1">@grid.Pager.StartItem - @grid.Pager.EndItem of @grid.Pager.Total</div>
+                    </div>
+                </DataPagination>
+            </DataGrid>
+        </Conditional>
     </div>
-</div>
-
+    <div class="row mx-1 my-2">
+        <div class="col">
+            <button id="invite-button"
+                    class="btn btn-secondary"
+                    @onclick="HandleNewInvite"
+                    type="button">
+                    Send Invite
+            </button>
+        </div>
+        <div class="col"></div>
+    </div>
+</OrganizationContainer>
 

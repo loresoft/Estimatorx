@@ -26,7 +26,8 @@ public class AdministrativeRepository : IServiceScoped
             .AppendPath("/api/administrative/users")
             .AppendPath(id)
             .AppendPathIf(partitionKey.HasValue, partitionKey)
-);
+        );
+
         return result;
     }
 

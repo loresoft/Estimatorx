@@ -7,12 +7,11 @@
 
 <OrganizationContainer Id="@Id">
     <div class="table-responsive">
-        @if (MemberList != null)
-        {
+        <Conditional Show="MemberList != null">
             <DataGrid Data="MemberList"
-                  TItem="OrganizationMember"
-                  class="table table-hover table-bordered mb-0"
-                  @ref="DataGrid">
+                      TItem="OrganizationMember"
+                      class="table table-hover table-bordered mb-0"
+                      @ref="DataGrid">
                 <DataColumns>
                     <DataColumn TItem="OrganizationMember" Property="p => p.Name" />
                     <DataColumn TItem="OrganizationMember" Property="p => p.Email" />
@@ -20,24 +19,24 @@
                     <DataColumn TItem="OrganizationMember" Property="p => p.Id" Width="100px" Title="Actions">
                         <Template Context="item">
                             <button type="button"
-                                title="Toggle Owner"
-                                class="btn btn-outline-info btn-sm"
-                                @onclick="() => HandleToggleOwner(item.Id)"
-                                disabled="@IsSelf(item.Id)">
+                                    title="Toggle Owner"
+                                    class="btn btn-outline-info btn-sm"
+                                    @onclick="() => HandleToggleOwner(item.Id)"
+                                    disabled="@IsSelf(item.Id)">
                                 <i class="fas fa-user-shield"></i>
                             </button>
                             <button type="button"
-                                title="Remove Member"
-                                class="btn btn-outline-danger btn-sm"
-                                @onclick="() => HandleRemoveUser(item.Id)"
-                                disabled="@IsSelf(item.Id)">
+                                    title="Remove Member"
+                                    class="btn btn-outline-danger btn-sm"
+                                    @onclick="() => HandleRemoveUser(item.Id)"
+                                    disabled="@IsSelf(item.Id)">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </Template>
                     </DataColumn>
                 </DataColumns>
             </DataGrid>
-        }
+        </Conditional>
     </div>
     <div class="row mx-1 my-2">
         <div class="col">
