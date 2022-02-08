@@ -1,16 +1,15 @@
-using Blazored.Modal.Services;
 using Blazored.Modal;
 
 using EstimatorX.Client.Components;
 using EstimatorX.Client.Extensions;
+using EstimatorX.Client.Pages.Organizations.Components;
 using EstimatorX.Client.Repositories;
-using EstimatorX.Client.Stores;
 using EstimatorX.Shared.Models;
+
 using LoreSoft.Blazor.Controls;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
-using EstimatorX.Client.Pages.Organizations.Components;
 
 namespace EstimatorX.Client.Pages.Organizations;
 
@@ -19,9 +18,6 @@ public partial class Invites : OrganizationBase
 {
     [Inject]
     public InviteRepository InviteRepository { get; set; }
-
-    [Inject]
-    public UserStore UserStore { get; set; }
 
 
     private DataGrid<InviteSummary> DataGrid { get; set; }

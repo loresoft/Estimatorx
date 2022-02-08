@@ -22,14 +22,14 @@
                                     title="Toggle Owner"
                                     class="btn btn-outline-info btn-sm"
                                     @onclick="() => HandleToggleOwner(item.Id)"
-                                    disabled="@IsSelf(item.Id)">
+                                    disabled="@(IsSelf(item.Id) || !IsOwner())">
                                 <i class="fas fa-user-shield"></i>
                             </button>
                             <button type="button"
                                     title="Remove Member"
                                     class="btn btn-outline-danger btn-sm"
                                     @onclick="() => HandleRemoveUser(item.Id)"
-                                    disabled="@IsSelf(item.Id)">
+                                    disabled="@(IsSelf(item.Id) || !IsOwner())">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </Template>
@@ -38,38 +38,39 @@
             </DataGrid>
         </Conditional>
     </div>
-    <div class="row mx-1 my-2">
-        <div class="col">
-            <CascadingValue Value=@(new EditContext(new {}))>
-                <Typeahead SearchMethod="@SearchUsers"
-                           @bind-Value="@SelectedUser"
-                           Placeholder="Add Member"
-                           MinimumLength="3">
-                    <SelectedTemplate Context="user">
-                        @user.Name
-                    </SelectedTemplate>
-                    <ResultTemplate Context="user">
-                        <div>@user.Name</div>
-                        <small>@user.Email</small>
-                    </ResultTemplate>
-                </Typeahead>
-            </CascadingValue>
+    <Conditional Show="IsOwner()">
+        <div class="row mx-1 my-2">
+            <div class="col">
+                <CascadingValue Value=@(new EditContext(new {}))>
+                    <Typeahead SearchMethod="@SearchUsers"
+                               @bind-Value="@SelectedUser"
+                               Placeholder="Add Member"
+                               MinimumLength="3">
+                        <SelectedTemplate Context="user">
+                            @user.Name
+                        </SelectedTemplate>
+                        <ResultTemplate Context="user">
+                            <div>@user.Name</div>
+                            <small>@user.Email</small>
+                        </ResultTemplate>
+                    </Typeahead>
+                </CascadingValue>
+            </div>
+            <div class="col">
+                <BusyButton id="add-user-button"
+                            type="button"
+                            Busy="OrganizationStore.IsBusy"
+                            Disabled="@(SelectedUser == null)"
+                            @onclick="@HandleAddUser"
+                            class="btn btn-primary">
+                    <BusyTemplate>
+                        <span class='spinner-border spinner-border-sm'></span> Saving...
+                    </BusyTemplate>
+                    <ChildContent>
+                        Add User
+                    </ChildContent>
+                </BusyButton>
+            </div>
         </div>
-        <div class="col">
-            <BusyButton id="add-user-button"
-                        type="button"
-                        Busy="OrganizationStore.IsBusy"
-                        Disabled="@(SelectedUser == null)"
-                        @onclick="@HandleAddUser"
-                        class="btn btn-primary">
-                <BusyTemplate>
-                    <span class='spinner-border spinner-border-sm'></span> Saving...
-                </BusyTemplate>
-                <ChildContent>
-                    Add User
-                </ChildContent>
-            </BusyButton>
-        </div>
-    </div>
-
+    </Conditional>
 </OrganizationContainer>

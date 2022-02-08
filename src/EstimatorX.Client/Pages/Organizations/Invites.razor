@@ -3,7 +3,7 @@
 
 @using EstimatorX.Client.Pages.Organizations.Components
 
-<PageTitle>Organization @Organization?.Name - Members - EstimatorX</PageTitle>
+<PageTitle>Organization @Organization?.Name - Invites - EstimatorX</PageTitle>
 
 <OrganizationContainer Id="@Id">
     <div class="table-responsive">
@@ -20,13 +20,15 @@
                             <button type="button"
                                     title="Re-Send Invite"
                                     class="btn btn-outline-info btn-sm"
-                                    @onclick="() => HandleSendInvite(item)">
+                                    @onclick="() => HandleSendInvite(item)"
+                                    disabled="@(!IsOwner())">
                                 <i class="fas fa-envelope"></i>
                             </button>
                             <button type="button"
                                     title="Delete Invite"
                                     class="btn btn-outline-danger btn-sm"
-                                    @onclick="() => HandleDeleteInvite(item)">
+                                    @onclick="() => HandleDeleteInvite(item)"
+                                    disabled="@(!IsOwner())">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </Template>
@@ -42,16 +44,18 @@
             </DataGrid>
         </Conditional>
     </div>
-    <div class="row mx-1 my-2">
-        <div class="col">
-            <button id="invite-button"
-                    class="btn btn-secondary"
-                    @onclick="HandleNewInvite"
-                    type="button">
+    <Conditional Show="IsOwner()">
+        <div class="row mx-1 my-2">
+            <div class="col">
+                <button id="invite-button"
+                        class="btn btn-secondary"
+                        @onclick="HandleNewInvite"
+                        type="button">
                     Send Invite
-            </button>
+                </button>
+            </div>
+            <div class="col"></div>
         </div>
-        <div class="col"></div>
-    </div>
+    </Conditional>
 </OrganizationContainer>
 

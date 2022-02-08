@@ -29,11 +29,15 @@ public abstract class OrganizationBase : ComponentBase, IDisposable
     [Inject]
     public NavigationManager Navigation { get; set; }
 
+    [Inject]
+    public UserStore UserStore { get; set; }
+
 
     public Organization Organization => OrganizationStore?.Model;
 
     public ICollection<OrganizationMember> MemberList => OrganizationStore?.Model?.Members;
 
+    protected bool IsOwner() => Organization?.Members?.Any(m => m.Id == UserStore?.Model?.Id && m.IsOwner) == true;
 
     protected override async Task OnInitializedAsync()
     {
@@ -55,6 +59,7 @@ public abstract class OrganizationBase : ComponentBase, IDisposable
     {
         InvokeAsync(() => StateHasChanged());
     }
+
 
     public void Dispose()
     {
