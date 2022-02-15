@@ -1,17 +1,17 @@
 <div class="row">
-    @if (Organization != null)
-    {
+    <Conditional Show="Organization != null">
         <div class="col-6">
             <div class="mb-3">
                 <label for="Name" class="form-label">
                     Name: <span class="text-danger">*</span>
                 </label>
                 <InputText @bind-Value="Organization.Name"
-                       DisplayName="Name"
-                       id="Name"
-                       name="Name"
-                       class="form-control"
-                       placeholder="Name" />
+                           DisplayName="Name"
+                           id="Name"
+                           name="Name"
+                           class="form-control"
+                           readonly="@(!IsOwner())"
+                           placeholder="Name" />
                 <ValidationMessage For="@(() => Organization.Name)" />
             </div>
 
@@ -20,13 +20,14 @@
                     Description:
                 </label>
                 <InputTextArea @bind-Value="Organization.Description"
-                           DisplayName="Description"
-                           id="Description"
-                           name="Description"
-                           class="form-control"
-                           placeholder="Description" />
+                               DisplayName="Description"
+                               id="Description"
+                               name="Description"
+                               class="form-control"
+                               readonly="@(!IsOwner())"
+                               placeholder="Description" />
                 <ValidationMessage For="@(() => Organization.Description)" />
             </div>
         </div>
-    }
+    </Conditional>
 </div>

@@ -15,4 +15,5 @@ public partial class OrganizationForm
 
     public Organization Organization => OrganizationStore?.Model;
 
+    protected bool IsOwner() => Organization?.Members?.Any(m => m.Id == UserStore?.Model?.Id && m.IsOwner) == true;
 }

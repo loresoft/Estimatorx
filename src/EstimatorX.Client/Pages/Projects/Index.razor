@@ -63,7 +63,7 @@
             <div class="table-responsive">
                 <DataGrid DataProvider="LoadData" TItem="ProjectSummary" class="table table-hover table-bordered mb-0" @ref="DataGrid">
                     <DataColumns>
-                        <DataColumn TItem="ProjectSummary" Property="p => p.Name" SortIndex="0">
+                        <DataColumn TItem="ProjectSummary" Property="p => p.Name">
                             <Template Context="item">
                                 <a href="/projects/@item.Id/@item.OrganizationId" class="d-block" title="@item.Name">@item.Name</a>
                             </Template>
@@ -73,7 +73,7 @@
                         <DataColumn TItem="ProjectSummary" Property="p => p.WeightedTotal" Title="Weighted" Width="100px" ClassName="text-end" />
                         <DataColumn TItem="ProjectSummary" Property="p => p.EstimatedCost" Title="Estimated Cost" Width="140px" Format="C" ClassName="text-end" />
                         <DataColumn TItem="ProjectSummary" Property="p => p.WeightedCost" Title="Weighted Cost" Width="140px" Format="C" ClassName="text-end" />
-                        <DataColumn TItem="ProjectSummary" Property="p => p.Updated" Width="115px">
+                        <DataColumn TItem="ProjectSummary" Property="p => p.Updated" Width="115px" SortIndex="0" SortDescending="true">
                             <Template Context="item">
                                 <abbr title="@item.Updated.ToString("f")">
                                     <span>@item.Updated.ToString("d")</span>
