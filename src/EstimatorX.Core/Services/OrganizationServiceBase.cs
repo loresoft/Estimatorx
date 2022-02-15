@@ -24,6 +24,7 @@ public abstract class OrganizationServiceBase<TRepository, TModel> : ServiceBase
 
     }
 
+
     public override async Task Delete(string id, string partitionKey, IPrincipal principal, CancellationToken cancellationToken)
     {
         var entity = await Repository.FindAsync(id, partitionKey, cancellationToken: cancellationToken);
@@ -74,7 +75,6 @@ public abstract class OrganizationServiceBase<TRepository, TModel> : ServiceBase
 
     }
 
-
     public override async Task<TModel> Create(TModel model, IPrincipal principal, CancellationToken cancellationToken)
     {
         var entity = new TModel();
@@ -89,6 +89,7 @@ public abstract class OrganizationServiceBase<TRepository, TModel> : ServiceBase
 
         return result;
     }
+
 
     public override async Task<QueryResult<TResult>> Search<TResult>(QueryRequest queryRequest, IPrincipal principal, CancellationToken cancellationToken)
     {
@@ -108,6 +109,7 @@ public abstract class OrganizationServiceBase<TRepository, TModel> : ServiceBase
                 cancellationToken
             );
     }
+
 
     protected async Task<bool> HasAccess(IPrincipal principal, TModel entity, CancellationToken cancellationToken)
     {

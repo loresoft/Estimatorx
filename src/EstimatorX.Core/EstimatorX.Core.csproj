@@ -9,8 +9,10 @@
 
   <ItemGroup>
     <PackageReference Include="Cosmos.Abstracts" Version="4.0.66" />
+    <PackageReference Include="FluentRest" Version="9.0.299" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="6.0.0" />
-    <PackageReference Include="SendGrid" Version="9.25.2" />
+    <PackageReference Include="nanoid" Version="2.1.0" />
+    <PackageReference Include="SendGrid" Version="9.25.3" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.15" />
   </ItemGroup>
 

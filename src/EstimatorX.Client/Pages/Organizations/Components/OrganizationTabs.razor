@@ -17,5 +17,13 @@
                  href="@($"/organizations/{Organization.Id}/members")"
                  title="Organization Members">Members</NavLink>
         </li>
+        <li class="nav-item">
+            <NavLink id="organization-invite-tab-link"
+                 Match="NavLinkMatch.All"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@($"/organizations/{Organization.Id}/invites")"
+                 title="Organization Ivvites">Invites</NavLink>
+        </li>
     }
 </ul>

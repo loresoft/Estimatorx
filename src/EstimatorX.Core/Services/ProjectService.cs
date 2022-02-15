@@ -18,17 +18,30 @@ public class ProjectService : OrganizationServiceBase<IProjectRepository, Projec
     private readonly ITemplateRepository _templateRepository;
     private readonly IProjectBuilder _projectBuilder;
     private readonly IProjectCalculator _projectCalculator;
+    private readonly ISecurityKeyGenerator _securityKeyGenerator;
 
-    public ProjectService(ILoggerFactory loggerFactory, IMapper mapper, IProjectRepository repository, IUserCache userCache, ITemplateRepository templateRepository, IProjectBuilder projectBuilder, IProjectCalculator projectCalculator)
+    public ProjectService(
+        ILoggerFactory loggerFactory,
+        IMapper mapper,
+        IProjectRepository repository,
+        IUserCache userCache,
+        ITemplateRepository templateRepository,
+        IProjectBuilder projectBuilder,
+        IProjectCalculator projectCalculator,
+        ISecurityKeyGenerator securityKeyGenerator)
         : base(loggerFactory, mapper, repository, userCache)
     {
         _templateRepository = templateRepository;
         _projectBuilder = projectBuilder;
         _projectCalculator = projectCalculator;
+        _securityKeyGenerator = securityKeyGenerator;
     }
 
     public override Task<Project> Save(string id, string partitionKey, Project model, IPrincipal principal, CancellationToken cancellationToken)
     {
+        if (model.SecurityKey.IsNullOrWhiteSpace())
+            model.SecurityKey = _securityKeyGenerator.GenerateKey();
+
         // ensure valid settings
         _projectBuilder.UpdateSettings(model.Settings);
 

@@ -1,3 +1,4 @@
+
 using Cosmos.Abstracts;
 
 using EstimatorX.Core.Services;
@@ -11,18 +12,18 @@ using Microsoft.Extensions.Options;
 
 namespace EstimatorX.Core.Repositories;
 
-public class ProjectRepository
-    : CosmosRepository<Project>, IProjectRepository, IServiceSingleton
+public class InviteRepository
+    : CosmosRepository<Invite>, IInviteRepository, IServiceSingleton
 {
     private readonly ISecurityKeyGenerator _securityKeyGenerator;
 
-    public ProjectRepository(ILoggerFactory logFactory, IOptions<CosmosRepositoryOptions> repositoryOptions, ICosmosFactory databaseFactory, ISecurityKeyGenerator securityKeyGenerator)
+    public InviteRepository(ILoggerFactory logFactory, IOptions<CosmosRepositoryOptions> repositoryOptions, ICosmosFactory databaseFactory, ISecurityKeyGenerator securityKeyGenerator)
         : base(logFactory, repositoryOptions, databaseFactory)
     {
         _securityKeyGenerator = securityKeyGenerator;
     }
 
-    protected override void BeforeSave(Project entity)
+    protected override void BeforeSave(Invite entity)
     {
         base.BeforeSave(entity);
 
@@ -38,7 +39,7 @@ public class ProjectRepository
         entity.Updated = DateTimeOffset.UtcNow;
     }
 
-    protected override PartitionKey GetPartitionKey(Project entity)
+    protected override PartitionKey GetPartitionKey(Invite entity)
     {
         return new PartitionKey(entity.OrganizationId);
     }
@@ -46,5 +47,20 @@ public class ProjectRepository
     protected override string GetPartitionKeyPath()
     {
         return "/organizationId";
+    }
+
+    protected override ContainerProperties ContainerProperties()
+    {
+        var properties = base.ContainerProperties();
+
+        var uniqueKey = new UniqueKey();
+        uniqueKey.Paths.Add("/securityKey");
+
+        var uniqueKeyPolicy = new UniqueKeyPolicy();
+        uniqueKeyPolicy.UniqueKeys.Add(uniqueKey);
+
+        properties.UniqueKeyPolicy = uniqueKeyPolicy;
+
+        return properties;
     }
 }

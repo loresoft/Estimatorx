@@ -153,42 +153,43 @@
 
                 </div>
             </div>
-            <div class="row mt-3">
-                <div class="col">
-                    <table id="@Identifier("overhead-table")" class="table table-sm table-borderless">
-                        <colgroup>
-                            <col style="" />
-                            <col style="width: 130px" />
-                            <col style="width: 130px" />
-                            <col style="width: 140px" />
-                            <col style="width: 140px" />
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th>Supporting Task</th>
-                                <th class="text-end">Estimated</th>
-                                <th class="text-end">Weighted</th>
-                                <th class="text-end">Estimated Cost</th>
-                                <th class="text-end">Weighted Cost</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <Repeater Items="ProjectSettings.Overhead">
-                                <Row Context="item">
-                                    <tr>
-                                        <td>@item.Name</td>
-                                        <td class="text-end">@(OverheadEstimate(item.Multiplier, Feature.Estimate))</td>
-                                        <td class="text-end">@(OverheadEstimate(item.Multiplier, Feature.WeightedEstimate))</td>
-                                        <td class="text-end">@(OverheadAmmount(item.Multiplier, Feature.Estimate)?.ToString("C"))</td>
-                                        <td class="text-end">@(OverheadAmmount(item.Multiplier, Feature.WeightedEstimate)?.ToString("C"))</td>
-                                    </tr>
-                                </Row>
-                            </Repeater>
-                        </tbody>
-                    </table>
-
+            <Conditional Show="@(ProjectSettings.Overhead.Count > 0)">
+                <div class="row mt-3">
+                    <div class="col">
+                        <table id="@Identifier("overhead-table")" class="table table-sm table-borderless">
+                            <colgroup>
+                                <col style="" />
+                                <col style="width: 130px" />
+                                <col style="width: 130px" />
+                                <col style="width: 140px" />
+                                <col style="width: 140px" />
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Supporting Task</th>
+                                    <th class="text-end">Estimated</th>
+                                    <th class="text-end">Weighted</th>
+                                    <th class="text-end">Estimated Cost</th>
+                                    <th class="text-end">Weighted Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <Repeater Items="ProjectSettings.Overhead">
+                                    <Row Context="item">
+                                        <tr>
+                                            <td>@item.Name</td>
+                                            <td class="text-end">@(OverheadEstimate(item.Multiplier, Feature.Estimate))</td>
+                                            <td class="text-end">@(OverheadEstimate(item.Multiplier, Feature.WeightedEstimate))</td>
+                                            <td class="text-end">@(OverheadAmmount(item.Multiplier, Feature.Estimate)?.ToString("C"))</td>
+                                            <td class="text-end">@(OverheadAmmount(item.Multiplier, Feature.WeightedEstimate)?.ToString("C"))</td>
+                                        </tr>
+                                    </Row>
+                                </Repeater>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            </Conditional>
             <div class="row pt-2">
                 <div class="col">
                 </div>

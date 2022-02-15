@@ -3,6 +3,8 @@ using EstimatorX.Shared.Extensions;
 
 using FluentRest;
 
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+
 namespace EstimatorX.Client.Repositories;
 
 public abstract class RepositoryEditBase<TModel>
@@ -19,13 +21,20 @@ public abstract class RepositoryEditBase<TModel>
         if (id is null)
             throw new ArgumentNullException(nameof(id));
 
-        var result = await Gateway.DeleteAsync(b => b
-            .AppendPath(GetBasePath())
-            .AppendPath(id)
-            .AppendPathIf(partitionKey.HasValue, partitionKey)
-        );
+        try
+        {
+            var result = await Gateway.DeleteAsync(b => b
+                .AppendPath(GetBasePath())
+                .AppendPath(id)
+                .AppendPathIf(partitionKey.HasValue, partitionKey)
+            );
 
-        result.EnsureSuccessStatusCode();
+            result.EnsureSuccessStatusCode();
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
 
         return;
     }
@@ -36,13 +45,19 @@ public abstract class RepositoryEditBase<TModel>
         if (id is null)
             throw new ArgumentNullException(nameof(id));
 
-        var result = await Gateway.GetAsync<TModel>(b => b
-            .AppendPath(GetBasePath())
-            .AppendPath(id)
-            .AppendPathIf(partitionKey.HasValue, partitionKey)
-        );
-
-        return result;
+        try
+        {
+            return await Gateway.GetAsync<TModel>(b => b
+                .AppendPath(GetBasePath())
+                .AppendPath(id)
+                .AppendPathIf(partitionKey.HasValue, partitionKey)
+            );
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+            return default;
+        }
     }
 
     public async Task<TModel> Save(TModel model, string id, string partitionKey = null)
@@ -50,14 +65,20 @@ public abstract class RepositoryEditBase<TModel>
         if (model == null)
             throw new ArgumentNullException(nameof(model));
 
-        var result = await Gateway.PostAsync<TModel>(b => b
-            .AppendPath(GetBasePath())
-            .AppendPath(id)
-            .AppendPathIf(partitionKey.HasValue, partitionKey)
-            .Content(model)
-        );
-
-        return result;
+        try
+        {
+            return await Gateway.PostAsync<TModel>(b => b
+                .AppendPath(GetBasePath())
+                .AppendPath(id)
+                .AppendPathIf(partitionKey.HasValue, partitionKey)
+                .Content(model)
+            );
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+            return default;
+        }
     }
 
     public async Task<TModel> Create(TModel model)
@@ -65,12 +86,19 @@ public abstract class RepositoryEditBase<TModel>
         if (model == null)
             throw new ArgumentNullException(nameof(model));
 
-        var result = await Gateway.PostAsync<TModel>(b => b
-            .AppendPath(GetBasePath())
-            .Content(model)
-        );
-
-        return result;
+        try
+        {
+            return await Gateway.PostAsync<TModel>(b => b
+                .AppendPath(GetBasePath())
+                .Content(model)
+            );
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+            return default;
+        }
     }
+
     protected abstract string GetBasePath();
 }

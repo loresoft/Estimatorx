@@ -1,0 +1,47 @@
+@page "/invite/{SecurityKey}"
+
+<PageTitle>Invite - EstimatorX</PageTitle>
+
+<div class="container-xxl">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Profile
+            </li>
+        </ol>
+    </nav>
+
+    <div class="card mb-5">
+        <div class="card-header">
+            <i class="fas fa-user me-2"
+               aria-hidden="true"></i>Invite
+        </div>
+        <div class="card-body">
+            <Conditional Show="Invite != null">
+                <h4>Accept invite to the @Invite?.OrganizationName organization?</h4>
+            </Conditional>
+        </div>
+        <div class="card-footer">
+            <BusyButton id="accept-button"
+                        type="button"
+                        Busy="IsBusy"
+                        @onclick="HandleAccept"
+                        class="btn btn-primary">
+                <BusyTemplate>
+                    <span class='spinner-border spinner-border-sm'></span> Processing...
+                </BusyTemplate>
+                <ChildContent>
+                    Accept
+                </ChildContent>
+            </BusyButton>
+
+            <a href="/" class="btn btn-secondary">Cancel</a>
+        </div>
+    </div>
+</div>
+
+
+

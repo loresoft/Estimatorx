@@ -8,14 +8,16 @@ namespace EstimatorX.Core.Services;
 
 public class UserCache : IUserCache, IServiceSingleton
 {
-    private readonly IUserRepository _userRepository;
     private readonly IMemoryCache _memoryCache;
+
 
     public UserCache(IMemoryCache memoryCache, IUserRepository userRepository)
     {
         _memoryCache = memoryCache;
-        _userRepository = userRepository;
+        Repository = userRepository;
     }
+
+    public IUserRepository Repository { get; }
 
     public async Task<Shared.Models.User> Get(string userId, CancellationToken cancellationToken = default)
     {
@@ -24,7 +26,7 @@ public class UserCache : IUserCache, IServiceSingleton
         return await _memoryCache.GetOrCreateAsync(key, (cacheEntry) =>
         {
             cacheEntry.SlidingExpiration = TimeSpan.FromSeconds(30);
-            return _userRepository.FindAsync(userId, cancellationToken: cancellationToken);
+            return Repository.FindAsync(userId, cancellationToken: cancellationToken);
         });
     }
 

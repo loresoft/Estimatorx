@@ -17,9 +17,6 @@ public partial class Members : OrganizationBase
     [Inject]
     public UserRepository UserRepository { get; set; }
 
-    [Inject]
-    public UserStore UserStore { get; set; }
-
 
     private DataGrid<OrganizationMember> DataGrid { get; set; }
 

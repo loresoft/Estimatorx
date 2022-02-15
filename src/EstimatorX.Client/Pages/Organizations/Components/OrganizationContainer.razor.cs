@@ -3,6 +3,7 @@ using Blazored.Modal.Services;
 using EstimatorX.Client.Extensions;
 using EstimatorX.Client.Services;
 using EstimatorX.Client.Stores;
+using EstimatorX.Shared.Models;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -31,7 +32,17 @@ public partial class OrganizationContainer : IDisposable
     [Inject]
     public NavigationManager Navigation { get; set; }
 
+    [Inject]
+    public UserStore UserStore { get; set; }
+
+
+    public Organization Organization => OrganizationStore?.Model;
+
+
     private EditContext EditContext { get; set; }
+
+    protected bool IsOwner() => Organization?.Members?.Any(m => m.Id == UserStore?.Model?.Id && m.IsOwner) == true;
+
 
     protected override async Task OnInitializedAsync()
     {

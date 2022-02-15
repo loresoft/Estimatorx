@@ -75,14 +75,14 @@
             <div class="table-responsive">
                 <DataGrid DataProvider="LoadData" TItem="TemplateSummary" class="table table-hover table-bordered mb-0" @ref="DataGrid">
                     <DataColumns>
-                        <DataColumn TItem="TemplateSummary" Property="p => p.Name" Width="250px" SortIndex="0">
+                        <DataColumn TItem="TemplateSummary" Property="p => p.Name" Width="250px">
                             <Template Context="item">
                                 <a href="/templates/@item.Id/@item.OrganizationId" class="d-block" title="@item.Name">@item.Name</a>
                             </Template>
                         </DataColumn>
                         <DataColumn TItem="TemplateSummary" Property="p => p.Description" />
                         <DataColumn TItem="TemplateSummary" Property="p => p.OrganizationName" Title="Organization" Width="220px" />
-                        <DataColumn TItem="TemplateSummary" Property="p => p.Updated" Width="115px">
+                        <DataColumn TItem="TemplateSummary" Property="p => p.Updated" Width="115px" SortIndex="0" SortDescending="true">
                             <Template Context="item">
                                 <abbr title="@item.Updated.ToString("f")">
                                     <span>@item.Updated.ToString("d")</span>
