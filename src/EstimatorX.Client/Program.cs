@@ -23,8 +23,6 @@ namespace EstimatorX.Client;
 
 public static class Program
 {
-    private const string DefaultScope = "https://loresoftsso.onmicrosoft.com/37f215f2-9769-4c8b-b1f4-b41c13450359/API.Access";
-
     public static async Task Main(string[] args)
     {
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -52,11 +50,13 @@ public static class Program
 
         services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
+        var defaultScope = builder.Configuration.GetValue<string>("DefaultScope");
+
         services
             .AddMsalAuthentication(options =>
             {
-                builder.Configuration.Bind("AzureAdB2C", options.ProviderOptions.Authentication);
-                options.ProviderOptions.DefaultAccessTokenScopes.Add(DefaultScope);
+                builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
+                options.ProviderOptions.DefaultAccessTokenScopes.Add(defaultScope);
                 options.ProviderOptions.LoginMode = "popup"; // "popup"  "redirect";
                 options.ProviderOptions.Cache.CacheLocation = "sessionStorage";
             })

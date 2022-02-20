@@ -67,7 +67,7 @@ public class Startup
 
         services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAdB2C"));
+            .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
 
         services
             .AddControllers()
