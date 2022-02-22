@@ -46,7 +46,7 @@ public class Startup
         services.AddSendGrid((serviceProvider, options) =>
         {
             var configuration = serviceProvider.GetRequiredService<IOptions<SendGridConfiguration>>();
-            options.ApiKey = configuration.Value.ApiKey;
+            options.ApiKey = configuration.Value.ApiKey ?? "***";
         });
 
         services.AddAutoMapper(typeof(HostingConfiguration).Assembly, typeof(AssemblyMetadata).Assembly);

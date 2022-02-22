@@ -1,3 +1,4 @@
+using System.Net.Mail;
 using System.Security.Principal;
 
 using AutoMapper;
@@ -16,9 +17,12 @@ namespace EstimatorX.Core.Services;
 
 public class UserService : ServiceBase<IUserRepository, User>, IUserService, IServiceTransient
 {
-    public UserService(ILoggerFactory loggerFactory, IMapper mapper, IUserRepository repository, IUserCache userCache)
+    private readonly IOrganizationRepository _organizationRepository;
+
+    public UserService(ILoggerFactory loggerFactory, IMapper mapper, IUserRepository repository, IUserCache userCache, IOrganizationRepository organizationRepository)
         : base(loggerFactory, mapper, repository, userCache)
     {
+        _organizationRepository = organizationRepository;
     }
 
     public override async Task Delete(string id, string partitionKey, IPrincipal principal, CancellationToken cancellationToken)
@@ -137,6 +141,8 @@ public class UserService : ServiceBase<IUserRepository, User>, IUserService, ISe
                 Email = principal.GetEmail(),
                 Provider = principal.GetProvider()
             };
+
+            await AutoJoinOrganization(user, cancellationToken);
         }
 
         user.Logins.Add(browserDetail);
@@ -154,4 +160,40 @@ public class UserService : ServiceBase<IUserRepository, User>, IUserService, ISe
         return Mapper.Map<UserProfile>(savedEntity);
     }
 
+    private async Task AutoJoinOrganization(User user, CancellationToken cancellationToken)
+    {
+        if (!MailAddress.TryCreate(user.Email, out var emailAddress))
+            return;
+
+        var host = emailAddress.Host?.ToLowerInvariant();
+
+        if (host.IsNullOrWhiteSpace())
+            return;
+
+        var organizations = await _organizationRepository.FindAllAsync(o => o.HostMatches.Contains(host), cancellationToken);
+
+        if (organizations == null || organizations.Count == 0)
+            return;
+
+
+        foreach (var organization in organizations)
+        {
+            var member = new OrganizationMember
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email
+            };
+            organization.Members.Add(member);
+
+            await _organizationRepository.SaveAsync(organization, cancellationToken);
+
+            var membership = new IdentifierName
+            {
+                Id = organization.Id,
+                Name = organization.Name
+            };
+            user.Organizations.Add(membership);
+        }
+    }
 }
