@@ -39,6 +39,7 @@ public partial class Create : IDisposable
         {
             Id = UserStore.Model.Id,
             Name = UserStore.Model.Name,
+            Email = UserStore.Model.Email,
             IsOwner = true
         };
 

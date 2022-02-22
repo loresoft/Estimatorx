@@ -8,7 +8,6 @@ using FluentValidation.AspNetCore;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
@@ -68,7 +67,7 @@ public class Startup
 
         services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAdB2C"));
+            .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
 
         services
             .AddControllers()
@@ -78,10 +77,7 @@ public class Startup
             .AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "EstimatorX", Version = "v1" }));
 
 
-        services.Configure<ApiBehaviorOptions>(apiBehaviorOptions =>
-        {
-            apiBehaviorOptions.SuppressModelStateInvalidFilter = true;
-        });
+        services.Configure<ApiBehaviorOptions>(apiBehaviorOptions => apiBehaviorOptions.SuppressModelStateInvalidFilter = true);
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

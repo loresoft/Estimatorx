@@ -1,5 +1,4 @@
 using System.Security.Principal;
-using System.Threading;
 
 using AutoMapper;
 
@@ -82,6 +81,7 @@ public abstract class OrganizationServiceBase<TRepository, TModel> : ServiceBase
         Mapper.Map(model, entity);
 
         UpdateTracking(entity, principal);
+        await UpdateOrganizationName(entity, principal, cancellationToken);
 
         var result = await Repository.CreateAsync(entity, cancellationToken);
         if (result == null)
