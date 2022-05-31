@@ -22,7 +22,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="6.0.2" />
     <PackageReference Include="Microsoft.Identity.Web" Version="1.23.0" />
-    <PackageReference Include="Scrutor" Version="4.0.0" />
+    <PackageReference Include="Scrutor" Version="4.2.0" />
     <PackageReference Include="SendGrid.Extensions.DependencyInjection" Version="1.0.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />

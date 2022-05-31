@@ -19,7 +19,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.2" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="6.0.2" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
-    <PackageReference Include="Scrutor" Version="4.0.0" />
+    <PackageReference Include="Scrutor" Version="4.2.0" />
     <PackageReference Include="Sotsera.Blazor.Toaster" Version="3.0.0" />   
     <PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
   </ItemGroup>
