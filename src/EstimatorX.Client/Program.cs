@@ -7,7 +7,6 @@ using Blazored.Modal;
 
 using EstimatorX.Client.Services;
 using EstimatorX.Shared;
-using EstimatorX.Shared.Definitions;
 
 using FluentRest;
 
@@ -64,6 +63,9 @@ public static class Program
 
         services.AddAutoMapper(typeof(AssemblyMetadata).Assembly);
 
+        services.AddEstimatorXShared();
+        services.AddEstimatorXClient();
+
         services.AddProgressBar();
         services.AddBlazoredLocalStorage();
         services.AddBlazoredModal();
@@ -74,19 +76,6 @@ public static class Program
             config.NewestOnTop = false;
             config.MaxDisplayedToasts = 2;
         });
-
-        services.Scan(scan => scan
-            .FromAssembliesOf(typeof(Program), typeof(AssemblyMetadata))
-                .AddClasses(classes => classes.AssignableTo<IServiceTransient>())
-                    .AsSelfWithInterfaces()
-                    .WithTransientLifetime()
-                .AddClasses(classes => classes.AssignableTo<IServiceScoped>())
-                    .AsSelfWithInterfaces()
-                    .WithScopedLifetime()
-                .AddClasses(classes => classes.AssignableTo<IServiceSingleton>())
-                    .AsSelfWithInterfaces()
-                    .WithSingletonLifetime()
-        );
 
         await builder.Build().RunAsync();
     }

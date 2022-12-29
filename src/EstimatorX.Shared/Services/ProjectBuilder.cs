@@ -1,10 +1,9 @@
-
-using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Models;
 
 namespace EstimatorX.Shared.Services;
 
-public class ProjectBuilder : IProjectBuilder, IServiceSingleton
+[RegisterSingleton]
+public class ProjectBuilder : IProjectBuilder
 {
     public Project UpdateProject(Project project, bool includeSample = false)
     {

@@ -1,9 +1,9 @@
-using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Models;
 
 namespace EstimatorX.Client.Stores;
 
-public class UserStore : StoreBase<User>, IServiceScoped
+[RegisterScoped]
+public class UserStore : StoreBase<User>
 {
     public UserStore(ILoggerFactory loggerFactory) : base(loggerFactory)
     {

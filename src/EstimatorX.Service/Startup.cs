@@ -2,7 +2,6 @@
 using EstimatorX.Core.Options;
 using EstimatorX.Service.Middleware;
 using EstimatorX.Shared;
-using EstimatorX.Shared.Definitions;
 
 using FluentValidation.AspNetCore;
 
@@ -27,21 +26,12 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.Scan(scan => scan
-            .FromAssembliesOf(typeof(Startup), typeof(HostingConfiguration), typeof(AssemblyMetadata))
-                .AddClasses(classes => classes.AssignableTo<IServiceTransient>())
-                    .AsSelfWithInterfaces()
-                    .WithTransientLifetime()
-                .AddClasses(classes => classes.AssignableTo<IServiceScoped>())
-                    .AsSelfWithInterfaces()
-                    .WithScopedLifetime()
-                .AddClasses(classes => classes.AssignableTo<IServiceSingleton>())
-                    .AsSelfWithInterfaces()
-                    .WithSingletonLifetime()
-        );
-
         services.AddMemoryCache();
         services.AddCosmosRepository();
+
+        services.AddEstimatorXCore();
+        services.AddEstimatorXShared();
+        services.AddEstimatorXService();
 
         services.AddSendGrid((serviceProvider, options) =>
         {
@@ -70,8 +60,10 @@ public class Startup
             .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
 
         services
-            .AddControllers()
-            .AddFluentValidation();
+            .AddControllers();
+
+        services.AddFluentValidationAutoValidation();
+        services.AddFluentValidationClientsideAdapters();
 
         services
             .AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "EstimatorX", Version = "v1" }));

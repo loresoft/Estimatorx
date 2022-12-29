@@ -5,7 +5,6 @@ using Estimatorx.Migration;
 
 using EstimatorX.Core.Options;
 using EstimatorX.Shared;
-using EstimatorX.Shared.Definitions;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,19 +20,6 @@ BsonClassMap.RegisterClassMap<OrganizationMap>();
 await Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
     {
-        services.Scan(scan => scan
-            .FromAssembliesOf(typeof(Program), typeof(HostingConfiguration), typeof(AssemblyMetadata))
-                .AddClasses(classes => classes.AssignableTo<IServiceTransient>())
-                    .AsSelfWithInterfaces()
-                    .WithTransientLifetime()
-                .AddClasses(classes => classes.AssignableTo<IServiceScoped>())
-                    .AsSelfWithInterfaces()
-                    .WithScopedLifetime()
-                .AddClasses(classes => classes.AssignableTo<IServiceSingleton>())
-                    .AsSelfWithInterfaces()
-                    .WithSingletonLifetime()
-        );
-
         services.AddAutoMapper(typeof(HostingConfiguration).Assembly, typeof(AssemblyMetadata).Assembly);
 
         services.AddHostedService<ImportHostedService>();

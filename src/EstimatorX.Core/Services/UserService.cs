@@ -7,7 +7,6 @@ using Cosmos.Abstracts;
 
 using EstimatorX.Core.Query;
 using EstimatorX.Core.Repositories;
-using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
@@ -15,7 +14,8 @@ using Microsoft.Extensions.Logging;
 
 namespace EstimatorX.Core.Services;
 
-public class UserService : ServiceBase<IUserRepository, User>, IUserService, IServiceTransient
+[RegisterTransient]
+public class UserService : ServiceBase<IUserRepository, User>, IUserService
 {
     private readonly IOrganizationRepository _organizationRepository;
 

@@ -1,10 +1,10 @@
 using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Models;
 
-
 namespace EstimatorX.Shared.Services;
 
-public class ProjectCalculator : IProjectCalculator, IServiceSingleton
+[RegisterSingleton]
+public class ProjectCalculator : IProjectCalculator
 {
     public void UpdateProject(Project project)
     {

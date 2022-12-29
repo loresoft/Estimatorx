@@ -1,6 +1,5 @@
 using Cosmos.Abstracts;
 
-using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
@@ -10,8 +9,9 @@ using Microsoft.Extensions.Options;
 
 namespace EstimatorX.Core.Repositories;
 
+[RegisterSingleton]
 public class TemplateRepository
-    : CosmosRepository<Template>, ITemplateRepository, IServiceSingleton
+    : CosmosRepository<Template>, ITemplateRepository
 {
     public TemplateRepository(ILoggerFactory logFactory, IOptions<CosmosRepositoryOptions> repositoryOptions, ICosmosFactory databaseFactory)
         : base(logFactory, repositoryOptions, databaseFactory)

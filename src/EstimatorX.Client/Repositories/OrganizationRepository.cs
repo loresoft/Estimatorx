@@ -1,11 +1,11 @@
 
 using EstimatorX.Client.Services;
-using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Models;
 
 namespace EstimatorX.Client.Repositories;
 
-public class OrganizationRepository : RepositorySearchBase<Organization, OrganizationSummary>, IServiceScoped
+[RegisterScoped]
+public class OrganizationRepository : RepositorySearchBase<Organization, OrganizationSummary>
 {
     public OrganizationRepository(GatewayClient gateway) : base(gateway)
     {

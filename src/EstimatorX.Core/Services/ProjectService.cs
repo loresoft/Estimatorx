@@ -4,7 +4,6 @@ using System.Security.Principal;
 using AutoMapper;
 
 using EstimatorX.Core.Repositories;
-using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 using EstimatorX.Shared.Services;
@@ -13,7 +12,8 @@ using Microsoft.Extensions.Logging;
 
 namespace EstimatorX.Core.Services;
 
-public class ProjectService : OrganizationServiceBase<IProjectRepository, Project>, IProjectService, IServiceTransient
+[RegisterTransient]
+public class ProjectService : OrganizationServiceBase<IProjectRepository, Project>, IProjectService
 {
     private readonly ITemplateRepository _templateRepository;
     private readonly IProjectBuilder _projectBuilder;

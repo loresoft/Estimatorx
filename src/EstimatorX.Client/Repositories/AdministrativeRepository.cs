@@ -1,6 +1,4 @@
-using EstimatorX.Client.Pages.Projects;
 using EstimatorX.Client.Services;
-using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
@@ -8,7 +6,8 @@ using FluentRest;
 
 namespace EstimatorX.Client.Repositories;
 
-public class AdministrativeRepository : IServiceScoped
+[RegisterScoped]
+public class AdministrativeRepository
 {
     protected GatewayClient Gateway { get; }
 

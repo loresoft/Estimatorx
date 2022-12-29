@@ -5,7 +5,6 @@ using AutoMapper;
 using EstimatorX.Core.Comparison;
 using EstimatorX.Core.Query;
 using EstimatorX.Core.Repositories;
-using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
@@ -13,7 +12,8 @@ using Microsoft.Extensions.Logging;
 
 namespace EstimatorX.Core.Services;
 
-public class OrganizationService : ServiceBase<IOrganizationRepository, Organization>, IOrganizationService, IServiceTransient
+[RegisterTransient]
+public class OrganizationService : ServiceBase<IOrganizationRepository, Organization>, IOrganizationService
 {
     private readonly IUserRepository _userRepository;
 
