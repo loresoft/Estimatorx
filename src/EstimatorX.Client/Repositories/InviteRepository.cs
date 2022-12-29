@@ -1,8 +1,4 @@
-
-using System.Collections.Concurrent;
-
 using EstimatorX.Client.Services;
-using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Models;
 
 using FluentRest;
@@ -11,7 +7,8 @@ using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace EstimatorX.Client.Repositories;
 
-public class InviteRepository : RepositorySearchBase<Invite, InviteSummary>, IServiceScoped
+[RegisterScoped]
+public class InviteRepository : RepositorySearchBase<Invite, InviteSummary>
 {
     public InviteRepository(GatewayClient gateway) : base(gateway)
     {

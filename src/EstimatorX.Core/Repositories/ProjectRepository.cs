@@ -1,7 +1,6 @@
 using Cosmos.Abstracts;
 
 using EstimatorX.Core.Services;
-using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
@@ -11,8 +10,9 @@ using Microsoft.Extensions.Options;
 
 namespace EstimatorX.Core.Repositories;
 
+[RegisterSingleton]
 public class ProjectRepository
-    : CosmosRepository<Project>, IProjectRepository, IServiceSingleton
+    : CosmosRepository<Project>, IProjectRepository
 {
     private readonly ISecurityKeyGenerator _securityKeyGenerator;
 

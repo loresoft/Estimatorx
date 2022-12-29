@@ -1,5 +1,3 @@
-using EstimatorX.Shared.Definitions;
-
 using Sotsera.Blazor.Toaster;
 
 namespace EstimatorX.Client.Services;
@@ -14,7 +12,8 @@ public enum NotificationLevel
 
 public record Notification(NotificationLevel Level, string Message);
 
-public class NotificationService : IServiceScoped
+[RegisterScoped]
+public class NotificationService
 {
     private readonly ILogger<NotificationService> _logger;
     private readonly IToaster _toaster;

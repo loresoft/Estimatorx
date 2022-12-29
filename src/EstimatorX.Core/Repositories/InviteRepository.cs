@@ -2,7 +2,6 @@
 using Cosmos.Abstracts;
 
 using EstimatorX.Core.Services;
-using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
@@ -12,8 +11,8 @@ using Microsoft.Extensions.Options;
 
 namespace EstimatorX.Core.Repositories;
 
-public class InviteRepository
-    : CosmosRepository<Invite>, IInviteRepository, IServiceSingleton
+[RegisterSingleton]
+public class InviteRepository : CosmosRepository<Invite>, IInviteRepository
 {
     private readonly ISecurityKeyGenerator _securityKeyGenerator;
 

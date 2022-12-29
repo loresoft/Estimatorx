@@ -1,12 +1,9 @@
-
-using System.Security.Policy;
 using System.Security.Principal;
 
 using AutoMapper;
 
 using EstimatorX.Core.Options;
 using EstimatorX.Core.Repositories;
-using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
@@ -20,7 +17,8 @@ using SendGrid.Helpers.Mail;
 
 namespace EstimatorX.Core.Services;
 
-public class InviteService : OrganizationServiceBase<IInviteRepository, Invite>, IServiceTransient, IInviteService
+[RegisterTransient]
+public class InviteService : OrganizationServiceBase<IInviteRepository, Invite>, IInviteService
 {
     private readonly ISendGridClient _sendGridClient;
     private readonly IOptions<HostingConfiguration> _hostingOptions;
@@ -58,7 +56,7 @@ public class InviteService : OrganizationServiceBase<IInviteRepository, Invite>,
         var entity = await Repository.FindOneAsync(i => i.SecurityKey == securityKey, cancellationToken: cancellationToken);
         if (entity == null)
             throw new DomainException(System.Net.HttpStatusCode.Forbidden, "Invite not found");
-                
+
         return entity;
     }
 

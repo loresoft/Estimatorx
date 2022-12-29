@@ -43,21 +43,12 @@ label {
   width: 20px;
 }
 
-.blazored-modal-container {
-  z-index: 1050;
-}
-
 .blazored-modal-overlay {
-  z-index: 1055;
-}
+  z-index: 1050 !important;
 
-.blazored-modal {
-  min-width: 600px;
-  z-index: 1055;
-}
-
-.blazored-modal-header {
-  padding: 0 0 1rem 0;
+  .bm-header {
+    padding: 0 0 1rem 0 !important;
+  }
 }
 
 [draggable="true"] {
@@ -68,6 +59,9 @@ label {
 }
 
 ul.reorder {
+  max-height: 70vh;
+  overflow: auto;
+
   li {
     cursor: move;
   }
@@ -76,6 +70,7 @@ ul.reorder {
 .text-estimate-epic {
   color: $estimate-epic-color;
 }
+
 .text-estimate-feature {
   color: $estimate-feature-color;
 }
@@ -87,4 +82,3 @@ ul.reorder {
 @import "estimate";
 @import "collapse";
 @import "feature";
-

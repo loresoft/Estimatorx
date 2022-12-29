@@ -25,11 +25,9 @@ public static class ModalExtensions
     public static async Task<bool> Reorder<T>(this IModalService modalService, List<T> items)
         where T : class, IHaveName
     {
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(ReorderModal<T>.Items), items);
+        var parameters = new ModalParameters { { nameof(ReorderModal<T>.Items), items } };
 
-        var options = new ModalOptions { ContentScrollable = true };
-
+        var options = new ModalOptions();
         var messageForm = modalService.Show<ReorderModal<T>>("Reorder Items", parameters, options);
         var result = await messageForm.Result;
 

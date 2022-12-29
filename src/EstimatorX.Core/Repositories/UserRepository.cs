@@ -2,7 +2,6 @@
 using Cosmos.Abstracts;
 
 using EstimatorX.Core.Services;
-using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
@@ -12,8 +11,9 @@ using Microsoft.Extensions.Options;
 
 namespace EstimatorX.Core.Repositories;
 
+[RegisterSingleton]
 public class UserRepository
-    : CosmosRepository<User>, IUserRepository, IServiceSingleton
+    : CosmosRepository<User>, IUserRepository
 {
     private readonly IMemoryCache _memoryCache;
 

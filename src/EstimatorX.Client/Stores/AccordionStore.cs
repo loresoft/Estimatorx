@@ -1,8 +1,7 @@
-using EstimatorX.Shared.Definitions;
-
 namespace EstimatorX.Client.Stores;
 
-public class AccordionStore : IServiceScoped
+[RegisterScoped]
+public class AccordionStore
 {
     public event Action<string, Guid, bool> OnChange;
 

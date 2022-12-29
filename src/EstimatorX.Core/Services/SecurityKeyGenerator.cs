@@ -1,8 +1,7 @@
-using EstimatorX.Shared.Definitions;
-
 namespace EstimatorX.Core.Services;
 
-public class SecurityKeyGenerator : ISecurityKeyGenerator, IServiceSingleton
+[RegisterSingleton]
+public class SecurityKeyGenerator : ISecurityKeyGenerator
 {
     private const string _alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 

@@ -1,12 +1,12 @@
 
 using EstimatorX.Core.Repositories;
-using EstimatorX.Shared.Definitions;
 
 using Microsoft.Extensions.Caching.Memory;
 
 namespace EstimatorX.Core.Services;
 
-public class UserCache : IUserCache, IServiceSingleton
+[RegisterSingleton]
+public class UserCache : IUserCache
 {
     private readonly IMemoryCache _memoryCache;
 

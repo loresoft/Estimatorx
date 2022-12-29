@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 using AutoMapper;
 
@@ -20,7 +15,8 @@ using Microsoft.Extensions.Logging;
 
 namespace EstimatorX.Core.Services;
 
-public class AdministrativeService : IAdministrativeService, IServiceTransient
+[RegisterTransient]
+public class AdministrativeService : IAdministrativeService
 {
     private readonly ILogger<AdministrativeService> _logger;
     private readonly IMapper _mapper;
