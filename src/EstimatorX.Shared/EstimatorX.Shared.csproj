@@ -6,7 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.0" />
+    <PackageReference Include="AutoMapper" Version="12.0.0">
+      <IsTrimmable>false</IsTrimmable>
+    </PackageReference>
     <PackageReference Include="FluentValidation" Version="11.4.0" />
   </ItemGroup>
 
