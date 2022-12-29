@@ -15,4 +15,9 @@
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="ILLink.Descriptors.xml">
+      <LogicalName>ILLink.Descriptors.xml</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>
