@@ -1,16 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-  <Import Project="..\..\build\common.props" />
-
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <NoWarn>1591</NoWarn>
     <UserSecretsId>b59bd8d0-5125-4b7e-9cbd-efd237e2cbb1</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Using Include="Injectio.Attributes" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Remove="*.clef" />
@@ -21,7 +15,6 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
-    <PackageReference Include="Injectio" Version="2.0.43" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.1" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.1" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.1" />

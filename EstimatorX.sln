@@ -13,10 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EstimatorX.Client", "src\Es
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{2C204CD8-0275-4201-AECA-F27983998290}"
 	ProjectSection(SolutionItems) = preProject
-		build\common.props = build\common.props
+		src\Directory.Build.props = src\Directory.Build.props
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		README.md = README.md
-		build\sourcelink.props = build\sourcelink.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CA676C3E-4D2D-4A8C-B61A-E5076B0496EB}"

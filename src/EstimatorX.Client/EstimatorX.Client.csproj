@@ -1,6 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
-  <Import Project="..\..\build\common.props" />
-
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -12,7 +10,6 @@
     <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
     <PackageReference Include="Blazored.Modal" Version="7.1.0" />
     <PackageReference Include="FluentRest" Version="9.0.320" />
-    <PackageReference Include="Injectio" Version="2.0.43" PrivateAssets="all" />
     <PackageReference Include="LoreSoft.Blazor.Controls" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.1" PrivateAssets="all" />
@@ -20,10 +17,6 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
     <PackageReference Include="Sotsera.Blazor.Toaster" Version="3.0.0" />   
     <PackageReference Include="System.Net.Http.Json" Version="7.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Using Include="Injectio.Attributes" />
   </ItemGroup>
 
   <ItemGroup>

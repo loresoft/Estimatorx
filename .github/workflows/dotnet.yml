@@ -2,8 +2,8 @@ name: Build Project
 
 env:
   BUILD_PATH: '${{github.workspace}}/publish'
-  BUILD_VERSION: '2.0.${{github.run_number}}'
-  BUILD_INFORMATION: '2.0.${{github.run_number}}+Branch.${{github.ref_name}}.Sha.${{github.sha}}'
+  BUILD_VERSION: '3.0.${{github.run_number}}'
+  BUILD_INFORMATION: '3.0.${{github.run_number}}+Branch.${{github.ref_name}}.Sha.${{github.sha}}'
 
 on:
   push:
@@ -21,15 +21,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Setup .NET 6.0
-        uses: actions/setup-dotnet@v1
+      - name: Setup .NET 7.0
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 7.0.x
 
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
 
@@ -48,7 +48,7 @@ jobs:
 
       - name: Upload Web Application Artifact
         if: success()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Application
           path: '${{env.BUILD_PATH}}/Application'
