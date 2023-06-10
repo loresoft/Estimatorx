@@ -39,6 +39,9 @@ public class ProjectChangeFeedProcessor : IHostedService, IAsyncDisposable
 
     public async Task StopAsync(CancellationToken cancellationToken)
     {
+        if (_changeFeedProcessor == null)
+            return;
+
         _logger.LogInformation("Project change feed processor stopping");
         await _changeFeedProcessor.StopAsync();
     }

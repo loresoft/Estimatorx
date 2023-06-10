@@ -39,6 +39,9 @@ public class TemplateChangeFeedProcessor : IHostedService, IAsyncDisposable
 
     public async Task StopAsync(CancellationToken cancellationToken)
     {
+        if (_changeFeedProcessor == null)
+            return;
+
         _logger.LogInformation("Template change feed processor stopping");
         await _changeFeedProcessor.StopAsync();
     }
