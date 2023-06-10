@@ -18,7 +18,7 @@ public class QueryOptionsBuilder<TSource, TResult>
     public QueryOptionsBuilder<TSource, TResult> Request(QueryRequest request)
     {
         if (request == null)
-            throw new ArgumentNullException("request");
+            throw new ArgumentNullException(nameof(request));
 
         QueryOptions.Page = request.Page ?? 1;
         QueryOptions.PageSize = request.PageSize ?? 20;

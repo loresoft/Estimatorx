@@ -25,7 +25,7 @@
   
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-    <PackageReference Include="Injectio" Version="2.0.54" PrivateAssets="all" />
+    <PackageReference Include="Injectio" Version="2.5.87" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>

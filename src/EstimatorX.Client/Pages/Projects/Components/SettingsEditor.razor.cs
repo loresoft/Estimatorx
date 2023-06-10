@@ -1,12 +1,8 @@
-using Blazored.Modal.Services;
-
 using EstimatorX.Client.Extensions;
 using EstimatorX.Client.Repositories;
 using EstimatorX.Client.Stores;
 using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Models;
-
-using Microsoft.AspNetCore.Components;
 
 namespace EstimatorX.Client.Pages.Projects.Components;
 
@@ -15,9 +11,6 @@ public partial class SettingsEditor<TStore, TRepository, TModel>
     where TRepository : RepositoryEditBase<TModel>
     where TModel : Project, IHaveIdentifier, new()
 {
-    [CascadingParameter]
-    public IModalService Modal { get; set; }
-
 
     private ProjectSettings ProjectSettings => Store?.Model?.Settings;
 

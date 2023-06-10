@@ -30,13 +30,16 @@ public static class Program
 
         var services = builder.Services;
 
-        services.AddSingleton<IContentSerializer>(sp =>
+        services.AddSingleton(sp =>
         {
             var options = new JsonSerializerOptions(JsonSerializerDefaults.Web);
             options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
-
-            return new JsonContentSerializer(options);
+            options.PropertyNameCaseInsensitive = true;
+            options.Converters.Add(new JsonStringEnumConverter());
+            return options;
         });
+
+        services.AddSingleton<IContentSerializer, JsonContentSerializer>();
 
         services
             .AddHttpClient<GatewayClient>(client =>

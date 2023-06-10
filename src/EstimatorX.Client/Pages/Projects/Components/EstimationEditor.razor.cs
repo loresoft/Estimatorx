@@ -1,10 +1,7 @@
 using AutoMapper;
-using AutoMapper.Features;
 
 using Blazored.Modal;
-using Blazored.Modal.Services;
 
-using EstimatorX.Client.Components;
 using EstimatorX.Client.Extensions;
 using EstimatorX.Client.Repositories;
 using EstimatorX.Client.Stores;
@@ -20,10 +17,6 @@ public partial class EstimationEditor<TStore, TRepository, TModel>
     where TRepository : RepositoryEditBase<TModel>
     where TModel : Project, IHaveIdentifier, new()
 {
-
-    [CascadingParameter]
-    public IModalService Modal { get; set; }
-
 
     [Inject]
     public IMapper Mapper { get; set; }

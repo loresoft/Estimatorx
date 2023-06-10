@@ -41,6 +41,8 @@ public abstract class ProjectBase : ComponentBase, IDisposable
 
         try
         {
+            await Store.InitializedAsync();
+
             await Store.Load(Id, OrganizationId);
             if (Store.Model == null)
                 Navigation.NavigateTo("/projects");
@@ -59,7 +61,7 @@ public abstract class ProjectBase : ComponentBase, IDisposable
         if (Model != null)
             ProjectCalculator.UpdateProject(Model);
 
-        InvokeAsync(() => StateHasChanged());
+        InvokeAsync(StateHasChanged);
     }
 
     public virtual void Dispose()

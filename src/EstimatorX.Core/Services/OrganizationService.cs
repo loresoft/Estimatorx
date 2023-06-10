@@ -1,4 +1,5 @@
 using System.Security.Principal;
+using System.Text.Json;
 
 using AutoMapper;
 
@@ -7,6 +8,8 @@ using EstimatorX.Core.Query;
 using EstimatorX.Core.Repositories;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
+
+using Json.Patch;
 
 using Microsoft.Extensions.Logging;
 
@@ -17,8 +20,14 @@ public class OrganizationService : ServiceBase<IOrganizationRepository, Organiza
 {
     private readonly IUserRepository _userRepository;
 
-    public OrganizationService(ILoggerFactory loggerFactory, IMapper mapper, IOrganizationRepository repository, IUserCache userCache, IUserRepository userRepository)
-        : base(loggerFactory, mapper, repository, userCache)
+    public OrganizationService(
+        ILoggerFactory loggerFactory,
+        IMapper mapper,
+        IOrganizationRepository repository,
+        IUserCache userCache,
+        IUserRepository userRepository,
+        JsonSerializerOptions serializerOptions)
+        : base(loggerFactory, mapper, repository, userCache, serializerOptions)
     {
         _userRepository = userRepository;
     }
@@ -40,7 +49,7 @@ public class OrganizationService : ServiceBase<IOrganizationRepository, Organiza
             throw new DomainException(System.Net.HttpStatusCode.Unauthorized, "Could not load current user");
 
         // user must be member
-        if (!currentUser.Organizations.Any(o => o.Id == id))
+        if (currentUser.Organizations.All(o => o.Id != id))
             throw new DomainException(System.Net.HttpStatusCode.Forbidden, "Not authorized to load this organization");
 
         var organization = await Repository.FindAsync(id, partitionKey, cancellationToken);
@@ -81,7 +90,7 @@ public class OrganizationService : ServiceBase<IOrganizationRepository, Organiza
 
         Mapper.Map(model, organization);
 
-        if (!organization.Members.Any(member => member.Id == userId))
+        if (organization.Members.All(member => member.Id != userId))
         {
             var user = await CurrentUser(principal, cancellationToken);
             var member = new OrganizationMember
@@ -104,11 +113,33 @@ public class OrganizationService : ServiceBase<IOrganizationRepository, Organiza
         return result;
     }
 
+    public override async Task<Organization> Patch(string id, string partitionKey, JsonPatch patchDocument, IPrincipal principal, CancellationToken cancellationToken)
+    {
+        string userId = principal.GetUserId();
+
+        var organization = await Repository.FindAsync(id, cancellationToken: cancellationToken);
+        if (organization == null)
+            throw new DomainException(System.Net.HttpStatusCode.NotFound, "Entity not found");
+
+        if (organization != null && !organization.Members.Any(m => m.IsOwner && m.Id == userId))
+            throw new DomainException(System.Net.HttpStatusCode.Forbidden, "Not authorized to save this organization");
+
+        organization = patchDocument.Apply(organization, SerializerOptions);
+
+        UpdateTracking(organization, principal);
+
+        var result = await Repository.SaveAsync(organization, cancellationToken)
+            ?? throw new DomainException(System.Net.HttpStatusCode.InternalServerError, "Failed to save model");
+
+        await UpdateMembers(result, principal, cancellationToken);
+
+        return result;
+    }
+
     public override async Task<QueryResult<TResult>> Search<TResult>(QueryRequest queryRequest, IPrincipal principal, CancellationToken cancellationToken)
     {
-        var currentUser = await CurrentUser(principal, cancellationToken);
-        if (currentUser == null)
-            throw new DomainException(System.Net.HttpStatusCode.Unauthorized, "Could not load current user");
+        var currentUser = await CurrentUser(principal, cancellationToken)
+            ?? throw new DomainException(System.Net.HttpStatusCode.Unauthorized, "Could not load current user");
 
         // only return orgs user has access to
         var organizations = currentUser.Organizations
@@ -118,18 +149,18 @@ public class OrganizationService : ServiceBase<IOrganizationRepository, Organiza
         var query = await Repository.GetQueryableAsync();
 
         // find organization for current user only
-        var securyQuery = query.Where(p => organizations.Contains(p.Id));
+        var secureQuery = query.Where(p => organizations.Contains(p.Id));
 
         if (queryRequest.Search.HasValue())
         {
-            securyQuery = securyQuery
+            secureQuery = secureQuery
                 .Where(u =>
                     u.Name.Contains(queryRequest.Search, StringComparison.InvariantCultureIgnoreCase) ||
                     u.Description.Contains(queryRequest.Search, StringComparison.InvariantCultureIgnoreCase)
                 );
         }
 
-        return await securyQuery
+        return await secureQuery
             .ToDataResult(
                 (QueryOptionsBuilder<Organization, TResult> config) => config
                     .Request(queryRequest)
@@ -137,7 +168,6 @@ public class OrganizationService : ServiceBase<IOrganizationRepository, Organiza
                 cancellationToken
             );
     }
-
 
     private async Task UpdateMembers(Organization organization, IPrincipal principal, CancellationToken cancellationToken)
     {

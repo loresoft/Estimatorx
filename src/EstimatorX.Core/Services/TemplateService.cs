@@ -1,5 +1,6 @@
 
 using System.Security.Principal;
+using System.Text.Json;
 
 using AutoMapper;
 
@@ -18,8 +19,15 @@ public class TemplateService : OrganizationServiceBase<ITemplateRepository, Temp
     private readonly IProjectBuilder _projectBuilder;
     private readonly IProjectCalculator _projectCalculator;
 
-    public TemplateService(ILoggerFactory loggerFactory, IMapper mapper, ITemplateRepository repository, IUserCache userCache, IProjectBuilder projectBuilder, IProjectCalculator projectCalculator)
-        : base(loggerFactory, mapper, repository, userCache)
+    public TemplateService(
+        ILoggerFactory loggerFactory,
+        IMapper mapper,
+        ITemplateRepository repository,
+        IUserCache userCache,
+        JsonSerializerOptions serializerOptions,
+        IProjectBuilder projectBuilder,
+        IProjectCalculator projectCalculator)
+        : base(loggerFactory, mapper, repository, userCache, serializerOptions)
     {
         _projectBuilder = projectBuilder;
         _projectCalculator = projectCalculator;

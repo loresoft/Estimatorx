@@ -1,8 +1,6 @@
 using Blazored.Modal;
 using Blazored.Modal.Services;
 
-using LoreSoft.Blazor.Controls.Utilities;
-
 using Microsoft.AspNetCore.Components;
 
 namespace EstimatorX.Client.Components;
@@ -20,6 +18,9 @@ public partial class ConfirmModal
 
     [Parameter]
     public string ActionName { get; set; } = "Delete";
+
+    [Parameter]
+    public string CancelName { get; set; } = "Cancel";
 
 
     private async Task Close() => await Modal.CloseAsync(ModalResult.Ok(true));

@@ -10,6 +10,6 @@ public class EffortLevelValidator : AbstractValidator<EffortLevel>
     public EffortLevelValidator()
     {
         RuleFor(p => p.Level).NotEmpty();
-        RuleFor(p => p.Effort).GreaterThan(0);
+        RuleFor(p => p.Effort).NotNull();
     }
 }

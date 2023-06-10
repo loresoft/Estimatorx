@@ -3,6 +3,8 @@ using EstimatorX.Shared.Extensions;
 
 using FluentRest;
 
+using Json.Patch;
+
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace EstimatorX.Client.Repositories;
@@ -91,6 +93,27 @@ public abstract class RepositoryEditBase<TModel>
             return await Gateway.PostAsync<TModel>(b => b
                 .AppendPath(GetBasePath())
                 .Content(model)
+            );
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+            return default;
+        }
+    }
+
+    public async Task<TModel> Patch(JsonPatch patch, string id, string partitionKey = null)
+    {
+        if (patch == null)
+            throw new ArgumentNullException(nameof(patch));
+
+        try
+        {
+            return await Gateway.PatchAsync<TModel>(b => b
+                .AppendPath(GetBasePath())
+                .AppendPath(id)
+                .AppendPathIf(partitionKey.HasValue, partitionKey)
+                .Content(patch)
             );
         }
         catch (AccessTokenNotAvailableException exception)

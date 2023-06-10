@@ -1,6 +1,12 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+using EstimatorX.Core.Changes;
 using EstimatorX.Core.Options;
 using EstimatorX.Service.Middleware;
 using EstimatorX.Shared;
+using EstimatorX.Shared.Changes;
+using EstimatorX.Shared.Extensions;
 
 using FluentValidation.AspNetCore;
 
@@ -87,7 +93,7 @@ public static class Program
         services.AddSendGrid((serviceProvider, options) =>
         {
             var sendGridOptions = serviceProvider.GetRequiredService<IOptions<SendGridConfiguration>>();
-            options.ApiKey = sendGridOptions.Value.ApiKey ?? "***";
+            options.ApiKey = sendGridOptions.Value.ApiKey.HasValue() ? sendGridOptions.Value.ApiKey : "***";
         });
 
         services.AddAutoMapper(typeof(HostingConfiguration).Assembly, typeof(AssemblyMetadata).Assembly);
@@ -110,8 +116,14 @@ public static class Program
             .AddMicrosoftIdentityWebApi(configuration.GetSection("AzureAd"));
 
         services
-            .AddControllers();
+            .AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+            });
 
+        services.AddSingleton(sp => sp.GetRequiredService<IOptions<JsonOptions>>().Value.JsonSerializerOptions);
         services.AddFluentValidationAutoValidation();
         services.AddFluentValidationClientsideAdapters();
 
@@ -120,8 +132,10 @@ public static class Program
         services.AddResponseCompression(options =>
         {
             options.EnableForHttps = true;
-            ResponseCompressionDefaults.MimeTypes.Concat(new[] { "image/svg+xml" });
+            options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "image/svg+xml", "application/octet-stream" });
         });
+
+        services.AddSignalR(hubOptions => hubOptions.EnableDetailedErrors = true);
 
         services.Configure<ApiBehaviorOptions>(apiBehaviorOptions => apiBehaviorOptions.SuppressModelStateInvalidFilter = true);
     }
@@ -135,6 +149,7 @@ public static class Program
         else
         {
             app.UseHsts();
+            app.UseResponseCompression();
         }
 
         // TODO, use new exception handling
@@ -145,8 +160,6 @@ public static class Program
 
         app.UseHttpsRedirection();
 
-        app.UseResponseCompression();
-
         app.UseBlazorFrameworkFiles();
         app.UseStaticFiles();
 
@@ -156,6 +169,9 @@ public static class Program
         app.UseAuthorization();
 
         app.MapControllers();
+
+        app.MapHub<ChangeFeedHub>(ChangeFeedConstants.HubPath);
+
         app.MapFallbackToFile("index.html");
     }
 }

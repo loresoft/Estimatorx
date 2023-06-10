@@ -92,12 +92,15 @@ public class ProjectBuilder : IProjectBuilder
 
         if (settings.EffortLevels.Count == 0)
         {
+            settings.EffortLevels.Add(new EffortLevel { Effort = 0, Level = "No Effort" });
             settings.EffortLevels.Add(new EffortLevel { Effort = 2, Level = "Minimal" });
             settings.EffortLevels.Add(new EffortLevel { Effort = 4, Level = "Low" });
             settings.EffortLevels.Add(new EffortLevel { Effort = 8, Level = "Medium Low" });
             settings.EffortLevels.Add(new EffortLevel { Effort = 16, Level = "Medium" });
             settings.EffortLevels.Add(new EffortLevel { Effort = 24, Level = "Medium High" });
             settings.EffortLevels.Add(new EffortLevel { Effort = 48, Level = "High" });
+            settings.EffortLevels.Add(new EffortLevel { Effort = 96, Level = "Very High" });
+            settings.EffortLevels.Add(new EffortLevel { Effort = 192, Level = "Extremely High" });
         }
         settings.EffortLevels.Sort((x, y) => x.Effort.CompareTo(y.Effort));
 
@@ -106,7 +109,8 @@ public class ProjectBuilder : IProjectBuilder
             settings.Overhead.Add(new ProjectOverhead { Name = "Unit Tests", Multiplier = 1.1, Description = "Create unit tests" });
             settings.Overhead.Add(new ProjectOverhead { Name = "Quality Assurance", Multiplier = 1.1, Description = "Quality assurance testing" });
             settings.Overhead.Add(new ProjectOverhead { Name = "Project Management", Multiplier = 1.1, Description = "Project management activities" });
-            settings.Overhead.Add(new ProjectOverhead { Name = "Meetings", Multiplier = 1.05, Description = "Team meeetings" });
+            settings.Overhead.Add(new ProjectOverhead { Name = "Meetings", Multiplier = 1.05, Description = "Team meetings" });
+            settings.Overhead.Add(new ProjectOverhead { Name = "Documentation", Multiplier = 1.016, Description = "Create documentation for the proejct" });
         }
 
         return settings;

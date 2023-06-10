@@ -1,5 +1,6 @@
 
 using System.Security.Principal;
+using System.Text.Json;
 
 using AutoMapper;
 
@@ -25,11 +26,12 @@ public class ProjectService : OrganizationServiceBase<IProjectRepository, Projec
         IMapper mapper,
         IProjectRepository repository,
         IUserCache userCache,
+        JsonSerializerOptions serializerOptions,
         ITemplateRepository templateRepository,
         IProjectBuilder projectBuilder,
         IProjectCalculator projectCalculator,
         ISecurityKeyGenerator securityKeyGenerator)
-        : base(loggerFactory, mapper, repository, userCache)
+        : base(loggerFactory, mapper, repository, userCache, serializerOptions)
     {
         _templateRepository = templateRepository;
         _projectBuilder = projectBuilder;

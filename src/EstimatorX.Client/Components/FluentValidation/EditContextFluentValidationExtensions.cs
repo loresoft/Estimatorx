@@ -127,7 +127,10 @@ public static class EditContextFluentValidationExtensions
 
 
         var interfaceValidatorType = typeof(IValidator<>).MakeGenericType(model.GetType());
-        var modelValidatorType = AssemblyScanResults.FirstOrDefault(i => interfaceValidatorType.IsAssignableFrom(i.InterfaceType))?.ValidatorType;
+
+        //Changed this line because it was causing Templates to pull the ProjectValidator instead of the TemplateValidator
+        // -- old version: var modelValidatorType = AssemblyScanResults.FirstOrDefault(i => interfaceValidatorType.IsAssignableFrom(i.InterfaceType))?.ValidatorType;
+        var modelValidatorType = AssemblyScanResults.FirstOrDefault(i => interfaceValidatorType == i.InterfaceType)?.ValidatorType;
 
         if (modelValidatorType is null)
         {
