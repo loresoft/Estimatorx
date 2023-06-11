@@ -94,12 +94,12 @@ public class AdministrativeService : IAdministrativeService
 
         // find organization for current user only
         var query = await repository.GetQueryableAsync();
-        var securyQuery = query.AsQueryable();
+        var secureQuery = query.AsQueryable();
 
         if (predicate != null)
-            securyQuery = securyQuery.Where(predicate);
+            secureQuery = secureQuery.Where(predicate);
 
-        return await securyQuery
+        return await secureQuery
             .ToDataResult(
                 (QueryOptionsBuilder<TEntity, TResponse> config) => config
                     .Request(queryRequest)
