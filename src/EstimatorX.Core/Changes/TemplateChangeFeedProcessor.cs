@@ -32,9 +32,9 @@ public class TemplateChangeFeedProcessor : IHostedService, IAsyncDisposable
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Template change feed processor starting");
-        //await InitializeProcessor();
+        await InitializeProcessor();
 
-        //await _changeFeedProcessor.StartAsync();
+        await _changeFeedProcessor.StartAsync();
     }
 
     public async Task StopAsync(CancellationToken cancellationToken)
