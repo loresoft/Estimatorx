@@ -8,9 +8,9 @@ public class Organization : ModelBase, IHaveName
 
     public string Description { get; set; }
 
-    public List<OrganizationMember> Members { get; init; } = new();
+    public List<OrganizationMember> Members { get; set; } = new();
 
-    public List<string> HostMatches { get; init; } = new();
+    public List<string> HostMatches { get; set; } = new();
 
 
     public override int GetHashCode()
@@ -19,7 +19,7 @@ public class Organization : ModelBase, IHaveName
         hashCode.Add(base.GetHashCode());
         hashCode.Add(Name);
         hashCode.Add(Description);
-        
+
         foreach (var member in Members)
             hashCode.Add(member.GetHashCode());
 

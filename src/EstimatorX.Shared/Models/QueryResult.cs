@@ -1,4 +1,4 @@
-﻿namespace EstimatorX.Shared.Models;
+namespace EstimatorX.Shared.Models;
 
 public class QueryResult<T>
 {
@@ -6,4 +6,3 @@ public class QueryResult<T>
 
     public int Total { get; set; }
 }
-

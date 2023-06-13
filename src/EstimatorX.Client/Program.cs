@@ -7,6 +7,7 @@ using Blazored.Modal;
 
 using EstimatorX.Client.Services;
 using EstimatorX.Shared;
+using EstimatorX.Shared.Models;
 
 using FluentRest;
 
@@ -33,9 +34,10 @@ public static class Program
         services.AddSingleton(sp =>
         {
             var options = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+            options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
-            options.PropertyNameCaseInsensitive = true;
-            options.Converters.Add(new JsonStringEnumConverter());
+            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+            options.AddContext<JsonContext>();
             return options;
         });
 

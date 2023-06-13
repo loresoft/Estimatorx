@@ -12,7 +12,7 @@ public class EpicEstimate : IHaveIdentifier, IHaveName
 
     public string Assumptions { get; set; }
 
-    public List<FeatureEstimate> Features { get; init; } = new();
+    public List<FeatureEstimate> Features { get; set; } = new();
 
     // computed
     public int? EstimatedTotal { get; set; }

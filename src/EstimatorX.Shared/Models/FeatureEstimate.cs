@@ -2,7 +2,7 @@ namespace EstimatorX.Shared.Models;
 
 public class FeatureEstimate : EstimateBase
 {
-    public List<StoryEstimate> Stories { get; init; } = new();
+    public List<StoryEstimate> Stories { get; set; } = new();
 
     public override int GetHashCode()
     {

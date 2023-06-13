@@ -7,6 +7,7 @@ using EstimatorX.Service.Middleware;
 using EstimatorX.Shared;
 using EstimatorX.Shared.Changes;
 using EstimatorX.Shared.Extensions;
+using EstimatorX.Shared.Models;
 
 using FluentValidation.AspNetCore;
 
@@ -120,7 +121,9 @@ public static class Program
             .AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+                options.JsonSerializerOptions.AddContext<JsonContext>();
             });
 
         services.AddSingleton(sp => sp.GetRequiredService<IOptions<JsonOptions>>().Value.JsonSerializerOptions);

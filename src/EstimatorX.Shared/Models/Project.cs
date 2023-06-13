@@ -19,9 +19,9 @@ public class Project : ModelBase, IHaveOrganization, IHaveName
     public string TemplateKey { get; set; }
 
 
-    public ProjectSettings Settings { get; init; } = new();
+    public ProjectSettings Settings { get; set; } = new();
 
-    public List<EpicEstimate> Epics { get; init; } = new();
+    public List<EpicEstimate> Epics { get; set; } = new();
 
     // computed
     public int? EstimatedTotal { get; set; }
