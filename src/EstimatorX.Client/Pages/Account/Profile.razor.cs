@@ -1,11 +1,15 @@
+using System.Text.Json;
+
 using EstimatorX.Client.Repositories;
 using EstimatorX.Client.Services;
 using EstimatorX.Client.Stores;
+using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
+
+using Json.Patch;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace EstimatorX.Client.Pages.Account;
 
@@ -24,8 +28,12 @@ public partial class Profile
     [Inject]
     public UserStore UserStore { get; set; }
 
+    [Inject]
+    public JsonSerializerOptions JsonSerializerOptions { get; set; }
 
     private User UserModel { get; set; }
+
+    private User Original { get; set; }
 
     private bool IsBusy { get; set; }
 
@@ -38,6 +46,7 @@ public partial class Profile
         base.OnInitialized();
         UserModel = UserStore.Model;
         OriginalHash = UserModel.GetHashCode();
+        Original = UserModel.JsonClone(JsonSerializerOptions);
     }
 
     protected async Task HandleSave()
@@ -45,11 +54,15 @@ public partial class Profile
         try
         {
             IsBusy = true;
-            UserModel = await UserRepository.Save(UserModel, UserModel.Id);
+
+            var jsonPatch = Original.CreatePatch(UserModel, JsonSerializerOptions);
+
+            UserModel = await UserRepository.Patch(jsonPatch, UserModel.Id);
 
             UserStore.Set(UserModel);
 
             OriginalHash = UserModel.GetHashCode();
+            Original = UserModel.JsonClone(JsonSerializerOptions);
 
             NotificationService.ShowSuccess($"Profile '{UserModel.Name}' saved successfully");
             Navigation.NavigateTo("/Account/Profile");

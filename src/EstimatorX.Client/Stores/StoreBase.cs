@@ -1,9 +1,9 @@
 namespace EstimatorX.Client.Stores;
 
-public class StoreBase<TModel> where TModel : class, new()
+public abstract class StoreBase<TModel> where TModel : class, new()
 {
 
-    public StoreBase(ILoggerFactory loggerFactory)
+    protected StoreBase(ILoggerFactory loggerFactory)
     {
         Logger = loggerFactory.CreateLogger(GetType());
     }

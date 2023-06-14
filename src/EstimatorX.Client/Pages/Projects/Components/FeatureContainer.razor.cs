@@ -1,8 +1,6 @@
 
 using AutoMapper;
 
-using Blazored.Modal.Services;
-
 using EstimatorX.Client.Extensions;
 using EstimatorX.Client.Repositories;
 using EstimatorX.Client.Stores;
@@ -20,9 +18,6 @@ public partial class FeatureContainer<TStore, TRepository, TModel>
 {
     [Parameter]
     public EpicEstimate Epic { get; set; }
-
-    [CascadingParameter]
-    public IModalService Modal { get; set; }
 
     [Inject]
     public IMapper Mapper { get; set; }

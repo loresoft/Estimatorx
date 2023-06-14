@@ -1,4 +1,5 @@
 using System.Security.Principal;
+using System.Text.Json;
 
 using AutoMapper;
 
@@ -9,6 +10,8 @@ using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
+using Json.Patch;
+
 using Microsoft.Extensions.Logging;
 
 namespace EstimatorX.Core.Services;
@@ -17,8 +20,13 @@ public abstract class OrganizationServiceBase<TRepository, TModel> : ServiceBase
     where TRepository : ICosmosRepository<TModel>
     where TModel : ModelBase, IHaveOrganization, new()
 {
-    protected OrganizationServiceBase(ILoggerFactory loggerFactory, IMapper mapper, TRepository repository, IUserCache userCache)
-        : base(loggerFactory, mapper, repository, userCache)
+    protected OrganizationServiceBase(
+        ILoggerFactory loggerFactory,
+        IMapper mapper,
+        TRepository repository,
+        IUserCache userCache,
+        JsonSerializerOptions serializerOptions)
+        : base(loggerFactory, mapper, repository, userCache, serializerOptions)
     {
 
     }
@@ -86,6 +94,34 @@ public abstract class OrganizationServiceBase<TRepository, TModel> : ServiceBase
         var result = await Repository.CreateAsync(entity, cancellationToken);
         if (result == null)
             return null; // throw error?
+
+        return result;
+    }
+
+    public override async Task<TModel> Patch(string id, string partitionKey, JsonPatch patchDocument, IPrincipal principal, CancellationToken cancellationToken)
+    {
+        var entity = await Repository.FindAsync(id, partitionKey, cancellationToken: cancellationToken);
+        if (entity == null)
+            throw new DomainException(System.Net.HttpStatusCode.NotFound, "Entity not found");
+
+        if (!await HasAccess(principal, entity, cancellationToken))
+            throw new DomainException(System.Net.HttpStatusCode.Forbidden, "Not authorized to save this entity");
+
+        if (patchDocument == null || patchDocument.Operations.Count == 0)
+            return entity;
+
+        entity = patchDocument.Apply(entity, SerializerOptions);
+
+        UpdateTracking(entity, principal);
+        await UpdateOrganizationName(entity, principal, cancellationToken);
+
+        var result = await Repository.SaveAsync(entity, cancellationToken);
+        if (result == null)
+            throw new DomainException(System.Net.HttpStatusCode.InternalServerError, "Failed to save model");
+
+        // if partition key changes, need to delete old record
+        if (partitionKey.HasValue() && partitionKey != result.OrganizationId)
+            await Repository.DeleteAsync(id, partitionKey, cancellationToken: cancellationToken);
 
         return result;
     }

@@ -1,4 +1,3 @@
-﻿
 using EstimatorX.Shared.Definitions;
 
 namespace EstimatorX.Shared.Models;

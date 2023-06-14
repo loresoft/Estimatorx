@@ -1,8 +1,6 @@
 
 using AutoMapper;
 
-using Blazored.Modal.Services;
-
 using EstimatorX.Client.Extensions;
 using EstimatorX.Client.Repositories;
 using EstimatorX.Client.Services;
@@ -31,10 +29,6 @@ public partial class ProjectContainer<TStore, TRepository, TModel>
 
     [Parameter]
     public string BodyClass { get; set; }
-
-
-    [CascadingParameter]
-    public IModalService Modal { get; set; }
 
 
     [Inject]
@@ -140,7 +134,7 @@ public partial class ProjectContainer<TStore, TRepository, TModel>
 
             var result = await TemplateRepository.Create(clone);
 
-            NotificationService.ShowSuccess($"Template '{ clone.Name}' created successfully");
+            NotificationService.ShowSuccess($"Template '{clone.Name}' created successfully");
 
             Navigation.NavigateTo($"/templates");
         }

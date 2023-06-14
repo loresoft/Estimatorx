@@ -41,6 +41,8 @@ public abstract class TemplateBase : ComponentBase, IDisposable
 
         try
         {
+            await TemplateStore.InitializedAsync();
+
             await TemplateStore.Load(Id, OrganizationId);
             if (TemplateStore.Model == null)
                 Navigation.NavigateTo("/templates");

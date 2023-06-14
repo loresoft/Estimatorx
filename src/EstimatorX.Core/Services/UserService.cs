@@ -1,5 +1,6 @@
 using System.Net.Mail;
 using System.Security.Principal;
+using System.Text.Json;
 
 using AutoMapper;
 
@@ -10,6 +11,8 @@ using EstimatorX.Core.Repositories;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
+using Json.Patch;
+
 using Microsoft.Extensions.Logging;
 
 namespace EstimatorX.Core.Services;
@@ -19,8 +22,14 @@ public class UserService : ServiceBase<IUserRepository, User>, IUserService
 {
     private readonly IOrganizationRepository _organizationRepository;
 
-    public UserService(ILoggerFactory loggerFactory, IMapper mapper, IUserRepository repository, IUserCache userCache, IOrganizationRepository organizationRepository)
-        : base(loggerFactory, mapper, repository, userCache)
+    public UserService(
+        ILoggerFactory loggerFactory,
+        IMapper mapper,
+        IUserRepository repository,
+        IUserCache userCache,
+        IOrganizationRepository organizationRepository,
+        JsonSerializerOptions serializerOptions)
+        : base(loggerFactory, mapper, repository, userCache, serializerOptions)
     {
         _organizationRepository = organizationRepository;
     }
@@ -52,7 +61,7 @@ public class UserService : ServiceBase<IUserRepository, User>, IUserService
     {
         string userId = principal.GetUserId();
 
-        var user = await Repository.FindAsync(model.Id, cancellationToken: cancellationToken);
+        var user = await Repository.FindAsync(id, partitionKey, cancellationToken);
         if (user != null && user.Id != userId)
             throw new DomainException(System.Net.HttpStatusCode.Forbidden, "Not authorized to update this user");
 
@@ -87,6 +96,28 @@ public class UserService : ServiceBase<IUserRepository, User>, IUserService
         };
 
         Mapper.Map(model, user);
+
+        UpdateTracking(user, principal);
+
+        var result = await Repository.SaveAsync(user, cancellationToken);
+        if (result == null)
+            throw new DomainException(System.Net.HttpStatusCode.InternalServerError, "Failed to save user");
+
+        return result;
+    }
+
+    public override async Task<User> Patch(string id, string partitionKey, JsonPatch patchDocument, IPrincipal principal, CancellationToken cancellationToken)
+    {
+        string userId = principal.GetUserId();
+
+        var user = await Repository.FindAsync(id, partitionKey, cancellationToken);
+        if (user == null)
+            throw new DomainException(System.Net.HttpStatusCode.NotFound, "User not found");
+
+        if (user != null && user.Id != userId)
+            throw new DomainException(System.Net.HttpStatusCode.Forbidden, "Not authorized to update this user");
+
+        user = patchDocument.Apply(user, SerializerOptions);
 
         UpdateTracking(user, principal);
 

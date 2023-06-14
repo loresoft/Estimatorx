@@ -1,4 +1,4 @@
-﻿namespace EstimatorX.Shared.Models;
+namespace EstimatorX.Shared.Models;
 
 public class UserProfile : ModelBase
 {

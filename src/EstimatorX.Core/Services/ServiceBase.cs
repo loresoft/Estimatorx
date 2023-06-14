@@ -1,23 +1,28 @@
 using System.Security.Principal;
+using System.Text.Json;
 
 using AutoMapper;
 
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
 
+using Json.Patch;
+
 using Microsoft.Extensions.Logging;
 
 namespace EstimatorX.Core.Services;
 
 public abstract class ServiceBase<TRepository, TModel> : IService<TModel>
+    where TModel : class
 {
 
-    protected ServiceBase(ILoggerFactory loggerFactory, IMapper mapper, TRepository repository, IUserCache userCache)
+    protected ServiceBase(ILoggerFactory loggerFactory, IMapper mapper, TRepository repository, IUserCache userCache, JsonSerializerOptions serializerOptions)
     {
         Logger = loggerFactory.CreateLogger(GetType());
         Mapper = mapper;
         Repository = repository;
         UserCache = userCache;
+        SerializerOptions = serializerOptions;
     }
 
     protected ILogger Logger { get; }
@@ -28,6 +33,7 @@ public abstract class ServiceBase<TRepository, TModel> : IService<TModel>
 
     protected IUserCache UserCache { get; }
 
+    protected JsonSerializerOptions SerializerOptions { get; }
 
     public abstract Task Delete(string id, string partitionKey, IPrincipal principal, CancellationToken cancellationToken);
 
@@ -38,6 +44,8 @@ public abstract class ServiceBase<TRepository, TModel> : IService<TModel>
     public abstract Task<TModel> Create(TModel model, IPrincipal principal, CancellationToken cancellationToken);
 
     public abstract Task<QueryResult<TResult>> Search<TResult>(QueryRequest queryModel, IPrincipal principal, CancellationToken cancellationToken);
+
+    public abstract Task<TModel> Patch(string id, string partitionKey, JsonPatch patchDocument, IPrincipal principal, CancellationToken cancellationToken);
 
 
     protected T UpdateTracking<T>(T model, IPrincipal principal)

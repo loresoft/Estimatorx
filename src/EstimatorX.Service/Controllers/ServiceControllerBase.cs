@@ -3,6 +3,8 @@ using System.Net.Mime;
 using EstimatorX.Core.Services;
 using EstimatorX.Shared.Models;
 
+using Json.Patch;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +17,7 @@ namespace EstimatorX.Service.Controllers;
 [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
 public class ServiceControllerBase<TService, TModel, TList> : ControllerBase
     where TService : IService<TModel>
+    where TModel : class
 {
 
     public ServiceControllerBase(TService service)
@@ -78,4 +81,17 @@ public class ServiceControllerBase<TService, TModel, TList> : ControllerBase
 
         return Ok(results);
     }
+
+    [HttpPatch("{id}/{partitionKey?}")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
+    public virtual async Task<ActionResult<TModel>> Patch(CancellationToken cancellationToken, [FromBody] JsonPatch patchDocument, [FromRoute] string id, [FromRoute] string partitionKey = null)
+    {
+        var result = await Service.Patch(id, partitionKey, patchDocument, User, cancellationToken);
+
+        return Ok(result);
+    }
+
 }

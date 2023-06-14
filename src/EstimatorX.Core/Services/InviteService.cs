@@ -1,4 +1,5 @@
 using System.Security.Principal;
+using System.Text.Json;
 
 using AutoMapper;
 
@@ -30,11 +31,12 @@ public class InviteService : OrganizationServiceBase<IInviteRepository, Invite>,
         IMapper mapper,
         IInviteRepository repository,
         IUserCache userCache,
+        JsonSerializerOptions serializerOptions,
         ISendGridClient sendGridClient,
         IOptions<HostingConfiguration> hostingOptions,
         IOptions<SendGridConfiguration> sendGridOptions,
         IOrganizationRepository organizationRepository)
-        : base(loggerFactory, mapper, repository, userCache)
+        : base(loggerFactory, mapper, repository, userCache, serializerOptions)
     {
         _sendGridClient = sendGridClient;
         _hostingOptions = hostingOptions;

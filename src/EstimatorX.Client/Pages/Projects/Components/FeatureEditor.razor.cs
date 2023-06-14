@@ -1,7 +1,6 @@
 using AutoMapper;
 
 using Blazored.Modal;
-using Blazored.Modal.Services;
 
 using EstimatorX.Client.Extensions;
 using EstimatorX.Client.Repositories;
@@ -26,9 +25,6 @@ public partial class FeatureEditor<TStore, TRepository, TModel>
 
     [Parameter]
     public FeatureEstimate Feature { get; set; }
-
-    [CascadingParameter]
-    public IModalService Modal { get; set; }
 
     [Inject]
     public IMapper Mapper { get; set; }

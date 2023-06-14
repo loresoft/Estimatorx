@@ -7,6 +7,7 @@ using Blazored.Modal;
 
 using EstimatorX.Client.Services;
 using EstimatorX.Shared;
+using EstimatorX.Shared.Models;
 
 using FluentRest;
 
@@ -30,13 +31,17 @@ public static class Program
 
         var services = builder.Services;
 
-        services.AddSingleton<IContentSerializer>(sp =>
+        services.AddSingleton(sp =>
         {
             var options = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+            options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
-
-            return new JsonContentSerializer(options);
+            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+            options.AddContext<JsonContext>();
+            return options;
         });
+
+        services.AddSingleton<IContentSerializer, JsonContentSerializer>();
 
         services
             .AddHttpClient<GatewayClient>(client =>

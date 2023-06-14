@@ -1,25 +1,36 @@
+using System.Text.Json;
 
 using EstimatorX.Client.Repositories;
 using EstimatorX.Shared.Definitions;
 using EstimatorX.Shared.Extensions;
 
+using Json.Patch;
+
 namespace EstimatorX.Client.Stores;
 
-public class StoreEditBase<TModel, TRepository> : StoreBase<TModel>
+public abstract class StoreEditBase<TModel, TRepository> : StoreBase<TModel>
     where TRepository : RepositoryEditBase<TModel>
     where TModel : class, IHaveIdentifier, new()
 {
 
-    public StoreEditBase(ILoggerFactory loggerFactory, TRepository repository) : base(loggerFactory)
+    protected StoreEditBase(
+        ILoggerFactory loggerFactory,
+        TRepository repository,
+        JsonSerializerOptions serializerOptions) : base(loggerFactory)
     {
         Repository = repository;
+        SerializerOptions = serializerOptions;
     }
+
+    public JsonSerializerOptions SerializerOptions { get; }
 
     public TRepository Repository { get; protected set; }
 
-    public int OriginalHash { get; private set; }
+    public TModel Original { get; protected set; }
 
-    public bool IsBusy { get; private set; }
+    public int OriginalHash { get; protected set; }
+
+    public bool IsBusy { get; protected set; }
 
     public bool IsDirty => Model?.GetHashCode() != OriginalHash;
 
@@ -29,6 +40,7 @@ public class StoreEditBase<TModel, TRepository> : StoreBase<TModel>
     {
         OriginalHash = model.GetHashCode();
         Model = model;
+        SetOriginal(model);
 
         Logger.LogDebug("Store model '{modelType}' changed.", typeof(TModel).Name);
         NotifyStateChanged();
@@ -38,6 +50,7 @@ public class StoreEditBase<TModel, TRepository> : StoreBase<TModel>
     {
         OriginalHash = 0;
         Model = default;
+        SetOriginal(default);
 
         Logger.LogDebug("Store model '{modelType}' cleared.", typeof(TModel).Name);
         NotifyStateChanged();
@@ -46,7 +59,7 @@ public class StoreEditBase<TModel, TRepository> : StoreBase<TModel>
     public override void New()
     {
         Model = new TModel();
-        OriginalHash = Model.GetHashCode();
+        SetOriginal(Model);
 
         Logger.LogDebug("Store model '{modelType}' created.", typeof(TModel).Name);
         NotifyStateChanged();
@@ -62,10 +75,10 @@ public class StoreEditBase<TModel, TRepository> : StoreBase<TModel>
             IsBusy = true;
             Model = default;
 
-            var project = await Repository.Load(id, partitionKey);
+            var model = await Repository.Load(id, partitionKey);
 
-            OriginalHash = project.GetHashCode();
-            Model = project;
+            Model = model;
+            SetOriginal(model);
 
             return Model;
         }
@@ -81,12 +94,20 @@ public class StoreEditBase<TModel, TRepository> : StoreBase<TModel>
         try
         {
             IsBusy = true;
-            var project = id.HasValue()
-                ? await Repository.Save(Model, id, partitionKey)
-                : await Repository.Create(Model);
+            TModel model;
 
-            OriginalHash = project.GetHashCode();
-            Model = project;
+            if (id.HasValue())
+            {
+                var jsonPatch = Original.CreatePatch(Model, SerializerOptions);
+                model = await Repository.Patch(jsonPatch, id, partitionKey);
+            }
+            else
+            {
+                model = await Repository.Create(Model);
+            }
+
+            Model = model;
+            SetOriginal(model);
 
             return Model;
         }
@@ -108,8 +129,8 @@ public class StoreEditBase<TModel, TRepository> : StoreBase<TModel>
 
             await Repository.Delete(id, partitionKey);
 
-            OriginalHash = default;
             Model = default;
+            SetOriginal(default);
         }
         finally
         {
@@ -117,4 +138,20 @@ public class StoreEditBase<TModel, TRepository> : StoreBase<TModel>
             NotifyStateChanged();
         }
     }
+
+
+    protected void SetOriginal(TModel model)
+    {
+        if (model == null)
+        {
+            OriginalHash = default;
+            Original = default;
+        }
+        else
+        {
+            Original = model.JsonClone(SerializerOptions);
+            OriginalHash = model.GetHashCode();
+        }
+    }
+
 }
