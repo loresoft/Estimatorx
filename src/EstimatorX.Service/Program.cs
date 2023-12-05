@@ -3,7 +3,6 @@ using System.Text.Json.Serialization;
 
 using EstimatorX.Core.Changes;
 using EstimatorX.Core.Options;
-using EstimatorX.Service.Middleware;
 using EstimatorX.Shared;
 using EstimatorX.Shared.Changes;
 using EstimatorX.Shared.Extensions;
@@ -84,6 +83,7 @@ public static class Program
 
     private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
+        services.AddProblemDetails();
         services.AddMemoryCache();
         services.AddCosmosRepository();
 
@@ -100,19 +100,6 @@ public static class Program
         services.AddAutoMapper(typeof(HostingConfiguration).Assembly, typeof(AssemblyMetadata).Assembly);
 
         services
-            .AddOptions<HostingConfiguration>()
-            .Configure<IConfiguration>((settings, config) => config
-                .GetSection(HostingConfiguration.ConfigurationName)
-                .Bind(settings)
-            );
-
-        services
-            .AddOptions<SendGridConfiguration>()
-            .Configure<IConfiguration>((settings, config) => config
-                .GetSection(SendGridConfiguration.ConfigurationName)
-                .Bind(settings)
-        );
-        services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddMicrosoftIdentityWebApi(configuration.GetSection("AzureAd"));
 
@@ -123,7 +110,8 @@ public static class Program
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-                options.JsonSerializerOptions.AddContext<JsonContext>();
+                options.JsonSerializerOptions.TypeInfoResolverChain.Add(JsonContext.Default);
+
             });
 
         services.AddSingleton(sp => sp.GetRequiredService<IOptions<JsonOptions>>().Value.JsonSerializerOptions);
@@ -155,8 +143,8 @@ public static class Program
             app.UseResponseCompression();
         }
 
-        // TODO, use new exception handling
-        app.UseMiddleware<JsonExceptionMiddleware>();
+        app.UseExceptionHandler();
+        app.UseStatusCodePages();
 
         app.UseSwagger();
         app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EstimatorX v1"));

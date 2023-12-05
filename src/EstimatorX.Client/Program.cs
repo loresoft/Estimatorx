@@ -37,7 +37,7 @@ public static class Program
             options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
             options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-            options.AddContext<JsonContext>();
+            options.TypeInfoResolverChain.Add(JsonContext.Default);
             return options;
         });
 

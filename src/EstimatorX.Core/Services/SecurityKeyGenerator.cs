@@ -1,3 +1,5 @@
+using NanoidDotNet;
+
 namespace EstimatorX.Core.Services;
 
 [RegisterSingleton]
@@ -7,6 +9,6 @@ public class SecurityKeyGenerator : ISecurityKeyGenerator
 
     public string GenerateKey()
     {
-        return Nanoid.Nanoid.Generate(_alphabet, 12);
+        return Nanoid.Generate(_alphabet, 12);
     }
 }

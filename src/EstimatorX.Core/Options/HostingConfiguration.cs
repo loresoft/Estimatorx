@@ -1,4 +1,4 @@
-﻿namespace EstimatorX.Core.Options;
+namespace EstimatorX.Core.Options;
 
 public class HostingConfiguration
 {
