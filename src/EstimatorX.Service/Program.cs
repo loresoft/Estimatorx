@@ -97,7 +97,7 @@ public static class Program
             options.ApiKey = sendGridOptions.Value.ApiKey.HasValue() ? sendGridOptions.Value.ApiKey : "***";
         });
 
-        services.AddAutoMapper(typeof(HostingConfiguration).Assembly, typeof(AssemblyMetadata).Assembly);
+        services.AddAutoMapper(typeof(HostingConfiguration).Assembly, typeof(UserProfile).Assembly);
 
         services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

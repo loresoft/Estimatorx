@@ -66,7 +66,7 @@ public static class Program
             })
             .AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, RemoteUserAccount, AccountClaimsFactory>();
 
-        services.AddAutoMapper(typeof(AssemblyMetadata).Assembly);
+        services.AddAutoMapper(typeof(UserProfile).Assembly);
 
         services.AddEstimatorXShared();
         services.AddEstimatorXClient();
