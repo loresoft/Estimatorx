@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 namespace EstimatorX.Shared.Extensions;
 
@@ -54,5 +54,13 @@ public static class EnumerableExtensions
         }
 
         return sb.ToString();
+    }
+
+    public static async Task<T> FirstOrDefaultAsync<T>(this IAsyncEnumerable<T> enumerable)
+    {
+        await foreach (var item in enumerable)
+            return item;
+
+        return default;
     }
 }

@@ -3,7 +3,6 @@ using System.Text.Json.Serialization;
 
 using EstimatorX.Core.Changes;
 using EstimatorX.Core.Options;
-using EstimatorX.Shared;
 using EstimatorX.Shared.Changes;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
@@ -26,24 +25,19 @@ namespace EstimatorX.Service;
 
 public static class Program
 {
+    private const string OutputTemplate = "{Timestamp:HH:mm:ss.fff} [{Level:u1}] {Message:lj}{NewLine}{Exception}";
+
     public static int Main(string[] args)
     {
         // azure home directory
         var homeDirectory = Environment.GetEnvironmentVariable("HOME") ?? ".";
+        var logDirectory = Path.Combine(homeDirectory, "LogFiles");
 
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Verbose()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .Enrich.FromLogContext()
-            .WriteTo.Console(outputTemplate: "{Timestamp:HH:mm:ss.fff} [{Level:u1}] {Message:lj}{NewLine}{Exception}")
-            .WriteTo.File(
-                path: $"{homeDirectory}/LogFiles/boot.txt",
-                rollingInterval: RollingInterval.Day,
-                shared: true,
-                flushToDiskInterval: TimeSpan.FromSeconds(1),
-                outputTemplate: "{Timestamp:HH:mm:ss.fff} [{Level:u1}] {Message:lj}{NewLine}{Exception}",
-                retainedFileCountLimit: 10
-            )
+            .WriteTo.Console(outputTemplate: OutputTemplate)
             .CreateBootstrapLogger();
 
         try
@@ -51,11 +45,32 @@ public static class Program
             Log.Information("Starting web host");
 
             var builder = WebApplication.CreateBuilder(args);
-            builder.Host.UseSerilog((context, services, configure) => configure
-                .ReadFrom.Configuration(context.Configuration)
-                .ReadFrom.Services(services)
-                .Enrich.FromLogContext()
-            );
+            builder.Host
+                .UseSerilog((context, services, configuration) => configuration
+                    .ReadFrom.Configuration(context.Configuration)
+                    .ReadFrom.Services(services)
+                    .MinimumLevel.Verbose()
+                    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                    .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+                    .MinimumLevel.Override("System.Net.Http.HttpClient", LogEventLevel.Debug)
+                    .Enrich.FromLogContext()
+                    .Enrich.WithProperty("ApplicationName", builder.Environment.ApplicationName)
+                    .Enrich.WithProperty("ApplicationVersion", ThisAssembly.InformationalVersion)
+                    .Enrich.WithProperty("EnvironmentName", builder.Environment.EnvironmentName)
+                    .WriteTo.Console(outputTemplate: OutputTemplate)
+                    .WriteTo.File(
+                        path: $"{logDirectory}/log.txt",
+                        rollingInterval: RollingInterval.Day,
+                        shared: true,
+                        flushToDiskInterval: TimeSpan.FromSeconds(1),
+                        outputTemplate: OutputTemplate,
+                        retainedFileCountLimit: 10
+                    )
+                    .WriteTo.AzureTableStorage(
+                        connectionString: context.Configuration.GetConnectionString("StorageAccount"),
+                        propertyColumns: new[] { "SourceContext", "RequestId", "RequestPath", "ConnectionId", "ApplicationName", "ApplicationVersion", "EnvironmentName" }
+                    )
+                );
 
             var services = builder.Services;
             var configuration = builder.Configuration;
@@ -142,6 +157,8 @@ public static class Program
             app.UseHsts();
             app.UseResponseCompression();
         }
+
+        app.UseSerilogRequestLogging();
 
         app.UseExceptionHandler();
         app.UseStatusCodePages();
