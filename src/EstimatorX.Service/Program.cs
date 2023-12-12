@@ -68,6 +68,7 @@ public static class Program
                     )
                     .WriteTo.AzureTableStorage(
                         connectionString: context.Configuration.GetConnectionString("StorageAccount"),
+                        storageTableName: context.Configuration.GetValue<string>("LoggingTable") ?? "LogEvent",
                         propertyColumns: new[] { "SourceContext", "RequestId", "RequestPath", "ConnectionId", "ApplicationName", "ApplicationVersion", "EnvironmentName" }
                     )
                 );

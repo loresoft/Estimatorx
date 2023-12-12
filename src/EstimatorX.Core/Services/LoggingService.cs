@@ -2,7 +2,7 @@ using Azure.Data.Tables;
 
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
-
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace EstimatorX.Core.Services;
@@ -12,18 +12,25 @@ public class LoggingService : ILoggingService
 {
     private readonly ILogger<LoggingService> _logger;
     private readonly TableServiceClient _tableServiceClient;
+    private readonly IConfiguration _configuration;
     private readonly Lazy<TableClient> _tableClient;
-
-    public LoggingService(ILogger<LoggingService> logger, TableServiceClient tableServiceClient)
+    
+    public LoggingService(ILogger<LoggingService> logger, TableServiceClient tableServiceClient, IConfiguration configuration)
     {
         _logger = logger;
         _tableServiceClient = tableServiceClient;
-        _tableClient = new Lazy<TableClient>(() => _tableServiceClient.GetTableClient("LogEvent"));
+        _configuration = configuration;
+
+        _tableClient = new Lazy<TableClient>(() =>
+        {
+            var tableName = _configuration.GetValue<string>("LoggingTable") ?? "LogEvent";
+            return _tableServiceClient.GetTableClient(tableName);
+        });
     }
 
     public async Task<LogEventResult> Search(LogEventRequest request, CancellationToken cancellationToken)
     {
-        int pageSize = request.PageSize == 0 ? 100 : request.PageSize;
+        var pageSize = request.PageSize == 0 ? 100 : request.PageSize;
 
         var dateTime = request.Date.ToDateTime(TimeOnly.MinValue, DateTimeKind.Utc);
         var upper = $"{DateTime.MaxValue.Ticks - dateTime.Ticks:D19}";
