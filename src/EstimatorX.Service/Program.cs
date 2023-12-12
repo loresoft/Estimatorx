@@ -29,6 +29,8 @@ public static class Program
 
     public static int Main(string[] args)
     {
+        Serilog.Debugging.SelfLog.Enable(Console.Error);
+
         // azure home directory
         var homeDirectory = Environment.GetEnvironmentVariable("HOME") ?? ".";
         var logDirectory = Path.Combine(homeDirectory, "LogFiles");
