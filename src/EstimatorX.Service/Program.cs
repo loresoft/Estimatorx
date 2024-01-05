@@ -172,8 +172,6 @@ public static class Program
         app.UseSwagger();
         app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EstimatorX v1"));
 
-        app.UseHttpsRedirection();
-
         app.UseBlazorFrameworkFiles();
         app.UseStaticFiles();
 
