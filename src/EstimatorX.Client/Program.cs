@@ -1,4 +1,3 @@
-
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -6,7 +5,6 @@ using Blazored.LocalStorage;
 using Blazored.Modal;
 
 using EstimatorX.Client.Services;
-using EstimatorX.Shared;
 using EstimatorX.Shared.Models;
 
 using FluentRest;
@@ -37,7 +35,7 @@ public static class Program
             options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
             options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-            options.AddContext<JsonContext>();
+            options.TypeInfoResolverChain.Add(JsonContext.Default);
             return options;
         });
 
@@ -66,7 +64,7 @@ public static class Program
             })
             .AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, RemoteUserAccount, AccountClaimsFactory>();
 
-        services.AddAutoMapper(typeof(AssemblyMetadata).Assembly);
+        services.AddAutoMapper(typeof(UserProfile).Assembly);
 
         services.AddEstimatorXShared();
         services.AddEstimatorXClient();

@@ -75,6 +75,14 @@ ul.reorder {
   color: $estimate-feature-color;
 }
 
+.caret-toggle .fa-solid {
+  transition: .3s transform ease-in-out;
+}
+
+.caret-toggle.collapsed .fa-solid {
+  transform: rotate(-90deg);
+}
+
 @import "validation";
 @import "error";
 @import "table";
@@ -82,3 +90,4 @@ ul.reorder {
 @import "estimate";
 @import "collapse";
 @import "feature";
+@import "json-display";

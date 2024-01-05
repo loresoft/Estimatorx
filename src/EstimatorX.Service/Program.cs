@@ -3,8 +3,6 @@ using System.Text.Json.Serialization;
 
 using EstimatorX.Core.Changes;
 using EstimatorX.Core.Options;
-using EstimatorX.Service.Middleware;
-using EstimatorX.Shared;
 using EstimatorX.Shared.Changes;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
@@ -22,29 +20,23 @@ using SendGrid.Extensions.DependencyInjection;
 
 using Serilog;
 using Serilog.Events;
+using Serilog.Formatting.Compact;
 
 namespace EstimatorX.Service;
 
 public static class Program
 {
+    private const string OutputTemplate = "{Timestamp:HH:mm:ss.fff} [{Level:u1}] {Message:lj}{NewLine}{Exception}";
+
     public static int Main(string[] args)
     {
-        // azure home directory
-        var homeDirectory = Environment.GetEnvironmentVariable("HOME") ?? ".";
+        string logDirectory = GetLoggingPath();
 
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Verbose()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .Enrich.FromLogContext()
-            .WriteTo.Console(outputTemplate: "{Timestamp:HH:mm:ss.fff} [{Level:u1}] {Message:lj}{NewLine}{Exception}")
-            .WriteTo.File(
-                path: $"{homeDirectory}/LogFiles/boot.txt",
-                rollingInterval: RollingInterval.Day,
-                shared: true,
-                flushToDiskInterval: TimeSpan.FromSeconds(1),
-                outputTemplate: "{Timestamp:HH:mm:ss.fff} [{Level:u1}] {Message:lj}{NewLine}{Exception}",
-                retainedFileCountLimit: 10
-            )
+            .WriteTo.Console(outputTemplate: OutputTemplate)
             .CreateBootstrapLogger();
 
         try
@@ -52,11 +44,27 @@ public static class Program
             Log.Information("Starting web host");
 
             var builder = WebApplication.CreateBuilder(args);
-            builder.Host.UseSerilog((context, services, configure) => configure
-                .ReadFrom.Configuration(context.Configuration)
-                .ReadFrom.Services(services)
-                .Enrich.FromLogContext()
-            );
+            builder.Host
+                .UseSerilog((context, services, configuration) => configuration
+                    .ReadFrom.Configuration(context.Configuration)
+                    .ReadFrom.Services(services)
+                    .MinimumLevel.Verbose()
+                    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                    .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+                    .MinimumLevel.Override("System.Net.Http.HttpClient", LogEventLevel.Debug)
+                    .Enrich.FromLogContext()
+                    .Enrich.WithProperty("ApplicationName", builder.Environment.ApplicationName)
+                    .Enrich.WithProperty("ApplicationVersion", ThisAssembly.InformationalVersion)
+                    .Enrich.WithProperty("EnvironmentName", builder.Environment.EnvironmentName)
+                    .WriteTo.Console(outputTemplate: OutputTemplate)
+                    .WriteTo.File(
+                        formatter: new RenderedCompactJsonFormatter(),
+                        path: $"{logDirectory}/log.clef",
+                        rollingInterval: RollingInterval.Day,
+                        shared: true,
+                        flushToDiskInterval: TimeSpan.FromSeconds(1),
+                        retainedFileCountLimit: 30
+                    ));
 
             var services = builder.Services;
             var configuration = builder.Configuration;
@@ -84,6 +92,7 @@ public static class Program
 
     private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
+        services.AddProblemDetails();
         services.AddMemoryCache();
         services.AddCosmosRepository();
 
@@ -97,21 +106,8 @@ public static class Program
             options.ApiKey = sendGridOptions.Value.ApiKey.HasValue() ? sendGridOptions.Value.ApiKey : "***";
         });
 
-        services.AddAutoMapper(typeof(HostingConfiguration).Assembly, typeof(AssemblyMetadata).Assembly);
+        services.AddAutoMapper(typeof(HostingConfiguration).Assembly, typeof(UserProfile).Assembly);
 
-        services
-            .AddOptions<HostingConfiguration>()
-            .Configure<IConfiguration>((settings, config) => config
-                .GetSection(HostingConfiguration.ConfigurationName)
-                .Bind(settings)
-            );
-
-        services
-            .AddOptions<SendGridConfiguration>()
-            .Configure<IConfiguration>((settings, config) => config
-                .GetSection(SendGridConfiguration.ConfigurationName)
-                .Bind(settings)
-        );
         services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddMicrosoftIdentityWebApi(configuration.GetSection("AzureAd"));
@@ -123,7 +119,8 @@ public static class Program
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-                options.JsonSerializerOptions.AddContext<JsonContext>();
+                options.JsonSerializerOptions.TypeInfoResolverChain.Add(JsonContext.Default);
+
             });
 
         services.AddSingleton(sp => sp.GetRequiredService<IOptions<JsonOptions>>().Value.JsonSerializerOptions);
@@ -135,12 +132,24 @@ public static class Program
         services.AddResponseCompression(options =>
         {
             options.EnableForHttps = true;
-            options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "image/svg+xml", "application/octet-stream" });
+            options.Providers.Add<BrotliCompressionProvider>();
+            options.Providers.Add<GzipCompressionProvider>();
+            options.MimeTypes = ResponseCompressionDefaults
+                .MimeTypes
+                .Concat(new[]
+                {
+                    "image/svg+xml",
+                    "application/octet-stream",
+                    "application/vnd.serilog.clef"
+                });
         });
 
         services.AddSignalR(hubOptions => hubOptions.EnableDetailedErrors = true);
 
         services.Configure<ApiBehaviorOptions>(apiBehaviorOptions => apiBehaviorOptions.SuppressModelStateInvalidFilter = true);
+
+        string logDirectory = GetLoggingPath();
+        services.Configure<LoggingOptions>(options => options.Path = logDirectory);
     }
 
     private static void ConfigureMiddleware(WebApplication app)
@@ -152,16 +161,16 @@ public static class Program
         else
         {
             app.UseHsts();
-            app.UseResponseCompression();
         }
+        app.UseResponseCompression();
 
-        // TODO, use new exception handling
-        app.UseMiddleware<JsonExceptionMiddleware>();
+        app.UseSerilogRequestLogging();
+
+        app.UseExceptionHandler();
+        app.UseStatusCodePages();
 
         app.UseSwagger();
         app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EstimatorX v1"));
-
-        app.UseHttpsRedirection();
 
         app.UseBlazorFrameworkFiles();
         app.UseStaticFiles();
@@ -176,5 +185,14 @@ public static class Program
         app.MapHub<ChangeFeedHub>(ChangeFeedConstants.HubPath);
 
         app.MapFallbackToFile("index.html");
+    }
+
+    private static string GetLoggingPath()
+    {
+        // azure home directory
+        var homeDirectory = Environment.GetEnvironmentVariable("HOME") ?? ".";
+        var logDirectory = Path.Combine(homeDirectory, "LogFiles");
+
+        return Path.GetFullPath(logDirectory);
     }
 }

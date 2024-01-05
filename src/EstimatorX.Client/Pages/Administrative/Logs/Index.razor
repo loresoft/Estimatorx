@@ -1,10 +1,262 @@
-﻿@page "/administrative/logs"
-@using Microsoft.AspNetCore.Authorization
+@page "/administrative/logs"
+
+@using EstimatorX.Client.Repositories
+@using EstimatorX.Client.Services
+
 @attribute [Authorize(Roles = EstimatorX.Shared.Security.Roles.Administrators)]
 
+@inject LoggingRepository Repository
+@inject NotificationService NotificationService
+@inject NavigationManager Navigation
 
-<h3>Logs</h3>
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Logs
+            </li>
+        </ol>
+    </nav>
+
+    <div class="card">
+        <div class="card-header">
+            <form method="post" @onsubmit="HandleFilterChange" @formname="search-form">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <i class="fas fa-list me-2"
+                           aria-hidden="true"></i> Logs
+                    </div>
+                    <div class="col-sm-8 d-flex justify-content-end">
+                        <select class="form-select form-select-sm mx-1"
+                                style="max-width: 250px"
+                                title="Select Log File"
+                                @bind="SelectFile"
+                                @bind:after="HandleFileChange">
+                            <option value="">- select -</option>
+                            <Repeater Items="Files" TItem="string">
+                                <Row Context="item">
+                                    <option value="@item">@item</option>
+                                </Row>
+                            </Repeater>
+                        </select>
+
+                        <select class="form-select form-select-sm mx-1"
+                                style="max-width: 150px"
+                                title="Filter to Log Level"
+                                @bind="SelectLevel"
+                                @bind:after="HandleFilterChange">
+                            <option value="">- select -</option>
+                            <option value="Critical">Critical</option>
+                            <option value="Error">Error</option>
+                            <option value="Warning">Warning</option>
+                            <option value="Information">Information</option>
+                            <option value="Debug">Debug</option>
+                            <option value="Trace">Trace</option>
+                        </select>
+
+                        <div class="input-group input-group-sm mx-1"
+                             style="max-width: 400px">
+                            <input type="search"
+                                   @bind="SearchText"
+                                   class="form-control"
+                                   placeholder="Search" />
+                            <div class="input-group-append">
+                                <button class="btn btn-sm btn-outline-secondary"
+                                        type="submit">
+                                    <i class="fas fa-search"
+                                       aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <DataGrid Data="Logs" TItem="LogEvent" Filter="FilterLogs" class="table table-hover table-bordered mb-0" @ref="DataGrid">
+                    <DataColumns>
+                        <DataColumn TItem="LogEvent" Property="p => p.Level" Width="3px">
+                            <Template Context="log">
+                                @switch (log.Level)
+                                {
+                                    case "Warning":
+                                        <i class="fa-solid fa-triangle-exclamation text-warning"></i>
+                                        break;
+                                    case "Error":
+                                    case "Critical":
+                                    case "Fatal":
+                                        <i class="fa-solid fa-circle-xmark text-danger"></i>
+                                        break;
+                                    case "Information":
+                                        <i class="fa-solid fa-circle-info text-primary"></i>
+                                        break;
+                                    case "Debug":
+                                    case "Verbose":
+                                    case "Trace":
+                                        <i class="fa-solid fa-circle-info text-secondary"></i>
+                                        break;
+                                    default:
+                                        <i class="fa-solid fa-circle-info text-primary"></i>
+                                        break;
+                                }
+                            </Template>
+                        </DataColumn>
+                        <DataColumn TItem="LogEvent" Property="p => p.Timestamp" Width="200px" SortIndex="0" SortDescending="true">
+                            <Template Context="log">
+                                <div title="@log.Timestamp?.ToString("R")">
+                                    @log.Timestamp?.ToString("HH:mm:ss.fff")
+                                </div>
+                            </Template>
+                        </DataColumn>
+                        <DataColumn TItem="LogEvent" Property="p => p.Level" Width="120px" />
+                        <DataColumn TItem="LogEvent" Property="p => p.RenderedMessage" Title="Message" />
+                    </DataColumns>
+                    <DataPagination Context="grid">
+                        <div class="w-100 m-1 d-flex justify-content-between align-items-center">
+                            <DataPager PageSize="50" ShowEmpty="true" />
+                            <DataSizer />
+                            <div class="me-1">@grid.Pager.StartItem - @grid.Pager.EndItem of @grid.Pager.Total</div>
+                        </div>
+                    </DataPagination>
+                    <DetailTemplate Context="log">
+                        <div class="tab-container">
+                            <ul class="nav nav-tabs" id="log-tabs-@log.RowKey" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active"
+                                       id="properties-tab-@log.RowKey"
+                                       href="#properties-panel-@log.RowKey"
+                                       data-toggle="tab"
+                                       aria-controls="properties-panel-@log.RowKey"
+                                       aria-selected="true"
+                                       role="tab">Properties</a>
+                                </li>
+                                @if (!string.IsNullOrWhiteSpace(log.Exception))
+                                {
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link"
+                                           id="exception-tab-@log.RowKey"
+                                           href="#exception-panel-@log.RowKey"
+                                           data-toggle="tab"
+                                           aria-controls="exception-panel-@log.RowKey"
+                                           role="tab">Exception</a>
+                                    </li>
+                                }
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active"
+                                     id="properties-panel-@log.RowKey"
+                                     aria-labelledby="properties-tab-@log.RowKey"
+                                     role="tabpanel">
+                                    <table class="json-object">
+                                        <tr>
+                                            <th class="json-name">EventId</th>
+                                            <td class="json-value">@log.EventId</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="json-name">TraceId</th>
+                                            <td class="json-value">@log.TraceId</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="json-name">SpanId</th>
+                                            <td class="json-value">@log.SpanId</td>
+                                        </tr>
+                                        @foreach (var item in log.Data)
+                                        {
+                                            <tr>
+                                                <th class="json-name">@item.Key</th>
+                                                <td class="json-value">
+                                                    <JsonDisplay JsonElement="@item.Value" />
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+                                @if (!string.IsNullOrWhiteSpace(log.Exception))
+                                {
+                                    <div class="tab-pane fade"
+                                         id="exception-panel-@log.RowKey"
+                                         aria-labelledby="exception-tab-@log.RowKey"
+                                         role="tabpanel">
+                                        <pre style="overflow: auto; max-height: 400px; font-family: Courier New">@log.Exception</pre>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </DetailTemplate>
+                </DataGrid>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 
 @code {
+    private DataGrid<LogEvent> DataGrid { get; set; }
 
+    public List<LogEvent> Logs { get; set; } = new();
+
+    public string SelectFile { get; set; }
+
+    public string SelectLevel { get; set; }
+
+    public List<string> Files { get; set; } = new();
+
+    public string SearchText { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Files = await Repository.List();
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+    }
+
+    private bool FilterLogs(LogEvent log)
+    {
+        return (SearchText.IsNullOrWhiteSpace() || log.RenderedMessage.Contains(SearchText, StringComparison.OrdinalIgnoreCase))
+               && (SelectLevel.IsNullOrEmpty() || log.Level == SelectLevel);
+    }
+
+    private async Task HandleFilterChange()
+    {
+        await DataGrid.RefreshAsync(true);
+    }
+
+    private async Task HandleFileChange()
+    {
+        try
+        {
+            DataGrid.IsLoading = true;
+
+            Logs.Clear();
+            if (SelectFile.HasValue())
+            {
+                var logs = await Repository.Read(SelectFile);
+                Logs.AddRange(logs);
+            }
+
+            await DataGrid.RefreshAsync(true);
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+        finally
+        {
+            DataGrid.IsLoading = false;
+        }
+
+    }
 }

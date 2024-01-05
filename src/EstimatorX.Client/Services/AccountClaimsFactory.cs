@@ -1,6 +1,6 @@
-﻿using System.Net.Http.Json;
+using System.Net.Http.Json;
 using System.Security.Claims;
-
+using System.Text.Json;
 using EstimatorX.Client.Stores;
 using EstimatorX.Shared.Extensions;
 using EstimatorX.Shared.Models;
@@ -37,7 +37,7 @@ public class AccountClaimsFactory : AccountClaimsPrincipalFactory<RemoteUserAcco
         {
             var gateway = _serviceProvider.GetRequiredService<GatewayClient>();
 
-            var userData = await gateway.HttpClient.GetFromJsonAsync<User>("/api/user/me");
+            var userData = await gateway.HttpClient.GetFromJsonAsync<User>("/api/user/me", JsonContext.Default.User);
             if (userData == null)
                 return initialUser;
 

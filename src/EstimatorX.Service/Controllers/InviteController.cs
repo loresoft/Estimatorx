@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EstimatorX.Service.Controllers;
 
-public class InviteController : ServiceControllerBase<InviteService, Invite, InviteSummary>
+public class InviteController : ServiceControllerBase<IInviteService, Invite, InviteSummary>
 {
-    public InviteController(InviteService service) : base(service)
+    public InviteController(IInviteService service) : base(service)
     {
     }
 

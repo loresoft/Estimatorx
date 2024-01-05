@@ -18,22 +18,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{2C204CD8
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CA676C3E-4D2D-4A8C-B61A-E5076B0496EB}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6E76BD15-F1DB-42BC-8DAF-A4C401EBF254}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EstimatorX.Core.Tests", "test\EstimatorX.Core.Tests\EstimatorX.Core.Tests.csproj", "{6A8B7DC8-6718-47F2-A21E-5E2603BC2A97}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EstimatorX.Shared.Tests", "test\EstimatorX.Shared.Tests\EstimatorX.Shared.Tests.csproj", "{C4F9007F-8FDF-4BAB-AEBD-01BA1706CFE8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migration", "Migration", "{6650CC1F-EB45-45F8-973D-97A591CFC57F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Estimatorx.Data.Mongo", "migration\Estimatorx.Data.Mongo\Estimatorx.Data.Mongo.csproj", "{C1C7EE17-63EE-4AB2-8D4B-E1688115D850}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Estimatorx.Migration", "migration\Estimatorx.Migration\Estimatorx.Migration.csproj", "{64C2B7DC-5832-4A09-876A-13FB3DB8871D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,30 +106,6 @@ Global
 		{C4F9007F-8FDF-4BAB-AEBD-01BA1706CFE8}.Release|x64.Build.0 = Release|Any CPU
 		{C4F9007F-8FDF-4BAB-AEBD-01BA1706CFE8}.Release|x86.ActiveCfg = Release|Any CPU
 		{C4F9007F-8FDF-4BAB-AEBD-01BA1706CFE8}.Release|x86.Build.0 = Release|Any CPU
-		{C1C7EE17-63EE-4AB2-8D4B-E1688115D850}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C1C7EE17-63EE-4AB2-8D4B-E1688115D850}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C1C7EE17-63EE-4AB2-8D4B-E1688115D850}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{C1C7EE17-63EE-4AB2-8D4B-E1688115D850}.Debug|x64.Build.0 = Debug|Any CPU
-		{C1C7EE17-63EE-4AB2-8D4B-E1688115D850}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C1C7EE17-63EE-4AB2-8D4B-E1688115D850}.Debug|x86.Build.0 = Debug|Any CPU
-		{C1C7EE17-63EE-4AB2-8D4B-E1688115D850}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C1C7EE17-63EE-4AB2-8D4B-E1688115D850}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C1C7EE17-63EE-4AB2-8D4B-E1688115D850}.Release|x64.ActiveCfg = Release|Any CPU
-		{C1C7EE17-63EE-4AB2-8D4B-E1688115D850}.Release|x64.Build.0 = Release|Any CPU
-		{C1C7EE17-63EE-4AB2-8D4B-E1688115D850}.Release|x86.ActiveCfg = Release|Any CPU
-		{C1C7EE17-63EE-4AB2-8D4B-E1688115D850}.Release|x86.Build.0 = Release|Any CPU
-		{64C2B7DC-5832-4A09-876A-13FB3DB8871D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64C2B7DC-5832-4A09-876A-13FB3DB8871D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64C2B7DC-5832-4A09-876A-13FB3DB8871D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{64C2B7DC-5832-4A09-876A-13FB3DB8871D}.Debug|x64.Build.0 = Debug|Any CPU
-		{64C2B7DC-5832-4A09-876A-13FB3DB8871D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{64C2B7DC-5832-4A09-876A-13FB3DB8871D}.Debug|x86.Build.0 = Debug|Any CPU
-		{64C2B7DC-5832-4A09-876A-13FB3DB8871D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64C2B7DC-5832-4A09-876A-13FB3DB8871D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64C2B7DC-5832-4A09-876A-13FB3DB8871D}.Release|x64.ActiveCfg = Release|Any CPU
-		{64C2B7DC-5832-4A09-876A-13FB3DB8871D}.Release|x64.Build.0 = Release|Any CPU
-		{64C2B7DC-5832-4A09-876A-13FB3DB8871D}.Release|x86.ActiveCfg = Release|Any CPU
-		{64C2B7DC-5832-4A09-876A-13FB3DB8871D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -148,8 +113,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{6A8B7DC8-6718-47F2-A21E-5E2603BC2A97} = {6E76BD15-F1DB-42BC-8DAF-A4C401EBF254}
 		{C4F9007F-8FDF-4BAB-AEBD-01BA1706CFE8} = {6E76BD15-F1DB-42BC-8DAF-A4C401EBF254}
-		{C1C7EE17-63EE-4AB2-8D4B-E1688115D850} = {6650CC1F-EB45-45F8-973D-97A591CFC57F}
-		{64C2B7DC-5832-4A09-876A-13FB3DB8871D} = {6650CC1F-EB45-45F8-973D-97A591CFC57F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5EE01087-A29A-480E-B164-C3D0961915FA}

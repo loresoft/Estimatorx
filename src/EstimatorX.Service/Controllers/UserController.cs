@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EstimatorX.Service.Controllers;
 
-public class UserController : ServiceControllerBase<UserService, User, UserSummary>
+public class UserController : ServiceControllerBase<IUserService, User, UserSummary>
 {
-    public UserController(UserService service) : base(service)
+    public UserController(IUserService service) : base(service)
     {
     }
 

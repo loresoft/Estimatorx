@@ -35,6 +35,9 @@ namespace EstimatorX.Shared.Models;
 [JsonSerializable(typeof(QueryResult<TemplateSummary>))]
 [JsonSerializable(typeof(QueryResult<UserSummary>))]
 [JsonSerializable(typeof(JsonPatch))]
+[JsonSerializable(typeof(LogEvent))]
+[JsonSerializable(typeof(LogEventRequest))]
+[JsonSerializable(typeof(LogEventResult))]
 public partial class JsonContext : JsonSerializerContext
 {
 }
