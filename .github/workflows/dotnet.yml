@@ -35,7 +35,7 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
@@ -76,7 +76,7 @@ jobs:
 
       - name: Deploy Web Application to Azure Staging
         if: github.ref == 'refs/heads/develop'
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@v3
         with:
           app-name: 'web-ls-app-eus-ex-stg-01'
           slot-name: 'Production'
@@ -100,7 +100,7 @@ jobs:
 
       - name: Deploy Web Application to Azure Production
         if: github.ref == 'refs/heads/master'
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@v3
         with:
           app-name: 'web-ls-app-eus-ex-prd-01'
           slot-name: 'Production'
