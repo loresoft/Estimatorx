@@ -1,4 +1,3 @@
-
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -6,7 +5,6 @@ using Blazored.LocalStorage;
 using Blazored.Modal;
 
 using EstimatorX.Client.Services;
-using EstimatorX.Shared;
 using EstimatorX.Shared.Models;
 
 using FluentRest;

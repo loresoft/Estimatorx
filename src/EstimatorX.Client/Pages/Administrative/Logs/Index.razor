@@ -9,327 +9,254 @@
 @inject NotificationService NotificationService
 @inject NavigationManager Navigation
 
-<div class="card mb-5">
-    <div class="card-header">
-        <form id="log-search-form" name="log-search-form" @onsubmit="HandleSearch">
-            <div class="row no-gutters">
-                <div class="col">
-                    <i class="fa-solid fa-file-lines mr-2"></i> Logs
-                </div>
-                <div class="col-sm-2">
-                    <select class="form-select form-select-sm"
-                            name="l"
-                            @bind="Level"
-                            @bind:after="HandleSearch">
-                        <option value="">- Level -</option>
-                        <option value="Verbose">Verbose</option>
-                        <option value="Debug">Debug</option>
-                        <option value="Information">Information</option>
-                        <option value="Warning">Warning</option>
-                        <option value="Error">Error</option>
-                        <option value="Fatal">Fatal</option>
-                    </select>
-                </div>
-                <div class="col-sm-3">
-                    <div class="input-group input-group-sm mr-2">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-sm btn-outline-secondary"
-                                    type="button"
-                                    title="Previous Date"
-                                    @onclick="PreviousDate">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </button>
-                        </div>
-                        <input type="date"
-                               name="d"
-                               @bind="Date"
-                               @onblur="HandleSearch"
-                               class="form-control form-control-sm"
-                               placeholder="Date" />
-                        <div class="input-group-append">
-                            <button class="btn btn-sm btn-outline-secondary"
-                                    type="button"
-                                    title="Next Date"
-                                    @onclick="NextDate">
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </button>
-                            <button class="btn btn-sm btn-outline-secondary"
-                                    type="submit">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </button>
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Logs
+            </li>
+        </ol>
+    </nav>
+
+    <div class="card">
+        <div class="card-header">
+            <form method="post" @onsubmit="HandleFilterChange" @formname="search-form">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <i class="fas fa-list me-2"
+                           aria-hidden="true"></i> Logs
+                    </div>
+                    <div class="col-sm-8 d-flex justify-content-end">
+                        <select class="form-select form-select-sm mx-1"
+                                style="max-width: 250px"
+                                title="Select Log File"
+                                @bind="SelectFile"
+                                @bind:after="HandleFileChange">
+                            <option value="">- select -</option>
+                            <Repeater Items="Files" TItem="string">
+                                <Row Context="item">
+                                    <option value="@item">@item</option>
+                                </Row>
+                            </Repeater>
+                        </select>
+
+                        <select class="form-select form-select-sm mx-1"
+                                style="max-width: 150px"
+                                title="Filter to Log Level"
+                                @bind="SelectLevel"
+                                @bind:after="HandleFilterChange">
+                            <option value="">- select -</option>
+                            <option value="Critical">Critical</option>
+                            <option value="Error">Error</option>
+                            <option value="Warning">Warning</option>
+                            <option value="Information">Information</option>
+                            <option value="Debug">Debug</option>
+                            <option value="Trace">Trace</option>
+                        </select>
+
+                        <div class="input-group input-group-sm mx-1"
+                             style="max-width: 400px">
+                            <input type="search"
+                                   @bind="SearchText"
+                                   class="form-control"
+                                   placeholder="Search" />
+                            <div class="input-group-append">
+                                <button class="btn btn-sm btn-outline-secondary"
+                                        type="submit">
+                                    <i class="fas fa-search"
+                                       aria-hidden="true"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
+
                 </div>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
 
-    <div class="card-body p-0">
-        <table class="table table-bordered table-sm">
-            <colgroup>
-                <col style="width: 30px" />
-                <col style="width: 30px" />
-                <col style="width: 200px" />
-                <col style="width: 120px" />
-                <col style="" />
-            </colgroup>
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Level</th>
-                    <th scope="col">Message</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var log in Logs)
-                {
-                    <tr>
-                        <td style="text-align: center;">
-                            <a class="caret-toggle d-block collapsed"
-                               data-bs-toggle="collapse"
-                               href="#collapse-@log.RowKey"
-                               role="button"
-                               aria-expanded="false"
-                               aria-controls="collapse-@log.RowKey">
-                                <i class="fa-solid fa-caret-down text-body"></i>
-                            </a>
-                        </td>
-                        <td style="text-align: center;">
-                            @switch (log.Level)
-                            {
-                                case "Warning":
-                                    <i class="fa-solid fa-triangle-exclamation text-warning"></i>
-                                    break;
-                                case "Error":
-                                case "Fatal":
-                                    <i class="fa-solid fa-circle-xmark text-danger"></i>
-                                    break;
-                                case "Information":
-                                    <i class="fa-solid fa-circle-info text-primary"></i>
-                                    break;
-                                default:
-                                    <i class="fa-solid fa-circle-info text-secondary"></i>
-                                    break;
-                            }
-                        </td>
-                        <td>@log.Timestamp?.ToString("g")</td>
-                        <td>@log.Level</td>
-                        <td>@log.RenderedMessage</td>
-                    </tr>
-                    <tr class="collapse" id="collapse-@log.RowKey" style="background-color: #f9f9f9;">
-                        <td colspan="5">
-                            <div class="tab-container">
-                                <ul class="nav nav-tabs" id="log-tabs-@log.RowKey" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <a class="nav-link active"
-                                           id="properties-tab-@log.RowKey"
-                                           href="#properties-panel-@log.RowKey"
-                                           data-toggle="tab"
-                                           aria-controls="properties-panel-@log.RowKey"
-                                           aria-selected="true"
-                                           role="tab">Properties</a>
-                                    </li>
-                                    @if (!string.IsNullOrWhiteSpace(log.Exception))
-                                    {
-                                        <li class="nav-item" role="presentation">
-                                            <a class="nav-link"
-                                               id="exception-tab-@log.RowKey"
-                                               href="#exception-panel-@log.RowKey"
-                                               data-toggle="tab"
-                                               aria-controls="exception-panel-@log.RowKey"
-                                               role="tab">Exception</a>
-                                        </li>
-                                    }
-                                </ul>
-                                <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade show active"
-                                         id="properties-panel-@log.RowKey"
-                                         aria-labelledby="properties-tab-@log.RowKey"
-                                         role="tabpanel">
-                                        <JsonDisplay Json="@log.Data" />
-                                    </div>
-                                    @if (!string.IsNullOrWhiteSpace(log.Exception))
-                                    {
-                                        <div class="tab-pane fade"
-                                             id="exception-panel-@log.RowKey"
-                                             aria-labelledby="exception-tab-@log.RowKey"
-                                             role="tabpanel">
-                                            <pre style="overflow: auto; max-height: 400px; font-family: Courier New">@log.Exception</pre>
-                                        </div>
-                                    }
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <DataGrid Data="Logs" TItem="LogEvent" Filter="FilterLogs" class="table table-hover table-bordered mb-0" @ref="DataGrid">
+                    <DataColumns>
+                        <DataColumn TItem="LogEvent" Property="p => p.Level" Width="3px">
+                            <Template Context="log">
+                                @switch (log.Level)
+                                {
+                                    case "Warning":
+                                        <i class="fa-solid fa-triangle-exclamation text-warning"></i>
+                                        break;
+                                    case "Error":
+                                    case "Critical":
+                                    case "Fatal":
+                                        <i class="fa-solid fa-circle-xmark text-danger"></i>
+                                        break;
+                                    case "Information":
+                                        <i class="fa-solid fa-circle-info text-primary"></i>
+                                        break;
+                                    case "Debug":
+                                    case "Verbose":
+                                    case "Trace":
+                                        <i class="fa-solid fa-circle-info text-secondary"></i>
+                                        break;
+                                    default:
+                                        <i class="fa-solid fa-circle-info text-primary"></i>
+                                        break;
+                                }
+                            </Template>
+                        </DataColumn>
+                        <DataColumn TItem="LogEvent" Property="p => p.Timestamp" Width="200px" SortIndex="0" SortDescending="true">
+                            <Template Context="log">
+                                <div title="@log.Timestamp?.ToString("R")">
+                                    @log.Timestamp?.ToString("HH:mm:ss.fff")
                                 </div>
+                            </Template>
+                        </DataColumn>
+                        <DataColumn TItem="LogEvent" Property="p => p.Level" Width="120px" />
+                        <DataColumn TItem="LogEvent" Property="p => p.RenderedMessage" Title="Message" />
+                    </DataColumns>
+                    <DataPagination Context="grid">
+                        <div class="w-100 m-1 d-flex justify-content-between align-items-center">
+                            <DataPager PageSize="50" ShowEmpty="true" />
+                            <DataSizer />
+                            <div class="me-1">@grid.Pager.StartItem - @grid.Pager.EndItem of @grid.Pager.Total</div>
+                        </div>
+                    </DataPagination>
+                    <DetailTemplate Context="log">
+                        <div class="tab-container">
+                            <ul class="nav nav-tabs" id="log-tabs-@log.RowKey" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active"
+                                       id="properties-tab-@log.RowKey"
+                                       href="#properties-panel-@log.RowKey"
+                                       data-toggle="tab"
+                                       aria-controls="properties-panel-@log.RowKey"
+                                       aria-selected="true"
+                                       role="tab">Properties</a>
+                                </li>
+                                @if (!string.IsNullOrWhiteSpace(log.Exception))
+                                {
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link"
+                                           id="exception-tab-@log.RowKey"
+                                           href="#exception-panel-@log.RowKey"
+                                           data-toggle="tab"
+                                           aria-controls="exception-panel-@log.RowKey"
+                                           role="tab">Exception</a>
+                                    </li>
+                                }
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active"
+                                     id="properties-panel-@log.RowKey"
+                                     aria-labelledby="properties-tab-@log.RowKey"
+                                     role="tabpanel">
+                                    <table class="json-object">
+                                        <tr>
+                                            <th class="json-name">EventId</th>
+                                            <td class="json-value">@log.EventId</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="json-name">TraceId</th>
+                                            <td class="json-value">@log.TraceId</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="json-name">SpanId</th>
+                                            <td class="json-value">@log.SpanId</td>
+                                        </tr>
+                                        @foreach (var item in log.Data)
+                                        {
+                                            <tr>
+                                                <th class="json-name">@item.Key</th>
+                                                <td class="json-value">
+                                                    <JsonDisplay JsonElement="@item.Value" />
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+                                @if (!string.IsNullOrWhiteSpace(log.Exception))
+                                {
+                                    <div class="tab-pane fade"
+                                         id="exception-panel-@log.RowKey"
+                                         aria-labelledby="exception-tab-@log.RowKey"
+                                         role="tabpanel">
+                                        <pre style="overflow: auto; max-height: 400px; font-family: Courier New">@log.Exception</pre>
+                                    </div>
+                                }
                             </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-
-    <div class="card-footer p-0">
-
-        <div class="row">
-            <div class="col-md-6"></div>
-            <div class="col-md-6">
-                <nav aria-label="Log Pagination">
-                    <ul class="justify-content-md-end m-3 pagination">
-                        @if (!string.IsNullOrWhiteSpace(ContinuationToken))
-                        {
-                            <li class="page-item">
-                                <button type="button"
-                                        class="page-link"
-                                        @onclick="HandleSearch">
-                                    First
-                                </button>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="page-item disabled">
-                                <span class="page-link">First</span>
-                            </li>
-                        }
-                        @if (!string.IsNullOrWhiteSpace(NextToken))
-                        {
-                            <li class="page-item">
-                                <button type="button"
-                                        class="page-link"
-                                        @onclick="NextPage">
-                                    Next
-                                </button>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="page-item disabled">
-                                <span class="page-link">Next</span>
-                            </li>
-                        }
-                    </ul>
-                </nav>
+                        </div>
+                    </DetailTemplate>
+                </DataGrid>
             </div>
         </div>
+
     </div>
 </div>
 
+
 @code {
+    private DataGrid<LogEvent> DataGrid { get; set; }
 
-    [SupplyParameterFromQuery(Name = "s")]
-    public int? PageSize { get; set; } = 100;
+    public List<LogEvent> Logs { get; set; } = new();
 
-    [SupplyParameterFromQuery(Name = "l")]
-    public string Level { get; set; }
+    public string SelectFile { get; set; }
 
-    [SupplyParameterFromQuery(Name = "d")]
-    public DateOnly? Date { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
+    public string SelectLevel { get; set; }
 
-    [SupplyParameterFromQuery(Name = "t")]
-    public string ContinuationToken { get; set; }
+    public List<string> Files { get; set; } = new();
 
-    public string NextToken { get; set; }
+    public string SearchText { get; set; }
 
-    public IReadOnlyCollection<LogEvent> Logs { get; set; } = new List<LogEvent>();
-
-    public DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnInitializedAsync()
     {
-        PageSize ??= 100;
-        Date ??= Today;
-
         try
         {
-            var query = new LogEventRequest
-                {
-                    ContinuationToken = ContinuationToken,
-                    PageSize = PageSize ?? 100,
-                    Level = Level,
-                    Date = Date ?? Today,
-                };
-
-            var result = await Repository.Search(query);
-
-            Logs = result.Data;
-            NextToken = result.ContinuationToken;
+            Files = await Repository.List();
         }
         catch (Exception ex)
         {
             NotificationService.ShowError(ex);
         }
-
     }
 
-    private void HandleChange(ChangeEventArgs args)
+    private bool FilterLogs(LogEvent log)
     {
-        HandleSearch();
+        return (SearchText.IsNullOrWhiteSpace() || log.RenderedMessage.Contains(SearchText, StringComparison.OrdinalIgnoreCase))
+               && (SelectLevel.IsNullOrEmpty() || log.Level == SelectLevel);
     }
 
-    private void HandleSearch()
+    private async Task HandleFilterChange()
     {
-        var route = Navigation.GetUriWithQueryParameters(
-            new Dictionary<string, object>
-                {
-                    ["s"] = PageSize,
-                    ["l"] = Level,
-                    ["d"] = Date,
-                    ["t"] = null
-                });
-
-        Navigation.NavigateTo(route);
-        StateHasChanged();
+        await DataGrid.RefreshAsync(true);
     }
 
-    private void PreviousDate()
+    private async Task HandleFileChange()
     {
-        var date = Date ?? Today;
-        date = date.AddDays(-1);
+        try
+        {
+            DataGrid.IsLoading = true;
 
-        var route = Navigation.GetUriWithQueryParameters(
-            new Dictionary<string, object>
-                {
-                    ["s"] = PageSize,
-                    ["l"] = Level,
-                    ["d"] = date,
-                    ["t"] = null
-                });
+            Logs.Clear();
+            if (SelectFile.HasValue())
+            {
+                var logs = await Repository.Read(SelectFile);
+                Logs.AddRange(logs);
+            }
 
-        Navigation.NavigateTo(route);
-        StateHasChanged();
+            await DataGrid.RefreshAsync(true);
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+        finally
+        {
+            DataGrid.IsLoading = false;
+        }
+
     }
-
-    private void NextDate()
-    {
-        var date = Date ?? Today;
-        date = date.AddDays(1);
-
-        var route = Navigation.GetUriWithQueryParameters(
-            new Dictionary<string, object>
-                {
-                    ["s"] = PageSize,
-                    ["l"] = Level,
-                    ["d"] = date,
-                    ["t"] = null
-                });
-
-        Navigation.NavigateTo(route);
-        StateHasChanged();
-    }
-
-    private void NextPage()
-    {
-        var route = Navigation.GetUriWithQueryParameters(
-            new Dictionary<string, object>
-                {
-                    ["s"] = PageSize,
-                    ["l"] = Level,
-                    ["d"] = Date,
-                    ["t"] = NextToken,
-                });
-
-        Navigation.NavigateTo(route);
-        StateHasChanged();
-    }
-
 }

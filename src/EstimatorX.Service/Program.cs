@@ -20,6 +20,7 @@ using SendGrid.Extensions.DependencyInjection;
 
 using Serilog;
 using Serilog.Events;
+using Serilog.Formatting.Compact;
 
 namespace EstimatorX.Service;
 
@@ -29,11 +30,7 @@ public static class Program
 
     public static int Main(string[] args)
     {
-        Serilog.Debugging.SelfLog.Enable(Console.Error);
-
-        // azure home directory
-        var homeDirectory = Environment.GetEnvironmentVariable("HOME") ?? ".";
-        var logDirectory = Path.Combine(homeDirectory, "LogFiles");
+        string logDirectory = GetLoggingPath();
 
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Verbose()
@@ -61,19 +58,13 @@ public static class Program
                     .Enrich.WithProperty("EnvironmentName", builder.Environment.EnvironmentName)
                     .WriteTo.Console(outputTemplate: OutputTemplate)
                     .WriteTo.File(
-                        path: $"{logDirectory}/log.txt",
+                        formatter: new RenderedCompactJsonFormatter(),
+                        path: $"{logDirectory}/log.clef",
                         rollingInterval: RollingInterval.Day,
                         shared: true,
                         flushToDiskInterval: TimeSpan.FromSeconds(1),
-                        outputTemplate: OutputTemplate,
-                        retainedFileCountLimit: 10
-                    )
-                    .WriteTo.AzureTableStorage(
-                        connectionString: context.Configuration.GetConnectionString("StorageAccount"),
-                        storageTableName: context.Configuration.GetValue<string>("LoggingTable") ?? "LogEvent",
-                        propertyColumns: new[] { "SourceContext", "RequestId", "RequestPath", "ConnectionId", "ApplicationName", "ApplicationVersion", "EnvironmentName" }
-                    )
-                );
+                        retainedFileCountLimit: 30
+                    ));
 
             var services = builder.Services;
             var configuration = builder.Configuration;
@@ -141,12 +132,24 @@ public static class Program
         services.AddResponseCompression(options =>
         {
             options.EnableForHttps = true;
-            options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "image/svg+xml", "application/octet-stream" });
+            options.Providers.Add<BrotliCompressionProvider>();
+            options.Providers.Add<GzipCompressionProvider>();
+            options.MimeTypes = ResponseCompressionDefaults
+                .MimeTypes
+                .Concat(new[]
+                {
+                    "image/svg+xml",
+                    "application/octet-stream",
+                    "application/vnd.serilog.clef"
+                });
         });
 
         services.AddSignalR(hubOptions => hubOptions.EnableDetailedErrors = true);
 
         services.Configure<ApiBehaviorOptions>(apiBehaviorOptions => apiBehaviorOptions.SuppressModelStateInvalidFilter = true);
+
+        string logDirectory = GetLoggingPath();
+        services.Configure<LoggingOptions>(options => options.Path = logDirectory);
     }
 
     private static void ConfigureMiddleware(WebApplication app)
@@ -158,8 +161,8 @@ public static class Program
         else
         {
             app.UseHsts();
-            app.UseResponseCompression();
         }
+        app.UseResponseCompression();
 
         app.UseSerilogRequestLogging();
 
@@ -184,5 +187,14 @@ public static class Program
         app.MapHub<ChangeFeedHub>(ChangeFeedConstants.HubPath);
 
         app.MapFallbackToFile("index.html");
+    }
+
+    private static string GetLoggingPath()
+    {
+        // azure home directory
+        var homeDirectory = Environment.GetEnvironmentVariable("HOME") ?? ".";
+        var logDirectory = Path.Combine(homeDirectory, "LogFiles");
+
+        return Path.GetFullPath(logDirectory);
     }
 }

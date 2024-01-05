@@ -1,5 +1,6 @@
+using System.Reflection.Metadata;
 using System.Text.Json;
-
+using EstimatorX.Shared.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -10,8 +11,10 @@ public class JsonDisplay : ComponentBase
     private int _sequence = 0;
 
     [Parameter]
-    [EditorRequired]
     public string Json { get; set; }
+
+    [Parameter]
+    public JsonElement JsonElement { get; set; }
 
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> Attributes { get; set; }
@@ -19,9 +22,15 @@ public class JsonDisplay : ComponentBase
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        var document = JsonDocument.Parse(Json);
-
-        AppendValue(builder, document.RootElement);
+        if (Json.HasValue())
+        {
+            var document = JsonDocument.Parse(Json);
+            AppendValue(builder, document.RootElement);
+        }
+        else
+        {
+            AppendValue(builder, JsonElement);
+        }
     }
 
     protected int Next() => _sequence++;
