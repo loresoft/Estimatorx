@@ -54,7 +54,7 @@ jobs:
 
       - name: Upload Web Application Artifact
         if: success()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Application
           path: '${{env.BUILD_PATH}}/Application'
