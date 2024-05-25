@@ -4,7 +4,7 @@
 @typeparam TModel
 
 <div class="row">
-    <Conditional Show="Model != null">
+    <Conditional Condition="Model != null">
         <div class="col-4">
             <div class="mb-3">
                 <label for="Name" class="form-label">
@@ -29,10 +29,8 @@
                              class="form-select">
                     <option value="">-- Select --</option>
                     <option value="@UserStore.Model.PrivateKey">Private</option>
-                    <Repeater Items="UserStore.Model.Organizations">
-                        <Row Context="organization">
-                            <option value="@organization.Id">@organization.Name</option>
-                        </Row>
+                    <Repeater Items="UserStore.Model.Organizations" Context="organization">
+                        <option @key="organization" value="@organization.Id">@organization.Name</option>
                     </Repeater>
                 </InputSelect>
                 <ValidationMessage For="@(() => Model.OrganizationId)" />

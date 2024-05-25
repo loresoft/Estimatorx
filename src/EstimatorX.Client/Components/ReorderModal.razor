@@ -4,21 +4,20 @@
 
 <div>
     <ul class="list-group reorder">
-        <Repeater Items="Items">
-            <Row Context="item">
-                <li class="list-group-item list-group-item-action"
-                    draggable="true"
-                    title="@item.Name"
-                    @ondragstart="() => HandleDragStart(item)"
-                    @ondrop="(e) => HandleDrop(item)"
-                    @ondragover="(e) => HandleDragOver(item)"
-                    @ondrop:preventDefault
-                    @ondragover:preventDefault
-                    @ondragenter:preventDefault
-                    @ondragleave:preventDefault>
-                    <i class="fas fa-grip-vertical me-2"></i> @item.Name
-                </li>
-            </Row>
+        <Repeater Items="Items" Context="item">
+            <li @key="item"
+                class="list-group-item list-group-item-action"
+                draggable="true"
+                title="@item.Name"
+                @ondragstart="() => HandleDragStart(item)"
+                @ondrop="(e) => HandleDrop(item)"
+                @ondragover="(e) => HandleDragOver(item)"
+                @ondrop:preventDefault
+                @ondragover:preventDefault
+                @ondragenter:preventDefault
+                @ondragleave:preventDefault>
+                <i class="fas fa-grip-vertical me-2"></i> @item.Name
+            </li>
         </Repeater>
     </ul>
 

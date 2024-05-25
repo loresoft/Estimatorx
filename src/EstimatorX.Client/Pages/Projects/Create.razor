@@ -49,10 +49,8 @@
                                          name="Template"
                                          class="form-select">
                                 <option value="">-- Select --</option>
-                                <Repeater Items="Templates">
-                                    <Row Context="template">
-                                        <option value="@CosmosKey.Encode(template.Id, template.OrganizationId)">@template.Name</option>
-                                    </Row>
+                                <Repeater Items="Templates" Context="template">
+                                    <option @key="template" value="@CosmosKey.Encode(template.Id, template.OrganizationId)">@template.Name</option>
                                 </Repeater>
                             </InputSelect>
                             <ValidationMessage For="@(() => Model.TemplateKey)" />

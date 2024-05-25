@@ -24,7 +24,7 @@
         <div class="card mb-5">
             <div class="card-header">
                 <i class="fas fa-user mr-2" aria-hidden="true"></i> Organization Create
-                <Conditional Show="@OrganizationStore.IsDirty">
+                <Conditional Condition="@OrganizationStore.IsDirty">
                     *
                 </Conditional>
             </div>

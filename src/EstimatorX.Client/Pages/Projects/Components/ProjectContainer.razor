@@ -39,7 +39,7 @@
             <div class="card mb-5">
                 <div class="card-header">
                     <i class="fas fa-calculator me-2"></i> Project - @Store.Model?.Name
-                    <Conditional Show="@Store.IsDirty">*</Conditional>
+                    <Conditional Condition="@Store.IsDirty">*</Conditional>
                     <ProjectTabs />
                 </div>
                 <div class="card-body @BodyClass">

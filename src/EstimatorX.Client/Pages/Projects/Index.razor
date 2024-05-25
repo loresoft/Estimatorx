@@ -42,10 +42,8 @@
                                 @onchange="HandleOrganizationChange">
                             <option value="">-- All --</option>
                             <option value="@UserStore.Model.PrivateKey">Private</option>
-                            <Repeater Items="UserStore.Model.Organizations">
-                                <Row Context="organization">
-                                    <option value="@organization.Id">@organization.Name</option>
-                                </Row>
+                            <Repeater Items="UserStore.Model.Organizations" Context="organization">
+                                <option @key="organization" value="@organization.Id">@organization.Name</option>
                             </Repeater>
                         </select>
 

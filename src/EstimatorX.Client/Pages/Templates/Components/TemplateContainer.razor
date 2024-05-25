@@ -41,7 +41,7 @@
             <div class="card mb-5">
                 <div class="card-header">
                     <i class="fas fa-share-alt me-2"></i> Template - @Store.Model?.Name
-                    <Conditional Show="@Store.IsDirty">*</Conditional>
+                    <Conditional Condition="@Store.IsDirty">*</Conditional>
                     <TemplateTabs />
                 </div>
                 <div class="card-body @BodyClass">
