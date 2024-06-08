@@ -1,10 +1,9 @@
-﻿@inherits LayoutComponentBase
-@using Sotsera.Blazor.Toaster
+@inherits LayoutComponentBase
 
 <Navigation />
 
 <ProgressBar Color="#f44336" />
-<ToastContainer />
+<ToastContainer MaxToast="10" Position="@ToastPosition.TopCenter" />
 
 <main role="main">
     @Body
