@@ -30,7 +30,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
 
@@ -54,7 +54,7 @@ jobs:
 
       - name: Upload Web Application Artifact
         if: success()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Application
           path: '${{env.BUILD_PATH}}/Application'
@@ -70,7 +70,7 @@ jobs:
 
     steps:
       - name: Download Web Application Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: Application
 
@@ -94,7 +94,7 @@ jobs:
 
     steps:
       - name: Download Web Application Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: Application
 

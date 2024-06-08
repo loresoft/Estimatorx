@@ -15,8 +15,6 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
-using Sotsera.Blazor.Toaster.Core.Models;
-
 namespace EstimatorX.Client;
 
 public static class Program
@@ -69,16 +67,9 @@ public static class Program
         services.AddEstimatorXShared();
         services.AddEstimatorXClient();
 
-        services.AddProgressBar();
+        services.AddBlazorControls();
         services.AddBlazoredLocalStorage();
         services.AddBlazoredModal();
-        services.AddToaster(config =>
-        {
-            config.PositionClass = Defaults.Classes.Position.TopCenter;
-            config.PreventDuplicates = true;
-            config.NewestOnTop = false;
-            config.MaxDisplayedToasts = 2;
-        });
 
         await builder.Build().RunAsync();
     }

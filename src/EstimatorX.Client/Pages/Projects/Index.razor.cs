@@ -36,7 +36,15 @@ public partial class Index
         try
         {
             var sort = request.Sorts.FirstOrDefault();
-            var query = new QueryRequest { Page = request.Page, PageSize = request.PageSize, Sort = sort?.Property, Descending = sort?.Descending, Search = SearchText, Organization = SelectedOrganization };
+            var query = new QueryRequest
+            {
+                Page = request.Page,
+                PageSize = request.PageSize,
+                Sort = sort?.Property,
+                Descending = sort?.Descending,
+                Search = SearchText,
+                Organization = SelectedOrganization
+            };
             var result = await Repository.Search(query);
             var response = new DataResult<ProjectSummary>(result.Total, result.Data);
             return response;

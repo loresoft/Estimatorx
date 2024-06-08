@@ -3,7 +3,7 @@
 @typeparam TRepository
 @typeparam TModel
 
-<Conditional Show="@(Epic != null)">
+<Conditional Condition="@(Epic != null)">
     <Accordion ParentGroup="epic-accordion">
         <Header>
             <div class="w-100 pe-2 d-flex justify-content-between">

@@ -3,7 +3,7 @@
 @typeparam TRepository
 @typeparam TModel
 
-<Conditional Show="ProjectSettings != null">
+<Conditional Condition="ProjectSettings != null">
     <div class="row">
         <div class="col">
 
@@ -21,29 +21,23 @@
                                 <span class="text-vertical text-muted text-center">Clarity</span>
                             </th>
                             <th></th>
-                            <Repeater Items="@(Enum.GetNames<ConfidenceScale>().ToList())">
-                                <Row Context="confidence">
-                                    <th>@confidence.ToTitle()</th>
-                                </Row>
+                            <Repeater Items="@(Enum.GetNames<ConfidenceScale>().ToList())" Context="confidence">
+                                <th @key="confidence">@confidence.ToTitle()</th>
                             </Repeater>
                         </tr>
-                        <Repeater Items="@(ProjectSettings.Multipliers.GroupBy(m => m.Clarity).ToList())">
-                            <Row Context="group">
-                                <tr>
-                                    <th>
-                                        @group.Key.ToString().ToTitle()
-                                    </th>
-                                    <Repeater Items="@group.ToList()">
-                                        <Row Context="multiplier">
-                                            <td>
-                                                <InputNumber class="form-control form-control-sm"
-                                                             @bind-Value="multiplier.Value"
-                                                             step="0.001" max="100" min="0" />
-                                            </td>
-                                        </Row>
-                                    </Repeater>
-                                </tr>
-                            </Row>
+                        <Repeater Items="@(ProjectSettings.Multipliers.GroupBy(m => m.Clarity).ToList())" Context="group">
+                            <tr @key="group">
+                                <th>
+                                    @group.Key.ToString().ToTitle()
+                                </th>
+                                <Repeater Items="@group.ToList()" Context="multiplier">
+                                    <td @key="multiplier">
+                                        <InputNumber class="form-control form-control-sm"
+                                                     @bind-Value="multiplier.Value"
+                                                     step="0.001" max="100" min="0" />
+                                    </td>
+                                </Repeater>
+                            </tr>
                         </Repeater>
                     </tbody>
                 </table>
@@ -71,28 +65,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <Repeater Items="ProjectSettings.RiskLevels">
-                            <Row Context="riskLevel">
-                                <tr>
-                                    <td>
-                                        <InputNumber class="form-control form-control-sm"
-                                                     @bind-Value="riskLevel.Multiplier"
-                                                     step="0.001" max="100" min="0" />
-                                    </td>
-                                    <td>
-                                        <InputText class="form-control form-control-sm"
-                                                   @bind-Value="riskLevel.Risk" />
-                                    </td>
-                                    <td class="active text-center">
-                                        <button type="button"
-                                                @onclick="() => RiskDelete(riskLevel)"
-                                                title="Delete Effort Value"
-                                                class="btn btn-outline-danger btn-sm">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </Row>
+                        <Repeater Items="ProjectSettings.RiskLevels" Context="riskLevel">
+                            <tr @key="riskLevel">
+                                <td>
+                                    <InputNumber class="form-control form-control-sm"
+                                                 @bind-Value="riskLevel.Multiplier"
+                                                 step="0.001" max="100" min="0" />
+                                </td>
+                                <td>
+                                    <InputText class="form-control form-control-sm"
+                                               @bind-Value="riskLevel.Risk" />
+                                </td>
+                                <td class="active text-center">
+                                    <button type="button"
+                                            @onclick="() => RiskDelete(riskLevel)"
+                                            title="Delete Effort Value"
+                                            class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
                         </Repeater>
                     </tbody>
                     <tfoot>
@@ -129,28 +121,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <Repeater Items="ProjectSettings.EffortLevels">
-                            <Row Context="effortLevel">
-                                <tr>
-                                    <td>
-                                        <InputNumber class="form-control form-control-sm"
-                                                     @bind-Value="effortLevel.Effort" />
-                                    </td>
-                                    <td>
-                                        <InputText class="form-control form-control-sm"
-                                                   @bind-Value="effortLevel.Level" />
-                                    </td>
-                                    <td class="active text-center">
-                                        <button type="button"
-                                                @onclick="() => EffortDelete(effortLevel)"
-                                                title="Delete Effort Value"
-                                                class="btn btn-outline-danger btn-sm">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-
-                            </Row>
+                        <Repeater Items="ProjectSettings.EffortLevels" Context="effortLevel">
+                            <tr @key="effortLevel">
+                                <td>
+                                    <InputNumber class="form-control form-control-sm"
+                                                 @bind-Value="effortLevel.Effort" />
+                                </td>
+                                <td>
+                                    <InputText class="form-control form-control-sm"
+                                               @bind-Value="effortLevel.Level" />
+                                </td>
+                                <td class="active text-center">
+                                    <button type="button"
+                                            @onclick="() => EffortDelete(effortLevel)"
+                                            title="Delete Effort Value"
+                                            class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
                         </Repeater>
                     </tbody>
                     <tfoot>
@@ -193,33 +182,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <Repeater Items="ProjectSettings.Overhead">
-                            <Row Context="overhead">
-                                <tr>
-                                    <td>
-                                        <InputText class="form-control form-control-sm"
-                                                   @bind-Value="overhead.Name" />
-                                    </td>
-                                    <td>
-                                        <InputText class="form-control form-control-sm"
-                                                   @bind-Value="overhead.Description" />
-                                    </td>
-                                    <td>
-                                        <InputNumber class="form-control form-control-sm"
-                                                     @bind-Value="overhead.Multiplier"
-                                                     step="0.001" max="100" min="0" />
-                                    </td>
-                                    <td class="active text-center">
-                                        <button type="button"
-                                                @onclick="() => OverheadDelete(overhead)"
-                                                title="Delete Supporting Task"
-                                                class="btn btn-outline-danger btn-sm">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </td>
+                        <Repeater Items="ProjectSettings.Overhead" Context="overhead">
+                            <tr @key="overhead">
+                                <td>
+                                    <InputText class="form-control form-control-sm"
+                                               @bind-Value="overhead.Name" />
+                                </td>
+                                <td>
+                                    <InputText class="form-control form-control-sm"
+                                               @bind-Value="overhead.Description" />
+                                </td>
+                                <td>
+                                    <InputNumber class="form-control form-control-sm"
+                                                 @bind-Value="overhead.Multiplier"
+                                                 step="0.001" max="100" min="0" />
+                                </td>
+                                <td class="active text-center">
+                                    <button type="button"
+                                            @onclick="() => OverheadDelete(overhead)"
+                                            title="Delete Supporting Task"
+                                            class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
 
-                                </tr>
-                            </Row>
+                            </tr>
                         </Repeater>
                     </tbody>
                     <tfoot>

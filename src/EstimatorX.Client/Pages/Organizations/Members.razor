@@ -7,7 +7,7 @@
 
 <OrganizationContainer Id="@Id">
     <div class="table-responsive">
-        <Conditional Show="MemberList != null">
+        <Conditional Condition="MemberList != null">
             <DataGrid Data="MemberList"
                       TItem="OrganizationMember"
                       class="table table-hover table-bordered mb-0"
@@ -38,7 +38,7 @@
             </DataGrid>
         </Conditional>
     </div>
-    <Conditional Show="IsOwner()">
+    <Conditional Condition="IsOwner()">
         <div class="row mx-1 my-2">
             <div class="col">
                 <CascadingValue Value=@(new EditContext(new {}))>

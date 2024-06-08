@@ -36,10 +36,8 @@
                                 @bind="SelectFile"
                                 @bind:after="HandleFileChange">
                             <option value="">- select -</option>
-                            <Repeater Items="Files" TItem="string">
-                                <Row Context="item">
-                                    <option value="@item">@item</option>
-                                </Row>
+                            <Repeater Items="Files" TItem="string" Context="item">
+                                <option @key="item" value="@item">@item</option>
                             </Repeater>
                         </select>
 

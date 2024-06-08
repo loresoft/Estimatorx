@@ -7,7 +7,7 @@
 
 <OrganizationContainer Id="@Id">
     <div class="table-responsive">
-        <Conditional Show="Organization != null">
+        <Conditional Condition="Organization != null">
             <DataGrid DataProvider="LoadData"
                       TItem="InviteSummary"
                       class="table table-hover table-bordered mb-0"
@@ -44,7 +44,7 @@
             </DataGrid>
         </Conditional>
     </div>
-    <Conditional Show="IsOwner()">
+    <Conditional Condition="IsOwner()">
         <div class="row mx-1 my-2">
             <div class="col">
                 <button id="invite-button"

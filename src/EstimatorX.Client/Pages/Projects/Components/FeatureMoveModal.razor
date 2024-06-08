@@ -5,14 +5,12 @@
     </p>
 
     <div class="mb-3">
-        <select @bind="EpicId"                
+        <select @bind="EpicId"
                 name="Epic"
                 class="form-select">
             <option value="">-- Select --</option>
-            <Repeater Items="Project.Epics">
-                <Row Context="epic">
-                    <option value="@epic.Id">@epic.Name</option>
-                </Row>
+            <Repeater Items="Project.Epics" Context="epic">
+                <option @key="epic" value="@epic.Id">@epic.Name</option>
             </Repeater>
         </select>
     </div>
