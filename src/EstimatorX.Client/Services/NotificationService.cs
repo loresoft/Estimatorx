@@ -26,7 +26,7 @@ public class NotificationService
 
     public void ShowSuccess(string message)
     {
-        _toaster.ShowInformation(message);
+        _toaster.ShowSuccess(message);
     }
 
     public void ShowWarning(string message)
