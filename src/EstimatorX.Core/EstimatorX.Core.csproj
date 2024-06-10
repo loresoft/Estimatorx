@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Azure.Data.Tables" Version="12.8.3" />
-    <PackageReference Include="Cosmos.Abstracts" Version="6.2.0" />
+    <PackageReference Include="Cosmos.Abstracts" Version="6.2.1" />
     <PackageReference Include="FluentRest" Version="9.9.4" />
     <PackageReference Include="JsonPatch.Net" Version="3.1.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0" />
