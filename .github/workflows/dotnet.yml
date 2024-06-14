@@ -37,7 +37,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install Sass Tool
         run: npm i -g sass
@@ -46,7 +46,7 @@ jobs:
         run: dotnet restore
 
       - name: Build Solution
-        run: 'dotnet build --no-restore --configuration Release'
+        run: "dotnet build --no-restore --configuration Release"
 
       - name: Publish Web Application
         if: success()
@@ -57,7 +57,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Application
-          path: '${{env.BUILD_PATH}}/Application'
+          path: "${{env.BUILD_PATH}}/Application"
 
   deploy-development:
     runs-on: ubuntu-latest
@@ -78,8 +78,8 @@ jobs:
         if: github.ref == 'refs/heads/develop'
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'web-ls-app-eus-ex-stg-01'
-          slot-name: 'Production'
+          app-name: "web-ls-app-eus-ex-stg-01"
+          slot-name: "Production"
           publish-profile: ${{secrets.PUBLISH_PROFILE_STAGING}}
           package: ./
 
@@ -102,8 +102,7 @@ jobs:
         if: success() && github.event_name != 'pull_request' && startsWith(github.ref, 'refs/tags/v')
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'web-ls-app-eus-ex-prd-01'
-          slot-name: 'Production'
+          app-name: "web-ls-app-eus-ex-prd-01"
+          slot-name: "Production"
           publish-profile: ${{secrets.PUBLISH_PROFILE_PRODUCTION}}
           package: ./
-
