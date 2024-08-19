@@ -19,7 +19,7 @@
     <PackageReference Include="SendGrid.Extensions.DependencyInjection" Version="1.0.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
     <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.1" />
     <PackageReference Include="UAParser" Version="3.1.47" />
   </ItemGroup>
 
