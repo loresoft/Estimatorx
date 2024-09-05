@@ -1,35 +1,19 @@
 namespace EstimatorX.Shared.Models;
 
-public class ProjectSettings
+[Equatable]
+public partial class ProjectSettings
 {
     public double EstimateRate { get; set; }
 
+    [SequenceEquality]
     public List<EffortLevel> EffortLevels { get; set; } = new();
 
+    [SequenceEquality]
     public List<RiskLevel> RiskLevels { get; set; } = new();
 
+    [SequenceEquality]
     public List<ProjectOverhead> Overhead { get; set; } = new();
 
+    [SequenceEquality]
     public List<EstimateMultiplier> Multipliers { get; set; } = new();
-
-
-    public override int GetHashCode()
-    {
-        var hashCode = new HashCode();
-        hashCode.Add(EstimateRate);
-
-        foreach (var effort in EffortLevels)
-            hashCode.Add(effort.GetHashCode());
-
-        foreach (var risk in RiskLevels)
-            hashCode.Add(risk.GetHashCode());
-
-        foreach (var overhead in Overhead)
-            hashCode.Add(overhead.GetHashCode());
-
-        foreach (var multiplier in Multipliers)
-            hashCode.Add(multiplier.GetHashCode());
-
-        return hashCode.ToHashCode();
-    }
 }

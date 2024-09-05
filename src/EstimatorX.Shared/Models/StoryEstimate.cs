@@ -1,6 +1,7 @@
 namespace EstimatorX.Shared.Models;
 
-public class StoryEstimate : EstimateBase
+[Equatable]
+public partial class StoryEstimate : EstimateBase
 {
 
 }

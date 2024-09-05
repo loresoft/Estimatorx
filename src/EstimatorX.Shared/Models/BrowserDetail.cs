@@ -1,6 +1,7 @@
 namespace EstimatorX.Shared.Models;
 
-public class BrowserDetail
+[Equatable]
+public partial class BrowserDetail
 {
     public string UserAgent { get; set; }
 

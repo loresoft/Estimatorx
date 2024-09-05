@@ -2,7 +2,8 @@ using EstimatorX.Shared.Definitions;
 
 namespace EstimatorX.Shared.Models;
 
-public class Project : ModelBase, IHaveOrganization, IHaveName
+[Equatable]
+public partial class Project : ModelBase, IHaveOrganization, IHaveName
 {
     public string Name { get; set; }
 
@@ -21,7 +22,9 @@ public class Project : ModelBase, IHaveOrganization, IHaveName
 
     public ProjectSettings Settings { get; set; } = new();
 
+    [SequenceEquality]
     public List<EpicEstimate> Epics { get; set; } = new();
+
 
     // computed
     public int? EstimatedTotal { get; set; }
@@ -32,26 +35,4 @@ public class Project : ModelBase, IHaveOrganization, IHaveName
     public double? EstimatedCost { get; set; }
 
     public double? WeightedCost { get; set; }
-
-
-    public override int GetHashCode()
-    {
-        var hash = new HashCode();
-        hash.Add(base.GetHashCode());
-        hash.Add(Name);
-        hash.Add(Description);
-        hash.Add(OrganizationId);
-        hash.Add(SecurityKey);
-        hash.Add(EstimatedTotal);
-        hash.Add(WeightedTotal);
-        hash.Add(EstimatedCost);
-        hash.Add(WeightedCost);
-
-        hash.Add(Settings.GetHashCode());
-
-        foreach (var epic in Epics)
-            hash.Add(epic.GetHashCode());
-
-        return hash.ToHashCode();
-    }
 }

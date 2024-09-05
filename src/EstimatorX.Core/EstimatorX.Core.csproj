@@ -6,14 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Data.Tables" Version="12.8.3" />
-    <PackageReference Include="Cosmos.Abstracts" Version="6.2.0" />
-    <PackageReference Include="FluentRest" Version="9.9.4" />
-    <PackageReference Include="JsonPatch.Net" Version="3.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0" />
-    <PackageReference Include="Nanoid" Version="3.0.0" />
+    <PackageReference Include="Azure.Data.Tables" Version="12.9.0" />
+    <PackageReference Include="Cosmos.Abstracts" Version="6.2.2" />
+    <PackageReference Include="FluentRest" Version="9.9.8" />
+    <PackageReference Include="Nanoid" Version="3.1.0" />
     <PackageReference Include="SendGrid" Version="9.29.3" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.4.0" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.4.5" />
   </ItemGroup>
 
   <ItemGroup>

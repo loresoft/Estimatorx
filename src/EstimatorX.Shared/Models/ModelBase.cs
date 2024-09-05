@@ -3,7 +3,8 @@ using EstimatorX.Shared.Definitions;
 
 namespace EstimatorX.Shared.Models;
 
-public class ModelBase : IHaveIdentifier, ITrackCreated, ITrackUpdated
+[Equatable]
+public partial class ModelBase : IHaveIdentifier, ITrackCreated, ITrackUpdated
 {
     public string Id { get; set; }
 
@@ -14,10 +15,4 @@ public class ModelBase : IHaveIdentifier, ITrackCreated, ITrackUpdated
     public DateTimeOffset Updated { get; set; } = DateTimeOffset.UtcNow;
 
     public string UpdatedBy { get; set; }
-
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Id, Created, CreatedBy, Updated, UpdatedBy);
-    }
 }

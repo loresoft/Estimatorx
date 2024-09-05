@@ -1,6 +1,7 @@
 namespace EstimatorX.Shared.Models;
 
-public class Template : Project
+[Equatable]
+public partial class Template : Project
 {
 
 }

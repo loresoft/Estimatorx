@@ -1,6 +1,7 @@
 namespace EstimatorX.Shared.Models;
 
-public class UserSummary : ModelBase
+[Equatable]
+public partial class UserSummary : ModelBase
 {
     public string Name { get; set; }
 
