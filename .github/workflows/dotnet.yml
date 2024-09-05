@@ -82,6 +82,8 @@ jobs:
           slot-name: "Production"
           publish-profile: ${{secrets.PUBLISH_PROFILE_STAGING}}
           package: ./
+          clean: true
+          restart: true
 
   deploy-production:
     runs-on: ubuntu-latest
