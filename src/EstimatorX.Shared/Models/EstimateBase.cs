@@ -2,7 +2,8 @@ using EstimatorX.Shared.Definitions;
 
 namespace EstimatorX.Shared.Models;
 
-public abstract class EstimateBase : IHaveIdentifier, IHaveName, IHaveEstimate
+[Equatable]
+public abstract partial class EstimateBase : IHaveIdentifier, IHaveName, IHaveEstimate
 {
     public string Id { get; set; } = Guid.NewGuid().ToString("N");
 
@@ -40,29 +41,4 @@ public abstract class EstimateBase : IHaveIdentifier, IHaveName, IHaveEstimate
     public double? EstimatedCost { get; set; }
 
     public double? WeightedCost { get; set; }
-
-
-    public override int GetHashCode()
-    {
-        var hash = new HashCode();
-        hash.Add(Id);
-        hash.Add(Name);
-        hash.Add(Description);
-        hash.Add(Assumptions);
-        hash.Add(Estimate);
-        hash.Add(Clarity);
-        hash.Add(Confidence);
-        hash.Add(Criticality);
-
-        hash.Add(Multiplier);
-        hash.Add(WeightedEstimate);
-        hash.Add(EstimatedTotal);
-        hash.Add(WeightedTotal);
-        hash.Add(RiskLevel);
-        hash.Add(EffortLevel);
-        hash.Add(EstimatedCost);
-        hash.Add(WeightedCost);
-
-        return hash.ToHashCode();
-    }
 }

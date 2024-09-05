@@ -2,7 +2,8 @@ using EstimatorX.Shared.Definitions;
 
 namespace EstimatorX.Shared.Models;
 
-public class OrganizationSummary : ModelBase, IHaveName
+[Equatable]
+public partial class OrganizationSummary : ModelBase, IHaveName
 {
     public string Name { get; set; }
 

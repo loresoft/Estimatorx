@@ -45,11 +45,13 @@
 
   <ItemGroup>
     <PackageReference Include="AssemblyMetadata.Generators" Version="2.0.0" PrivateAssets="All" />
+    <PackageReference Include="Equatable.Generator" Version="1.0.0" PrivateAssets="all" />
     <PackageReference Include="Injectio" Version="3.1.0" PrivateAssets="all" />
-    <PackageReference Include="MinVer" Version="5.0.0" PrivateAssets="All" />
+    <PackageReference Include="MinVer" Version="6.0.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
+    <Using Include="Equatable.Attributes" />
     <Using Include="Injectio.Attributes" />
   </ItemGroup>
 

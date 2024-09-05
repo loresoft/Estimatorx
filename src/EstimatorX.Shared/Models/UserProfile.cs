@@ -1,6 +1,7 @@
 namespace EstimatorX.Shared.Models;
 
-public class UserProfile : ModelBase
+[Equatable]
+public partial class UserProfile : ModelBase
 {
     public string Name { get; set; }
 
@@ -10,7 +11,9 @@ public class UserProfile : ModelBase
 
     public string PrivateKey { get; set; }
 
+    [SequenceEquality]
     public List<string> Roles { get; set; } = new();
 
+    [SequenceEquality]
     public List<IdentifierName> Organizations { get; set; } = new();
 }

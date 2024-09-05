@@ -2,7 +2,8 @@ using EstimatorX.Shared.Definitions;
 
 namespace EstimatorX.Shared.Models;
 
-public class EpicEstimate : IHaveIdentifier, IHaveName
+[Equatable]
+public partial class EpicEstimate : IHaveIdentifier, IHaveName
 {
     public string Id { get; set; } = Guid.NewGuid().ToString("N");
 
@@ -12,6 +13,7 @@ public class EpicEstimate : IHaveIdentifier, IHaveName
 
     public string Assumptions { get; set; }
 
+    [SequenceEquality]
     public List<FeatureEstimate> Features { get; set; } = new();
 
     // computed
@@ -22,23 +24,4 @@ public class EpicEstimate : IHaveIdentifier, IHaveName
     public double? EstimatedCost { get; set; }
 
     public double? WeightedCost { get; set; }
-
-
-    public override int GetHashCode()
-    {
-        var hash = new HashCode();
-        hash.Add(Id);
-        hash.Add(Name);
-        hash.Add(Description);
-        hash.Add(EstimatedTotal);
-        hash.Add(WeightedTotal);
-        hash.Add(EstimatedCost);
-        hash.Add(WeightedCost);
-
-        foreach (var feature in Features)
-            hash.Add(feature.GetHashCode());
-
-        return hash.ToHashCode();
-    }
-
 }
