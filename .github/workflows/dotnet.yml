@@ -70,7 +70,7 @@ jobs:
 
     steps:
       - name: Download Web Application Artifact
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v8
         with:
           name: Application
 
@@ -96,7 +96,7 @@ jobs:
 
     steps:
       - name: Download Web Application Artifact
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v8
         with:
           name: Application
 
