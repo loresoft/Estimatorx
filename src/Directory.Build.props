@@ -44,7 +44,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AssemblyMetadata.Generators" Version="2.1.0" PrivateAssets="All" />
+    <PackageReference Include="AssemblyMetadata.Generators" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Equatable.Generator" Version="2.2.1" PrivateAssets="all" />
     <PackageReference Include="Injectio" Version="5.2.1" PrivateAssets="all" />
     <PackageReference Include="MinVer" Version="7.0.0" PrivateAssets="All" />
