@@ -18,7 +18,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.11" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.11" />
     <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="9.0.19" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.11" />
   </ItemGroup>
 
   <ItemGroup>
