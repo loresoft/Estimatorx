@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="../src/EstimatorX.Core/EstimatorX.Core.csproj" />
+  <Project Path="../src/EstimatorX.Shared/EstimatorX.Shared.csproj" />
+  <Project Path="Estimatorx.Data.Cosmos/Estimatorx.Data.Cosmos.csproj" />
+  <Project Path="Estimatorx.Migration/Estimatorx.Migration.csproj" />
+</Solution>

@@ -36,29 +36,28 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
-    <NoWarn>1591</NoWarn>
+    <Nullable>enable</Nullable>
+    <NoWarn>$(NoWarn);IL2026;IL2091;IL2104;IL2110;IL2111;1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>
     <MinVerTagPrefix>v</MinVerTagPrefix>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <MinVerSkip>true</MinVerSkip>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="AssemblyMetadata.Generators" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Equatable.Generator" Version="3.0.0" PrivateAssets="all" />
-    <PackageReference Include="Injectio" Version="6.2.0" PrivateAssets="all" />
-    <PackageReference Include="MinVer" Version="7.0.0" PrivateAssets="All" />
+    <PackageReference Include="AssemblyMetadata.Generators" PrivateAssets="All" />
+    <PackageReference Include="Equatable.Generator" PrivateAssets="all" />
+    <PackageReference Include="Injectio" PrivateAssets="all" />
+    <PackageReference Include="MinVer" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="Equatable.Attributes" />
     <Using Include="Injectio.Attributes" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="./../ILLink.Descriptors.xml">
-      <LogicalName>ILLink.Descriptors.xml</LogicalName>
-    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

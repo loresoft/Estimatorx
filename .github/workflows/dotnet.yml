@@ -23,6 +23,10 @@ jobs:
   build-project:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      packages: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -32,7 +36,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 9.0.x
+          dotnet-version: 10.0.x
 
       - name: Setup Node
         uses: actions/setup-node@v7
@@ -50,14 +54,52 @@ jobs:
 
       - name: Publish Web Application
         if: success()
-        run: 'dotnet publish ./src/EstimatorX.Service/EstimatorX.Service.csproj --configuration Release --output "${{env.BUILD_PATH}}/Application"'
+        run: 'dotnet publish ./src/EstimatorX.Web/EstimatorX.Web.csproj --no-restore --configuration Release --output "${{env.BUILD_PATH}}/Application"'
+
+      - name: Create Web Application Zip
+        if: success()
+        working-directory: "${{env.BUILD_PATH}}/Application"
+        run: 'zip -r "${{env.BUILD_PATH}}/EstimatorX.Web.zip" .'
 
       - name: Upload Web Application Artifact
         if: success()
         uses: actions/upload-artifact@v6
         with:
           name: Application
-          path: "${{env.BUILD_PATH}}/Application"
+          path: "${{env.BUILD_PATH}}/EstimatorX.Web.zip"
+
+      - name: Log in to GitHub Container Registry
+        if: success() && github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Container Metadata
+        id: meta
+        if: success() && github.event_name != 'pull_request'
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/loresoft/estimatorx
+          tags: |
+            type=ref,event=branch
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha
+
+      - name: Publish Container Image
+        if: success() && github.event_name != 'pull_request'
+        env:
+          META_TAGS: ${{steps.meta.outputs.tags}}
+        run: |
+          # metadata-action emits full image references; the SDK expects only the tags, separated by ';'
+          TAGS=$(echo "$META_TAGS" | sed 's|.*:||' | paste -sd ';' -)
+          dotnet publish ./src/EstimatorX.Web/EstimatorX.Web.csproj \
+            --configuration Release \
+            -t:PublishContainer \
+            -p:ContainerRegistry=ghcr.io \
+            -p:ContainerImageTags="\"$TAGS\""
 
   deploy-development:
     runs-on: ubuntu-latest
@@ -81,7 +123,7 @@ jobs:
           app-name: "web-ls-app-eus-ex-stg-01"
           slot-name: "Production"
           publish-profile: ${{secrets.PUBLISH_PROFILE_STAGING}}
-          package: ./
+          package: EstimatorX.Web.zip
           clean: true
           restart: true
 
@@ -107,4 +149,4 @@ jobs:
           app-name: "web-ls-app-eus-ex-prd-01"
           slot-name: "Production"
           publish-profile: ${{secrets.PUBLISH_PROFILE_PRODUCTION}}
-          package: ./
+          package: EstimatorX.Web.zip

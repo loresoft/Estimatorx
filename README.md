@@ -2,7 +2,7 @@
 
 ![EstimatorX](https://raw.githubusercontent.com/loresoft/Estimatorx/develop/design/full-logo.svg)
 
-A simple project estimation application.
+Fast, consistent project estimates that account for uncertainty.
 
 [http://estimatorx.com](http://estimatorx.com "EstimatorX")
 
@@ -10,66 +10,274 @@ A simple project estimation application.
 
 ### Projects
 
-A project contains all the details that make up an estimate. An estimate is broken down into Epics and Features.
-
-### Epics
-
-A high level deliverable that provides business value, this is the largest units of work in most projects and groups together one or more features.
-
-### Features
-
-Features are broken down components that are individually deliverable, and when combined comprise the epic. A feature should provide business value in support of an Epic.
-
-### Assumptions
-
-When making an estimate, there are assumptions the estimator makes to come up with the estimate. Document those assumptions to help raise the red flag in the future when an assumptions proves not to be true.
-
-### Estimate
-
-The estimated value for the feature. The available values are customizable via the project settings.
-
-### Clarity
-
-How well has the feature been outlined and defined? How well do you understand it? This is not a "simplicity" call - this is a measure for understanding.
-
-- **Low** There is no documentation, the item has not have even been covered with the customer
-- **Medium Low** There is not much documentation, the item may not have even been covered with the customer
-- **Medium** There is not much documentation, but the customer was able to walk through the desired functionality
-- **Medium High** There is some documentation, the desired functionality is understood but may not be well documented
-- **High** There is extensive documentation, up to and including technical requirements, examples, the desired outcome is well understood and acceptance criteria is understood
-
-### Confidence
-
-How confident/comfortable are you in the estimate based on everything you know? Have you done something like this before? Are you familiar with all technologies involved? Have they all been identified?
-
-- **Low** Solution is not know and more discovery is required
-- **Medium Low** Approach is not clear and research / proof of concept WILL be required. Current understanding of the requirements support reasonable feasibility for this work being achievable.
-- **Medium** Haven’t done something super similar, but have done stuff related. Have ideas of approaches but no clear direction, some research and discussion will be needed to pick an approach
-- **Medium High** Have done similar but not this, have an idea of the technology and approach we would use
-- **High** Have done it before, pretty sure on the numbers
-
-### Multiplier
-
-Multiplier is a computed value used to pad the estimate based on the Clarity and Confidence of the feature. The multiplier matrix is customizable via the project settings
-
-### Weighted Estimate
-
-The estimated value times the multiplier is the weighted estimate.
-
-### Risk
-
-How risky is the feature, based on the computed multiplier. The Risk Scale can be customized via the project settings.
-
-### Effort
-
-What is the high level effort of the feature, based on the estimate. The Effort Scale can be customized via the project settings.
+A project holds everything that makes up an estimate. Work is organized into Epics, which are broken down into Features.
 
 ### Organizations
 
-Projects and Templates are placed in an organization. All members of the organization can edit the Project or Template.
+Projects and Templates belong to an organization, and every member of that organization can edit them.
 
-Select 'Private' to make the Project or Template accessible by only you.
+Select **Private** if only you should have access to a Project or Template.
+
+### Epics
+
+An Epic is a large deliverable that provides business value. It's usually the largest unit of work in a project and groups one or more related Features.
+
+### Features
+
+A Feature is a piece of an Epic that can be delivered on its own. Together, the Features make up the Epic, and each should provide business value that supports it.
 
 ### Templates
 
-A template is a project pre-configured with settings and optionally epics and features. Use templates as a quick way to get started with an estimate based on standard settings.
+A template is a reusable set of Epics, Features, and project Settings. Use templates to share common work and settings, such as estimate values, risk and effort scales, and the multiplier matrix, across projects.
+
+### Settings
+
+Each estimate has its own Settings. Customize the estimate values, risk and effort scales, and multiplier matrix to fit the project without affecting other estimates.
+
+### Assumptions
+
+List the assumptions behind each estimate. If an assumption later turns out to be wrong, the record makes it easy to see which estimates need another look.
+
+### Estimate
+
+The base estimate for a Feature, before any adjustment. You can customize the available values in the project settings.
+
+### Weighted Estimate
+
+The Estimate multiplied by the Multiplier. This adjusted value accounts for uncertainty and is used in project totals.
+
+### Clarity
+
+How well is the Feature defined, and how well do you understand it? This measures understanding, not how simple the work is.
+
+- **Low** No documentation, and the Feature hasn't been discussed with the customer.
+- **Medium Low** Little documentation, and the customer has only briefly mentioned the Feature.
+- **Medium** Little documentation, but the customer has walked through the desired functionality.
+- **Medium High** Some documentation; the functionality is understood but not fully written down.
+- **High** Detailed documentation, including technical requirements and examples. The desired outcome and acceptance criteria are well understood.
+
+### Confidence
+
+How confident are you in the estimate, given what you know? Have you done something like this before? Do you know all the technologies involved, and have they all been identified?
+
+- **Low** The solution isn't known yet, and more discovery is required.
+- **Medium Low** The approach isn't clear, and research or a proof of concept will be required. The requirements suggest the work is feasible.
+- **Medium** You've done related but not very similar work. There are possible approaches but no clear direction, so some research and discussion are needed.
+- **Medium High** You've done similar work and have a good idea of the technology and approach.
+- **High** You've done this before and are confident in the numbers.
+
+### Multiplier
+
+A computed factor that pads the Estimate based on the Feature's Clarity and Confidence. You can customize the multiplier matrix in the project settings.
+
+### Risk
+
+Shows how risky a Feature is, based on its computed Multiplier. You can customize the Risk Scale in the project settings.
+
+### Effort
+
+Shows a Feature's overall size, based on its Estimate. You can customize the Effort Scale in the project settings.
+
+## Docker
+
+EstimatorX is published as a container image to the GitHub Container Registry for `linux/amd64` and `linux/arm64`.
+
+```shell
+docker run -d --name estimatorx -p 8080:8080 -v estimatorx-data:/home/app ghcr.io/loresoft/estimatorx:latest
+```
+
+Then browse to `http://localhost:8080`.
+
+### Image Tags
+
+| Tag            | Description                             |
+| -------------- | --------------------------------------- |
+| `latest`       | Latest release                          |
+| `X.Y.Z`, `X.Y` | Release versions from `vX.Y.Z` git tags |
+| `master`       | Latest build of the `master` branch     |
+| `develop`      | Latest build of the `develop` branch    |
+| `sha-<commit>` | Build of a specific commit              |
+
+### Persisting Data
+
+By default the container uses SQLite at `/home/app/data/EstimatorX.db` and stores data protection keys in `/home/app/data/keys`. The container runs as the non-root `app` user (UID `1654`).
+
+- **Named volume** - mount the volume at `/home/app` so it inherits the `app` user ownership from the image.
+
+  ```shell
+  docker run -d -p 8080:8080 -v estimatorx-data:/home/app ghcr.io/loresoft/estimatorx:latest
+  ```
+
+- **Bind mount** - the host directory must be writable by UID `1654`.
+
+  ```shell
+  mkdir -p ./data && sudo chown -R 1654:1654 ./data
+  docker run -d -p 8080:8080 -v ./data:/home/app/data ghcr.io/loresoft/estimatorx:latest
+  ```
+
+### Configuration
+
+Configure the container with environment variables.
+
+#### General
+
+| Variable                | Description                                                                 | Default               |
+| ----------------------- | --------------------------------------------------------------------------- | --------------------- |
+| `DataProtection__Path`  | Directory to persist data protection keys, keeps users signed in on restart | `/home/app/data/keys` |
+| `ASPNETCORE_HTTP_PORTS` | HTTP port the application listens on                                        | `8080`                |
+
+#### Database
+
+| Variable                     | Description                                              | Default                                    |
+| ---------------------------- | -------------------------------------------------------- | ------------------------------------------ |
+| `Database__Provider`         | Database provider: `sqlite`, `sqlserver` or `postgresql` | `sqlite`                                   |
+| `Database__ConnectionString` | Database connection string                               | `Data Source=/home/app/data/EstimatorX.db` |
+| `Database__MigrateOnStartup` | Apply database migrations on startup                     | `true`                                     |
+
+Set both `Database__Provider` and `Database__ConnectionString` when using a provider other than SQLite.
+
+##### PostgreSQL
+
+```shell
+docker run -d -p 8080:8080 \
+  -v estimatorx-data:/home/app \
+  -e Database__Provider=postgresql \
+  -e Database__ConnectionString="Host=postgres;Database=EstimatorX;Username=estimatorx;Password=<password>" \
+  ghcr.io/loresoft/estimatorx:latest
+```
+
+##### SQL Server
+
+```shell
+docker run -d -p 8080:8080 \
+  -v estimatorx-data:/home/app \
+  -e Database__Provider=sqlserver \
+  -e Database__ConnectionString="Server=sqlserver;Database=EstimatorX;User Id=estimatorx;Password=<password>;TrustServerCertificate=true" \
+  ghcr.io/loresoft/estimatorx:latest
+```
+
+#### Authentication
+
+EstimatorX uses external login providers for sign in. At least one provider must be configured, otherwise users will not be able to sign in.
+
+| Variable                  | Description                           |
+| ------------------------- | ------------------------------------- |
+| `Microsoft__ClientId`     | Microsoft account login client id     |
+| `Microsoft__ClientSecret` | Microsoft account login client secret |
+| `Google__ClientId`        | Google login client id                |
+| `Google__ClientSecret`    | Google login client secret            |
+| `GitHub__ClientId`        | GitHub login client id                |
+| `GitHub__ClientSecret`    | GitHub login client secret            |
+| `Facebook__AppId`         | Facebook login app id                 |
+| `Facebook__AppSecret`     | Facebook login app secret             |
+
+A login provider is enabled only when both of its values are set.
+
+```shell
+docker run -d -p 8080:8080 \
+  -v estimatorx-data:/home/app \
+  -e GitHub__ClientId=<client-id> \
+  -e GitHub__ClientSecret=<client-secret> \
+  ghcr.io/loresoft/estimatorx:latest
+```
+
+#### Email
+
+Email is sent over SMTP and is required for sending organization invites.
+
+| Variable             | Description                                  | Default      |
+| -------------------- | -------------------------------------------- | ------------ |
+| `Email__Server`      | SMTP server host name                        |              |
+| `Email__Port`        | SMTP server port                             | `465`        |
+| `Email__UseSSL`      | Use SSL when connecting to the SMTP server   | `true`       |
+| `Email__UserName`    | SMTP authentication user name                |              |
+| `Email__Password`    | SMTP authentication password                 |              |
+| `Email__FromAddress` | Sender email address, required to send email |              |
+| `Email__FromName`    | Sender display name                          | `EstimatorX` |
+
+```shell
+docker run -d -p 8080:8080 \
+  -v estimatorx-data:/home/app \
+  -e Email__Server=smtp.example.com \
+  -e Email__Port=465 \
+  -e Email__UserName=estimatorx@example.com \
+  -e Email__Password=<password> \
+  -e Email__FromAddress=estimatorx@example.com \
+  ghcr.io/loresoft/estimatorx:latest
+```
+
+#### OpenTelemetry
+
+Logs, traces and metrics are exported with OpenTelemetry using the OTLP exporter. Configure the exporter with the standard OpenTelemetry environment variables.
+
+| Variable                      | Description                                                       | Default |
+| ----------------------------- | ----------------------------------------------------------------- | ------- |
+| `OTEL_SERVICE_NAME`           | Service name reported with telemetry                              |         |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | OTLP collector endpoint, for example `http://otel-collector:4317` |         |
+| `OTEL_EXPORTER_OTLP_PROTOCOL` | OTLP protocol: `grpc` or `http/protobuf`                          | `grpc`  |
+| `OTEL_EXPORTER_OTLP_HEADERS`  | Additional headers sent to the collector, such as an API key      |         |
+| `OTEL_RESOURCE_ATTRIBUTES`    | Additional resource attributes, `key1=value1,key2=value2`         |         |
+
+```shell
+docker run -d -p 8080:8080 \
+  -v estimatorx-data:/home/app \
+  -e OTEL_SERVICE_NAME=EstimatorX \
+  -e OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317 \
+  -e OTEL_EXPORTER_OTLP_PROTOCOL=grpc \
+  ghcr.io/loresoft/estimatorx:latest
+```
+
+### HTTPS
+
+The container listens on HTTP only. Authentication cookies require a secure connection, so run the container behind a TLS terminating reverse proxy (nginx, Traefik, Caddy, Azure Container Apps, etc.). Forwarded headers from the proxy are honored. Plain HTTP works only when browsing to `localhost`.
+
+### Building the Image
+
+The image is built with the .NET SDK container support, no Dockerfile is required. Requires the .NET 10 SDK, Docker and [dart-sass](https://sass-lang.com/dart-sass/) (`npm i -g sass`).
+
+```shell
+dotnet publish src/EstimatorX.Web/EstimatorX.Web.csproj -c Release -t:PublishContainer
+```
+
+The image is created in the local Docker daemon as `loresoft/estimatorx`.
+
+## Running from the Zip
+
+Each build produces `EstimatorX.Web.zip`, a framework-dependent build of the application, available as the `Application` artifact on the GitHub Actions run. It runs on Windows, Linux and macOS.
+
+The zip contains compiled output, not source, so start it with `dotnet EstimatorX.Web.dll` rather than `dotnet run`. Requires the [ASP.NET Core 10 Runtime](https://dotnet.microsoft.com/download/dotnet/10.0).
+
+Extract the zip and run from the extracted folder.
+
+```shell
+unzip EstimatorX.Web.zip -d estimatorx
+cd estimatorx
+
+export Database__ConnectionString="Data Source=./data/EstimatorX.db"
+export GitHub__ClientId=<client-id>
+export GitHub__ClientSecret=<client-secret>
+
+dotnet EstimatorX.Web.dll --urls "http://localhost:8080"
+```
+
+PowerShell
+
+```powershell
+Expand-Archive EstimatorX.Web.zip -DestinationPath estimatorx
+Set-Location estimatorx
+
+$env:Database__ConnectionString = "Data Source=./data/EstimatorX.db"
+$env:GitHub__ClientId = "<client-id>"
+$env:GitHub__ClientSecret = "<client-secret>"
+
+dotnet EstimatorX.Web.dll --urls "http://localhost:8080"
+```
+
+Then browse to `http://localhost:8080`.
+
+- All settings in the [Configuration](#configuration) section apply. Set them as environment variables, command line arguments (`--Database:Provider=postgresql`) or in an `appsettings.Production.json` file next to `EstimatorX.Web.dll`.
+- Set `Database__ConnectionString` when using SQLite; the built-in default `/data/EstimatorX.db` points at the root of the file system.
+- Data protection keys are stored in the user profile by default. Set `DataProtection__Path` to store them elsewhere.
+- Use `--urls` or `ASPNETCORE_URLS` to change the listening address. The same [HTTPS](#https) guidance applies when hosting outside of `localhost`.
+
+To run from source instead, use `dotnet run --project src/EstimatorX.Web/EstimatorX.Web.csproj`. Requires the .NET 10 SDK and dart-sass.

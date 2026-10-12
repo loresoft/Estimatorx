@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "PopulateKeys": {
+      "commandName": "Project",
+      "commandLineArgs": "populate-keys"
+    },
+    "MigrateData": {
+      "commandName": "Project",
+      "commandLineArgs": "migrate-data"
+    }
+  }
+}

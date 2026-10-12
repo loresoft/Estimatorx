@@ -1,0 +1,36 @@
+@if (IsCreate) return;
+
+<ul class="nav nav-tabs card-header-tabs">
+    <li class="nav-item">
+        <NavLink id="template-general-tab-link"
+                 Match="NavLinkMatch.All"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@RouteLinks.Templates.General(Id)"
+                 title="Template General">General</NavLink>
+    </li>
+    <li class="nav-item">
+        <NavLink id="template-estimation-tab-link"
+                 Match="NavLinkMatch.Prefix"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@RouteLinks.Templates.Estimation(Id)"
+                 title="Template Estimation">Estimation</NavLink>
+    </li>
+    <li class="nav-item">
+        <NavLink id="template-settings-tab-link"
+                 Match="NavLinkMatch.Prefix"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@RouteLinks.Templates.Settings(Id)"
+                 title="Template Settings">Settings</NavLink>
+    </li>
+</ul>
+
+@code {
+    [Parameter, EditorRequired]
+    public required long Id { get; set; }
+
+    [Parameter]
+    public bool IsCreate { get; set; }
+}

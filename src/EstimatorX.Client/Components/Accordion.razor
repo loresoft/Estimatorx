@@ -1,8 +1,13 @@
+@implements IDisposable
+@using EstimatorX.Client.Messages
+@using LoreSoft.Blazor.Controls.Events
+@using LoreSoft.Blazor.Controls.Utilities
+
 <div class="accordion-item">
     <h2 id="@Identifier("header")"
         class="accordion-header">
-        <button class="@ButtonClass"
-                type="button"
+        <button type="button"
+                class="@ButtonClass"
                 @onclick="ToggleCollapsed"
                 aria-expanded="@Shown.ToString().ToLower()"
                 aria-controls="@Identifier("collapse")">
@@ -12,8 +17,8 @@
     @if (Shown)
     {
         <div id="@Identifier("collapse")"
-         class="@BodyClass"
-         aria-labelledby="@Identifier("header")">
+             class="@BodyClass"
+             aria-labelledby="@Identifier("header")">
             <div class="accordion-body">
                 @Body
             </div>
@@ -21,4 +26,70 @@
     }
 </div>
 
+@code
+{
+    [Parameter, EditorRequired]
+    public required RenderFragment Header { get; set; }
 
+    [Parameter, EditorRequired]
+    public required RenderFragment Body { get; set; }
+
+    [Parameter]
+    public bool Collapsed { get; set; } = true;
+
+    [Parameter, EditorRequired]
+    public required string ParentGroup { get; set; }
+
+    [Inject]
+    protected EventBus EventBus { get; set; } = null!;
+
+    private readonly long Id = Snowflake.Default.NextId();
+
+    private bool Shown => !Collapsed;
+
+    private string Identifier(string name) => $"accordion-{name}-{Id}";
+
+    private string? ButtonClass => CssBuilder.Pool.Use(builder => builder
+        .AddClass("accordion-button")
+        .AddClass("collapsed", Collapsed)
+        .ToString()
+    );
+
+    private string? BodyClass => CssBuilder.Pool.Use(builder => builder
+        .AddClass("accordion-collapse collapse")
+        .AddClass("show", Shown)
+        .ToString()
+    );
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        EventBus.Subscribe<AccordionChanged>(OnAccordionChange);
+    }
+
+    private async Task ToggleCollapsed()
+    {
+        Collapsed = !Collapsed;
+
+        AccordionChanged eventData = new(ParentGroup, Id, Collapsed);
+        await EventBus.PublishAsync(eventData);
+    }
+
+    private async ValueTask OnAccordionChange(AccordionChanged message)
+    {
+        if (message.ParentGroup != ParentGroup)
+            return;
+
+        if (message.AccordionId == Id)
+            return;
+
+        Collapsed = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        EventBus.Unsubscribe(this);
+        GC.SuppressFinalize(this);
+    }
+}

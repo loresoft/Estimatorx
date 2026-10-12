@@ -1,0 +1,27 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Build/">
+    <File Path=".github/workflows/dotnet.yml" />
+    <File Path="Directory.Packages.props" />
+    <File Path="README.md" />
+    <File Path="src/Directory.Build.props" />
+  </Folder>
+  <Folder Name="/Migrations/">
+    <Project Path="src/EstimatorX.Migrations.PostgreSql/EstimatorX.Migrations.PostgreSql.csproj" />
+    <Project Path="src/EstimatorX.Migrations.Sqlite/EstimatorX.Migrations.Sqlite.csproj" />
+    <Project Path="src/EstimatorX.Migrations.SqlServer/EstimatorX.Migrations.SqlServer.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="test/EstimatorX.Core.PostgreSql.Tests/EstimatorX.Core.PostgreSql.Tests.csproj" />
+    <Project Path="test/EstimatorX.Core.SqlServer.Tests/EstimatorX.Core.SqlServer.Tests.csproj" />
+    <Project Path="test/EstimatorX.Core.Tests/EstimatorX.Core.Tests.csproj" />
+  </Folder>
+  <Project Path="src/EstimatorX.Client/EstimatorX.Client.csproj" />
+  <Project Path="src/EstimatorX.Core/EstimatorX.Core.csproj" />
+  <Project Path="src/EstimatorX.Shared/EstimatorX.Shared.csproj" />
+  <Project Path="src/EstimatorX.Web/EstimatorX.Web.csproj" />
+</Solution>

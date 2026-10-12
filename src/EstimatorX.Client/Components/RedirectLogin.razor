@@ -1,15 +1,9 @@
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-@using Microsoft.Extensions.Options
-
 @inject NavigationManager Navigation
-@inject IOptionsSnapshot<RemoteAuthenticationOptions<ApiAuthorizationProviderOptions>> Options
 
 @code {
     protected override void OnInitialized()
     {
-        var authenticationOptions = Options.Get(Microsoft.Extensions.Options.Options.DefaultName);
-        var loginPath = authenticationOptions.AuthenticationPaths.LogInPath;
-
-        Navigation.NavigateToLogin(loginPath);
+        var returnUrl = "/" + Navigation.ToBaseRelativePath(Navigation.Uri);
+        Navigation.NavigateTo($"account/login?returnUrl={Uri.EscapeDataString(returnUrl)}", forceLoad: true);
     }
 }

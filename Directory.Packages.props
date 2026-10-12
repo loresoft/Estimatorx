@@ -1,0 +1,52 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="Arbiter.CommandQuery" Version="6.12.13" />
+    <PackageVersion Include="Arbiter.Communication" Version="6.12.13" />
+    <PackageVersion Include="AspNet.Security.OAuth.GitHub" Version="10.0.0" />
+    <PackageVersion Include="Arbiter.CommandQuery.Endpoints" Version="6.12.13" />
+    <PackageVersion Include="Arbiter.CommandQuery.EntityFramework" Version="6.12.13" />
+    <PackageVersion Include="Arbiter.Components" Version="6.12.13" />
+    <PackageVersion Include="Arbiter.Dispatcher.Client" Version="6.12.13" />
+    <PackageVersion Include="Arbiter.Dispatcher.Server" Version="6.12.13" />
+    <PackageVersion Include="Arbiter.Functions" Version="6.12.6" />
+    <PackageVersion Include="Arbiter.Health" Version="6.12.13" />
+    <PackageVersion Include="Arbiter.OpenTelemetry" Version="6.12.6" />
+    <PackageVersion Include="Arbiter.OpenTelemetry.Monitor" Version="6.12.6" />
+    <PackageVersion Include="Arbiter.OpenTelemetry.Server" Version="6.12.13" />
+    <PackageVersion Include="AssemblyMetadata.Generators" Version="2.2.0" />
+    <PackageVersion Include="AwesomeAssertions" Version="9.6.0" />
+    <PackageVersion Include="Blazilla" Version="2.4.1" />
+    <PackageVersion Include="Cosmos.Abstracts" Version="6.2.3" />
+    <PackageVersion Include="coverlet.MTP" Version="10.1.0" />
+    <PackageVersion Include="Equatable.Generator" Version="3.0.0" />
+    <PackageVersion Include="FluentValidation" Version="12.2.0" />
+    <PackageVersion Include="Injectio" Version="6.2.0" />
+    <PackageVersion Include="LoreSoft.Blazor.Controls" Version="13.11.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.Facebook" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.Google" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Data.SqlClient.Extensions.Azure" Version="7.1.1" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.Hybrid" Version="10.10.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.12" />
+    <PackageVersion Include="MinVer" Version="8.0.0" />
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
+    <PackageVersion Include="Spectre.Console.Cli" Version="0.57.2" />
+    <PackageVersion Include="Testcontainers.MsSql" Version="4.16.0" />
+    <PackageVersion Include="Testcontainers.Postgresql" Version="4.16.0" />
+    <PackageVersion Include="XUnit.Hosting" Version="4.1.0" />
+    <PackageVersion Include="xunit.v3.mtp-v2" Version="4.0.2" />
+  </ItemGroup>
+</Project>

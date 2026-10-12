@@ -1,12 +1,14 @@
-using EstimatorX.Shared.Models;
+using EstimatorX.Domain.Definitions;
+using EstimatorX.Domain.Models;
 
-namespace EstimatorX.Shared.Services;
+namespace EstimatorX.Services;
 
 public interface IProjectBuilder
 {
-    Project UpdateProject(Project project, bool includeSample = false);
+    TProject UpdateProject<TProject>(TProject? project, bool includeSample = false)
+        where TProject : class, IProjectEstimate, new();
 
     ProjectSettings UpdateSettings(ProjectSettings settings, bool includeSample = false);
 
-    void UpdateSamples(Project project);
+    void UpdateSamples(IProjectEstimate project);
 }

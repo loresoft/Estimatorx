@@ -1,42 +1,70 @@
-using Estimatorx.Data.Mongo;
-using Estimatorx.Data.Mongo.Mapping;
-using Estimatorx.Data.Mongo.Security;
-using Estimatorx.Migration;
 
-using EstimatorX.Core.Options;
-using EstimatorX.Shared;
+using Estimatorx.Migration.Commands;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using MongoDB.Abstracts;
-using MongoDB.Bson.Serialization;
+using Spectre.Console.Cli;
 
-BsonClassMap.RegisterClassMap<ProjectMap>();
-BsonClassMap.RegisterClassMap<TemplateMap>();
-BsonClassMap.RegisterClassMap<OrganizationMap>();
+namespace Estimatorx.Migration;
 
-await Host.CreateDefaultBuilder(args)
-    .ConfigureServices((hostContext, services) =>
+public class Program
+{
+    public static async Task<int> Main(string[] args)
     {
-        services.AddAutoMapper(typeof(HostingConfiguration).Assembly, typeof(AssemblyMetadata).Assembly);
-
-        services.AddHostedService<ImportHostedService>();
-
-        services.AddCosmosRepository();
-
-        services.AddSingleton(s =>
+        try
         {
-            var configuration = s.GetRequiredService<IConfiguration>();
-            var connectionString = configuration.GetConnectionString("Estimatorx");
+            var builder = Host.CreateApplicationBuilder(args);
 
-            return MongoFactory.GetDatabaseFromConnectionString(connectionString);
+            // Load user secrets in local environments
+            builder.Configuration.AddUserSecrets(typeof(Program).Assembly, true);
+
+            ConfigureServices(builder);
+
+            var host = builder.Build();
+            var app = ConfigureCommands(host);
+
+            return await app.RunAsync(args);
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Host terminated unexpectedly: {ex.Message}");
+            Console.Error.WriteLine(ex.ToString());
+            return 1;
+        }
+    }
+
+    private static void ConfigureServices(HostApplicationBuilder builder)
+    {
+        builder.Services
+            .AddCosmosRepository();
+
+        builder.Services
+            .AddEstimatorXShared()
+            .AddEstimatorXCore()
+            .AddEstimatorxDataCosmos()
+            .AddEstimatorxMigration();
+    }
+
+    private static CommandApp ConfigureCommands(IHost host)
+    {
+        // Create a type registrar that uses our DI container
+        var registrar = new TypeRegistrar(host.Services);
+        var app = new CommandApp(registrar);
+
+        app.Configure(config =>
+        {
+            config.SetApplicationName("Migration");
+
+            config.AddCommand<PopulateKeysCommand>("populate-keys")
+                .WithDescription("Populate missing Key values using Snowflake ids");
+
+            config.AddCommand<MigrateDataCommand>("migrate-data")
+                .WithDescription("Migrate Cosmos entities into the EstimatorX database");
         });
 
-        services.AddSingleton<ProjectRepository>();
-        services.AddSingleton<TemplateRepository>();
-        services.AddSingleton<OrganizationRepository>();
+        return app;
+    }
 
-    })
-    .RunConsoleAsync();
+}

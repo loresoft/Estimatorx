@@ -1,0 +1,398 @@
+@typeparam TModel where TModel : IProjectEstimate
+
+<div class="table-edit-container">
+    <table class="table table-edit table-bordered">
+        <colgroup>
+            <col style="width: 50px" />
+            <col style="" />
+            <col style="width: 90px" />
+            <col style="width: 125px" />
+            <col style="width: 125px" />
+            <col style="width: 110px" />
+            <col style="width: 90px" />
+            <col style="width: 90px" />
+        </colgroup>
+        <thead>
+            <tr class="header-sticky">
+                <th></th>
+                <th>Name</th>
+                <th>Effort</th>
+                <th>Clarity</th>
+                <th>Confidence</th>
+                <th>Criticality</th>
+                <th class="text-end">Estimated</th>
+                <th class="text-end">Weighted</th>
+            </tr>
+        </thead>
+        @if (Model != null)
+        {
+            <tbody>
+                @foreach (var epic in Model.Epics)
+                {
+                    <tr @key="epic.Id" class="table-epic-row">
+                        <td class="text-center">
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle"
+                                        type="button"
+                                        id="@Identifier("epic", "action", epic.Id)"
+                                        data-bs-toggle="dropdown"
+                                        data-bs-popper-config='{"strategy":"fixed"}'
+                                        aria-expanded="false">
+                                    <span style="color: rgb(224, 108, 0)"><i class="bi bi-award-fill"></i></span>
+                                </button>
+                                <ul class="dropdown-menu"
+                                    aria-labelledby="@Identifier("epic", "action", epic.Id)">
+                                    <li>
+                                        <button type="button" class="dropdown-item" @onclick="EpicAdd">
+                                            <i class="bi bi-plus-lg text-estimate-epic me-1"></i> Add Epic
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="dropdown-item" @onclick="() => EpicDuplicate(epic)">
+                                            <i class="bi bi-copy text-estimate-epic me-1"></i> Duplicate Epic
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="dropdown-item" @onclick="EpicReorder">
+                                            <i class="bi bi-arrow-down-up text-estimate-epic me-1"></i> Reorder Epic
+                                        </button>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <button type="button" class="dropdown-item" @onclick="() => EpicDelete(epic)">
+                                            <i class="bi bi-trash3 text-estimate-epic me-1"></i> Delete Epic
+                                        </button>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <button type="button" class="dropdown-item" @onclick="() => FeatureAdd(epic)">
+                                            <i class="bi bi-plus-lg text-estimate-feature me-1"></i> Add Feature
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td colspan="5">
+                            <InputText id="@Identifier("epic", "name", epic.Id)"
+                                       @bind-Value="epic.Name"
+                                       class="form-control" />
+                        </td>
+                        <th class="text-end table-active">
+                            <div class="form-control-static">@epic.EstimatedTotal</div>
+                        </th>
+                        <th class="text-end table-active">
+                            <div class="form-control-static">@epic.WeightedTotal</div>
+                        </th>
+                    </tr>
+                    @foreach (var feature in epic.Features)
+                    {
+                        <tr @key="feature.Id" class="table-feature-row">
+                            <td class="text-center">
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle"
+                                            type="button"
+                                            id="@Identifier("feature", "action", feature.Id)"
+                                            data-bs-toggle="dropdown"
+                                            data-bs-popper-config='{"strategy":"fixed"}'
+                                            aria-expanded="false">
+                                        <span style="color: rgb(119, 59, 147)"><i class="bi bi-trophy-fill"></i></span>
+                                    </button>
+                                    <ul class="dropdown-menu"
+                                        aria-labelledby="@Identifier("feature", "action", feature.Id)">
+                                        <li>
+                                            <button type="button" class="dropdown-item" @onclick="() => FeatureAdd(epic)">
+                                                <i class="bi bi-plus-lg text-estimate-feature me-1"></i> Add Feature
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="dropdown-item" @onclick="() => FeatureDuplicate(epic, feature)">
+                                                <i class="bi bi-copy text-estimate-feature me-1"></i> Duplicate Feature
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="dropdown-item" @onclick="() => FeatureMove(feature)">
+                                                <i class="bi bi-arrow-left-right text-estimate-feature me-1"></i> Move Feature
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="dropdown-item" @onclick="() => FeatureReorder(epic)">
+                                                <i class="bi bi-arrow-down-up text-estimate-feature me-1"></i> Reorder Features
+                                            </button>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <button type="button" class="dropdown-item" @onclick="() => FeatureDelete(epic, feature)">
+                                                <i class="bi bi-trash3 text-estimate-feature me-1"></i> Delete Feature
+                                            </button>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <button type="button" class="dropdown-item" @onclick="EpicAdd">
+                                                <i class="bi bi-plus-lg text-estimate-epic me-1"></i> Add Epic
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="dropdown-item" @onclick="() => EpicDuplicate(epic)">
+                                                <i class="bi bi-copy text-estimate-epic me-1"></i> Duplicate Epic
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="dropdown-item" @onclick="EpicReorder">
+                                                <i class="bi bi-arrow-down-up text-estimate-epic me-1"></i> Reorder Epics
+                                            </button>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <button type="button" class="dropdown-item" @onclick="() => EpicDelete(epic)">
+                                                <i class="bi bi-trash3 text-estimate-epic me-1"></i> Delete Epic
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td class="epic-name-cell">
+                                <InputText id="@Identifier("feature", "name", feature.Id)"
+                                           @bind-Value="feature.Name"
+                                           class="form-control" />
+                            </td>
+                            <td>
+                                <InputSelect id="@Identifier("feature", "estimate", feature.Id)"
+                                             @bind-Value="feature.Estimate"
+                                             class="form-control no-style">
+                                    <option value=""></option>
+                                    @foreach (var item in ProjectSettings.EffortLevels)
+                                    {
+                                        <option @key="item" value="@item.Effort">@item.Effort</option>
+                                    }
+                                </InputSelect>
+                            </td>
+                            <td>
+                                <InputSelect id="@Identifier("feature", "clarity", feature.Id)"
+                                             @bind-Value="feature.Clarity"
+                                             class="form-control no-style">
+                                    <option value=""></option>
+                                    @foreach (var item in Enum.GetNames<ClarityScale>())
+                                    {
+                                        <option @key="item" value="@item">@item.ToTitle()</option>
+                                    }
+                                </InputSelect>
+                            </td>
+                            <td>
+                                <InputSelect id="@Identifier("feature", "confidence", feature.Id)"
+                                             @bind-Value="feature.Confidence"
+                                             class="form-control no-style">
+                                    <option value=""></option>
+                                    @foreach (var item in Enum.GetNames<ConfidenceScale>())
+                                    {
+                                        <option @key="item" value="@item">@item.ToTitle()</option>
+                                    }
+                                </InputSelect>
+                            </td>
+                            <td>
+                                <InputSelect id="@Identifier("feature", "criticality", feature.Id)"
+                                             @bind-Value="feature.Criticality"
+                                             class="form-control no-style">
+                                    <option value=""></option>
+                                    @foreach (var item in Enum.GetNames<Criticality>())
+                                    {
+                                        <option @key="item" value="@item">@item.ToTitle()</option>
+                                    }
+                                </InputSelect>
+                            </td>
+                            <th class="text-end table-active">
+                                <div class="form-control-static">@feature.EstimatedTotal</div>
+                            </th>
+                            <th class="text-end table-active">
+                                <div class="form-control-static">@feature.WeightedTotal</div>
+                            </th>
+                        </tr>
+                    }
+                }
+                @if (Model.Epics.Count == 0)
+                {
+                    <tr>
+                        <td colspan="8" class="text-center">
+                            <div class="m-5 text-muted">
+                                No epics have been added yet. <br />
+                                Click the "Add Epic" to get started.
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="6" class="text-end">
+                        Grand Total:
+                    </th>
+                    <th class="text-end">
+                        @Model.EstimatedTotal
+                    </th>
+                    <th class="text-end">
+                        @Model.WeightedTotal
+                    </th>
+                </tr>
+            </tfoot>
+        }
+    </table>
+</div>
+
+<div class="row p-2">
+    <div class="col-sm-12">
+        <button type="button"
+                id="epic-add-button"
+                @onclick="EpicAdd"
+                class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-plus-lg"></i> Add Epic
+        </button>
+
+        <button type="button"
+                id="epic-reorder-button"
+                @onclick="EpicReorder"
+                class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-down-up"></i> Reorder Epics
+        </button>
+    </div>
+</div>
+
+@code
+{
+    [Parameter, EditorRequired]
+    public required TModel Model { get; set; }
+
+    [Parameter]
+    public EventCallback NotifyStateChanged { get; set; }
+
+    [Inject]
+    protected IMapper Mapper { get; set; } = default!;
+
+    [Inject]
+    protected ModalService ModalService { get; set; } = default!;
+
+    protected ProjectSettings ProjectSettings => Model.Settings;
+
+
+    private string Identifier(string section, string name, long id)
+        => $"{section}-{name}-{id}";
+
+
+    private async Task EpicAdd()
+    {
+        EpicEstimate epic = new()
+        {
+            Name = "New Epic Estimate",
+            EstimatedTotal = 0,
+            WeightedTotal = 0,
+            EstimatedWeeks = 0,
+            WeightedWeeks = 0,
+
+        };
+        Model.Epics.Add(epic);
+
+        await NotifyStateChanged.InvokeAsync();
+    }
+
+    private async Task EpicReorder()
+    {
+        var parameters = ModalParameters.Create()
+            .Title("Reorder Epics")
+            .Parameter(nameof(ReorderModal<EpicEstimate>.Items), Model.Epics);
+
+        var modal = await ModalService.Show<ReorderModal<EpicEstimate>>(parameters);
+        var result = await modal.Result;
+
+        await NotifyStateChanged.InvokeAsync();
+    }
+
+    private async Task EpicDelete(EpicEstimate epic)
+    {
+        var name = epic.Name;
+
+        if (!await ModalService.ConfirmDelete($"epic '{name}'"))
+            return;
+
+        Model.Epics.Remove(epic);
+
+        await NotifyStateChanged.InvokeAsync();
+    }
+
+    private async Task EpicDuplicate(EpicEstimate epic)
+    {
+        var clone = Mapper.Map<EpicEstimate, EpicEstimate>(epic);
+
+        clone.Id = Snowflake.Default.NextId();
+        clone.Name += " - Copy";
+
+        Model.Epics.Add(clone);
+
+        await NotifyStateChanged.InvokeAsync();
+    }
+
+
+    private async Task FeatureAdd(EpicEstimate epic)
+    {
+        FeatureEstimate feature = new()
+        {
+            Name = "New Feature Estimate",
+            EstimatedTotal = 0,
+            WeightedTotal = 0,
+            EstimatedWeeks = 0,
+            WeightedWeeks = 0
+        };
+        epic.Features.Add(feature);
+
+        await NotifyStateChanged.InvokeAsync();
+    }
+
+    private async Task FeatureReorder(EpicEstimate epic)
+    {
+        var parameters = ModalParameters.Create()
+            .Title("Reorder Features")
+            .Parameter(nameof(ReorderModal<FeatureEstimate>.Items), epic.Features);
+
+        var modal = await ModalService.Show<ReorderModal<FeatureEstimate>>(parameters);
+        var result = await modal.Result;
+
+        await NotifyStateChanged.InvokeAsync();
+    }
+
+    private async Task FeatureDelete(EpicEstimate epic, FeatureEstimate feature)
+    {
+        var name = feature.Name;
+
+        if (!await ModalService.ConfirmDelete($"feature '{name}'"))
+            return;
+
+        epic.Features.Remove(feature);
+
+        await NotifyStateChanged.InvokeAsync();
+    }
+
+    private async Task FeatureDuplicate(EpicEstimate epic, FeatureEstimate feature)
+    {
+        var clone = Mapper.Map<FeatureEstimate, FeatureEstimate>(feature);
+
+        clone.Id = Snowflake.Default.NextId();
+        clone.Name += " - Copy";
+
+        epic.Features.Add(clone);
+
+        await NotifyStateChanged.InvokeAsync();
+    }
+
+    private async Task FeatureMove(FeatureEstimate feature)
+    {
+        var name = feature.Name;
+
+        var parameters = ModalParameters.Create()
+            .Title($"Move Feature '{name}'")
+            .Parameter(nameof(FeatureMoveModal.Project), Model)
+            .Parameter(nameof(FeatureMoveModal.Feature), feature);
+
+        var modal = await ModalService.Show<FeatureMoveModal>(parameters);
+        var result = await modal.Result;
+
+        await NotifyStateChanged.InvokeAsync();
+    }
+
+}

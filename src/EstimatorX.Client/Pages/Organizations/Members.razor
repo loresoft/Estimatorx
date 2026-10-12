@@ -1,76 +1,290 @@
-@page "/organizations/{id}/members"
-@inherits OrganizationBase
+@page "/organizations/{id:long}/members"
+@inherits NestedListPageBase<long, OrganizationReadModel, UserOrganizationReadModel>
+@attribute [Authorize]
 
-@using EstimatorX.Client.Pages.Organizations.Components
+<PageTitle>@PageTitle("Members") - EstimatorX</PageTitle>
 
-<PageTitle>Organization @Organization?.Name - Members - EstimatorX</PageTitle>
-
-<OrganizationContainer Id="@Id">
-    <div class="table-responsive">
-        <Conditional Condition="MemberList != null">
-            <DataGrid Data="MemberList"
-                      TItem="OrganizationMember"
-                      class="table table-hover table-bordered mb-0"
-                      @ref="DataGrid">
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@RouteLinks.Home()">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="@RouteLinks.Organizations.List()">Organizations</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="@RouteLinks.Organizations.Edit(Id)">Edit</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Members
+            </li>
+        </ol>
+    </nav>
+</div>
+<div class="container-xxl">
+    <div class="card shadow mb-5">
+        <div class="card-header d-flex align-items-center">
+            <h5 class="m-0 me-auto card-header-title">
+                @PageTitle("Members")
+            </h5>
+            <Tabs Id="@Id" IsCreate="false" />
+        </div>
+        <div class="card-body">
+            <DataGrid TItem="UserOrganizationReadModel"
+                      DataProvider="LoadData"
+                      Filterable="true"
+                      Sortable="true"
+                      @ref="DataComponent">
+                <DataToolbar>
+                    <DataGridToolbar />
+                </DataToolbar>
                 <DataColumns>
-                    <DataColumn TItem="OrganizationMember" Property="p => p.Name" />
-                    <DataColumn TItem="OrganizationMember" Property="p => p.Email" />
-                    <DataColumn TItem="OrganizationMember" Property="p => p.IsOwner" Title="Owner" Width="115px" />
-                    <DataColumn TItem="OrganizationMember" Property="p => p.Id" Width="100px" Title="Actions">
+                    <DataColumn Property="x => x.Id"
+                                Width="110px"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.UserId"
+                                Width="110px"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.UserName"
+                                Title="Name"
+                                SortIndex="0" />
+
+                    <DataColumn Property="x => x.UserEmail"
+                                Title="Email" />
+
+                    <DataColumn Property="x => x.OrganizationId"
+                                Width="110px"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.OrganizationName"
+                                Title="Organization"
+                                Width="170px"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.IsOwner"
+                                Title="Owner"
+                                Width="110px" />
+
+                    <DataColumn Property="x => x.CreatedBy"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.Created"
+                                Width="160px"
+                                Visible="false"
+                                Format="g">
                         <Template Context="item">
-                            <button type="button"
-                                    title="Toggle Owner"
-                                    class="btn btn-outline-info btn-sm"
-                                    @onclick="() => HandleToggleOwner(item.Id)"
-                                    disabled="@(IsSelf(item.Id) || !IsOwner())">
-                                <i class="fas fa-user-shield"></i>
-                            </button>
-                            <button type="button"
-                                    title="Remove Member"
-                                    class="btn btn-outline-danger btn-sm"
-                                    @onclick="() => HandleRemoveUser(item.Id)"
-                                    disabled="@(IsSelf(item.Id) || !IsOwner())">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
+                            <LocalTime Value="item.Created"
+                                       DisplayFormat="g" />
                         </Template>
                     </DataColumn>
+
+                    <DataColumn Property="x => x.UpdatedBy"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.Updated"
+                                Width="160px"
+                                Format="g">
+                        <Template Context="item">
+                            <LocalTime Value="item.Updated"
+                                       DisplayFormat="g" />
+                        </Template>
+                    </DataColumn>
+
+                    <DataColumn Property="x => x.Id"
+                                Title="Action"
+                                Filterable="false"
+                                Sortable="false"
+                                Hideable="false"
+                                Width="100px">
+                        <Template Context="item">
+                            <div class="btn-actions btn-actions-sm" role="group" aria-label="Row Actions">
+                                <BusyButton Trigger="() => HandleToggleOwner(item)"
+                                            Disabled="@(!CanChange(item))"
+                                            BusyText="..."
+                                            type="button"
+                                            class="btn-action btn-action-primary"
+                                            title="Toggle Owner">
+                                    <i class="bi bi-person-fill-lock"></i>
+                                </BusyButton>
+                                <BusyButton Trigger="() => HandleDelete(item)"
+                                            Disabled="@(!CanChange(item))"
+                                            BusyText="..."
+                                            type="button"
+                                            class="btn-action btn-action-danger"
+                                            title="Delete Item">
+                                    <i class="bi bi-trash3"></i>
+                                </BusyButton>
+                            </div>
+                        </Template>
+                    </DataColumn>
+
                 </DataColumns>
+                <DataPagination Context="grid">
+                    <DataPager PageSize="25" />
+                    <DataSizer />
+                    <div>@grid.Pager.StartItem - @grid.Pager.EndItem of @grid.Pager.Total</div>
+                </DataPagination>
             </DataGrid>
-        </Conditional>
-    </div>
-    <Conditional Condition="IsOwner()">
-        <div class="row mx-1 my-2">
-            <div class="col">
-                <CascadingValue Value=@(new EditContext(new {}))>
-                    <Typeahead SearchMethod="@SearchUsers"
-                               @bind-Value="@SelectedUser"
-                               Placeholder="Add Member"
-                               MinimumLength="3">
-                        <SelectedTemplate Context="user">
-                            @user.Name
-                        </SelectedTemplate>
-                        <ResultTemplate Context="user">
-                            <div>@user.Name</div>
-                            <small>@user.Email</small>
-                        </ResultTemplate>
-                    </Typeahead>
-                </CascadingValue>
-            </div>
-            <div class="col">
-                <BusyButton id="add-user-button"
-                            type="button"
-                            Busy="OrganizationStore.IsBusy"
-                            Disabled="@(SelectedUser == null)"
-                            @onclick="@HandleAddUser"
-                            class="btn btn-primary">
-                    <BusyTemplate>
-                        <span class='spinner-border spinner-border-sm'></span> Saving...
-                    </BusyTemplate>
-                    <ChildContent>
-                        Add User
-                    </ChildContent>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex flex-wrap align-items-center">
+                <div class="my-1 w-sm-100"
+                     style="min-width: 30rem">
+                    <EntityTypeahead TItem="UserReadModel"
+                                     TValue="long?"
+                                     TKey="long"
+                                     Placeholder="Select a user"
+                                     ResultTemplate="SharedFragment.UserResult"
+                                     Preload="false"
+                                     Disabled="@(!IsOwner)"
+                                     @bind-Value="Selected"
+                                     id="SelectedUser"
+                                     name="SelectedUser" />
+                </div>
+
+                <BusyButton type="button"
+                            id="user-add-button"
+                            class="btn btn-outline-secondary mx-2 w-sm-100"
+                            Disabled="@(Selected == null || !IsOwner)"
+                            Trigger="HandleAdd">
+                    Add User
                 </BusyButton>
             </div>
         </div>
-    </Conditional>
-</OrganizationContainer>
+    </div>
+</div>
+
+@code
+{
+    private long? _loadedId;
+
+    private long? Selected { get; set; }
+
+    private long CurrentUserId { get; set; }
+
+    private bool IsOwner { get; set; }
+
+    private bool CanChange(UserOrganizationReadModel item)
+        => IsOwner && item.UserId != CurrentUserId;
+
+    protected override string ModelLabel => "Organization Member";
+
+    protected override async Task OnLoadedAsync(CancellationToken cancellationToken)
+    {
+        await base.OnLoadedAsync(cancellationToken);
+
+        if (_loadedId == Id)
+            return;
+
+        _loadedId = Id;
+
+        try
+        {
+            CurrentUserId = await base.GetUserId<long>();
+
+            if (await base.HasRole(RoleNames.Administrators))
+            {
+                IsOwner = true;
+                return;
+            }
+
+            IsOwner = Model?.Owners?.Contains(CurrentUserId) == true;
+        }
+        catch (Exception ex)
+        {
+            Notification.ShowError(ex);
+        }
+        finally
+        {
+            await StateChangedAsync();
+        }
+    }
+
+    protected override string? GetRedirectLocation(RedirectReason reason, long id)
+        => RouteLinks.Organizations.List();
+
+    protected override EntityFilter? CombineFilter(EntityFilter? originalFilter)
+    {
+        var parentFilter = new EntityFilter
+        {
+            Name = nameof(UserOrganizationReadModel.OrganizationId),
+            Operator = FilterOperators.Equal,
+            Value = Id
+        };
+
+        if (originalFilter == null)
+            return parentFilter;
+
+        var boolFilter = new EntityFilter
+        {
+            Logic = FilterLogic.And,
+            Filters = [parentFilter, originalFilter]
+        };
+
+        return boolFilter;
+    }
+
+
+    private async Task HandleAdd()
+    {
+        if (Selected == null || !IsOwner)
+            return;
+
+        try
+        {
+            var model = new UserOrganizationCreateModel
+            {
+                UserId = Selected.Value,
+                OrganizationId = Id,
+            };
+
+            var result = await DataService.Create<UserOrganizationCreateModel, UserOrganizationReadModel>(model);
+
+            Notification.ShowSuccess($"User successfully linked to organization");
+
+            Selected = null;
+
+            if (DataGrid != null)
+                await DataGrid.RefreshAsync();
+        }
+        catch (Exception ex)
+        {
+            Notification.ShowError(ex);
+        }
+        finally
+        {
+            await StateChangedAsync();
+        }
+    }
+
+    private async Task HandleToggleOwner(UserOrganizationReadModel item)
+    {
+        if (item == null || !CanChange(item))
+            return;
+
+        try
+        {
+            var command = new UserOrganizationOwnerCommand(item.UserId, item.OrganizationId, !item.IsOwner);
+            var result = await Dispatcher.Send(command);
+
+            if (result?.Successful == true)
+                Notification.ShowSuccess($"User '{item.UserName}' ownership successfully updated");
+            else
+                Notification.ShowError($"Failed to update user '{item.UserName}' ownership");
+
+            if (DataGrid != null)
+                await DataGrid.RefreshAsync();
+        }
+        catch (Exception ex)
+        {
+            Notification.ShowError(ex);
+        }
+        finally
+        {
+            await StateChangedAsync();
+        }
+    }
+}

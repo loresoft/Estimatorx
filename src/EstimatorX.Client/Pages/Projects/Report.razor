@@ -1,0 +1,270 @@
+@page "/projects/report/{securityKey}"
+@attribute [AllowAnonymous]
+@attribute [ExcludeFromInteractiveRouting]
+
+<PageTitle>@(Model?.Name ?? "Project") Estimate Report - EstimatorX</PageTitle>
+
+<div class="report container-xxl py-4">
+    @if (ErrorMessage != null)
+    {
+        <div class="alert alert-warning mt-4" role="alert">
+            @ErrorMessage
+        </div>
+    }
+    else
+    {
+        <LoadingBlock IsLoading="Model == null || IsBusy">
+            <div class="report-toolbar d-print-none d-flex justify-content-end gap-2 mb-3">
+                <button type="button"
+                        class="btn btn-sm btn-outline-secondary"
+                        onclick="this.closest('.report').classList.toggle('report-hide-details')">
+                    <span class="report-details-hide"><i class="bi bi-eye-slash"></i> Hide Details</span>
+                    <span class="report-details-show"><i class="bi bi-eye"></i> Show Details</span>
+                </button>
+                <button type="button"
+                        class="btn btn-sm btn-primary"
+                        onclick="window.print()">
+                    <i class="bi bi-printer"></i> Print
+                </button>
+            </div>
+
+            <header class="report-header border-bottom pb-3 mb-4">
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                    <div>
+                        <div class="text-uppercase text-muted small fw-semibold">Project Estimate</div>
+                        <h1 class="h2 mb-1">@Model!.Name</h1>
+                    </div>
+                    <div class="report-meta text-sm-end small">
+                        @if (!string.IsNullOrWhiteSpace(Model.OrganizationName))
+                        {
+                            <div class="fw-semibold">@Model.OrganizationName</div>
+                        }
+                        <div class="text-muted">@Model.Updated.ToLocalTime().ToString("D")</div>
+                    </div>
+                </div>
+                @if (!string.IsNullOrWhiteSpace(Model.Description))
+                {
+                    <p class="report-text mt-3 mb-0">@Model.Description</p>
+                }
+            </header>
+
+            <section class="report-totals mb-4">
+                <div class="row g-3">
+                    <div class="col">
+                        <div class="report-stat">
+                            <div class="report-stat-label">Units</div>
+                            <div class="report-stat-value">@Model.EstimatedTotal - @Model.WeightedTotal</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="report-stat">
+                            <div class="report-stat-label">Weeks</div>
+                            <div class="report-stat-value">@Model.EstimatedWeeks?.ToString("N1") - @Model.WeightedWeeks?.ToString("N1")</div>
+                        </div>
+                    </div>
+                    @if (ShowCost)
+                    {
+                        <div class="col">
+                            <div class="report-stat">
+                                <div class="report-stat-label">Cost</div>
+                                <div class="report-stat-value">@Model.EstimatedCost?.ToString("C0") - @Model.WeightedCost?.ToString("C0")</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <section class="mb-4">
+                <h2 class="h4 mb-3">Summary</h2>
+                <table class="table table-sm table-bordered report-table">
+                    <thead>
+                        <tr>
+                            <th>Deliverable</th>
+                            <th class="text-end">Units</th>
+                            <th class="text-end">Weeks</th>
+                            @if (ShowCost)
+                            {
+                                <th class="text-end">Cost</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var epic in Model.Epics)
+                        {
+                            <tr @key="epic.Id" class="report-epic-row">
+                                <td>@epic.Name</td>
+                                <td class="text-end">@epic.WeightedTotal</td>
+                                <td class="text-end">@epic.WeightedWeeks?.ToString("N1")</td>
+                                @if (ShowCost)
+                                {
+                                    <td class="text-end">@epic.WeightedCost?.ToString("C0")</td>
+                                }
+                            </tr>
+                            @foreach (var feature in epic.Features)
+                            {
+                                <tr @key="feature.Id" class="report-feature-row">
+                                    <td class="ps-4">@feature.Name</td>
+                                    <td class="text-end">@feature.WeightedTotal</td>
+                                    <td class="text-end">@feature.WeightedWeeks?.ToString("N1")</td>
+                                    @if (ShowCost)
+                                    {
+                                        <td class="text-end">@feature.WeightedCost?.ToString("C0")</td>
+                                    }
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th class="text-end">Grand Total:</th>
+                            <th class="text-end">@Model.WeightedTotal</th>
+                            <th class="text-end">@Model.WeightedWeeks?.ToString("N1")</th>
+                            @if (ShowCost)
+                            {
+                                <th class="text-end">@Model.WeightedCost?.ToString("C0")</th>
+                            }
+                        </tr>
+                    </tfoot>
+                </table>
+            </section>
+
+            <section class="report-details">
+                <h2 class="h4 mb-3">Details</h2>
+                @foreach (var epic in Model.Epics)
+                {
+                    <article @key="epic.Id" class="report-epic mb-2">
+                        <div class="report-epic-header d-flex justify-content-between align-items-center gap-3">
+                            <h3 class="h5 mb-0">@epic.Name</h3>
+                            <div class="report-metrics">
+                                <span>@epic.WeightedTotal units</span>
+                                <span>@epic.WeightedWeeks?.ToString("N1") weeks</span>
+                                @if (ShowCost)
+                                {
+                                    <span>@epic.WeightedCost?.ToString("C0")</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="report-epic-body">
+                            @if (!string.IsNullOrWhiteSpace(epic.Description))
+                            {
+                                <p class="report-text mb-2">@epic.Description</p>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(epic.Assumptions))
+                            {
+                                <div class="report-assumptions mb-3">
+                                    <div class="report-assumptions-label">Assumptions</div>
+                                    <div class="report-text">@epic.Assumptions</div>
+                                </div>
+                            }
+
+                            @foreach (var feature in epic.Features)
+                            {
+                                <div @key="feature.Id" class="report-feature">
+                                    <div class="d-flex justify-content-between align-items-baseline gap-3">
+                                        <h4 class="h6 mb-1">@feature.Name</h4>
+                                        <div class="report-metrics">
+                                            <span>@feature.WeightedTotal units</span>
+                                            <span>@feature.WeightedWeeks?.ToString("N1") weeks</span>
+                                            @if (ShowCost)
+                                            {
+                                                <span>@feature.WeightedCost?.ToString("C0")</span>
+                                            }
+                                        </div>
+                                    </div>
+                                    @if (!string.IsNullOrWhiteSpace(feature.EffortLevel) || !string.IsNullOrWhiteSpace(feature.RiskLevel))
+                                    {
+                                        <div class="d-flex gap-2 mb-2">
+                                            @if (!string.IsNullOrWhiteSpace(feature.EffortLevel))
+                                            {
+                                                <span class="report-badge">Effort: @feature.EffortLevel</span>
+                                            }
+                                            @if (!string.IsNullOrWhiteSpace(feature.RiskLevel))
+                                            {
+                                                <span class="report-badge">Risk: @feature.RiskLevel</span>
+                                            }
+                                        </div>
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(feature.Description))
+                                    {
+                                        <p class="report-text small mb-1">@feature.Description</p>
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(feature.Assumptions))
+                                    {
+                                        <div class="report-assumptions small mt-2">
+                                            <div class="report-assumptions-label">Assumptions</div>
+                                            <div class="report-text">@feature.Assumptions</div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </article>
+                }
+            </section>
+
+            <footer class="report-footer border-top pt-2 mt-4 small text-muted d-flex justify-content-between">
+                <span>Generated by EstimatorX</span>
+                <span>Weighted values include risk and confidence multipliers.</span>
+            </footer>
+        </LoadingBlock>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string SecurityKey { get; set; } = default!;
+
+    [Inject]
+    protected IDispatcher Dispatcher { get; set; } = default!;
+
+    [Inject]
+    protected ILogger<Report> Logger { get; set; } = default!;
+
+
+    protected bool IsBusy { get; set; }
+
+    protected string? ErrorMessage { get; set; }
+
+    protected ProjectReadModel? Model { get; set; }
+
+    protected bool ShowCost => Model?.Settings?.ShowCost == true;
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (string.IsNullOrWhiteSpace(SecurityKey))
+        {
+            ErrorMessage = "Invalid project report key.";
+            return;
+        }
+
+        if (Model?.SecurityKey == SecurityKey)
+            return;
+
+        IsBusy = true;
+        ErrorMessage = null;
+
+        try
+        {
+            ProjectReportQuery request = new(SecurityKey);
+            var result = await Dispatcher.Send(request);
+            if (result is null)
+            {
+                ErrorMessage = "Project report not found.";
+                return;
+            }
+
+            Model = result;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error loading project report '{SecurityKey}': {ErrorMessage}", SecurityKey, ex.Message);
+            ErrorMessage = "An error occurred while loading the project report.";
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+}

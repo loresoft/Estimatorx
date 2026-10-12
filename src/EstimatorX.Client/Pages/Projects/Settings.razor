@@ -1,12 +1,41 @@
-@page "/projects/{id}/{organizationId}/settings"
+@page "/projects/{id:long}/settings"
 @inherits ProjectBase
+@attribute [Authorize]
 
-@using EstimatorX.Client.Pages.Projects.Components
-@using EstimatorX.Client.Repositories
-@using EstimatorX.Client.Stores
+<PageTitle>@PageTitle("Settings") - EstimatorX</PageTitle>
 
-<PageTitle>Project @Model?.Name - Settings - EstimatorX</PageTitle>
+<Container Id="@Id"
+           Title="@PageTitle("Settings")"
+           Label="@EditLabel()">
+    <LoadingBlock IsLoading="EditContext == null || Store.Model == null">
+        <EditForm EditContext="EditContext"
+                  OnValidSubmit="HandleSave">
 
-<ProjectContainer Id="@Id" OrganizationId="@OrganizationId" TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project">
-    <SettingsEditor TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project" />
-</ProjectContainer>
+            <FluentValidator />
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <ValidationSummary />
+                    </div>
+                </div>
+
+                <!-- Settings Editor -->
+                <SettingEditor ProjectSettings="@ProjectSettings"
+                               NotifyStateChanged="Store.NotifyStateChanged" />
+
+            </div>
+
+            <FormButtons Model="Model"
+                         IsBusy="IsBusy"
+                         IsClean="IsClean"
+                         ShowDelete="!IsCreate"
+                         OnDelete="HandleDelete" />
+        </EditForm>
+    </LoadingBlock>
+</Container>
+
+@code
+{
+
+}

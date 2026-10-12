@@ -1,16 +1,36 @@
-@page "/projects/{id}/{organizationId}/estimation"
+@page "/projects/{id:long}/estimation"
 @inherits ProjectBase
+@attribute [Authorize]
 
-@using EstimatorX.Client.Pages.Projects.Components
-@using EstimatorX.Client.Repositories
-@using EstimatorX.Client.Stores
+<PageTitle>@PageTitle("Estimation") - EstimatorX</PageTitle>
 
-<PageTitle>Project @Model?.Name - Estimate - EstimatorX</PageTitle>
+<Container Id="@Id"
+           Title="@PageTitle("Estimation")"
+           Label="@EditLabel()">
+    <LoadingBlock IsLoading="EditContext == null || Store.Model == null">
+        <EditForm EditContext="EditContext"
+                  OnValidSubmit="HandleSave">
+            <FluentValidator />
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col">
+                        <ValidationSummary />
+                    </div>
+                </div>
+                <!-- Estimation Editor -->
+                <EstimationEditor Model="@Model"
+                                  NotifyStateChanged="Store.NotifyStateChanged" />
+            </div>
+            <FormButtons Model="Model"
+                         IsBusy="IsBusy"
+                         IsClean="IsClean"
+                         ShowDelete="!IsCreate"
+                         OnDelete="HandleDelete" />
+        </EditForm>
+    </LoadingBlock>
+</Container>
 
-<ProjectContainer Id="@Id" OrganizationId="@OrganizationId" TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project" BodyClass="p-0">
-    <EstimationEditor TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project" />
-</ProjectContainer>
-
-@code {
+@code
+{
 
 }

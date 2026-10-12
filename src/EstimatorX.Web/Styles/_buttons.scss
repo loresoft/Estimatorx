@@ -1,0 +1,83 @@
+// Bootstrap is loaded as compiled CSS, so theme colors come from --bs-* custom properties
+$btn-action-colors: primary, secondary, success, info, warning, danger, light, dark;
+
+.btn-actions {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  vertical-align: middle;
+  gap: .125rem;
+}
+
+.btn-action {
+  --btn-action-padding-x: .5rem;
+  --btn-action-padding-y: .375rem;
+  --btn-action-font-size: 1rem;
+  --btn-action-border-radius: var(--bs-border-radius);
+  --btn-action-color: var(--bs-body-color);
+  --btn-action-hover-color: var(--bs-emphasis-color);
+  --btn-action-focus-rgb: var(--bs-emphasis-color-rgb);
+  --btn-action-disabled-opacity: .65;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--btn-action-padding-y) var(--btn-action-padding-x);
+  font-size: var(--btn-action-font-size);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--btn-action-color);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--btn-action-border-radius);
+  transition: color .15s ease-in-out, box-shadow .15s ease-in-out;
+
+  &:hover,
+  &:active,
+  &.active {
+    color: var(--btn-action-hover-color);
+  }
+
+  &:focus-visible {
+    color: var(--btn-action-hover-color);
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(var(--btn-action-focus-rgb), .25);
+  }
+
+  &:disabled,
+  &.disabled,
+  &[aria-disabled="true"] {
+    color: var(--btn-action-color);
+    pointer-events: none;
+    opacity: var(--btn-action-disabled-opacity);
+  }
+}
+
+@each $color in $btn-action-colors {
+  .btn-action-#{$color} {
+    --btn-action-hover-color: var(--bs-#{$color});
+    --btn-action-focus-rgb: var(--bs-#{$color}-rgb);
+  }
+}
+
+.btn-action-sm,
+.btn-actions-sm > .btn-action {
+  --btn-action-padding-x: .375rem;
+  --btn-action-padding-y: .25rem;
+  --btn-action-font-size: .875rem;
+  --btn-action-border-radius: var(--bs-border-radius-sm);
+}
+
+.btn-action-lg,
+.btn-actions-lg > .btn-action {
+  --btn-action-padding-x: .75rem;
+  --btn-action-padding-y: .5rem;
+  --btn-action-font-size: 1.25rem;
+  --btn-action-border-radius: var(--bs-border-radius-lg);
+}

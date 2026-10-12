@@ -1,63 +1,147 @@
 @page "/templates/create"
-
-@using EstimatorX.Client.Pages.Projects.Components
-@using EstimatorX.Client.Repositories
-@using EstimatorX.Client.Stores
+@inherits TemplateBase
+@attribute [Authorize]
 
 <PageTitle>Template Create - EstimatorX</PageTitle>
 
-<div class="container-xxl">
+<div class="container-fluid">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="/">Home</a>
+                <a href="@RouteLinks.Home()">Home</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="/templates">Templates</a>
+                <a href="@RouteLinks.Templates.List()">Templates</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 Create
             </li>
         </ol>
     </nav>
-    <div class="card mb-5">
-        <div class="card-header">
-            <i class="fas fa-user mr-2"
-               aria-hidden="true"></i> Template Create
+</div>
+<div class="container-xxl">
+    <div class="card shadow mb-5">
+        <div class="card-header d-flex align-items-center">
+            <h5 class="m-0 me-auto">
+                @PageTitle()
+            </h5>
         </div>
-        <div class="card-body">
-            <EditForm Model="@Model" OnValidSubmit="@HandleSave">
-                <FluentValidationValidator />
+        <LoadingBlock IsLoading="EditContext == null || Store.Model == null">
+            <EditForm EditContext="EditContext" OnValidSubmit="HandleSave">
+                <FluentValidator />
+                <div class="card-body">
 
-                <div class="row">
-                    <div class="col">
-                        <ValidationSummary />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ValidationSummary />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="Name" class="form-label">
+                                    Name: <span class="text-danger" title="Required Field">*</span>
+                                </label>
+                                <InputText DisplayName="Name"
+                                           @bind-Value="Store.Model!.Name"
+                                           id="Name"
+                                           name="Name"
+                                           class="form-control"
+                                           placeholder="Name" />
+                                <ValidationMessage For="@(() => Store.Model.Name)" />
+                                <div class="form-text">
+                                    The display name of the template.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="OrganizationId" class="form-label">
+                                    Organization:
+                                    <a class="mx-2"
+                                       href="@RouteLinks.Organizations.List()"
+                                       title="View Organization">
+                                        <i class="bi bi-box-arrow-up-right"></i>
+                                    </a>
+                                </label>
+                                <EntitySelect TModel="OrganizationReadModel"
+                                              TValue="long?"
+                                              DisplayName="Organization"
+                                              Placeholder="- private -"
+                                              @bind-Value="Store.Model!.OrganizationId"
+                                              id="OrganizationId"
+                                              name="OrganizationId"
+                                              class="form-select" />
+                                <ValidationMessage For="@(() => Store.Model.OrganizationId)" />
+                                <div class="form-text">
+                                    The owning organization. Leave blank to keep the template private.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="IncludeSample" class="form-label">
+                                    Include Samples:
+                                </label>
+                                <BooleanSelect DisplayName="Include Samples"
+                                               @bind-Value="IncludeSample"
+                                               id="IncludeSample"
+                                               name="IncludeSample"
+                                               class="form-select" />
+                                <ValidationMessage For="@(() => IncludeSample)" />
+                                <div class="form-text">
+                                    Whether to include samples in the template.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="Description" class="form-label">
+                                    Description:
+                                </label>
+                                <InputTextArea DisplayName="Description"
+                                               @bind-Value="Store.Model!.Description"
+                                               id="Description"
+                                               name="Description"
+                                               class="form-control"
+                                               rows="10"
+                                               placeholder="Description" />
+                                <ValidationMessage For="@(() => Store.Model.Description)" />
+                                <div class="form-text">
+                                    A brief description of the template.
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <ProjectForm TStore="TemplateStore" TRepository="TemplateRepository" TModel="Template" />
-
-                <div class="row">
-                    <div class="col">
-                        <BusyButton id="save-button"
-                                    type="submit"
-                                    Busy="Store.IsBusy"
-                                    class="btn btn-primary">
-                            <BusyTemplate>
-                                <span class='spinner-border spinner-border-sm'></span> Saving...
-                            </BusyTemplate>
-                            <ChildContent>
+                <div class="card-footer">
+                    <!-- Form Buttons -->
+                    <div class="row">
+                        <div class="col">
+                            <BusyButton id="save-button"
+                                        type="submit"
+                                        Busy="Store.IsBusy"
+                                        Disabled="Store.IsClean"
+                                        class="btn btn-primary">
                                 Save
-                            </ChildContent>
-                        </BusyButton>
-                    </div>
-                    <div class="col">
+                            </BusyButton>
+                        </div>
                     </div>
                 </div>
             </EditForm>
-
-        </div>
+        </LoadingBlock>
     </div>
 </div>
 
+@code
+{
+    private bool IncludeSample { get; set; } = true;
 
+    protected override Task<bool> OnSavingAsync(CancellationToken cancellationToken)
+    {
+        if (Model == null)
+            return Task.FromResult(false);
+
+        ProjectBuilder.UpdateProject(Model, IncludeSample);
+        ProjectCalculator.UpdateProject(Model);
+
+        return Task.FromResult(true);
+    }
+}

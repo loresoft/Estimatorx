@@ -1,0 +1,199 @@
+@page "/"
+@attribute [AllowAnonymous]
+
+<PageTitle>Home - EstimatorX</PageTitle>
+
+<div class="container-xxl">
+    <div class="bg-light py-3 px-5 mb-3 shadow border rounded">
+        <h1>
+            <img src="/images/full-logo.svg" title="EstimatorX" alt="EstimatorX" height="70" width="315" />
+        </h1>
+        <p class="lead">
+            Fast, consistent project estimates that account for uncertainty.
+        </p>
+        <p>
+            <a href="@RouteLinks.Projects.Create()" class="btn btn-primary btn-lg">Create Estimate &raquo;</a>
+        </p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="bi bi-calculator"></i>
+                </div>
+                <div class="feature-body">
+                    <h3>Projects</h3>
+                    <p>
+                        A project holds everything that makes up an estimate. Work is organized into Epics, which are broken down into Features.
+                    </p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <div class="feature-body">
+                    <h3>Organizations</h3>
+                    <p>
+                        Projects and Templates belong to an organization, and every member of that organization can edit them.
+                    </p>
+                    <p>
+                        Select <strong>Private</strong> if only you should have access to a Project or Template.
+                    </p>
+                </div>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="bi bi-award-fill"></i>
+                </div>
+                <div class="feature-body">
+                    <h3>Epics</h3>
+                    <p>
+                        An Epic is a large deliverable that provides business value. It's usually the largest unit of work in a project and groups one or more related Features.
+                    </p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="bi bi-trophy-fill"></i>
+                </div>
+                <div class="feature-body">
+                    <h3>Features</h3>
+                    <p>
+                        A Feature is a piece of an Epic that can be delivered on its own. Together, the Features make up the Epic, and each should provide business value that supports it.
+                    </p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="bi bi-share-fill"></i>
+                </div>
+                <div class="feature-body">
+                    <h3>Templates</h3>
+                    <p>
+                        A template is a reusable set of Epics, Features, and project Settings. Use templates to share common work and settings, such as estimate values, risk and effort scales, and the multiplier matrix, across projects.
+                    </p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="bi bi-gear-fill"></i>
+                </div>
+                <div class="feature-body">
+                    <h3>Settings</h3>
+                    <p>
+                        Each estimate has its own Settings. Customize the estimate values, risk and effort scales, and multiplier matrix to fit the project without affecting other estimates.
+                    </p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="bi bi-flag-fill"></i>
+                </div>
+                <div class="feature-body">
+                    <h3>Assumptions</h3>
+                    <p>
+                        List the assumptions behind each estimate. If an assumption later turns out to be wrong, the record makes it easy to see which estimates need another look.
+                    </p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="bi bi-check-lg"></i>
+                </div>
+                <div class="feature-body">
+                    <h3>Estimate</h3>
+                    <p>
+                        The base estimate for a Feature, before any adjustment. You can customize the available values in the project settings.
+                    </p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="bi bi-check-all"></i>
+                </div>
+                <div class="feature-body">
+                    <h3>Weighted Estimate</h3>
+                    <p>
+                        The Estimate multiplied by the Multiplier. This adjusted value accounts for uncertainty and is used in project totals.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="bi bi-eyeglasses"></i>
+                </div>
+                <div class="feature-body">
+                    <h3>Clarity</h3>
+                    <p>
+                        How well is the Feature defined, and how well do you understand it? This measures understanding, not how simple the work is.
+                    </p>
+                    <ul>
+                        <li><strong>Low</strong> No documentation, and the Feature hasn't been discussed with the customer.</li>
+                        <li><strong>Medium Low</strong> Little documentation, and the customer has only briefly mentioned the Feature.</li>
+                        <li><strong>Medium</strong> Little documentation, but the customer has walked through the desired functionality.</li>
+                        <li><strong>Medium High</strong> Some documentation; the functionality is understood but not fully written down.</li>
+                        <li><strong>High</strong> Detailed documentation, including technical requirements and examples. The desired outcome and acceptance criteria are well understood.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="bi bi-mortarboard-fill"></i>
+                </div>
+                <div class="feature-body">
+                    <h3>Confidence</h3>
+                    <p>
+                        How confident are you in the estimate, given what you know? Have you done something like this before? Do you know all the technologies involved, and have they all been identified?
+                    </p>
+                    <ul>
+                        <li><strong>Low</strong> The solution isn't known yet, and more discovery is required.</li>
+                        <li><strong>Medium Low</strong> The approach isn't clear, and research or a proof of concept will be required. The requirements suggest the work is feasible.</li>
+                        <li><strong>Medium</strong> You've done related but not very similar work. There are possible approaches but no clear direction, so some research and discussion are needed.</li>
+                        <li><strong>Medium High</strong> You've done similar work and have a good idea of the technology and approach.</li>
+                        <li><strong>High</strong> You've done this before and are confident in the numbers.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="bi bi-sliders"></i>
+                </div>
+                <div class="feature-body">
+                    <h3>Multiplier</h3>
+                    <p>
+                        A computed factor that pads the Estimate based on the Feature's Clarity and Confidence. You can customize the multiplier matrix in the project settings.
+                    </p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                </div>
+                <div class="feature-body">
+                    <h3>Risk</h3>
+                    <p>
+                        Shows how risky a Feature is, based on its computed Multiplier. You can customize the Risk Scale in the project settings.
+                    </p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="bi bi-wrench"></i>
+                </div>
+                <div class="feature-body">
+                    <h3>Effort</h3>
+                    <p>
+                        Shows a Feature's overall size, based on its Estimate. You can customize the Effort Scale in the project settings.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

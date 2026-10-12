@@ -1,13 +1,11 @@
-
 using System;
 
-using AutoMapper;
+using Arbiter.Mapping;
 
-using EstimatorX.Shared.Mapping;
 using EstimatorX.Shared.Models;
 using EstimatorX.Shared.Services;
 
-using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 
 using Xunit;
 
@@ -21,20 +19,15 @@ public class ProjectProfileTests
         var builder = new ProjectBuilder();
         var project = new Project { Id = Guid.NewGuid().ToString() };
 
-        builder.UpdateProject(project);
+        builder.UpdateProject(project, includeSample: true);
 
-        var config = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<ProjectProfile>();
-            cfg.AddProfile<EpicEstimateProfile>();
-            cfg.AddProfile<FeatureEstimateProfile>();
-            cfg.AddProfile<StoryEstimateProfile>();
-        });
+        var services = new ServiceCollection();
+        services.AddEstimatorXShared();
 
-        var mapper = config.CreateMapper();
+        using var provider = services.BuildServiceProvider();
+        var mapper = provider.GetRequiredService<IMapper>();
 
-        var result = mapper.Map<Project>(project);
-
+        var result = mapper.Map<Project, Project>(project);
         result.Should().NotBeNull();
         result.Should().NotBeSameAs(project);
 

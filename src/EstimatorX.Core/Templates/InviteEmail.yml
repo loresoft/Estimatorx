@@ -1,0 +1,35 @@
+subject: Invite for {{ ProductName }}
+
+textBody: |
+  You have been invited to join {{ ProductName }}. Please follow the link below to accept your invitation.
+
+  {{ Link }}
+
+  Your invite link will expire in {{ ExpireDays }} days.
+
+  If you were not expecting this invitation, you can safely ignore this email.
+
+htmlBody: |
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="color-scheme" content="light dark">
+      <meta name="supported-color-schemes" content="light dark">
+      <meta name="x-apple-disable-message-reformatting">
+      <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+      <title>Invite for {{ ProductName }}</title>
+  </head>
+  <body>
+      <p>You have been invited to join {{ ProductName }}. Please follow the link below to accept your invitation.</p>
+      <p style="font-weight: 800;font-size: large;"><a href="{{ Link }}">Join {{ ProductName }}</a></p>
+      <p>If the link above does not work, copy and paste this URL into your browser:<br /><code>{{ Link }}</code></p>
+      <p>Your invite link will expire in <strong>{{ ExpireDays }} days.</strong></p>
+      <p>If you were not expecting this invitation, you can safely ignore this email.</p>
+      {% if CompanyName != blank %}
+      <p style="font-size: small;opacity:0.6;text-align: center;margin-top: 3em;">{{ CompanyName }}</p>
+      {% endif %}
+  </body>
+  </html>

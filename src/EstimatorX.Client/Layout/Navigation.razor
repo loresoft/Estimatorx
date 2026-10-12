@@ -1,0 +1,139 @@
+<header class="d-print-none">
+    <nav id="navbar-main"
+         class="navbar navbar-expand-sm navbar-light navbar-default fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand"
+               href="@RouteLinks.Home()"
+               style="padding: 0">
+                <img src="/images/full-logo.svg"
+                     alt="EstimatorX"
+                     height="35"
+                     width="158" />
+            </a>
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbar-main-menu"
+                    aria-controls="navbar-main-menu"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse"
+                 id="navbar-main-menu">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <!-- Projects -->
+                    <li class="nav-item dropdown">
+                        <a id="navbar-main-projects"
+                           role="button"
+                           href="#"
+                           class="nav-link dropdown-toggle"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Projects
+                        </a>
+                        <ul class="dropdown-menu"
+                            aria-labelledby="navbar-main-projects">
+                            <li>
+                                <a id="navbar-main-project-view"
+                                   class="dropdown-item"
+                                   href="@RouteLinks.Projects.List()">
+                                    View Projects
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a id="navbar-main-project-create"
+                                   class="dropdown-item"
+                                   href="@RouteLinks.Projects.Create()">
+                                    Create Project
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Templates -->
+                    <li class="nav-item dropdown">
+                        <a id="navbar-main-templates"
+                           role="button"
+                           href="#"
+                           class="nav-link dropdown-toggle"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Templates
+                        </a>
+                        <ul class="dropdown-menu"
+                            aria-labelledby="navbar-main-templates">
+                            <li>
+                                <a id="navbar-main-template-view"
+                                   class="dropdown-item"
+                                   href="@RouteLinks.Templates.List()">
+                                    View Templates
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a id="navbar-main-template-create"
+                                   class="dropdown-item"
+                                   href="@RouteLinks.Templates.Create()">
+                                    Create Template
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <AuthorizeView Roles="@RoleNames.Administrators">
+                        <!-- Administrative -->
+                        <li class="nav-item dropdown">
+                            <a id="navbar-main-administrative"
+                               role="button"
+                               href="#"
+                               class="nav-link dropdown-toggle"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                Administrative
+                            </a>
+                            <ul class="dropdown-menu"
+                                aria-labelledby="navbar-main-administrative">
+                                <li>
+                                    <a id="navbar-main-administrative-organizations"
+                                       class="dropdown-item"
+                                       href="@RouteLinks.Administrative.Organizations()">
+                                        Organizations
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="navbar-main-administrative-users"
+                                       class="dropdown-item"
+                                       href="@RouteLinks.Administrative.Users()">
+                                        Users
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a id="navbar-main-administrative-logs"
+                                       class="dropdown-item"
+                                       href="@RouteLinks.Administrative.Logs()">
+                                        Logs
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </AuthorizeView>
+                </ul>
+                <!-- User Menu -->
+                <ul class="navbar-nav me-4">
+                    <ProfileMenu />
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+@code {
+
+}

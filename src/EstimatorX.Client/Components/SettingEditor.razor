@@ -1,0 +1,337 @@
+@if (ProjectSettings is null) return;
+
+<div class="row">
+    <div class="col-md-12">
+        <fieldset class="standard">
+            <legend>Settings</legend>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="ShowCost" class="form-label">
+                            Show Cost:
+                        </label>
+                        <BooleanSelect DisplayName="Show Cost"
+                                       @bind-Value="ProjectSettings.ShowCost"
+                                       id="ShowCost"
+                                       name="ShowCost"
+                                       class="form-select form-select-sm" />
+                        <ValidationMessage For="@(() => ProjectSettings.ShowCost)" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="EstimateRate" class="form-label">
+                            Unit Rate:
+                        </label>
+                        <InputNumber DisplayName="Unit Rate"
+                                     @bind-Value="ProjectSettings.EstimateRate"
+                                     id="EstimateRate"
+                                     name="EstimateRate"
+                                     class="form-control form-control-sm" />
+                        <ValidationMessage For="@(() => ProjectSettings.EstimateRate)" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="UnitsPerWeek" class="form-label">
+                            Units Per Week:
+                        </label>
+                        <InputNumber DisplayName="Units Per Week"
+                                     @bind-Value="ProjectSettings.UnitsPerWeek"
+                                     id="UnitsPerWeek"
+                                     name="UnitsPerWeek"
+                                     class="form-control form-control-sm" />
+                        <ValidationMessage For="@(() => ProjectSettings.UnitsPerWeek)" />
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <fieldset class="standard">
+            <legend>Multiplier Matrix</legend>
+            <table class="table table-borderless table-sm">
+                <tbody>
+                    <tr>
+                        <th colspan="7" class="text-muted text-center">Confidence</th>
+                    </tr>
+                    <tr>
+                        <th rowspan="6" class="text-nowrap align-middle">
+                            <span class="text-vertical text-muted text-center">Clarity</span>
+                        </th>
+                        <th></th>
+                        @foreach (var confidence in Enum.GetNames<ConfidenceScale>())
+                        {
+                            <th @key="confidence">@confidence.ToTitle()</th>
+                        }
+                    </tr>
+                    @foreach (var group in ProjectSettings.Multipliers.GroupBy(m => m.Clarity))
+                    {
+                        <tr @key="group.Key">
+                            <th>
+                                @group.Key.ToString().ToTitle()
+                            </th>
+                            @foreach (var multiplier in group)
+                            {
+                                <td @key="multiplier">
+                                    <InputNumber class="form-control form-control-sm"
+                                                 @bind-Value="multiplier.Value"
+                                                 step="0.001" max="100" min="0" />
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <fieldset class="standard">
+            <legend>Risk Level</legend>
+            <table class="table table-borderless table-sm">
+                <colgroup>
+                    <col style="" />
+                    <col style="" />
+                    <col style="width: 40px" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Multiplier</th>
+                        <th>Risk</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var riskLevel in ProjectSettings.RiskLevels)
+                    {
+                        <tr @key="riskLevel">
+                            <td>
+                                <InputNumber class="form-control form-control-sm"
+                                             @bind-Value="riskLevel.Multiplier"
+                                             step="0.001" max="100" min="0" />
+                            </td>
+                            <td>
+                                <InputText class="form-control form-control-sm"
+                                           @bind-Value="riskLevel.Risk" />
+                            </td>
+                            <td class="active text-center">
+                                <button type="button"
+                                        @onclick="() => RiskDelete(riskLevel)"
+                                        title="Delete Effort Value"
+                                        class="btn btn-outline-danger btn-sm">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <button type="button"
+                                    id="risk-add-button"
+                                    @onclick="RiskAdd"
+                                    class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-plus-lg"></i> Add Risk
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </fieldset>
+    </div>
+    <div class="col-md-6">
+        <fieldset class="standard">
+            <legend>Effort Values</legend>
+            <table class="table table-borderless table-sm">
+                <colgroup>
+                    <col style="" />
+                    <col style="" />
+                    <col style="width: 40px" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Effort</th>
+                        <th>Level</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var effortLevel in ProjectSettings.EffortLevels)
+                    {
+                        <tr @key="effortLevel">
+                            <td>
+                                <InputNumber class="form-control form-control-sm"
+                                             @bind-Value="effortLevel.Effort" />
+                            </td>
+                            <td>
+                                <InputText class="form-control form-control-sm"
+                                           @bind-Value="effortLevel.Level" />
+                            </td>
+                            <td class="active text-center">
+                                <button type="button"
+                                        @onclick="() => EffortDelete(effortLevel)"
+                                        title="Delete Effort Value"
+                                        class="btn btn-outline-danger btn-sm">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <button type="button"
+                                    id="effort-add-button"
+                                    @onclick="EffortAdd"
+                                    class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-plus-lg"></i> Add Effort
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </fieldset>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <fieldset class="standard">
+            <legend>Supporting Tasks</legend>
+            <table class="table table-borderless table-sm">
+                <colgroup>
+                    <col style="" />
+                    <col style="" />
+                    <col style="width: 130px" />
+                    <col style="width: 40px" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Multiplier</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var overhead in ProjectSettings.Overhead)
+                    {
+                        <tr @key="overhead">
+                            <td>
+                                <InputText class="form-control form-control-sm"
+                                           @bind-Value="overhead.Name" />
+                            </td>
+                            <td>
+                                <InputText class="form-control form-control-sm"
+                                           @bind-Value="overhead.Description" />
+                            </td>
+                            <td>
+                                <InputNumber class="form-control form-control-sm"
+                                             @bind-Value="overhead.Multiplier"
+                                             step="0.001" max="100" min="0" />
+                            </td>
+                            <td class="active text-center">
+                                <button type="button"
+                                        @onclick="() => OverheadDelete(overhead)"
+                                        title="Delete Supporting Task"
+                                        class="btn btn-outline-danger btn-sm">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <button type="button"
+                                    id="overhead-add-button"
+                                    @onclick="OverheadAdd"
+                                    class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-plus-lg"></i> Add Task
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </fieldset>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public required ProjectSettings ProjectSettings { get; set; }
+
+    [Parameter]
+    public EventCallback NotifyStateChanged { get; set; }
+
+    [Inject]
+    protected ModalService Modal { get; set; } = default!;
+
+    private async Task RiskDelete(RiskLevel riskLevel)
+    {
+        if (!await Modal.ConfirmDelete())
+            return;
+
+        ProjectSettings.RiskLevels.Remove(riskLevel);
+        await NotifyStateChanged.InvokeAsync();
+    }
+
+    private async Task RiskAdd()
+    {
+        RiskLevel riskLevel = new();
+        ProjectSettings.RiskLevels.Add(riskLevel);
+        await NotifyStateChanged.InvokeAsync();
+    }
+
+
+    private async Task EffortDelete(EffortLevel effortLevel)
+    {
+        if (!await Modal.ConfirmDelete())
+            return;
+
+        ProjectSettings.EffortLevels.Remove(effortLevel);
+        await NotifyStateChanged.InvokeAsync();
+    }
+
+    private async Task EffortAdd()
+    {
+        var lastEffort = ProjectSettings.EffortLevels.LastOrDefault()
+            ?? new EffortLevel { Effort = 1, Level = "" };
+
+        var effort = new EffortLevel
+        {
+            Effort = lastEffort.Effort * 2,
+            Level = lastEffort.Level
+        };
+        ProjectSettings.EffortLevels.Add(effort);
+
+        await NotifyStateChanged.InvokeAsync();
+    }
+
+
+    private async Task OverheadDelete(ProjectOverhead overhead)
+    {
+        if (!await Modal.ConfirmDelete())
+            return;
+
+        ProjectSettings.Overhead.Remove(overhead);
+        await NotifyStateChanged.InvokeAsync();
+    }
+
+    private async Task OverheadAdd()
+    {
+        ProjectOverhead overhead = new();
+        ProjectSettings.Overhead.Add(overhead);
+        await NotifyStateChanged.InvokeAsync();
+    }
+
+}

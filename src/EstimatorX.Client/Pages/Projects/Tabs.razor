@@ -1,0 +1,52 @@
+@if (IsCreate) return;
+
+<ul class="nav nav-tabs card-header-tabs">
+    <li class="nav-item">
+        <NavLink id="project-summary-tab-link"
+                 Match="NavLinkMatch.All"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@RouteLinks.Projects.Summary(Id)"
+                 title="Project Summary">Summary</NavLink>
+    </li>
+    <li class="nav-item">
+        <NavLink id="project-general-tab-link"
+                 Match="NavLinkMatch.Prefix"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@RouteLinks.Projects.General(Id)"
+                 title="Project General">General</NavLink>
+    </li>
+    <li class="nav-item">
+        <NavLink id="project-estimation-tab-link"
+                 Match="NavLinkMatch.Prefix"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@RouteLinks.Projects.Estimation(Id)"
+                 title="Project Estimation">Estimation</NavLink>
+    </li>
+    <li class="nav-item">
+        <NavLink id="project-details-tab-link"
+                 Match="NavLinkMatch.Prefix"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@RouteLinks.Projects.Details(Id)"
+                 title="Project Details">Details</NavLink>
+    </li>
+    <li class="nav-item">
+        <NavLink id="project-settings-tab-link"
+                 Match="NavLinkMatch.Prefix"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@RouteLinks.Projects.Settings(Id)"
+                 title="Project Settings">Settings</NavLink>
+    </li>
+</ul>
+
+@code {
+    [Parameter, EditorRequired]
+    public required long Id { get; set; }
+
+    [Parameter]
+    public bool IsCreate { get; set; }
+}

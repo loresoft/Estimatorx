@@ -1,0 +1,166 @@
+@if (Epic == null) return;
+
+<Accordion ParentGroup="@ParentCollapse">
+    <Header>
+        <div class="w-100 pe-2 d-flex justify-content-between">
+            <div class="accordion-header-item flex-grow-1">
+                @Epic.Name
+            </div>
+            <div class="accordion-header-item">
+                <span class="accordion-header-label">Estimate:</span>
+                <span class="text-nowrap">@(Epic.EstimatedTotal ?? 0) - @(Epic.WeightedTotal ?? 0)</span>
+            </div>
+            <div class="accordion-header-item">
+                <span class="accordion-header-label">Weeks:</span>
+                <span class="text-nowrap">@(Epic.EstimatedWeeks ?? 0.0) - @(Epic.WeightedWeeks ?? 0.0)</span>
+            </div>
+            @if (Context.Settings.ShowCost)
+            {
+                <div class="accordion-header-item">
+                    <span class="accordion-header-label">Cost:</span>
+                    <span class="text-nowrap">@((Epic.EstimatedCost ?? 0).ToString("C")) - @((Epic.WeightedCost ?? 0).ToString("C"))</span>
+                </div>
+            }
+        </div>
+    </Header>
+    <Body>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-2">
+                    <label for="@Identifier("name")" class="form-label">
+                        Epic Name: <span class="text-danger">*</span>
+                    </label>
+                    <InputText id="@Identifier("name")" @bind-Value="Epic.Name" class="form-control" />
+                    <ValidationMessage For="@(() => Epic.Name)" />
+                </div>
+                <div class="mb-2">
+                    <label for="@Identifier("description")" class="form-label">
+                        Epic Description:
+                    </label>
+                    <InputTextArea id="@Identifier("description")" @bind-Value="Epic.Description" class="form-control" rows="4" />
+                    <ValidationMessage For="@(() => Epic.Description)" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-2">
+                    <label for="@Identifier("assumptions")" class="form-label">
+                        Epic Assumptions:
+                    </label>
+                    <InputTextArea id="@Identifier("assumptions")" @bind-Value="Epic.Assumptions" class="form-control" rows="7" />
+                    <ValidationMessage For="@(() => Epic.Assumptions)" />
+                </div>
+            </div>
+        </div>
+
+        <FeatureContainer Epic="@Epic"
+                          FeaturesChanged="EpicsChanged" />
+
+        <div class="row pt-2">
+            <div class="col-md-6">
+                <button type="button"
+                        id="@(Identifier("add-button"))"
+                        @onclick="FeatureAdd"
+                        class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-plus-lg"></i> Add Feature
+                </button>
+
+                <button type="button"
+                        id="@(Identifier("order-button"))"
+                        @onclick="FeatureReorder"
+                        class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-down-up"></i> Reorder Features
+                </button>
+            </div>
+
+            <div class="col-md-6 text-md-end">
+                <button type="button"
+                        id="@(Identifier("duplicate-button"))"
+                        @onclick="EpicDuplicate"
+                        class="btn btn-outline-secondary btn-sm ms-2">
+                    <i class="bi bi-copy"></i> Duplicate Epic
+                </button>
+                <button type="button"
+                        id="@(Identifier("delete-button"))"
+                        @onclick="EpicDelete"
+                        class="btn btn-outline-danger btn-sm ms-2">
+                    <i class="bi bi-trash"></i> Delete Epic
+                </button>
+            </div>
+        </div>
+    </Body>
+</Accordion>
+
+
+@code
+{
+    [Parameter, EditorRequired]
+    public required string ParentCollapse { get; set; }
+
+    [CascadingParameter]
+    public required EstimateContext Context { get; set; }
+
+    [Parameter, EditorRequired]
+    public required EpicEstimate Epic { get; set; }
+
+    [Parameter]
+    public EventCallback EpicsChanged { get; set; }
+
+    [Inject]
+    protected ModalService ModalService { get; set; } = default!;
+
+    [Inject]
+    protected IMapper Mapper { get; set; } = default!;
+
+    private string Identifier(string name) => $"epic-{name}-{Epic?.Id}";
+
+
+    private async Task FeatureAdd()
+    {
+        FeatureEstimate feature = new()
+        {
+            Name = "New Feature Estimate",
+            EstimatedTotal = 0,
+            WeightedTotal = 0,
+            EstimatedWeeks = 0,
+            WeightedWeeks = 0
+        };
+        Epic.Features.Add(feature);
+
+        await Context.NotifyStateChanged();
+    }
+
+    private async Task FeatureReorder()
+    {
+        var parameters = ModalParameters.Create()
+            .Title("Reorder Features")
+            .Parameter(nameof(ReorderModal<FeatureEstimate>.Items), Epic.Features);
+
+        var modal = await ModalService.Show<ReorderModal<FeatureEstimate>>(parameters);
+        var result = await modal.Result;
+
+        await Context.NotifyStateChanged();
+    }
+
+
+    private async Task EpicDelete()
+    {
+        if (!await ModalService.ConfirmDelete($"epic '{Epic.Name}'"))
+            return;
+
+        Context.Model.Epics.Remove(Epic);
+
+        await EpicsChanged.InvokeAsync();
+    }
+
+    private async Task EpicDuplicate()
+    {
+        var clone = Mapper.Map<EpicEstimate, EpicEstimate>(Epic);
+
+        clone.Id = Snowflake.Default.NextId();
+        clone.Name += " - Copy";
+
+        Context.Model.Epics.Add(clone);
+
+        await EpicsChanged.InvokeAsync();
+    }
+}

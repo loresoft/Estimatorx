@@ -1,0 +1,90 @@
+@page "/account/claims"
+@inherits PrincipalComponentBase
+@attribute [Authorize]
+
+<PageTitle>Claims - EstimatorX</PageTitle>
+
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@RouteLinks.Home()">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="@RouteLinks.Account.Profile()">Profile</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Claims
+            </li>
+        </ol>
+    </nav>
+</div>
+
+<div class="container-xxl">
+    <div class="card shadow">
+        <div class="card-header d-flex align-items-center">
+            <h5 class="m-0 me-auto">
+                Claims
+            </h5>
+            <Tabs />
+        </div>
+        <div class="card-body p-0">
+            <table class="table" style="overflow-wrap: anywhere;">
+                <colgroup>
+                    <col style="">
+                    <col style="">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Claim</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var claim in Data)
+                    {
+                        <tr>
+                            <td>
+                                @claim.Item1
+                            </td>
+                            <td>
+                                @claim.Item2
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Inject]
+    public required INotificationService Notification { get; set; }
+
+    protected IReadOnlyCollection<Tuple<string, string>> Data { get; set; } = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var user = await GetUser();
+            if (user is null)
+                return;
+
+            var claims = user.Claims
+                .Select(c => new Tuple<string, string>(c.Type, c.Value))
+                .ToList();
+
+            Data = claims;
+        }
+        catch (Exception ex)
+        {
+            Notification.ShowError(ex);
+        }
+        finally
+        {
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}

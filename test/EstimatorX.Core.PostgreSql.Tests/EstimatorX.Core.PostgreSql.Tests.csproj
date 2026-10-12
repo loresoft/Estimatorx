@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AwesomeAssertions" />
+    <PackageReference Include="coverlet.MTP" />
+    <PackageReference Include="Testcontainers.Postgresql" />
+    <PackageReference Include="XUnit.Hosting" />
+    <PackageReference Include="xunit.v3.mtp-v2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EstimatorX.Core\EstimatorX.Core.csproj" />
+    <ProjectReference Include="..\..\src\EstimatorX.Migrations.PostgreSql\EstimatorX.Migrations.PostgreSql.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\EstimatorX.Core.Tests\Domain\**\*.cs" LinkBase="Domain" />
+    <Compile Include="..\EstimatorX.Core.Tests\MockBaseAddressResolver.cs" Link="MockBaseAddressResolver.cs" />
+    <Compile Include="..\EstimatorX.Core.Tests\MockClaimsPrincipal.cs" Link="MockClaimsPrincipal.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="AwesomeAssertions" />
+    <Using Include="EstimatorX.Core.PostgreSql.Tests.Fixtures" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

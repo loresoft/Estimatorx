@@ -1,61 +1,319 @@
-@page "/organizations/{id}/invites"
-@inherits OrganizationBase
+@page "/organizations/{id:long}/invites"
+@inherits NestedListPageBase<long, OrganizationReadModel, InviteReadModel>
+@attribute [Authorize]
 
-@using EstimatorX.Client.Pages.Organizations.Components
+<PageTitle>@PageTitle("Invites") - EstimatorX</PageTitle>
 
-<PageTitle>Organization @Organization?.Name - Invites - EstimatorX</PageTitle>
-
-<OrganizationContainer Id="@Id">
-    <div class="table-responsive">
-        <Conditional Condition="Organization != null">
-            <DataGrid DataProvider="LoadData"
-                      TItem="InviteSummary"
-                      class="table table-hover table-bordered mb-0"
-                      @ref="DataGrid">
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@RouteLinks.Home()">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="@RouteLinks.Organizations.List()">Organizations</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="@RouteLinks.Organizations.Edit(Id)">Edit</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Invites
+            </li>
+        </ol>
+    </nav>
+</div>
+<div class="container-xxl">
+    <div class="card shadow mb-5">
+        <div class="card-header d-flex align-items-center">
+            <h5 class="m-0 me-auto card-header-title">
+                @PageTitle("Invites")
+            </h5>
+            <Tabs Id="@Id" IsCreate="false" />
+        </div>
+        <div class="card-body">
+            <DataGrid TItem="InviteReadModel"
+                      DataProvider="LoadData"
+                      Filterable="true"
+                      Sortable="true"
+                      @ref="DataComponent">
+                <DataToolbar>
+                    <DataGridToolbar />
+                </DataToolbar>
                 <DataColumns>
-                    <DataColumn TItem="InviteSummary" Property="p => p.Name" />
-                    <DataColumn TItem="InviteSummary" Property="p => p.Email" />
-                    <DataColumn TItem="InviteSummary" Property="p => p.Id" Width="100px" Title="Actions">
+                    <DataColumn Property="x => x.Id"
+                                Width="110px"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.Name"
+                                Title="Name"
+                                SortIndex="0" />
+
+                    <DataColumn Property="x => x.Email"
+                                Title="Email" />
+
+                    <DataColumn Property="x => x.LastSent"
+                                Title="Last Sent"
+                                Width="170px"
+                                Format="g">
                         <Template Context="item">
-                            <button type="button"
-                                    title="Re-Send Invite"
-                                    class="btn btn-outline-info btn-sm"
-                                    @onclick="() => HandleSendInvite(item)"
-                                    disabled="@(!IsOwner())">
-                                <i class="fas fa-envelope"></i>
-                            </button>
-                            <button type="button"
-                                    title="Delete Invite"
-                                    class="btn btn-outline-danger btn-sm"
-                                    @onclick="() => HandleDeleteInvite(item)"
-                                    disabled="@(!IsOwner())">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
+                            <LocalTime Value="item.Updated"
+                                       DisplayFormat="g" />
                         </Template>
                     </DataColumn>
+
+                    <DataColumn Property="x => x.CreatedBy"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.Created"
+                                Width="160px"
+                                Visible="false"
+                                Format="g">
+                        <Template Context="item">
+                            <LocalTime Value="item.Created"
+                                       DisplayFormat="g" />
+                        </Template>
+                    </DataColumn>
+
+                    <DataColumn Property="x => x.UpdatedBy"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.Updated"
+                                Width="160px"
+                                Format="g">
+                        <Template Context="item">
+                            <LocalTime Value="item.Updated"
+                                       DisplayFormat="g" />
+                        </Template>
+                    </DataColumn>
+
+                    <DataColumn Property="x => x.Id"
+                                Title="Action"
+                                Filterable="false"
+                                Sortable="false"
+                                Hideable="false"
+                                Width="100px">
+                        <Template Context="item">
+                            @if (IsOwner)
+                            {
+                                <div class="btn-actions btn-actions-sm" role="group" aria-label="Row Actions">
+                                    <BusyButton Trigger="() => HandleResendInvite(item)"
+                                                BusyText="..."
+                                                type="button"
+                                                class="btn-action btn-action-primary"
+                                                title="Resend Invite">
+                                        <i class="bi bi-envelope-fill"></i>
+                                    </BusyButton>
+                                    <BusyButton Trigger="() => HandleDelete(item)"
+                                                BusyText="..."
+                                                type="button"
+                                                class="btn-action btn-action-danger"
+                                                title="Delete Item">
+                                        <i class="bi bi-trash3"></i>
+                                    </BusyButton>
+                                </div>
+                            }
+                        </Template>
+                    </DataColumn>
+
                 </DataColumns>
                 <DataPagination Context="grid">
-                    <div class="w-100 m-1 d-flex justify-content-between align-items-center">
-                        <DataPager PageSize="20" ShowEmpty="true" />
-                        <DataSizer />
-                        <div class="me-1">@grid.Pager.StartItem - @grid.Pager.EndItem of @grid.Pager.Total</div>
-                    </div>
+                    <DataPager PageSize="25" />
+                    <DataSizer />
+                    <div>@grid.Pager.StartItem - @grid.Pager.EndItem of @grid.Pager.Total</div>
                 </DataPagination>
             </DataGrid>
-        </Conditional>
-    </div>
-    <Conditional Condition="IsOwner()">
-        <div class="row mx-1 my-2">
-            <div class="col">
-                <button id="invite-button"
-                        class="btn btn-secondary"
-                        @onclick="HandleNewInvite"
-                        type="button">
-                    Send Invite
-                </button>
-            </div>
-            <div class="col"></div>
         </div>
-    </Conditional>
-</OrganizationContainer>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-md-6">
+                    <BusyButton type="button"
+                                id="send-invite-button"
+                                class="btn btn-outline-primary"
+                                title="Invite a new user to organization"
+                                Trigger="HandleSendInvite"
+                                Disabled="@(!IsOwner)">
+                        Send Invite
+                    </BusyButton>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <BusyButton type="button"
+                                id="cleanup-invites-button"
+                                class="btn btn-outline-secondary"
+                                title="Cleanup expired invites"
+                                Trigger="HandleCleanupInvites"
+                                Disabled="@(!IsOwner)">
+                        Cleanup Invites
+                    </BusyButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+@code
+{
+    private long? _loadedId;
+    private long CurrentUserId { get; set; }
+    private bool IsOwner { get; set; }
+
+    protected override string ModelLabel => "Organization Invite";
+
+    protected override string? GetRedirectLocation(RedirectReason reason, long id)
+        => RouteLinks.Organizations.List();
+
+    protected override EntityFilter? CombineFilter(EntityFilter? originalFilter)
+    {
+        var parentFilter = new EntityFilter
+        {
+            Name = "OrganizationId",
+            Operator = FilterOperators.Equal,
+            Value = Id
+        };
+
+        if (originalFilter == null)
+            return parentFilter;
+
+        var boolFilter = new EntityFilter
+        {
+            Logic = FilterLogic.And,
+            Filters = [parentFilter, originalFilter]
+        };
+
+        return boolFilter;
+    }
+
+    protected override async Task OnLoadedAsync(CancellationToken cancellationToken)
+    {
+        await base.OnLoadedAsync(cancellationToken);
+
+        if (_loadedId == Id)
+            return;
+
+        _loadedId = Id;
+
+        try
+        {
+            CurrentUserId = await base.GetUserId<long>();
+
+            if (await base.HasRole(RoleNames.Administrators))
+            {
+                IsOwner = true;
+                return;
+            }
+
+            IsOwner = Model?.Owners?.Contains(CurrentUserId) == true;
+        }
+        catch (Exception ex)
+        {
+            Notification.ShowError(ex);
+        }
+    }
+
+
+    private async Task HandleSendInvite()
+    {
+        try
+        {
+            var parameters = ModalParameters.Create()
+                .Title("Send Invite")
+                .Message("Enter the email address to send the invite to.")
+                .PrimaryAction("Send");
+
+            var modalForm = await Modal.Show<InviteModal>(parameters);
+            var modalResult = await modalForm.Result;
+            if (modalResult.Cancelled)
+                return;
+
+            var inviteModel = modalResult.Data as InviteCreateModel;
+            if (inviteModel == null)
+                return;
+
+            inviteModel.OrganizationId = Id;
+
+            var result = await DataService.Create<InviteCreateModel, InviteReadModel>(inviteModel);
+            if (result == null)
+            {
+                Notification.ShowError("Failed to send invite.");
+                return;
+            }
+
+            var command = new InviteSendCommand(result.Id);
+            var sendResult = await Dispatcher.Send(command);
+
+            if (sendResult?.Successful != true)
+            {
+                Notification.ShowError(sendResult?.Message ?? "Failed to send invite.");
+                return;
+            }
+
+            Notification.ShowSuccess($"Invite sent to {inviteModel.Email} successfully.");
+
+            if (DataGrid != null)
+                await DataGrid.RefreshAsync();
+        }
+        catch (Exception ex)
+        {
+            Notification.ShowError(ex);
+        }
+        finally
+        {
+            await StateChangedAsync();
+        }
+    }
+
+    private async Task HandleResendInvite(InviteReadModel invite)
+    {
+        try
+        {
+            var command = new InviteSendCommand(invite.Id);
+            var sendResult = await Dispatcher.Send(command);
+
+            if (sendResult?.Successful != true)
+            {
+                Notification.ShowError(sendResult?.Message ?? "Failed to resend invite.");
+                return;
+            }
+
+            Notification.ShowSuccess($"Invite resent to {invite.Email} successfully.");
+
+            if (DataGrid != null)
+                await DataGrid.RefreshAsync();
+        }
+        catch (Exception ex)
+        {
+            Notification.ShowError(ex);
+        }
+        finally
+        {
+            await StateChangedAsync();
+        }
+    }
+
+    private async Task HandleCleanupInvites()
+    {
+        try
+        {
+            var command = new InviteCleanupCommand();
+            var sendResult = await Dispatcher.Send(command);
+
+            if (sendResult?.Successful != true)
+            {
+                Notification.ShowError(sendResult?.Message ?? "Failed to cleanup invites.");
+                return;
+            }
+
+            Notification.ShowSuccess("Invites cleaned up successfully.");
+
+            if (DataGrid != null)
+                await DataGrid.RefreshAsync();
+        }
+        catch (Exception ex)
+        {
+            Notification.ShowError(ex);
+        }
+        finally
+        {
+            await StateChangedAsync();
+        }
+    }
+}

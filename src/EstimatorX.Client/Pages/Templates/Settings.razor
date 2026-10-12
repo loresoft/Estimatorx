@@ -1,13 +1,61 @@
-@page "/templates/{id}/{organizationId}/settings"
+@page "/templates/{id:long}/settings"
 @inherits TemplateBase
+@attribute [Authorize]
 
-@using EstimatorX.Client.Pages.Projects.Components
-@using EstimatorX.Client.Pages.Templates.Components
-@using EstimatorX.Client.Repositories
-@using EstimatorX.Client.Stores
+<PageTitle>@PageTitle("Settings") - EstimatorX</PageTitle>
 
-<PageTitle>Template @Model?.Name - Settings - EstimatorX</PageTitle>
+<Container Id="@Id"
+           Title="@PageTitle("Settings")"
+           Label="@EditLabel()">
+    <LoadingBlock IsLoading="EditContext == null || Store.Model == null">
+        <EditForm EditContext="EditContext"
+                  OnValidSubmit="HandleSave">
 
-<TemplateContainer Id="@Id" OrganizationId="@OrganizationId" TStore="TemplateStore" TRepository="TemplateRepository" TModel="Template">
-    <SettingsEditor TStore="TemplateStore" TRepository="TemplateRepository" TModel="Template" />
-</TemplateContainer>
+            <FluentValidator />
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <ValidationSummary />
+                    </div>
+                </div>
+
+                <!-- Settings Editor -->
+                <SettingEditor ProjectSettings="@ProjectSettings"
+                               NotifyStateChanged="Store.NotifyStateChanged" />
+
+            </div>
+            <div class="card-footer">
+                <!-- Form Buttons -->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <BusyButton id="save-button"
+                                    type="submit"
+                                    Busy="Store.IsBusy"
+                                    Disabled="Store.IsClean"
+                                    class="btn btn-primary">
+                            Save
+                        </BusyButton>
+                    </div>
+                    <div class="col-sm-6 text-sm-end">
+                        @if (!IsCreate)
+                        {
+                            <BusyButton id="delete-button"
+                                        type="button"
+                                        Trigger="HandleDelete"
+                                        Disabled="@Store.IsBusy"
+                                        class="btn btn-danger">
+                                Delete
+                            </BusyButton>
+                        }
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    </LoadingBlock>
+</Container>
+
+@code
+{
+
+}
