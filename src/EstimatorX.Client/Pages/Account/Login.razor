@@ -19,7 +19,16 @@
                             <i class="bi @alert.Icon me-1"></i> @alert.Text
                         </div>
                     }
-                    <p>Sign in with one of the following providers:</p>
+                    @if (!HasAnyProvider)
+                    {
+                        <div class="alert alert-warning" role="alert">
+                            <i class="bi bi-exclamation-triangle me-1"></i> No authentication providers are configured.
+                        </div>
+                    }
+                    else
+                    {
+                        <p>Sign in with one of the following providers:</p>
+                    }
                     <div class="d-grid gap-2">
                         @if (IsConfigured(AuthenticationProviders.Microsoft.ClientId, AuthenticationProviders.Microsoft.ClientSecret))
                         {
@@ -67,6 +76,12 @@
     private string? Message { get; set; }
 
     private AlertMessage? Alert => AlertService.GetMessage(Message);
+
+    private bool HasAnyProvider
+        => IsConfigured(AuthenticationProviders.Microsoft.ClientId, AuthenticationProviders.Microsoft.ClientSecret)
+        || IsConfigured(AuthenticationProviders.Google.ClientId, AuthenticationProviders.Google.ClientSecret)
+        || IsConfigured(AuthenticationProviders.Facebook.AppId, AuthenticationProviders.Facebook.AppSecret)
+        || IsConfigured(AuthenticationProviders.GitHub.ClientId, AuthenticationProviders.GitHub.ClientSecret);
 
     private bool IsConfigured(string idKey, string secretKey)
         => !string.IsNullOrEmpty(Configuration[idKey])

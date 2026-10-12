@@ -5,6 +5,7 @@ using Arbiter.CommandQuery.Endpoints;
 using Arbiter.Dispatcher.Server;
 using Arbiter.OpenTelemetry.Server;
 
+using EstimatorX.Data;
 using EstimatorX.Extensions;
 using EstimatorX.Web.Components;
 using EstimatorX.Web.Endpoints;
@@ -104,15 +105,11 @@ public static class Program
             })
             .AddSocialProviders(configuration);
 
-        // persist keys so auth cookies survive container restarts
-        var keyPath = configuration["DataProtection:Path"];
-        if (!string.IsNullOrWhiteSpace(keyPath))
-        {
-            services
-                .AddDataProtection()
-                .SetApplicationName("EstimatorX")
-                .PersistKeysToFileSystem(new DirectoryInfo(keyPath));
-        }
+        // persist keys to the database so auth cookies survive container restarts
+        services
+            .AddDataProtection()
+            .SetApplicationName("EstimatorX")
+            .PersistKeysToDbContext<EstimatorContext>();
 
         services
             .AddAntiforgery();

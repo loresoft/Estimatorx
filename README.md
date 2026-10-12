@@ -100,7 +100,9 @@ Then browse to `http://localhost:8080`.
 
 ### Persisting Data
 
-By default the container uses SQLite at `/home/app/data/EstimatorX.db` and stores data protection keys in `/home/app/data/keys`. The container runs as the non-root `app` user (UID `1654`).
+By default the container uses SQLite at `/home/app/data/EstimatorX.db`. Data protection keys are stored in the database, so users stay signed in across restarts. The container runs as the non-root `app` user (UID `1654`).
+
+Only the SQLite provider needs a volume to persist data. PostgreSQL and SQL Server store everything, including data protection keys, in the external database.
 
 - **Named volume** - mount the volume at `/home/app` so it inherits the `app` user ownership from the image.
 
@@ -121,10 +123,9 @@ Configure the container with environment variables.
 
 #### General
 
-| Variable                | Description                                                                 | Default               |
-| ----------------------- | --------------------------------------------------------------------------- | --------------------- |
-| `DataProtection__Path`  | Directory to persist data protection keys, keeps users signed in on restart | `/home/app/data/keys` |
-| `ASPNETCORE_HTTP_PORTS` | HTTP port the application listens on                                        | `8080`                |
+| Variable                | Description                          | Default |
+| ----------------------- | ------------------------------------ | ------- |
+| `ASPNETCORE_HTTP_PORTS` | HTTP port the application listens on | `8080`  |
 
 #### Database
 
@@ -136,22 +137,41 @@ Configure the container with environment variables.
 
 Set both `Database__Provider` and `Database__ConnectionString` when using a provider other than SQLite.
 
-##### PostgreSQL
+##### SQLite
+
+Mount a volume so the database, including data protection keys, survives container restarts, see [Persisting Data](#persisting-data).
+
+```shell
+docker run -d -p 8080:8080 -v estimatorx-data:/home/app ghcr.io/loresoft/estimatorx:latest
+```
+
+To use a different location, set `Database__ConnectionString` to a path writable by the `app` user (UID `1654`).
 
 ```shell
 docker run -d -p 8080:8080 \
   -v estimatorx-data:/home/app \
-  -e Database__Provider=postgresql \
+  -e Database__ConnectionString="Data Source=/home/app/db/EstimatorX.db" \
+  ghcr.io/loresoft/estimatorx:latest
+```
+
+##### PostgreSQL
+
+No volume is needed; all data, including data protection keys, is stored in PostgreSQL.
+
+```shell
+docker run -d -p 8080:8080 \
+  -e Database__Provider=postgresql
   -e Database__ConnectionString="Host=postgres;Database=EstimatorX;Username=estimatorx;Password=<password>" \
   ghcr.io/loresoft/estimatorx:latest
 ```
 
 ##### SQL Server
 
+No volume is needed; all data, including data protection keys, is stored in SQL Server.
+
 ```shell
 docker run -d -p 8080:8080 \
-  -v estimatorx-data:/home/app \
-  -e Database__Provider=sqlserver \
+  -e Database__Provider=sqlserver
   -e Database__ConnectionString="Server=sqlserver;Database=EstimatorX;User Id=estimatorx;Password=<password>;TrustServerCertificate=true" \
   ghcr.io/loresoft/estimatorx:latest
 ```
@@ -276,8 +296,8 @@ dotnet EstimatorX.Web.dll --urls "http://localhost:8080"
 Then browse to `http://localhost:8080`.
 
 - All settings in the [Configuration](#configuration) section apply. Set them as environment variables, command line arguments (`--Database:Provider=postgresql`) or in an `appsettings.Production.json` file next to `EstimatorX.Web.dll`.
-- Set `Database__ConnectionString` when using SQLite; the built-in default `/data/EstimatorX.db` points at the root of the file system.
-- Data protection keys are stored in the user profile by default. Set `DataProtection__Path` to store them elsewhere.
+- Set `Database__ConnectionString` when using SQLite; the built-in default `/home/app/data/EstimatorX.db` targets the container image layout. The database directory is created automatically if it does not exist.
+- Data protection keys are stored in the configured database.
 - Use `--urls` or `ASPNETCORE_URLS` to change the listening address. The same [HTTPS](#https) guidance applies when hosting outside of `localhost`.
 
 To run from source instead, use `dotnet run --project src/EstimatorX.Web/EstimatorX.Web.csproj`. Requires the .NET 10 SDK and dart-sass.

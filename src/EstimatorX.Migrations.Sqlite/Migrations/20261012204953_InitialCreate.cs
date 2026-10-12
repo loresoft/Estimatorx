@@ -11,6 +11,20 @@ namespace EstimatorX.Migrations.Sqlite.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "DataProtectionKey",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FriendlyName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    Xml = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DataProtectionKey", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Organization",
                 columns: table => new
                 {
@@ -307,6 +321,9 @@ namespace EstimatorX.Migrations.Sqlite.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "DataProtectionKey");
+
             migrationBuilder.DropTable(
                 name: "Invite");
 

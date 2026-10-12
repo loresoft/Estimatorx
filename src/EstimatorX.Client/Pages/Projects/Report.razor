@@ -39,6 +39,10 @@
                         {
                             <div class="fw-semibold">@Model.OrganizationName</div>
                         }
+                        else if (!string.IsNullOrWhiteSpace(Model.UserName))
+                        {
+                            <div class="fw-semibold">@Model.UserName</div>
+                        }
                         <div class="text-muted">@Model.Updated.ToLocalTime().ToString("D")</div>
                     </div>
                 </div>

@@ -15,8 +15,6 @@
   <ItemGroup Label="Container">
     <!-- /app is read-only for the non-root 'app' user, so store data under its home directory -->
     <ContainerEnvironmentVariable Include="Database__Provider" Value="sqlite" />
-    <ContainerEnvironmentVariable Include="Database__ConnectionString" Value="Data Source=/home/app/data/EstimatorX.db" />
-    <ContainerEnvironmentVariable Include="DataProtection__Path" Value="/home/app/data/keys" />
   </ItemGroup>
 
   <ItemGroup>

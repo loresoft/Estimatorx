@@ -872,6 +872,28 @@ namespace EstimatorX.Migrations.Sqlite.Migrations
                     b.ToTable("UserProvider", (string)null);
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.DataProtectionKey", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Id");
+
+                    b.Property<string>("FriendlyName")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("FriendlyName");
+
+                    b.Property<string>("Xml")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Xml");
+
+                    b.HasKey("Id")
+                        .HasName("PK_DataProtectionKey");
+
+                    b.ToTable("DataProtectionKey", (string)null);
+                });
+
             modelBuilder.Entity("EstimatorX.Data.Entities.Invite", b =>
                 {
                     b.HasOne("EstimatorX.Data.Entities.Organization", "Organization")

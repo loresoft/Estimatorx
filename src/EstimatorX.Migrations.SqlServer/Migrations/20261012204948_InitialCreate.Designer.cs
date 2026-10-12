@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EstimatorX.Migrations.SqlServer.Migrations
 {
     [DbContext(typeof(EstimatorContext))]
-    [Migration("20261012153352_InitialCreate")]
+    [Migration("20261012204948_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -886,6 +886,30 @@ namespace EstimatorX.Migrations.SqlServer.Migrations
                         .HasDatabaseName("UX_UserProvider_Provider_ProviderKey");
 
                     b.ToTable("UserProvider", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.DataProtectionKey", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FriendlyName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)")
+                        .HasColumnName("FriendlyName");
+
+                    b.Property<string>("Xml")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Xml");
+
+                    b.HasKey("Id")
+                        .HasName("PK_DataProtectionKey");
+
+                    b.ToTable("DataProtectionKey", (string)null);
                 });
 
             modelBuilder.Entity("EstimatorX.Data.Entities.Invite", b =>

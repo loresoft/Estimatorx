@@ -134,14 +134,13 @@
 {
     private bool IncludeSample { get; set; } = true;
 
-    protected override Task<bool> OnSavingAsync(CancellationToken cancellationToken)
+    protected override async Task<bool> OnSavingAsync(CancellationToken cancellationToken)
     {
         if (Model == null)
-            return Task.FromResult(false);
+            return false;
 
         ProjectBuilder.UpdateProject(Model, IncludeSample);
-        ProjectCalculator.UpdateProject(Model);
 
-        return Task.FromResult(true);
+        return await base.OnSavingAsync(cancellationToken);
     }
 }

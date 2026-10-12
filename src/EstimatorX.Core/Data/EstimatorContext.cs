@@ -1,10 +1,13 @@
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EstimatorX.Data;
 
-public class EstimatorContext(DbContextOptions<EstimatorContext> options) : DbContext(options)
+public class EstimatorContext(DbContextOptions<EstimatorContext> options) : DbContext(options), IDataProtectionKeyContext
 {
+    public virtual DbSet<DataProtectionKey> DataProtectionKeys { get; set; } = null!;
+
     public virtual DbSet<Entities.Invite> Invites { get; set; } = null!;
 
     public virtual DbSet<Entities.Organization> Organizations { get; set; } = null!;
@@ -23,6 +26,7 @@ public class EstimatorContext(DbContextOptions<EstimatorContext> options) : DbCo
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new Mapping.DataProtectionKeyMap());
         modelBuilder.ApplyConfiguration(new Mapping.InviteMap());
         modelBuilder.ApplyConfiguration(new Mapping.OrganizationMap());
         modelBuilder.ApplyConfiguration(new Mapping.ProjectMap());
