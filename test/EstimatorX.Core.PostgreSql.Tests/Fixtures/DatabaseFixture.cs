@@ -3,6 +3,7 @@ using Arbiter.Communication;
 using Arbiter.Communication.Email;
 
 using EstimatorX.Core.Tests;
+using EstimatorX.Core.Tests.Fixtures;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,7 +48,6 @@ public class DatabaseFixture : TestApplicationFixture, IAsyncLifetime
             Database = "EstimatorX"
         };
         var connectionString = connectionBuilder.ToString();
-        connectionString = "Host=localhost;Port=5432;Username=postgres;Password=BhXBduheKkaY2NG!4paP;Database=EstimatorX";
 
         // override connection string to use docker container
         var configurationData = new Dictionary<string, string?>
@@ -71,6 +71,9 @@ public class DatabaseFixture : TestApplicationFixture, IAsyncLifetime
         services
             .AddEstimatorXShared()
             .AddEstimatorXCore();
+
+        // seed default test user after database migration
+        services.AddHostedService<DatabaseSeeder>();
     }
 
     private sealed class TestBaseAddressResolver : IBaseAddressResolver

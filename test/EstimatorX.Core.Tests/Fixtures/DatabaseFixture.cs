@@ -43,5 +43,8 @@ public class DatabaseFixture : TestApplicationFixture
         services
             .AddEstimatorXShared()
             .AddEstimatorXCore();
+
+        // seed default test user after database migration
+        services.AddHostedService<DatabaseSeeder>();
     }
 }

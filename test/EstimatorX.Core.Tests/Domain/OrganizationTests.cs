@@ -3,6 +3,7 @@ using Arbiter.CommandQuery.Queries;
 using Arbiter.Mapping;
 using Arbiter.Mediation;
 
+using EstimatorX.Domain;
 using EstimatorX.Domain.Models;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -33,7 +34,7 @@ public class OrganizationTests(DatabaseFixture fixture) : TestHostBase<DatabaseF
             Description = "Test Organization",
         };
 
-        var createCommand = new EntityCreateCommand<OrganizationCreateModel, OrganizationReadModel>(MockClaimsPrincipal.Default, createModel);
+        var createCommand = new EntityCreateCommand<OrganizationCreateModel, OrganizationReadModel>(MockClaimsPrincipal.Default, createModel, PipelineNames.System);
         var createResult = await mediator.Send(createCommand, TestCancellation);
         createResult.Should().NotBeNull();
         createResult.Created.Should().BeCloseTo(DateTimeOffset.UtcNow, TimeSpan.FromMinutes(1));
@@ -42,7 +43,7 @@ public class OrganizationTests(DatabaseFixture fixture) : TestHostBase<DatabaseF
         createResult.UpdatedBy.Should().Be(userName);
 
         // Get Entity by Key
-        var identifierQuery = new EntityIdentifierQuery<long, OrganizationReadModel>(MockClaimsPrincipal.Default, createResult.Id);
+        var identifierQuery = new EntityIdentifierQuery<long, OrganizationReadModel>(MockClaimsPrincipal.Default, createResult.Id, PipelineNames.System);
         var identifierResult = await mediator.Send(identifierQuery, TestCancellation);
         identifierResult.Should().NotBeNull();
         identifierResult.Name.Should().Be(createModel.Name);
@@ -53,7 +54,7 @@ public class OrganizationTests(DatabaseFixture fixture) : TestHostBase<DatabaseF
             Sort = [new EntitySort { Name = "Updated", Direction = SortDirections.Descending }],
             Filter = new EntityFilter { Name = nameof(OrganizationReadModel.Name), Value = testValue }
         };
-        var listQuery = new EntityPagedQuery<OrganizationReadModel>(MockClaimsPrincipal.Default, entityQuery);
+        var listQuery = new EntityPagedQuery<OrganizationReadModel>(MockClaimsPrincipal.Default, entityQuery, PipelineNames.System);
 
         var listResult = await mediator.Send(listQuery, TestCancellation);
         listResult.Should().NotBeNull();
@@ -62,7 +63,7 @@ public class OrganizationTests(DatabaseFixture fixture) : TestHostBase<DatabaseF
         var updateModel = mapper.Map<OrganizationReadModel, OrganizationUpdateModel>(identifierResult);
         updateModel.Name = "Update Command";
 
-        var updateCommand = new EntityUpdateCommand<long, OrganizationUpdateModel, OrganizationReadModel>(MockClaimsPrincipal.Default, createResult.Id, updateModel);
+        var updateCommand = new EntityUpdateCommand<long, OrganizationUpdateModel, OrganizationReadModel>(MockClaimsPrincipal.Default, createResult.Id, updateModel, filterName: PipelineNames.System);
         var updateResult = await mediator.Send(updateCommand, TestCancellation);
         updateResult.Should().NotBeNull();
         updateResult.Created.Should().Be(createResult.Created);
@@ -72,7 +73,7 @@ public class OrganizationTests(DatabaseFixture fixture) : TestHostBase<DatabaseF
         updateResult.Name.Should().Be("Update Command");
 
         // Delete Entity
-        var deleteCommand = new EntityDeleteCommand<long, OrganizationReadModel>(MockClaimsPrincipal.Default, createResult.Id);
+        var deleteCommand = new EntityDeleteCommand<long, OrganizationReadModel>(MockClaimsPrincipal.Default, createResult.Id, PipelineNames.System);
         var deleteResult = await mediator.Send(deleteCommand, TestCancellation);
         deleteResult.Should().NotBeNull();
         deleteResult.Id.Should().Be(createResult.Id);

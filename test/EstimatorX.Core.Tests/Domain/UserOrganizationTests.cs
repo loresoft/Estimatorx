@@ -4,6 +4,7 @@ using Arbiter.Mapping;
 using Arbiter.Mediation;
 
 using EstimatorX.Data;
+using EstimatorX.Domain;
 using EstimatorX.Domain.Commands;
 using EstimatorX.Domain.Models;
 
@@ -21,7 +22,8 @@ public class UserOrganizationTests(DatabaseFixture fixture) : TestHostBase<Datab
         var mediator = Services.GetRequiredService<IMediator>();
         var (userId, organizationId) = await CreateParents(mediator);
 
-        var result = await mediator.Send(new UserOrganizationOwnerCommand(MockClaimsPrincipal.Default, userId, organizationId, true), TestCancellation);
+        UserOrganizationOwnerCommand request = new(MockClaimsPrincipal.Default, userId, organizationId, true);
+        var result = await mediator.Send(request, TestCancellation);
         result.Should().NotBeNull();
 
         var entity = await FindMembership(userId, organizationId);
@@ -39,20 +41,25 @@ public class UserOrganizationTests(DatabaseFixture fixture) : TestHostBase<Datab
         var mediator = Services.GetRequiredService<IMediator>();
         var (userId, organizationId) = await CreateParents(mediator);
 
+        var createModel = new UserOrganizationCreateModel { UserId = userId, OrganizationId = organizationId };
         var createCommand = new EntityCreateCommand<UserOrganizationCreateModel, UserOrganizationReadModel>(
             MockClaimsPrincipal.Default,
-            new UserOrganizationCreateModel { UserId = userId, OrganizationId = organizationId });
+            createModel,
+            PipelineNames.System);
+
         var createResult = await mediator.Send(createCommand, TestCancellation);
         createResult.Should().NotBeNull();
 
-        await mediator.Send(new UserOrganizationOwnerCommand(MockClaimsPrincipal.Default, userId, organizationId, true), TestCancellation);
+        var ownerCommand = new UserOrganizationOwnerCommand(MockClaimsPrincipal.Default, userId, organizationId, true);
+        await mediator.Send(ownerCommand, TestCancellation);
 
         var owner = await FindMembership(userId, organizationId);
         owner.Should().NotBeNull();
         owner!.Id.Should().Be(createResult.Id);
         owner.IsOwner.Should().BeTrue();
 
-        await mediator.Send(new UserOrganizationOwnerCommand(MockClaimsPrincipal.Default, userId, organizationId, false), TestCancellation);
+        var notOwnerCommand = new UserOrganizationOwnerCommand(MockClaimsPrincipal.Default, userId, organizationId, false);
+        await mediator.Send(notOwnerCommand, TestCancellation);
 
         var notOwner = await FindMembership(userId, organizationId);
         notOwner.Should().NotBeNull();
@@ -75,13 +82,18 @@ public class UserOrganizationTests(DatabaseFixture fixture) : TestHostBase<Datab
         var mediator = Services.GetRequiredService<IMediator>();
         var (userId, organizationId) = await CreateParents(mediator);
 
-        await mediator.Send(new UserOrganizationOwnerCommand(MockClaimsPrincipal.Default, userId, organizationId, false), TestCancellation);
-        (await FindMembership(userId, organizationId)).Should().NotBeNull();
+        var ownerCommand = new UserOrganizationOwnerCommand(MockClaimsPrincipal.Default, userId, organizationId, false);
+        await mediator.Send(ownerCommand, TestCancellation);
 
-        var result = await mediator.Send(new UserOrganizationDeleteCommand(MockClaimsPrincipal.Default, userId, organizationId), TestCancellation);
+        var existing = await FindMembership(userId, organizationId);
+        existing.Should().NotBeNull();
+
+        var deleteCommand = new UserOrganizationDeleteCommand(MockClaimsPrincipal.Default, userId, organizationId);
+        var result = await mediator.Send(deleteCommand, TestCancellation);
         result.Should().NotBeNull();
 
-        (await FindMembership(userId, organizationId)).Should().BeNull();
+        var deleted = await FindMembership(userId, organizationId);
+        deleted.Should().BeNull();
 
         await DeleteParents(mediator, userId, organizationId);
     }
@@ -92,10 +104,12 @@ public class UserOrganizationTests(DatabaseFixture fixture) : TestHostBase<Datab
         var mediator = Services.GetRequiredService<IMediator>();
         var (userId, organizationId) = await CreateParents(mediator);
 
-        var result = await mediator.Send(new UserOrganizationDeleteCommand(MockClaimsPrincipal.Default, userId, organizationId), TestCancellation);
+        var deleteCommand = new UserOrganizationDeleteCommand(MockClaimsPrincipal.Default, userId, organizationId);
+        var result = await mediator.Send(deleteCommand, TestCancellation);
         result.Should().NotBeNull();
 
-        (await FindMembership(userId, organizationId)).Should().BeNull();
+        var membership = await FindMembership(userId, organizationId);
+        membership.Should().BeNull();
 
         await DeleteParents(mediator, userId, organizationId);
     }
@@ -104,15 +118,21 @@ public class UserOrganizationTests(DatabaseFixture fixture) : TestHostBase<Datab
     {
         var testValue = $"TEST-{DateTime.UtcNow.Ticks}";
 
+        var userModel = new UserCreateModel { Email = $"{Guid.NewGuid():N}@mailinator.com", Name = testValue };
         var userCommand = new EntityCreateCommand<UserCreateModel, UserReadModel>(
             MockClaimsPrincipal.Default,
-            new UserCreateModel { Email = $"{Guid.NewGuid():N}@mailinator.com", Name = testValue });
+            userModel,
+            PipelineNames.System);
+
         var userResult = await mediator.Send(userCommand, TestCancellation);
         userResult.Should().NotBeNull();
 
+        var organizationModel = new OrganizationCreateModel { Name = testValue };
         var organizationCommand = new EntityCreateCommand<OrganizationCreateModel, OrganizationReadModel>(
             MockClaimsPrincipal.Default,
-            new OrganizationCreateModel { Name = testValue });
+            organizationModel,
+            PipelineNames.System);
+
         var organizationResult = await mediator.Send(organizationCommand, TestCancellation);
         organizationResult.Should().NotBeNull();
 
@@ -121,15 +141,21 @@ public class UserOrganizationTests(DatabaseFixture fixture) : TestHostBase<Datab
 
     private async Task DeleteParents(IMediator mediator, long userId, long organizationId)
     {
-        await mediator.Send(new UserOrganizationDeleteCommand(MockClaimsPrincipal.Default, userId, organizationId), TestCancellation);
-        await mediator.Send(new EntityDeleteCommand<long, OrganizationReadModel>(MockClaimsPrincipal.Default, organizationId), TestCancellation);
-        await mediator.Send(new EntityDeleteCommand<long, UserReadModel>(MockClaimsPrincipal.Default, userId), TestCancellation);
+        var membershipCommand = new UserOrganizationDeleteCommand(MockClaimsPrincipal.Default, userId, organizationId);
+        await mediator.Send(membershipCommand, TestCancellation);
+
+        var organizationCommand = new EntityDeleteCommand<long, OrganizationReadModel>(MockClaimsPrincipal.Default, organizationId, PipelineNames.System);
+        await mediator.Send(organizationCommand, TestCancellation);
+
+        var userCommand = new EntityDeleteCommand<long, UserReadModel>(MockClaimsPrincipal.Default, userId, PipelineNames.System);
+        await mediator.Send(userCommand, TestCancellation);
     }
 
     private async Task<EstimatorX.Data.Entities.UserOrganization?> FindMembership(long userId, long organizationId)
     {
         await using var scope = Services.CreateAsyncScope();
         var context = scope.ServiceProvider.GetRequiredService<EstimatorContext>();
+
         return await context.UserOrganizations
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.UserId == userId && x.OrganizationId == organizationId, TestCancellation);
@@ -155,16 +181,18 @@ public class UserOrganizationTests(DatabaseFixture fixture) : TestHostBase<Datab
             Email = $"{DateTime.Now.Ticks}@mailinator.com",
             Name = testValue,
         };
-        var userCommand = new EntityCreateCommand<UserCreateModel, UserReadModel>(MockClaimsPrincipal.Default, userModel);
+        var userCommand = new EntityCreateCommand<UserCreateModel, UserReadModel>(MockClaimsPrincipal.Default, userModel, PipelineNames.System);
         var userResult = await mediator.Send(userCommand, TestCancellation);
         userResult.Should().NotBeNull();
 
         // Create Parent Organizations
-        var tenantCommand = new EntityCreateCommand<OrganizationCreateModel, OrganizationReadModel>(MockClaimsPrincipal.Default, new OrganizationCreateModel { Name = testValue });
+        var tenantModel = new OrganizationCreateModel { Name = testValue };
+        var tenantCommand = new EntityCreateCommand<OrganizationCreateModel, OrganizationReadModel>(MockClaimsPrincipal.Default, tenantModel, PipelineNames.System);
         var tenantResult = await mediator.Send(tenantCommand, TestCancellation);
         tenantResult.Should().NotBeNull();
 
-        var updateOrganizationCommand = new EntityCreateCommand<OrganizationCreateModel, OrganizationReadModel>(MockClaimsPrincipal.Default, new OrganizationCreateModel { Name = $"{testValue}-UPDATE" });
+        var updateOrganizationModel = new OrganizationCreateModel { Name = $"{testValue}-UPDATE" };
+        var updateOrganizationCommand = new EntityCreateCommand<OrganizationCreateModel, OrganizationReadModel>(MockClaimsPrincipal.Default, updateOrganizationModel, PipelineNames.System);
         var updateOrganizationResult = await mediator.Send(updateOrganizationCommand, TestCancellation);
         updateOrganizationResult.Should().NotBeNull();
 
@@ -175,7 +203,7 @@ public class UserOrganizationTests(DatabaseFixture fixture) : TestHostBase<Datab
             OrganizationId = tenantResult.Id,
         };
 
-        var createCommand = new EntityCreateCommand<UserOrganizationCreateModel, UserOrganizationReadModel>(MockClaimsPrincipal.Default, createModel);
+        var createCommand = new EntityCreateCommand<UserOrganizationCreateModel, UserOrganizationReadModel>(MockClaimsPrincipal.Default, createModel, PipelineNames.System);
         var createResult = await mediator.Send(createCommand, TestCancellation);
         createResult.Should().NotBeNull();
         createResult.Created.Should().BeCloseTo(DateTimeOffset.UtcNow, TimeSpan.FromMinutes(1));
@@ -184,7 +212,7 @@ public class UserOrganizationTests(DatabaseFixture fixture) : TestHostBase<Datab
         createResult.UpdatedBy.Should().Be(userName);
 
         // Get Entity by Key
-        var identifierQuery = new EntityIdentifierQuery<long, UserOrganizationReadModel>(MockClaimsPrincipal.Default, createResult.Id);
+        var identifierQuery = new EntityIdentifierQuery<long, UserOrganizationReadModel>(MockClaimsPrincipal.Default, createResult.Id, PipelineNames.System);
         var identifierResult = await mediator.Send(identifierQuery, TestCancellation);
         identifierResult.Should().NotBeNull();
         identifierResult.OrganizationId.Should().Be(createModel.OrganizationId);
@@ -195,7 +223,7 @@ public class UserOrganizationTests(DatabaseFixture fixture) : TestHostBase<Datab
             Sort = [new EntitySort { Name = "Updated", Direction = SortDirections.Descending }],
             Filter = new EntityFilter { Name = nameof(UserOrganizationReadModel.UserId), Value = userResult.Id }
         };
-        var listQuery = new EntityPagedQuery<UserOrganizationReadModel>(MockClaimsPrincipal.Default, entityQuery);
+        var listQuery = new EntityPagedQuery<UserOrganizationReadModel>(MockClaimsPrincipal.Default, entityQuery, PipelineNames.System);
 
         var listResult = await mediator.Send(listQuery, TestCancellation);
         listResult.Should().NotBeNull();
@@ -204,7 +232,7 @@ public class UserOrganizationTests(DatabaseFixture fixture) : TestHostBase<Datab
         var updateModel = mapper.Map<UserOrganizationReadModel, UserOrganizationUpdateModel>(identifierResult);
         updateModel.OrganizationId = updateOrganizationResult.Id;
 
-        var updateCommand = new EntityUpdateCommand<long, UserOrganizationUpdateModel, UserOrganizationReadModel>(MockClaimsPrincipal.Default, createResult.Id, updateModel);
+        var updateCommand = new EntityUpdateCommand<long, UserOrganizationUpdateModel, UserOrganizationReadModel>(MockClaimsPrincipal.Default, createResult.Id, updateModel, filterName: PipelineNames.System);
         var updateResult = await mediator.Send(updateCommand, TestCancellation);
         updateResult.Should().NotBeNull();
         updateResult.Created.Should().Be(createResult.Created);
@@ -214,14 +242,19 @@ public class UserOrganizationTests(DatabaseFixture fixture) : TestHostBase<Datab
         updateResult.OrganizationId.Should().Be(updateOrganizationResult.Id);
 
         // Delete Entity
-        var deleteCommand = new EntityDeleteCommand<long, UserOrganizationReadModel>(MockClaimsPrincipal.Default, createResult.Id);
+        var deleteCommand = new EntityDeleteCommand<long, UserOrganizationReadModel>(MockClaimsPrincipal.Default, createResult.Id, PipelineNames.System);
         var deleteResult = await mediator.Send(deleteCommand, TestCancellation);
         deleteResult.Should().NotBeNull();
         deleteResult.Id.Should().Be(createResult.Id);
 
         // Delete Parents
-        await mediator.Send(new EntityDeleteCommand<long, OrganizationReadModel>(MockClaimsPrincipal.Default, updateOrganizationResult.Id), TestCancellation);
-        await mediator.Send(new EntityDeleteCommand<long, OrganizationReadModel>(MockClaimsPrincipal.Default, tenantResult.Id), TestCancellation);
-        await mediator.Send(new EntityDeleteCommand<long, UserReadModel>(MockClaimsPrincipal.Default, userResult.Id), TestCancellation);
+        var deleteUpdateOrganizationCommand = new EntityDeleteCommand<long, OrganizationReadModel>(MockClaimsPrincipal.Default, updateOrganizationResult.Id, PipelineNames.System);
+        await mediator.Send(deleteUpdateOrganizationCommand, TestCancellation);
+
+        var deleteTenantCommand = new EntityDeleteCommand<long, OrganizationReadModel>(MockClaimsPrincipal.Default, tenantResult.Id, PipelineNames.System);
+        await mediator.Send(deleteTenantCommand, TestCancellation);
+
+        var deleteUserCommand = new EntityDeleteCommand<long, UserReadModel>(MockClaimsPrincipal.Default, userResult.Id, PipelineNames.System);
+        await mediator.Send(deleteUserCommand, TestCancellation);
     }
 }

@@ -25,6 +25,7 @@
     <Compile Include="..\EstimatorX.Core.Tests\Domain\**\*.cs" LinkBase="Domain" />
     <Compile Include="..\EstimatorX.Core.Tests\MockBaseAddressResolver.cs" Link="MockBaseAddressResolver.cs" />
     <Compile Include="..\EstimatorX.Core.Tests\MockClaimsPrincipal.cs" Link="MockClaimsPrincipal.cs" />
+    <Compile Include="..\EstimatorX.Core.Tests\Fixtures\DatabaseSeeder.cs" Link="Fixtures\DatabaseSeeder.cs" />
   </ItemGroup>
 
   <ItemGroup>

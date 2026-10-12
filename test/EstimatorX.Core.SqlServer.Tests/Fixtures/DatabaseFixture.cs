@@ -3,6 +3,7 @@ using Arbiter.Communication;
 using Arbiter.Communication.Email;
 
 using EstimatorX.Core.Tests;
+using EstimatorX.Core.Tests.Fixtures;
 
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -49,8 +50,6 @@ public class DatabaseFixture : TestApplicationFixture, IAsyncLifetime
         };
         var connectionString = connectionBuilder.ToString();
 
-        connectionString = "Data Source=(local);Initial Catalog=EstimatorX;Integrated Security=True;TrustServerCertificate=True;";
-
         // override connection string to use docker container
         var configurationData = new Dictionary<string, string?>
         {
@@ -73,6 +72,9 @@ public class DatabaseFixture : TestApplicationFixture, IAsyncLifetime
         services
             .AddEstimatorXShared()
             .AddEstimatorXCore();
+
+        // seed default test user after database migration
+        services.AddHostedService<DatabaseSeeder>();
     }
 
     private sealed class TestBaseAddressResolver : IBaseAddressResolver
