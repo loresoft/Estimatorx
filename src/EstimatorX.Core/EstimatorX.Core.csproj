@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>EstimatorX</RootNamespace>
@@ -17,12 +17,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
-    <PackageReference Include="Azure.Data.Tables" Version="12.13.0" />
-    <PackageReference Include="Cosmos.Abstracts" Version="6.2.3" />
-    <PackageReference Include="FluentRest" Version="11.1.0" />
-    <PackageReference Include="Nanoid" Version="3.1.0" />
-    <PackageReference Include="SendGrid" Version="9.29.3" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.4" />
   </ItemGroup>
 
   <ItemGroup>
