@@ -77,7 +77,7 @@ jobs:
       - name: Container Metadata
         id: meta
         if: success() && github.event_name != 'pull_request'
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ghcr.io/loresoft/estimatorx
           tags: |
