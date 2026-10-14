@@ -31,7 +31,7 @@ public class InviteRepository : CosmosRepository<Invite>, IInviteRepository
         if (entity.Created == default)
             entity.Created = DateTimeOffset.UtcNow;
 
-        entity.Updated = DateTimeOffset.UtcNow;
+        //entity.Updated = DateTimeOffset.UtcNow;
     }
 
     protected override PartitionKey GetPartitionKey(Invite entity)

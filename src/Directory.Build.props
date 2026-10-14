@@ -2,7 +2,7 @@
 
   <PropertyGroup Label="Package">
     <Product>EstimatorX</Product>
-    <Description>A simple project estimation application</Description>
+    <Description>Fast, consistent project estimates that account for uncertainty.</Description>
     <Copyright>Copyright © $([System.DateTime]::Now.ToString(yyyy)) LoreSoft</Copyright>
     <Authors>LoreSoft</Authors>
     <NeutralLanguage>en-US</NeutralLanguage>
@@ -41,11 +41,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <MinVerSkip Condition="'$(Configuration)' == 'Debug'">true</MinVerSkip>
     <MinVerTagPrefix>v</MinVerTagPrefix>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <MinVerSkip>true</MinVerSkip>
   </PropertyGroup>
 
   <ItemGroup>

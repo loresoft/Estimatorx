@@ -29,7 +29,7 @@ public class TemplateRepository
         if (entity.Created == default)
             entity.Created = DateTimeOffset.UtcNow;
 
-        entity.Updated = DateTimeOffset.UtcNow;
+        //entity.Updated = DateTimeOffset.UtcNow;
     }
 
     protected override string GetEntityKey(Template entity)

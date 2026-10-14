@@ -448,8 +448,8 @@ public class MigrateDataCommand : AsyncCommand
 
         if (target is Arbiter.CommandQuery.Definitions.ITrackUpdated updated)
         {
-            updated.Updated = source.Updated;
-            updated.UpdatedBy = source.UpdatedBy;
+            updated.Updated = source.Created;
+            updated.UpdatedBy = source.CreatedBy;
         }
     }
 

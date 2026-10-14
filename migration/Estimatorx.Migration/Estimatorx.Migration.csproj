@@ -16,6 +16,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\EstimatorX.Core\EstimatorX.Core.csproj" />
+    <ProjectReference Include="..\..\src\EstimatorX.Migrations.PostgreSql\EstimatorX.Migrations.PostgreSql.csproj" />
+    <ProjectReference Include="..\..\src\EstimatorX.Migrations.Sqlite\EstimatorX.Migrations.Sqlite.csproj" />
+    <ProjectReference Include="..\..\src\EstimatorX.Migrations.SqlServer\EstimatorX.Migrations.SqlServer.csproj" />
     <ProjectReference Include="..\Estimatorx.Data.Cosmos\Estimatorx.Data.Cosmos.csproj" />
   </ItemGroup>
 

@@ -36,7 +36,7 @@ public class UserRepository
         if (entity.Created == default)
             entity.Created = DateTimeOffset.UtcNow;
 
-        entity.Updated = DateTimeOffset.UtcNow;
+        //entity.Updated = DateTimeOffset.UtcNow;
     }
 
     protected override string GetEntityKey(User entity)

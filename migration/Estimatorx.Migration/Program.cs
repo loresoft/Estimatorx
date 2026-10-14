@@ -22,10 +22,20 @@ public class Program
 
             ConfigureServices(builder);
 
-            var host = builder.Build();
-            var app = ConfigureCommands(host);
+            using var host = builder.Build();
 
-            return await app.RunAsync(args);
+            // start the host so hosted services, like DatabaseMigration, run before commands execute
+            await host.StartAsync();
+
+            try
+            {
+                var app = ConfigureCommands(host);
+                return await app.RunAsync(args);
+            }
+            finally
+            {
+                await host.StopAsync();
+            }
         }
         catch (Exception ex)
         {

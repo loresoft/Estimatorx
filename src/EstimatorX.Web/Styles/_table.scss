@@ -77,9 +77,10 @@
     -moz-text-overflow: '';
     text-overflow: '';
     padding-right: 12px !important;
-    background-image: url('caret.png');
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='%236c757d' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 6l5 5 5-5'/></svg>");
     background-repeat: no-repeat;
-    background-position: right;
+    background-position: right 0.5rem center;
+    background-size: 0.75rem 0.75rem;
   }
 
   select::-ms-expand {
