@@ -83,7 +83,11 @@ Shows a Feature's overall size, based on its Estimate. You can customize the Eff
 EstimatorX is published as a container image to the GitHub Container Registry for `linux/amd64` and `linux/arm64`.
 
 ```shell
-docker run -d --name estimatorx -p 8080:8080 -v estimatorx-data:/home/app ghcr.io/loresoft/estimatorx:latest
+docker run -d \
+  --name estimatorx \
+  -p 8080:8080 \
+  -v estimatorx-data:/home/app \
+  ghcr.io/loresoft/estimatorx:latest
 ```
 
 Then browse to `http://localhost:8080`.
@@ -107,14 +111,20 @@ Only the SQLite provider needs a volume to persist data. PostgreSQL and SQL Serv
 - **Named volume** - mount the volume at `/home/app` so it inherits the `app` user ownership from the image.
 
   ```shell
-  docker run -d -p 8080:8080 -v estimatorx-data:/home/app ghcr.io/loresoft/estimatorx:latest
+  docker run -d \
+    -p 8080:8080 \
+    -v estimatorx-data:/home/app \
+    ghcr.io/loresoft/estimatorx:latest
   ```
 
 - **Bind mount** - the host directory must be writable by UID `1654`.
 
   ```shell
   mkdir -p ./data && sudo chown -R 1654:1654 ./data
-  docker run -d -p 8080:8080 -v ./data:/home/app/data ghcr.io/loresoft/estimatorx:latest
+  docker run -d \
+    -p 8080:8080 \
+    -v ./data:/home/app/data \
+    ghcr.io/loresoft/estimatorx:latest
   ```
 
 ### Configuration
@@ -142,7 +152,10 @@ Set both `Database__Provider` and `Database__ConnectionString` when using a prov
 Mount a volume so the database, including data protection keys, survives container restarts, see [Persisting Data](#persisting-data).
 
 ```shell
-docker run -d -p 8080:8080 -v estimatorx-data:/home/app ghcr.io/loresoft/estimatorx:latest
+docker run -d \
+  -p 8080:8080 \
+  -v estimatorx-data:/home/app \
+  ghcr.io/loresoft/estimatorx:latest
 ```
 
 To use a different location, set `Database__ConnectionString` to a path writable by the `app` user (UID `1654`).
@@ -160,8 +173,8 @@ No volume is needed; all data, including data protection keys, is stored in Post
 
 ```shell
 docker run -d -p 8080:8080 \
-  -e Database__Provider=postgresql
-  -e Database__ConnectionString="Host=postgres;Database=EstimatorX;Username=estimatorx;Password=<password>" \
+  -e Database__Provider=postgresql \
+  -e Database__ConnectionString="Host=postgres;Database=EstimatorX;...>" \
   ghcr.io/loresoft/estimatorx:latest
 ```
 
@@ -171,8 +184,8 @@ No volume is needed; all data, including data protection keys, is stored in SQL 
 
 ```shell
 docker run -d -p 8080:8080 \
-  -e Database__Provider=sqlserver
-  -e Database__ConnectionString="Server=sqlserver;Database=EstimatorX;User Id=estimatorx;Password=<password>;TrustServerCertificate=true" \
+  -e Database__Provider=sqlserver \
+  -e Database__ConnectionString="Server=sqlserver;Database=EstimatorX;..." \
   ghcr.io/loresoft/estimatorx:latest
 ```
 
