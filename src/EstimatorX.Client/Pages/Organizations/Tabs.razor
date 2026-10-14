@@ -1,0 +1,36 @@
+@if (IsCreate) return;
+
+<ul class="nav nav-tabs card-header-tabs">
+    <li class="nav-item">
+        <NavLink id="organization-general-tab-link"
+                 Match="NavLinkMatch.All"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@RouteLinks.Organizations.Edit(Id)"
+                 title="Organization Details">General</NavLink>
+    </li>
+    <li class="nav-item">
+        <NavLink id="organization-members-tab-link"
+                 Match="NavLinkMatch.Prefix"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@RouteLinks.Organizations.Members(Id)"
+                 title="Organization Members">Members</NavLink>
+    </li>
+    <li class="nav-item">
+        <NavLink id="organization-invites-tab-link"
+                 Match="NavLinkMatch.Prefix"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@RouteLinks.Organizations.Invites(Id)"
+                 title="Organization Invites">Invites</NavLink>
+    </li>
+</ul>
+
+@code {
+    [Parameter, EditorRequired]
+    public required long Id { get; set; }
+
+    [Parameter]
+    public bool IsCreate { get; set; }
+}

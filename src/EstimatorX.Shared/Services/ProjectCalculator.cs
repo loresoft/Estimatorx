@@ -1,12 +1,12 @@
-using EstimatorX.Shared.Definitions;
-using EstimatorX.Shared.Models;
+using EstimatorX.Domain.Definitions;
+using EstimatorX.Domain.Models;
 
-namespace EstimatorX.Shared.Services;
+namespace EstimatorX.Services;
 
 [RegisterSingleton]
 public class ProjectCalculator : IProjectCalculator
 {
-    public void UpdateProject(Project project)
+    public void UpdateProject(IProjectEstimate project)
     {
         project.EstimatedTotal = 0;
         project.WeightedTotal = 0;
@@ -20,13 +20,16 @@ public class ProjectCalculator : IProjectCalculator
             // update parent totals
             project.EstimatedTotal += epic.EstimatedTotal;
             project.WeightedTotal += epic.WeightedTotal;
-            project.EstimatedCost += epic.EstimatedCost;
-            project.WeightedCost += epic.WeightedCost;
+            project.EstimatedCost += (decimal?)epic.EstimatedCost;
+            project.WeightedCost += (decimal?)epic.WeightedCost;
 
         }
+
+        project.EstimatedWeeks = CalculateWeeks(project, project.EstimatedTotal);
+        project.WeightedWeeks = CalculateWeeks(project, project.WeightedTotal);
     }
 
-    public void UpdateEpic(Project project, EpicEstimate epic)
+    public void UpdateEpic(IProjectEstimate project, EpicEstimate epic)
     {
         epic.EstimatedTotal = 0;
         epic.WeightedTotal = 0;
@@ -43,9 +46,12 @@ public class ProjectCalculator : IProjectCalculator
             epic.EstimatedCost += feature.EstimatedCost;
             epic.WeightedCost += feature.WeightedCost;
         }
+
+        epic.EstimatedWeeks = CalculateWeeks(project, epic.EstimatedTotal);
+        epic.WeightedWeeks = CalculateWeeks(project, epic.WeightedTotal);
     }
 
-    public void UpdateFeature(Project project, FeatureEstimate feature)
+    public void UpdateFeature(IProjectEstimate project, FeatureEstimate feature)
     {
         UpdateWeightedEstimate(project, feature);
         UpdateRisk(project, feature);
@@ -62,15 +68,18 @@ public class ProjectCalculator : IProjectCalculator
             feature.EstimatedCost += story.EstimatedCost;
             feature.WeightedCost += story.WeightedCost;
         }
+
+        feature.EstimatedWeeks = CalculateWeeks(project, feature.EstimatedTotal);
+        feature.WeightedWeeks = CalculateWeeks(project, feature.WeightedTotal);
     }
 
-    public void UpdateSettings(Project project)
+    public void UpdateSettings(IProjectEstimate project)
     {
         project.Settings.RiskLevels.Sort((x, y) => x.Multiplier.CompareTo(y.Multiplier));
         project.Settings.EffortLevels.Sort((x, y) => x.Effort.CompareTo(y.Effort));
     }
 
-    private void UpdateStory(Project project, StoryEstimate story)
+    private void UpdateStory(IProjectEstimate project, StoryEstimate story)
     {
         UpdateWeightedEstimate(project, story);
         UpdateRisk(project, story);
@@ -78,7 +87,8 @@ public class ProjectCalculator : IProjectCalculator
         UpdateTotals(project, story);
     }
 
-    private static void UpdateTotals(Project project, IHaveEstimate estimate)
+
+    private static void UpdateTotals(IProjectEstimate project, IHaveEstimate estimate)
     {
         double estimatedTotal = estimate.Estimate ?? 0;
         double weightedTotal = estimate.WeightedEstimate ?? 0;
@@ -95,9 +105,21 @@ public class ProjectCalculator : IProjectCalculator
 
         estimate.EstimatedCost = estimate.EstimatedTotal * project.Settings.EstimateRate;
         estimate.WeightedCost = estimate.WeightedTotal * project.Settings.EstimateRate;
+
+        estimate.EstimatedWeeks = CalculateWeeks(project, estimate.EstimatedTotal);
+        estimate.WeightedWeeks = CalculateWeeks(project, estimate.WeightedTotal);
     }
 
-    private static void UpdateRisk(Project project, IHaveEstimate estimate)
+    private static double? CalculateWeeks(IProjectEstimate project, int? total)
+    {
+        var unitsPerWeek = project.Settings.UnitsPerWeek;
+        if (!total.HasValue || !unitsPerWeek.HasValue || unitsPerWeek.Value <= 0)
+            return null;
+
+        return Math.Round((double)total.Value / unitsPerWeek.Value, 1, MidpointRounding.AwayFromZero);
+    }
+
+    private static void UpdateRisk(IProjectEstimate project, IHaveEstimate estimate)
     {
         if (!estimate.Multiplier.HasValue || estimate.Multiplier.Value == 0)
         {
@@ -119,7 +141,7 @@ public class ProjectCalculator : IProjectCalculator
         estimate.RiskLevel = risk?.Risk?.Risk;
     }
 
-    private static void UpdateEffort(Project project, IHaveEstimate estimate)
+    private static void UpdateEffort(IProjectEstimate project, IHaveEstimate estimate)
     {
         if (!estimate.Estimate.HasValue || estimate.Estimate.Value == 0)
         {
@@ -141,7 +163,7 @@ public class ProjectCalculator : IProjectCalculator
         estimate.EffortLevel = effort?.Effort?.Level;
     }
 
-    private static void UpdateWeightedEstimate(Project project, IHaveEstimate estimate)
+    private static void UpdateWeightedEstimate(IProjectEstimate project, IHaveEstimate estimate)
     {
         if (!estimate.Estimate.HasValue || estimate.Estimate.Value == 0)
         {
@@ -161,8 +183,7 @@ public class ProjectCalculator : IProjectCalculator
         estimate.WeightedEstimate = (int)Math.Round(weighted.Value, 0, MidpointRounding.AwayFromZero);
     }
 
-
-    private static double GetWeightedMultiplier(Project project, IHaveEstimate estimate)
+    private static double GetWeightedMultiplier(IProjectEstimate project, IHaveEstimate estimate)
     {
         // compute multiplier
         var multiplier = project.Settings.Multipliers
@@ -175,4 +196,5 @@ public class ProjectCalculator : IProjectCalculator
 
         return multiplier;
     }
+
 }

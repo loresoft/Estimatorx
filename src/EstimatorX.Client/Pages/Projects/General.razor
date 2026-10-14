@@ -1,12 +1,96 @@
-@page "/projects/{id}/{organizationId}/general"
+@page "/projects/{id:long}/general"
 @inherits ProjectBase
+@attribute [Authorize]
 
-@using EstimatorX.Client.Pages.Projects.Components
-@using EstimatorX.Client.Repositories
-@using EstimatorX.Client.Stores
+<PageTitle>@PageTitle("General") - EstimatorX</PageTitle>
 
-<PageTitle>Project @Model?.Name - General Information - EstimatorX</PageTitle>
+<Container Id="@Id"
+           Title="@PageTitle("General")"
+           Label="@EditLabel()">
+    <LoadingBlock IsLoading="EditContext == null || Store.Model == null">
+        <EditForm EditContext="EditContext"
+                  OnValidSubmit="HandleSave">
+            <FluentValidator />
 
-<ProjectContainer Id="@Id" OrganizationId="@OrganizationId" TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project">
-    <ProjectForm TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project"/>
-</ProjectContainer>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col">
+                        <ValidationSummary />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="Name" class="form-label">
+                                Name: <span class="text-danger" title="Required Field">*</span>
+                            </label>
+                            <InputText DisplayName="Name"
+                                       @bind-Value="Store.Model!.Name"
+                                       id="Name"
+                                       name="Name"
+                                       class="form-control"
+                                       placeholder="Name" />
+                            <ValidationMessage For="@(() => Store.Model.Name)" />
+                            <div class="form-text">
+                                The display name of the project.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="OrganizationId" class="form-label">
+                                Organization:
+                                <a class="mx-2"
+                                   href="@RouteLinks.Organizations.List()"
+                                   title="View Organization">
+                                    <i class="bi bi-box-arrow-up-right"></i>
+                                </a>
+                            </label>
+                            <EntitySelect TModel="OrganizationReadModel"
+                                          TValue="long?"
+                                          DisplayName="Organization"
+                                          Placeholder="- private -"
+                                          @bind-Value="Store.Model!.OrganizationId"
+                                          id="OrganizationId"
+                                          name="OrganizationId"
+                                          class="form-select" />
+                            <ValidationMessage For="@(() => Store.Model.OrganizationId)" />
+                            <div class="form-text">
+                                The owning organization. Leave blank to keep the project private.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="Description" class="form-label">
+                                Description:
+                            </label>
+                            <InputTextArea DisplayName="Description"
+                                           @bind-Value="Store.Model!.Description"
+                                           id="Description"
+                                           name="Description"
+                                           class="form-control"
+                                           rows="10"
+                                           placeholder="Description" />
+                            <ValidationMessage For="@(() => Store.Model.Description)" />
+                            <div class="form-text">
+                                A brief description of the project.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <FormButtons Model="Model"
+                         IsBusy="IsBusy"
+                         IsClean="IsClean"
+                         ShowDelete="!IsCreate"
+                         OnDelete="HandleDelete" />
+        </EditForm>
+    </LoadingBlock>
+</Container>
+
+@code
+{
+
+}

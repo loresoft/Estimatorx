@@ -1,71 +1,68 @@
-using EstimatorX.Client.Services;
-using EstimatorX.Client.Stores;
-using EstimatorX.Shared.Models;
-using EstimatorX.Shared.Services;
+using Arbiter.Components;
+using Arbiter.Components.Abstracts;
+
+using EstimatorX.Domain.Models;
+using EstimatorX.Services;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace EstimatorX.Client.Pages.Projects;
 
 [Authorize]
-public abstract class ProjectBase : ComponentBase, IDisposable
+public class ProjectBase : EditPageBase<long, ProjectReadModel, ProjectUpdateModel>
 {
-    [Parameter]
-    public string Id { get; set; }
-
-    [Parameter]
-    public string OrganizationId { get; set; }
-
+    [Inject]
+    protected IProjectBuilder ProjectBuilder { get; set; } = default!;
 
     [Inject]
-    public NotificationService NotificationService { get; set; }
+    protected IProjectCalculator ProjectCalculator { get; set; } = default!;
 
-    [Inject]
-    public ProjectStore Store { get; set; }
 
-    [Inject]
-    public NavigationManager Navigation { get; set; }
+    protected ProjectSettings? ProjectSettings => Store.Model?.Settings;
 
-    [Inject]
-    public IProjectCalculator ProjectCalculator { get; set; }
 
-    [Inject]
-    public IProjectBuilder ProjectBuilder { get; set; }
+    protected override string? GetRedirectLocation(RedirectReason reason, long id)
+        => reason == RedirectReason.Created ? RouteLinks.Projects.Summary(id) : RouteLinks.Projects.List();
 
-    public Project Model => Store.Model;
-
-    protected override async Task OnInitializedAsync()
-    {
-        Store.OnChange += HandleModelChange;
-
-        try
-        {
-            await Store.InitializedAsync();
-
-            await Store.Load(Id, OrganizationId);
-            if (Store.Model == null)
-                Navigation.NavigateTo("/projects");
-
-            ProjectBuilder.UpdateProject(Model);
-            ProjectCalculator.UpdateProject(Model);
-        }
-        catch (Exception ex)
-        {
-            NotificationService.ShowError(ex);
-        }
-    }
-
-    private void HandleModelChange()
+    protected override void HandleModelChange(object? sender, EventArgs e)
     {
         if (Model != null)
             ProjectCalculator.UpdateProject(Model);
 
-        InvokeAsync(StateHasChanged);
+        base.HandleModelChange(sender, e);
     }
 
-    public virtual void Dispose()
+    protected override void HandleFormChange(object? sender, FieldChangedEventArgs args)
     {
-        Store.OnChange -= HandleModelChange;
+        if (Model != null)
+            ProjectCalculator.UpdateProject(Model);
+
+        base.HandleFormChange(sender, args);
+
+        StateHasChanged();
     }
+
+    protected override async Task<bool> OnSavingAsync(CancellationToken cancellationToken)
+    {
+        if (Model == null)
+            return false;
+
+        // ensure the security key is set
+        Model.SecurityKey ??= TokenService.GenerateCode();
+
+        // save either the organization or the user, but not both
+        if (Model.OrganizationId is null)
+            Model.UserId = await GetUserId<long>();
+        else
+            Model.UserId = null;
+
+        // ensure the project is updated with the latest calculations
+        ProjectBuilder.UpdateProject(Model);
+        ProjectCalculator.UpdateProject(Model);
+
+        return await base.OnSavingAsync(cancellationToken);
+    }
+
 }

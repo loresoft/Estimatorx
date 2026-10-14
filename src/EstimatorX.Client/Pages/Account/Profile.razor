@@ -1,95 +1,109 @@
 @page "/account/profile"
+@inherits EditPageBase<long, UserReadModel, UserUpdateModel>
+@attribute [Authorize]
 
-<PageTitle>Profile - EstimatorX</PageTitle>
+<PageTitle>@PageTitle() - EstimatorX</PageTitle>
 
-<div class="container-xxl">
+<div class="container-fluid">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="/">Home</a>
+                <a href="@RouteLinks.Home()">Home</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 Profile
             </li>
         </ol>
     </nav>
+</div>
 
-    <div class="card mb-5">
-        <div class="card-header">
-            <i class="fas fa-user me-2"
-               aria-hidden="true"></i>Profile
+<div class="container-xxl">
+    <div class="card shadow mb-5">
+        <div class="card-header d-flex align-items-center">
+            <h5 class="m-0 me-auto">
+                Profile
+            </h5>
+            <Tabs />
         </div>
-        <div class="card-body">
-            <EditForm Model="@UserModel" OnValidSubmit="@HandleSave">
-                <FluentValidationValidator />
+        <LoadingBlock IsLoading="EditContext == null || Store.Model == null">
+            <EditForm EditContext="EditContext" OnValidSubmit="HandleSave">
+                <FluentValidator />
+                <div class="card-body">
 
-                <div class="row">
-                    <div class="col">
-                        <ValidationSummary />
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <div class="mb-3">
-                            <label for="Name" class="form-label">
-                                Name: <span class="text-danger">*</span>
-                            </label>
-                            <InputText @bind-Value="UserModel.Name"
-                                       DisplayName="Name"
-                                       id="Name"
-                                       name="Name"
-                                       class="form-control"
-                                       placeholder="Name" />
-                            <ValidationMessage For="@(() => UserModel.Name)" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="Email" class="form-label">
-                                Email: <span class="text-danger">*</span>
-                            </label>
-                            <InputText @bind-Value="UserModel.Email"
-                                       DisplayName="Email"
-                                       id="Email"
-                                       name="Email"
-                                       type="email"
-                                       class="form-control"
-                                       placeholder="Name" />
-                            <ValidationMessage For="@(() => UserModel.Email)" />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ValidationSummary />
                         </div>
                     </div>
-                    <div class="col">
-                        <Gravatar Email="@UserStore.Model.Email"
-                                  class="rounded-circle d-block mx-auto"
-                                  Size="200"></Gravatar>
 
-                        <p class="text-center">
-                            You can change your picture at <a href="http://gravatar.com/" target="_blank">Gravatar.com</a>
-                        </p>
+                    <!-- Edit Form -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="Name" class="form-label">
+                                    Name: <span class="text-danger">*</span>
+                                </label>
+                                <InputText @bind-Value="Store.Model!.Name"
+                                           DisplayName="Name"
+                                           id="Name"
+                                           name="Name"
+                                           class="form-control"
+                                           placeholder="Name" />
+                                <ValidationMessage For="@(() => Store.Model.Name)" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="Email" class="form-label">
+                                    Email: <span class="text-danger">*</span>
+                                </label>
+                                <InputText @bind-Value="Store.Model!.Email"
+                                           DisplayName="Email"
+                                           id="Email"
+                                           name="Email"
+                                           type="email"
+                                           class="form-control"
+                                           placeholder="Name" />
+                                <ValidationMessage For="@(() => Store.Model.Email)" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <Gravatar Email="@Store.Model.Email"
+                                      class="rounded-circle d-block mx-auto"
+                                      Size="200" />
+
+                            <p class="text-center">
+                                You can change your picture at <a href="http://gravatar.com/" target="_blank">Gravatar.com</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col">
-                        <BusyButton id="save-button"
-                                    type="submit"
-                                    Busy="IsBusy"
-                                    Disabled="@(!IsDiry)"
-                                    class="btn btn-primary">
-                            <BusyTemplate>
-                                <span class='spinner-border spinner-border-sm'></span> Saving...
-                            </BusyTemplate>
-                            <ChildContent>
+                <div class="card-footer">
+                    <!-- Form Buttons -->
+                    <div class="row">
+                        <div class="col">
+                            <BusyButton id="save-button"
+                                        type="submit"
+                                        Busy="Store.IsBusy"
+                                        Disabled="Store.IsClean"
+                                        class="btn btn-primary">
                                 Save
-                            </ChildContent>
-                        </BusyButton>
-                    </div>
-                    <div class="col">
+                            </BusyButton>
+                        </div>
                     </div>
                 </div>
-
             </EditForm>
-
-        </div>
+        </LoadingBlock>
     </div>
 </div>
+
+@code
+{
+    protected override async Task OnParametersSetAsync()
+    {
+        Id = await base.GetUserId<long>();
+        await base.OnParametersSetAsync();
+    }
+
+    protected override string? GetRedirectLocation(RedirectReason reason, long id)
+        => RouteLinks.Account.Profile();
+}

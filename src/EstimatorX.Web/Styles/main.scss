@@ -1,0 +1,125 @@
+@use "sass:meta";
+@use "variables" as *;
+
+body {
+  padding-top: 4.5rem;
+
+  @media print {
+    padding-top: 0;
+  }
+}
+
+label {
+  font-weight: 600;
+}
+
+.footer {
+  margin: 5rem 0;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  font-size: 85%;
+}
+
+h1:focus {
+  outline: none;
+}
+
+abbr[title] {
+  cursor: inherit;
+  text-decoration: underline dotted;
+}
+
+// top main nav bar
+.navbar-default {
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #e7e7e7;
+}
+
+// fix bootstrap dark boarder around header
+.table > :not(:first-child) {
+  border-top: 1px solid rgb(222, 226, 230);
+}
+
+// make toast container bigger
+#toast-container > div,
+#toast-container.toast-bottom-center > div,
+#toast-container.toast-top-center > div {
+  width: 500px
+}
+
+.form-control:read-only,
+.form-control:disabled {
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" viewBox="0 0 16 16"><path d="M15 8a6.97 6.97 0 0 0-1.71-4.584l-9.874 9.875A7 7 0 0 0 15 8M2.71 12.584l9.874-9.875a7 7 0 0 0-9.874 9.874ZM16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0"/></svg>');
+  background-position: .5em .7em;
+  background-position: right 0.5em center;
+  background-repeat: no-repeat;
+  background-size: 1em 1em;
+  padding-right: 1.85em !important;
+  background-color: var(--bs-secondary-bg);
+  opacity: 1;
+}
+
+.text-vertical {
+  display: inline-block;
+  transform: rotate(-90deg);
+  transform-origin: left;
+  white-space: nowrap;
+  width: 20px;
+}
+
+[draggable="true"] {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+ul.reorder {
+  max-height: 70vh;
+  overflow: auto;
+
+  li {
+    cursor: move;
+  }
+}
+
+.text-estimate-epic {
+  color: $estimate-epic-color;
+}
+
+.text-estimate-feature {
+  color: $estimate-feature-color;
+}
+
+.caret-toggle .bi {
+  transition: .3s transform ease-in-out;
+}
+
+.caret-toggle.collapsed .bi {
+  transform: rotate(-90deg);
+}
+
+.data-toolbar .typeahead .typeahead-control {
+  min-height: inherit;
+  min-width: 250px;
+}
+
+.data-toolbar .typeahead .typeahead-control .typeahead-indicators .typeahead-indicator {
+  padding: 4px;
+}
+
+.data-toolbar .typeahead .typeahead-control .typeahead-value-container {
+  padding: 1px 8px;
+}
+
+@include meta.load-css("validation");
+@include meta.load-css("error");
+@include meta.load-css("table");
+@include meta.load-css("fieldset");
+@include meta.load-css("estimate");
+@include meta.load-css("collapse");
+@include meta.load-css("feature");
+@include meta.load-css("buttons");
+@include meta.load-css("json-display");
+@include meta.load-css("login-provider");

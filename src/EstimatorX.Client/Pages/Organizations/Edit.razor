@@ -1,13 +1,183 @@
-@page "/organizations/{id}"
-@inherits OrganizationBase
+@page "/organizations/{id:long}"
+@inherits EditPageBase<long, OrganizationReadModel, OrganizationUpdateModel>
+@attribute [Authorize]
 
-@using EstimatorX.Client.Pages.Organizations.Components
+<PageTitle>@PageTitle() - EstimatorX</PageTitle>
 
-<PageTitle>Organization @Organization?.Name - Edit - EstimatorX</PageTitle>
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@RouteLinks.Home()">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="@RouteLinks.Organizations.List()">Organizations</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                @EditLabel()
+            </li>
+        </ol>
+    </nav>
+</div>
+<div class="container-xxl">
+    <div class="card shadow mb-5">
+        <div class="card-header d-flex align-items-center">
+            <h5 class="m-0 me-auto">
+                @PageTitle()
+            </h5>
+            <Tabs Id="@Id" IsCreate="@IsCreate" />
+        </div>
+        <LoadingBlock IsLoading="EditContext == null || Store.Model == null">
+            <EditForm EditContext="EditContext" OnValidSubmit="HandleSave">
+                <FluentValidator />
+                <div class="card-body">
 
-<OrganizationContainer Id="@Id">
-    <div class="p-3">
-        <OrganizationForm />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ValidationSummary />
+                        </div>
+                    </div>
+
+                    <!-- Edit Form -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="Name" class="form-label">
+                                    Name: <span class="text-danger" title="Required Field">*</span>
+                                </label>
+                                <InputText DisplayName="Name"
+                                           @bind-Value="Store.Model!.Name"
+                                           id="Name"
+                                           name="Name"
+                                           class="form-control"
+                                           placeholder="Name" />
+                                <ValidationMessage For="@(() => Store.Model.Name)" />
+                                <div class="form-text">
+                                    The display name of the organization.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="Description" class="form-label">
+                                    Description:
+                                </label>
+                                <InputTextArea DisplayName="Description"
+                                               @bind-Value="Store.Model!.Description"
+                                               id="Description"
+                                               name="Description"
+                                               class="form-control"
+                                               rows="5"
+                                               placeholder="Description" />
+                                <ValidationMessage For="@(() => Store.Model.Description)" />
+                                <div class="form-text">
+                                    A brief description of the organization.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="HostMatches" class="form-label">
+                                    Host Matches:
+                                </label>
+                                <InputList @bind-Value="Store.Model!.HostMatches"
+                                           DisplayName="Host Matches"
+                                           InputClass="form-control"
+                                           AddClass="btn btn-outline-primary"
+                                           RemoveClass="btn btn-outline-danger"
+                                           id="HostMatches"
+                                           name="HostMatches" />
+                                <ValidationMessage For="@(() => Store.Model.HostMatches)" />
+                                <div class="form-text">
+                                    Host names used to automatically match users to this organization.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <!-- Form Buttons -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <BusyButton id="save-button"
+                                        type="submit"
+                                        Busy="Store.IsBusy"
+                                        Disabled="Store.IsClean"
+                                        class="btn btn-primary">
+                                Save
+                            </BusyButton>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            @if (!IsCreate)
+                            {
+                                <BusyButton id="delete-button"
+                                            type="button"
+                                            Trigger="HandleDelete"
+                                            Disabled="@(Store.IsBusy || !IsOwner)"
+                                            class="btn btn-danger">
+                                    Delete
+                                </BusyButton>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </EditForm>
+        </LoadingBlock>
     </div>
-</OrganizationContainer>
+</div>
 
+@code
+{
+    private long? _loadedId;
+    private long CurrentUserId { get; set; }
+    private bool IsOwner { get; set; }
+
+    protected override string? GetRedirectLocation(RedirectReason reason, long id)
+        => reason == RedirectReason.Created ? RouteLinks.Organizations.Edit(id) : RouteLinks.Organizations.List();
+
+    protected override async Task OnSavedAsync(CancellationToken cancellationToken)
+    {
+        await base.OnSavedAsync(cancellationToken);
+
+        if (!IsCreate || Store.Model == null || Store.Original == null)
+            return;
+
+        try
+        {
+            var userId = await base.GetUserId<long>();
+            var organizationId = Store.Original.Id;
+
+            var command = new UserOrganizationOwnerCommand(userId, organizationId, true);
+            await Dispatcher.Send(command, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            Notification.ShowError(ex);
+        }
+    }
+
+    protected override async Task OnLoadedAsync(CancellationToken cancellationToken)
+    {
+        await base.OnLoadedAsync(cancellationToken);
+
+        if (_loadedId == Id)
+            return;
+
+        _loadedId = Id;
+
+        try
+        {
+            CurrentUserId = await base.GetUserId<long>();
+
+            if (await base.HasRole(RoleNames.Administrators))
+            {
+                IsOwner = true;
+                return;
+            }
+
+            IsOwner = Original?.Owners?.Contains(CurrentUserId) == true;
+        }
+        catch (Exception ex)
+        {
+            Notification.ShowError(ex);
+        }
+    }
+}

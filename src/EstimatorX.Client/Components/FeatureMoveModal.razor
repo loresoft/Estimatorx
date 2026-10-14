@@ -1,0 +1,58 @@
+@inherits ModalComponentBase
+@using EstimatorX.Domain.Definitions
+
+<ModalView Owner="this"
+           OnSubmit="HandleSubmit"
+           PrimaryDisabled="@(!EpicId.HasValue)">
+    <p class="text-muted text-center p-1">
+        Select Epic to move feature to
+    </p>
+
+    <div class="mb-3">
+        <select @bind="EpicId"
+                name="Epic"
+                class="form-select"
+                required
+                autofocus>
+            <option value="">-- Select --</option>
+            @foreach (var epic in Project.Epics)
+            {
+                <option @key="epic" value="@epic.Id">@epic.Name</option>
+            }
+        </select>
+    </div>
+</ModalView>
+
+@code {
+    [Parameter, EditorRequired]
+    public IProjectEstimate Project { get; set; } = null!;
+
+    [Parameter, EditorRequired]
+    public FeatureEstimate Feature { get; set; } = null!;
+
+    private long? EpicId { get; set; }
+
+    private async Task HandleSubmit()
+    {
+        if (EpicId is null)
+            return;
+
+        // remove from current
+        var oldEpic = Project.Epics
+             .Where(e => e.Features.Any(f => f == Feature))
+             .FirstOrDefault();
+
+        if (oldEpic != null)
+            oldEpic.Features.Remove(Feature);
+
+        // add to new
+        var newEpic = Project.Epics
+            .Where(e => e.Id == EpicId)
+            .FirstOrDefault();
+
+        if (newEpic != null)
+            newEpic.Features.Add(Feature);
+
+        await CloseAsync(Project);
+    }
+}

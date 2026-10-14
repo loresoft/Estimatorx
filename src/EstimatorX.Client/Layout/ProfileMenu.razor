@@ -1,0 +1,65 @@
+<!-- User Menu -->
+<AuthorizeView Context="user">
+    <Authorized>
+        <li class="nav-item dropdown">
+            <a id="navbar-dropdown-user"
+               href="#"
+               class="nav-link dropdown-toggle"
+               data-bs-toggle="dropdown"
+               aria-haspopup="true"
+               aria-expanded="false">
+                <Gravatar Email="@user.User.GetEmail()"
+                          Size="24"
+                          class="rounded-circle" />
+                <span id="navbar-identity-username">@user.User.GetDisplayName()</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="navbar-dropdown-user">
+                <li>
+                    <a id="navbar-identity-profile-link"
+                       class="dropdown-item"
+                       title="Update Profile"
+                       href="@RouteLinks.Account.Profile()">
+                        <i class="bi bi-person-fill"></i> Profile
+                    </a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <a id="navbar-identity-organizations-link"
+                       class="dropdown-item"
+                       title="Organizations"
+                       href="@RouteLinks.Organizations.List()">
+                        <i class="bi bi-people-fill"></i> Organizations
+                    </a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <form action="@RouteLinks.Account.Logout()" method="post">
+                        <AntiforgeryToken />
+                        <button id="navbar-identity-logout-link"
+                                type="submit"
+                                class="dropdown-item"
+                                title="Logout">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </li>
+    </Authorized>
+    <NotAuthorized>
+        <li class="nav-item">
+            <a id="navbar-identity-login-link"
+               class="nav-link"
+               title="Login"
+               href="@RouteLinks.Account.Login()">
+                <i class="bi bi-person-circle"></i>
+                Login
+            </a>
+        </li>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+}

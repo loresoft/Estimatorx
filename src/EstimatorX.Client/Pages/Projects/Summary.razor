@@ -1,12 +1,144 @@
-@page "/projects/{id}/{organizationId}"
+@page "/projects/{id:long}"
 @inherits ProjectBase
+@attribute [Authorize]
 
-@using EstimatorX.Client.Pages.Projects.Components
-@using EstimatorX.Client.Repositories
-@using EstimatorX.Client.Stores
+<PageTitle>@PageTitle("Summary") - EstimatorX</PageTitle>
 
-<PageTitle>Project @Model?.Name - Summary - EstimatorX</PageTitle>
+<Container Id="@Id"
+           Title="@PageTitle("Summary")"
+           Label="@EditLabel()">
+    <LoadingBlock IsLoading="EditContext == null || Store.Model == null">
+        <EditForm EditContext="EditContext"
+                  OnValidSubmit="HandleSave">
+            <FluentValidator />
 
-<ProjectContainer Id="@Id" OrganizationId="@OrganizationId" TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project">
-    <ProjectSummary TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project" />
-</ProjectContainer>
+            <div class="card-body">
+                <h3>Project Summary</h3>
+                <div class="table-responsive">
+                    <table class="table table-borderless" style="min-width: 680px">
+                        <colgroup>
+                            <col style="width: 30px" />
+                            <col style="" />
+                            <col style="width: 100px" />
+                            <col style="width: 100px" />
+                            <col style="width: 100px" />
+                            <col style="width: 100px" />
+                            @if (Model!.Settings.ShowCost)
+                            {
+                                <col style="width: 120px" />
+                                <col style="width: 120px" />
+                            }
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Deliverable</th>
+                                <th class="text-end">Estimated</th>
+                                <th class="text-end">Weighted</th>
+                                <th class="text-end"><abbr title="Estimated Weeks">E. Weeks</abbr> </th>
+                                <th class="text-end"><abbr title="Weighted Weeks">W. Weeks</abbr> </th>
+                                @if (Model.Settings.ShowCost)
+                                {
+                                    <th class="text-end"><abbr title="Estimated Cost">E. Cost</abbr> </th>
+                                    <th class="text-end"><abbr title="Weighted Cost">W. Cost</abbr> </th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var epic in Model!.Epics)
+                            {
+                                <tr @key="epic.Id">
+                                    <td class="text-center">
+                                        <button type="button"
+                                                id="@($"epic-collapse-{epic.Id}-button")"
+                                                class="btn btn-sm"
+                                                @onclick="() => ToggleCollapse(epic.Id)">
+                                            @if (CollapseState(epic.Id))
+                                            {
+                                                <i class="bi bi-caret-down-fill"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="bi bi-caret-right-fill"></i>
+                                            }
+                                        </button>
+                                    </td>
+                                    <td>@epic.Name</td>
+                                    <td class="text-end">@epic.EstimatedTotal</td>
+                                    <td class="text-end">@epic.WeightedTotal</td>
+                                    <td class="text-end">@epic.EstimatedWeeks?.ToString("N1")</td>
+                                    <td class="text-end">@epic.WeightedWeeks?.ToString("N1")</td>
+                                    @if (Model.Settings.ShowCost)
+                                    {
+                                        <td class="text-end">@epic.EstimatedCost?.ToString("C")</td>
+                                        <td class="text-end">@epic.WeightedCost?.ToString("C")</td>
+                                    }
+                                </tr>
+                                @if (CollapseState(epic.Id))
+                                {
+                                    foreach (var feature in epic.Features)
+                                    {
+                                        <tr @key="feature.Id" class="table-row-muted">
+                                            <td></td>
+                                            <td style="padding-left: 1.5em">@feature.Name</td>
+                                            <td class="text-end">@feature.EstimatedTotal</td>
+                                            <td class="text-end">@feature.WeightedTotal</td>
+                                            <td class="text-end">@feature.EstimatedWeeks?.ToString("N1")</td>
+                                            <td class="text-end">@feature.WeightedWeeks?.ToString("N1")</td>
+                                            @if (Model.Settings.ShowCost)
+                                            {
+                                                <td class="text-end">@feature.EstimatedCost?.ToString("C")</td>
+                                                <td class="text-end">@feature.WeightedCost?.ToString("C")</td>
+                                            }
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="2" class="text-end">Grand Total:</th>
+                                <th class="text-end">@Model.EstimatedTotal</th>
+                                <th class="text-end">@Model.WeightedTotal</th>
+                                <th class="text-end">@Model.EstimatedWeeks?.ToString("N1")</th>
+                                <th class="text-end">@Model.WeightedWeeks?.ToString("N1")</th>
+                                @if (Model.Settings.ShowCost)
+                                {
+                                    <th class="text-end">@Model.EstimatedCost?.ToString("C")</th>
+                                    <th class="text-end">@Model.WeightedCost?.ToString("C")</th>
+                                }
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <FormButtons Model="Model"
+                         IsBusy="IsBusy"
+                         IsClean="IsClean"
+                         ShowDelete="!IsCreate"
+                         OnDelete="HandleDelete" />
+        </EditForm>
+    </LoadingBlock>
+</Container>
+
+@code
+{
+    private Dictionary<long, bool> _collapseState = [];
+
+    private bool CollapseState(long id)
+    {
+        _collapseState.TryGetValue(id, out bool state);
+        return state;
+    }
+
+    private bool ToggleCollapse(long id)
+    {
+        _collapseState.TryGetValue(id, out bool state);
+
+        state = !state;
+        _collapseState[id] = state;
+
+        return state;
+    }
+}

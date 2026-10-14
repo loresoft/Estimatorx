@@ -1,0 +1,33 @@
+@if (Epic == null) return;
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="accordion-feature" id="@ParentCollapse">
+            @foreach (var feature in Epic.Features)
+            {
+                <FeatureEditor @key="feature"
+                               Epic="@Epic"
+                               Feature="@feature"
+                               ParentCollapse="@ParentCollapse"
+                               FeaturesChanged="FeaturesChanged" />
+            }
+        </div>
+    </div>
+</div>
+
+@code
+{
+    [CascadingParameter]
+    public required EstimateContext Context { get; set; }
+
+    [Parameter, EditorRequired]
+    public required EpicEstimate Epic { get; set; }
+
+    [Parameter]
+    public EventCallback FeaturesChanged { get; set; }
+
+
+    private string ParentCollapse => $"feature-parent-{Epic.Id}";
+
+    private string Identifier(string name) => $"feature-{name}-{Epic.Id}";
+}

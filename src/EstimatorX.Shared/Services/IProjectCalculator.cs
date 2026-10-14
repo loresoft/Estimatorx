@@ -1,11 +1,15 @@
-﻿using EstimatorX.Shared.Models;
+using EstimatorX.Domain.Definitions;
+using EstimatorX.Domain.Models;
 
-namespace EstimatorX.Shared.Services;
+namespace EstimatorX.Services;
 
 public interface IProjectCalculator
 {
-    void UpdateEpic(Project project, EpicEstimate epic);
-    void UpdateFeature(Project project, FeatureEstimate feature);
-    void UpdateProject(Project project);
-    void UpdateSettings(Project project);
+    void UpdateProject(IProjectEstimate project);
+
+    void UpdateEpic(IProjectEstimate project, EpicEstimate epic);
+
+    void UpdateFeature(IProjectEstimate project, FeatureEstimate feature);
+
+    void UpdateSettings(IProjectEstimate project);
 }

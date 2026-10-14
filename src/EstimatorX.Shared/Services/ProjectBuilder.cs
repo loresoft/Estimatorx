@@ -1,13 +1,17 @@
-using EstimatorX.Shared.Models;
+using Arbiter.Services;
 
-namespace EstimatorX.Shared.Services;
+using EstimatorX.Domain.Definitions;
+using EstimatorX.Domain.Models;
+
+namespace EstimatorX.Services;
 
 [RegisterSingleton]
 public class ProjectBuilder : IProjectBuilder
 {
-    public Project UpdateProject(Project project, bool includeSample = false)
+    public TProject UpdateProject<TProject>(TProject? project, bool includeSample = false)
+        where TProject : class, IProjectEstimate, new()
     {
-        project ??= new Project();
+        project ??= new TProject();
 
         UpdateSettings(project.Settings, includeSample);
 
@@ -17,12 +21,15 @@ public class ProjectBuilder : IProjectBuilder
         return project;
     }
 
-    public void UpdateSamples(Project project)
+    public void UpdateSamples(IProjectEstimate project)
     {
-        if (project.Epics.Any())
+        if (project.Epics.Count != 0)
             return;
 
-        var epic = new EpicEstimate { Name = "Sample Epic Estimate" };
+        var epic = new EpicEstimate
+        {
+            Name = "Sample Epic Estimate"
+        };
 
         var feature = new FeatureEstimate
         {
@@ -41,9 +48,6 @@ public class ProjectBuilder : IProjectBuilder
     public ProjectSettings UpdateSettings(ProjectSettings settings, bool includeSample = false)
     {
         settings ??= new ProjectSettings();
-
-        if (settings.EstimateRate == 0)
-            settings.EstimateRate = 100;
 
         if (settings.Multipliers.Count == 0)
         {
@@ -92,7 +96,6 @@ public class ProjectBuilder : IProjectBuilder
 
         if (settings.EffortLevels.Count == 0)
         {
-            settings.EffortLevels.Add(new EffortLevel { Effort = 0, Level = "No Effort" });
             settings.EffortLevels.Add(new EffortLevel { Effort = 2, Level = "Minimal" });
             settings.EffortLevels.Add(new EffortLevel { Effort = 4, Level = "Low" });
             settings.EffortLevels.Add(new EffortLevel { Effort = 8, Level = "Medium Low" });
@@ -100,7 +103,6 @@ public class ProjectBuilder : IProjectBuilder
             settings.EffortLevels.Add(new EffortLevel { Effort = 24, Level = "Medium High" });
             settings.EffortLevels.Add(new EffortLevel { Effort = 48, Level = "High" });
             settings.EffortLevels.Add(new EffortLevel { Effort = 96, Level = "Very High" });
-            settings.EffortLevels.Add(new EffortLevel { Effort = 192, Level = "Extremely High" });
         }
         settings.EffortLevels.Sort((x, y) => x.Effort.CompareTo(y.Effort));
 

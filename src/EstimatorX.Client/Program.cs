@@ -1,18 +1,7 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Globalization;
 
-using Blazored.LocalStorage;
-using Blazored.Modal;
+using Arbiter.CommandQuery;
 
-using EstimatorX.Client.Services;
-using EstimatorX.Shared.Models;
-
-using FluentRest;
-
-using LoreSoft.Blazor.Controls;
-
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 namespace EstimatorX.Client;
@@ -21,55 +10,26 @@ public static class Program
 {
     public static async Task Main(string[] args)
     {
+        // azure app service linux doesn't set default culture
+        CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+        CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-US");
+
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
-        builder.RootComponents.Add<App>("#app");
-        builder.RootComponents.Add<HeadOutlet>("head::after");
 
-        var services = builder.Services;
+        builder.Services
+            .AddAuthorizationCore()
+            .AddCascadingAuthenticationState()
+            .AddAuthenticationStateDeserialization();
 
-        services.AddSingleton(sp =>
+        builder.Services
+            .AddEstimatorXShared()
+            .AddEstimatorXClient("WebAssembly");
+
+        builder.Services.AddEnvironmentOptions(options =>
         {
-            var options = new JsonSerializerOptions(JsonSerializerDefaults.Web);
-            options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-            options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
-            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-            options.TypeInfoResolverChain.Add(JsonContext.Default);
-            return options;
+            options.BaseAddress = builder.HostEnvironment.BaseAddress;
+            options.EnvironmentName = builder.HostEnvironment.Environment;
         });
-
-        services.AddSingleton<IContentSerializer, JsonContentSerializer>();
-
-        services
-            .AddHttpClient<GatewayClient>(client =>
-            {
-                client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
-                client.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
-            })
-            .AddHttpMessageHandler<ProgressBarHandler>()
-            .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
-
-        services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
-        var defaultScope = builder.Configuration.GetValue<string>("DefaultScope");
-
-        services
-            .AddMsalAuthentication(options =>
-            {
-                builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
-                options.ProviderOptions.DefaultAccessTokenScopes.Add(defaultScope);
-                options.ProviderOptions.LoginMode = "popup"; // "popup"  "redirect";
-                options.ProviderOptions.Cache.CacheLocation = "sessionStorage";
-            })
-            .AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, RemoteUserAccount, AccountClaimsFactory>();
-
-        services.AddAutoMapper(typeof(UserProfile).Assembly);
-
-        services.AddEstimatorXShared();
-        services.AddEstimatorXClient();
-
-        services.AddBlazorControls();
-        services.AddBlazoredLocalStorage();
-        services.AddBlazoredModal();
 
         await builder.Build().RunAsync();
     }

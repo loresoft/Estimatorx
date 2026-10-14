@@ -1,0 +1,40 @@
+// external login provider buttons
+.btn-provider {
+  --provider-color: #6c757d;
+  color: var(--provider-color);
+  border-color: var(--provider-color);
+  background-color: transparent;
+  position: relative;
+
+  .bi {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  &:hover,
+  &:focus {
+    color: #fff;
+    background-color: var(--provider-color);
+    border-color: var(--provider-color);
+  }
+}
+
+.btn-microsoft {
+  --provider-color: #00a4ef;
+}
+
+.btn-google {
+  --provider-color: #db4437;
+}
+
+.btn-facebook {
+  --provider-color: #1877f2;
+}
+
+.btn-github {
+  --provider-color: #24292e;
+}

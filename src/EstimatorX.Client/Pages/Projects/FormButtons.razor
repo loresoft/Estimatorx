@@ -1,0 +1,141 @@
+<div class="card-footer">
+    <div class="row">
+        <div class="col-sm-6">
+            <BusyButton id="save-button"
+                        type="submit"
+                        Busy="IsBusy"
+                        Disabled="IsClean"
+                        class="btn btn-primary">
+                Save
+            </BusyButton>
+        </div>
+        <div class="col-sm-6 text-sm-end">
+            @if (ShowDelete)
+            {
+                <div class="dropdown">
+                    <button id="project-action-button"
+                            type="button"
+                            class="btn btn-secondary dropdown-toggle"
+                            disabled="@IsBusy"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        Actions
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="project-action-button">
+                        @if (!string.IsNullOrEmpty(Model.SecurityKey))
+                        {
+                            <li>
+                                <a class="dropdown-item" href="@RouteLinks.Projects.Report(Model.SecurityKey)" target="_blank">
+                                    <i class="bi bi-file-earmark-bar-graph me-2"></i>View Report
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                        }
+                        <li>
+                            <button type="button" class="dropdown-item" @onclick="HandleDuplicate">
+                                <i class="bi bi-copy me-2"></i>Duplicate Project
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" class="dropdown-item" @onclick="HandleMakeTemplate">
+                                <i class="bi bi-file-earmark-text me-2"></i>Make into Template
+                            </button>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <button type="button" class="dropdown-item" @onclick="OnDelete">
+                                <i class="bi bi-trash me-2"></i>Delete Project
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code
+{
+    [Parameter, EditorRequired]
+    public ProjectUpdateModel Model { get; set; } = default!;
+
+    [Parameter]
+    public bool IsBusy { get; set; }
+
+    [Parameter]
+    public bool IsClean { get; set; }
+
+    [Parameter]
+    public bool ShowDelete { get; set; } = true;
+
+    [Parameter]
+    public EventCallback OnDelete { get; set; }
+
+
+    [Inject]
+    protected IMapper Mapper { get; set; } = default!;
+
+    [Inject]
+    protected INotificationService NotificationService { get; set; } = default!;
+
+    [Inject]
+    protected NavigationManager Navigation { get; set; } = default!;
+
+    [Inject]
+    protected IDispatcherDataService DataService { get; set; } = default!;
+
+
+    private async Task HandleDuplicate()
+    {
+        try
+        {
+            var name = Model.Name;
+
+            var clone = Mapper.Map<ProjectUpdateModel, ProjectCreateModel>(Model);
+            clone.Name += " - Copy";
+
+            var result = await DataService.Create<ProjectCreateModel, ProjectReadModel>(clone);
+
+            if (result == null)
+            {
+                NotificationService.ShowError($"Failed to duplicate project '{name}'");
+                return;
+            }
+
+            NotificationService.ShowSuccess($"Project '{name}' duplicated successfully");
+
+            var url = RouteLinks.Projects.General(result.Id);
+            Navigation.NavigateTo(url);
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+    }
+
+    private async Task HandleMakeTemplate()
+    {
+        try
+        {
+            var clone = Mapper.Map<ProjectUpdateModel, TemplateCreateModel>(Model);
+            clone.Name += " - Template";
+
+            var result = await DataService.Create<TemplateCreateModel, TemplateReadModel>(clone);
+            
+            if (result == null)
+            {
+                NotificationService.ShowError($"Failed to create template '{clone.Name}'");
+                return;
+            }
+
+            NotificationService.ShowSuccess($"Template '{clone.Name}' created successfully");
+
+            var url = RouteLinks.Templates.General(result.Id);
+            Navigation.NavigateTo(url);
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+    }
+}

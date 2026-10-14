@@ -1,0 +1,89 @@
+@page "/account/login"
+@attribute [AllowAnonymous]
+@attribute [ExcludeFromInteractiveRouting]
+@using EstimatorX.Services
+
+<PageTitle>Login - EstimatorX</PageTitle>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card mt-5">
+                <div class="card-header">
+                    <h1 class="h4 mb-0">Log in</h1>
+                </div>
+                <div class="card-body">
+                    @if (Alert is { } alert)
+                    {
+                        <div class="alert @alert.CssClass" role="alert">
+                            <i class="bi @alert.Icon me-1"></i> @alert.Text
+                        </div>
+                    }
+                    @if (!HasAnyProvider)
+                    {
+                        <div class="alert alert-warning" role="alert">
+                            <i class="bi bi-exclamation-triangle me-1"></i> No authentication providers are configured.
+                        </div>
+                    }
+                    else
+                    {
+                        <p>Sign in with one of the following providers:</p>
+                    }
+                    <div class="d-grid gap-2">
+                        @if (IsConfigured(AuthenticationProviders.Microsoft.ClientId, AuthenticationProviders.Microsoft.ClientSecret))
+                        {
+                            <a class="btn btn-provider btn-microsoft"
+                               href="@RouteLinks.Account.Challenge(AuthenticationProviders.Microsoft.Name, ReturnUrl)">
+                                <i class="bi bi-microsoft"></i>Sign in with Microsoft
+                            </a>
+                        }
+                        @if (IsConfigured(AuthenticationProviders.Google.ClientId, AuthenticationProviders.Google.ClientSecret))
+                        {
+                            <a class="btn btn-provider btn-google"
+                               href="@RouteLinks.Account.Challenge(AuthenticationProviders.Google.Name, ReturnUrl)">
+                                <i class="bi bi-google"></i>Sign in with Google
+                            </a>
+                        }
+                        @if (IsConfigured(AuthenticationProviders.Facebook.AppId, AuthenticationProviders.Facebook.AppSecret))
+                        {
+                            <a class="btn btn-provider btn-facebook"
+                               href="@RouteLinks.Account.Challenge(AuthenticationProviders.Facebook.Name, ReturnUrl)">
+                                <i class="bi bi-facebook"></i>Sign in with Facebook
+                            </a>
+                        }
+                        @if (IsConfigured(AuthenticationProviders.GitHub.ClientId, AuthenticationProviders.GitHub.ClientSecret))
+                        {
+                            <a class="btn btn-provider btn-github"
+                               href="@RouteLinks.Account.Challenge(AuthenticationProviders.GitHub.Name, ReturnUrl)">
+                                <i class="bi bi-github"></i>Sign in with GitHub
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Inject]
+    public required IConfiguration Configuration { get; set; }
+
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+
+    [SupplyParameterFromQuery]
+    private string? Message { get; set; }
+
+    private AlertMessage? Alert => AlertService.GetMessage(Message);
+
+    private bool HasAnyProvider
+        => IsConfigured(AuthenticationProviders.Microsoft.ClientId, AuthenticationProviders.Microsoft.ClientSecret)
+        || IsConfigured(AuthenticationProviders.Google.ClientId, AuthenticationProviders.Google.ClientSecret)
+        || IsConfigured(AuthenticationProviders.Facebook.AppId, AuthenticationProviders.Facebook.AppSecret)
+        || IsConfigured(AuthenticationProviders.GitHub.ClientId, AuthenticationProviders.GitHub.ClientSecret);
+
+    private bool IsConfigured(string idKey, string secretKey)
+        => !string.IsNullOrEmpty(Configuration[idKey])
+        && !string.IsNullOrEmpty(Configuration[secretKey]);
+}

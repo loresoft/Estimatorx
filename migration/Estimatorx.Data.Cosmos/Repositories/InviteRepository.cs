@@ -1,0 +1,61 @@
+
+using Cosmos.Abstracts;
+using Cosmos.Abstracts.Extensions;
+
+using Estimatorx.Data.Cosmos.Models;
+
+using Microsoft.Azure.Cosmos;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
+namespace Estimatorx.Data.Cosmos.Repositories;
+
+[RegisterSingleton]
+public class InviteRepository : CosmosRepository<Invite>, IInviteRepository
+{
+    public InviteRepository(ILoggerFactory logFactory, IOptions<CosmosRepositoryOptions> repositoryOptions, ICosmosFactory databaseFactory)
+        : base(logFactory, repositoryOptions, databaseFactory)
+    {
+    }
+
+    protected override void BeforeSave(Invite entity)
+    {
+        base.BeforeSave(entity);
+
+        if (entity.Id.IsNullOrEmpty())
+            entity.Id = ObjectId.GenerateNewId().ToString();
+
+        if (entity.SecurityKey.IsNullOrWhiteSpace())
+            entity.SecurityKey = Guid.NewGuid().ToString("N");
+
+        if (entity.Created == default)
+            entity.Created = DateTimeOffset.UtcNow;
+
+        //entity.Updated = DateTimeOffset.UtcNow;
+    }
+
+    protected override PartitionKey GetPartitionKey(Invite entity)
+    {
+        return new PartitionKey(entity.OrganizationId);
+    }
+
+    protected override string GetPartitionKeyPath()
+    {
+        return "/organizationId";
+    }
+
+    protected override ContainerProperties ContainerProperties()
+    {
+        var properties = base.ContainerProperties();
+
+        var uniqueKey = new UniqueKey();
+        uniqueKey.Paths.Add("/securityKey");
+
+        var uniqueKeyPolicy = new UniqueKeyPolicy();
+        uniqueKeyPolicy.UniqueKeys.Add(uniqueKey);
+
+        properties.UniqueKeyPolicy = uniqueKeyPolicy;
+
+        return properties;
+    }
+}

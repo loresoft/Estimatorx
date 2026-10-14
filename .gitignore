@@ -259,3 +259,7 @@ temp/
 coverage.opencover.xml
 Tools/
 *.clef
+*.log
+_site
+/.idea
+*.txt

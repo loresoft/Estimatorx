@@ -1,12 +1,51 @@
-@page "/projects/{id}/{organizationId}/details"
+@page "/projects/{id:long}/details"
 @inherits ProjectBase
+@attribute [Authorize]
 
-@using EstimatorX.Client.Pages.Projects.Components
-@using EstimatorX.Client.Repositories
-@using EstimatorX.Client.Stores
+<PageTitle>@PageTitle("Details") - EstimatorX</PageTitle>
 
-<PageTitle>Project @Model?.Name - Detailed Estimate - EstimatorX</PageTitle>
+<Container Id="@Id"
+           Title="@PageTitle("Details")"
+           Label="@EditLabel()">
+    <LoadingBlock IsLoading="EditContext == null || Store.Model == null">
+        <EditForm EditContext="EditContext"
+                  OnValidSubmit="HandleSave">
+            <FluentValidator />
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <ValidationSummary />
+                    </div>
+                </div>
+                <CascadingValue Value="@GetEstimateContext()" IsFixed="true">
+                    <EpicContainer />
+                </CascadingValue>
+            </div>
+            <FormButtons Model="Model"
+                         IsBusy="IsBusy"
+                         IsClean="IsClean"
+                         ShowDelete="!IsCreate"
+                         OnDelete="HandleDelete" />
+        </EditForm>
+    </LoadingBlock>
+</Container>
 
-<ProjectContainer Id="@Id" OrganizationId="@OrganizationId" TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project">
-    <EpicContainer TStore="ProjectStore" TRepository="ProjectRepository" TModel="Project" />
-</ProjectContainer>
+@code
+{
+    private readonly EstimateContext _estimateContext = new();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        _estimateContext.StateChanged = EventCallback.Factory.Create(this, Store.NotifyStateChanged);
+    }
+
+    private EstimateContext GetEstimateContext()
+    {
+        _estimateContext.Id = Id;
+        _estimateContext.Model = Store.Model!;
+
+        return _estimateContext;
+    }
+}

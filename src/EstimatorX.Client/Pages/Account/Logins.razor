@@ -1,0 +1,131 @@
+@page "/account/logins"
+@inherits NestedListPageBase<long, UserReadModel, UserLoginReadModel>
+@attribute [Authorize]
+
+<PageTitle>@PageTitle("Logins") - EstimatorX</PageTitle>
+
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@RouteLinks.Home()">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="@RouteLinks.Account.Profile()">Profile</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Logins
+            </li>
+        </ol>
+    </nav>
+</div>
+
+<div class="container-xxl">
+    <div class="card shadow mb-5">
+        <div class="card-header d-flex align-items-center">
+            <h5 class="m-0 me-auto card-header-title">
+                @PageTitle("Logins")
+            </h5>
+            <Tabs />
+        </div>
+        <div class="card-body">
+            <DataGrid TItem="UserLoginReadModel"
+                      DataProvider="LoadData"
+                      Filterable="true"
+                      Sortable="true"
+                      @ref="DataComponent">
+                <DataToolbar>
+                    <DataGridToolbar />
+                </DataToolbar>
+                <DataColumns>
+                    <DataColumn Property="x => x.Id"
+                                Width="110px"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.UserId"
+                                Width="110px"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.UserName"
+                                Title="Name"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.UserEmail"
+                                Title="Email"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.IpAddress"
+                                Title="IP Address"
+                                Width="200px" />
+
+                    <DataColumn Property="x => x.UserAgent"
+                                Title="User Agent" />
+
+                    <DataColumn Property="x => x.CreatedBy"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.Created"
+                                Width="160px"
+                                SortIndex="0"
+                                SortDescending="true"
+                                Format="g">
+                        <Template Context="item">
+                            <LocalTime Value="item.Created"
+                                       DisplayFormat="g" />
+                        </Template>
+                    </DataColumn>
+
+                    <DataColumn Property="x => x.UpdatedBy"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.Updated"
+                                Width="160px"
+                                Format="g"
+                                Visible="false">
+                        <Template Context="item">
+                            <LocalTime Value="item.Updated"
+                                       DisplayFormat="g" />
+                        </Template>
+                    </DataColumn>
+
+                </DataColumns>
+                <DataPagination Context="grid">
+                    <DataPager PageSize="10" />
+                    <DataSizer />
+                    <div>@grid.Pager.StartItem - @grid.Pager.EndItem of @grid.Pager.Total</div>
+                </DataPagination>
+            </DataGrid>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    protected override async Task OnParametersSetAsync()
+    {
+        Id = await base.GetUserId<long>();
+        await base.OnParametersSetAsync();
+    }
+
+    protected override EntityFilter? CombineFilter(EntityFilter? originalFilter)
+    {
+        var parentFilter = new EntityFilter
+        {
+            Name = nameof(UserLoginReadModel.UserId),
+            Operator = FilterOperators.Equal,
+            Value = Id
+        };
+
+        if (originalFilter == null)
+            return parentFilter;
+
+        var boolFilter = new EntityFilter
+        {
+            Logic = FilterLogic.And,
+            Filters = [parentFilter, originalFilter]
+        };
+
+        return boolFilter;
+    }
+
+}

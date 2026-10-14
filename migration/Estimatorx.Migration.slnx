@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/Migrations/">
+    <Project Path="../src/EstimatorX.Migrations.PostgreSql/EstimatorX.Migrations.PostgreSql.csproj" />
+    <Project Path="../src/EstimatorX.Migrations.Sqlite/EstimatorX.Migrations.Sqlite.csproj" />
+    <Project Path="../src/EstimatorX.Migrations.SqlServer/EstimatorX.Migrations.SqlServer.csproj" />
+  </Folder>
+  <Project Path="../src/EstimatorX.Core/EstimatorX.Core.csproj" />
+  <Project Path="../src/EstimatorX.Shared/EstimatorX.Shared.csproj" />
+  <Project Path="Estimatorx.Data.Cosmos/Estimatorx.Data.Cosmos.csproj" />
+  <Project Path="Estimatorx.Migration/Estimatorx.Migration.csproj" />
+</Solution>

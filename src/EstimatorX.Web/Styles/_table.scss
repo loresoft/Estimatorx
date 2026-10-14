@@ -1,0 +1,108 @@
+@use "sass:color";
+@use "variables" as *;
+
+@media (max-width: 991.98px) {
+  .table-edit-container {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+
+    > .table-edit {
+      min-width: 800px;
+      margin-bottom: 0;
+
+      .header-sticky {
+        position: static;
+      }
+    }
+  }
+}
+
+.table-edit {
+  position: relative;
+
+  .header-sticky {
+    background-color: #fff;
+    position: sticky;
+    top: 3.7rem;
+    z-index: 1020;
+  }
+
+  .dropdown-menu {
+    z-index: 1025;
+  }
+
+  > tbody {
+    > tr {
+      > td {
+        padding: 0;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  .form-control {
+    padding-right: 6px;
+    padding-left: 6px;
+    background-color: transparent;
+    border-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+
+    &:focus {
+      border-color: #66afe9;
+      background-color: #fff;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
+      outline: 0 none;
+    }
+  }
+
+  .form-control-static {
+    padding: 6px 12px;
+  }
+
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  select.no-style {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 0.01px;
+    -moz-text-overflow: '';
+    text-overflow: '';
+    padding-right: 12px !important;
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='%236c757d' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 6l5 5 5-5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 0.75rem 0.75rem;
+  }
+
+  select::-ms-expand {
+    width: 12px;
+    border: none;
+    background: #fff;
+    display: none;
+  }
+
+  .table-epic-row > td,
+  .table-epic-row > th {
+    background-color: color.adjust($estimate-epic-color, $lightness: 45%);
+  }
+
+  .dropdown {
+    .btn {
+      padding: 0;
+    }
+  }
+}
+
+.table .table-row-muted > td,
+.table .table-row-muted > th {
+  color: var(--bs-secondary-color);
+}

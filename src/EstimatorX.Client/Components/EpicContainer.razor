@@ -1,0 +1,77 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="accordion-epic" id="@ParentCollapse">
+            @if (Context?.Model != null)
+            {
+                @foreach (var epic in Context.Model.Epics)
+                {
+                    <EpicEditor @key="epic"
+                                Epic="@epic"
+                                ParentCollapse="@ParentCollapse"
+                                EpicsChanged="HandleEpicsChanged" />
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row pt-2">
+    <div class="col-sm-6">
+        <button type="button"
+                id="@(Identifier("add-button"))"
+                @onclick="EpicAdd"
+                class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-plus-lg"></i> Add Epic
+        </button>
+
+        <button type="button"
+                id="@(Identifier("order-button"))"
+                @onclick="EpicReorder"
+                class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-down-up"></i> Reorder Epics
+        </button>
+    </div>
+</div>
+
+@code
+{
+    [CascadingParameter]
+    public required EstimateContext Context { get; set; }
+
+    [Inject]
+    protected ModalService ModalService { get; set; } = default!;
+
+    private string ParentCollapse => $"epic-parent-{Context.Id}";
+
+    private string Identifier(string name) => $"epic-{name}-{Context.Id}";
+
+    private Task HandleEpicsChanged() => Context.NotifyStateChanged();
+
+    private async Task EpicAdd()
+    {
+        EpicEstimate epic = new()
+        {
+            Name = "New Epic Estimate",
+            EstimatedTotal = 0,
+            WeightedTotal = 0,
+            EstimatedWeeks = 0,
+            WeightedWeeks = 0,
+
+        };
+        Context.Model.Epics.Add(epic);
+
+        await Context.NotifyStateChanged();
+    }
+
+    private async Task EpicReorder()
+    {
+        var parameters = ModalParameters.Create()
+            .Title("Reorder Epics")
+            .Parameter(nameof(ReorderModal<EpicEstimate>.Items), Context.Model.Epics);
+
+        var modal = await ModalService.Show<ReorderModal<EpicEstimate>>(parameters);
+        var result = await modal.Result;
+
+        await Context.NotifyStateChanged();
+    }
+}

@@ -1,0 +1,60 @@
+@inherits ModalComponentBase
+<div class="dialog-content @VariantClass">
+    <form @onsubmit="SubmitAsync">
+
+        <div class="dialog-header">
+            <h3 class="dialog-title">@Title</h3>
+            <button type="button"
+                    class="dialog-close-button"
+                    aria-label="Close"
+                    @onclick="CancelAsync" />
+        </div>
+        <div class="dialog-body">
+            <p class="mb-3">Enter the name and email address of the person to invite. They will receive an email with a link to join the organization.</p>
+
+            <div class="mb-3">
+                <label for="inviteName"
+                       class="form-label">Name</label>
+                <input type="text"
+                       id="inviteName"
+                       class="form-control"
+                       placeholder="Jane Doe"
+                       required
+                       @bind="Model.Name" />
+            </div>
+
+            <div class="mb-3">
+                <label for="inviteEmail"
+                       class="form-label">Email</label>
+                <input type="email"
+                       id="inviteEmail"
+                       class="form-control"
+                       placeholder="jane.doe@example.com"
+                       required
+                       @bind="Model.Email" />
+            </div>
+
+        </div>
+        <div class="dialog-footer">
+            <button type="button"
+                    class="dialog-secondary-button"
+                    @onclick="CancelAsync">
+                @SecondaryAction
+            </button>
+            <button type="submit"
+                    class="dialog-primary-button">
+                @PrimaryAction
+            </button>
+        </div>
+    </form>
+</div>
+
+@code {
+    public InviteCreateModel Model { get; set; } = new();
+
+    private async Task SubmitAsync()
+    {
+        await CloseAsync(Model);
+    }
+
+}

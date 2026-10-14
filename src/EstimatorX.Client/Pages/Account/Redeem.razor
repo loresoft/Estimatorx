@@ -1,0 +1,100 @@
+@page "/redeem/{token}"
+@attribute [Authorize]
+@attribute [ExcludeFromInteractiveRouting]
+@using Arbiter.Mediation
+
+<PageTitle>Invite - EstimatorX</PageTitle>
+
+<div class="container">
+    <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            @if (IsValidating)
+            {
+                <div class="card shadow">
+                    <div class="card-header">
+                        <h5>
+                            <i class="bi bi-box-arrow-in-right"></i> Invite
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Validating your invite link.  Please wait...
+                        </p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="card shadow border-danger">
+                    <div class="card-header text-bg-danger">
+                        <h5>
+                            <i class="bi bi-exclamation-triangle"></i> Invite
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Your invite link either expired or was invalid.  Please request a new invite.
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Inject]
+    public required IMediator Mediator { get; set; }
+
+    [Inject]
+    public required NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    public required ILogger<Redeem> Logger { get; set; }
+
+    [Parameter]
+    public required string Token { get; set; }
+
+    [CascadingParameter]
+    public required Task<AuthenticationState> AuthenticationState { get; set; }
+
+    private bool IsValidating { get; set; } = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (string.IsNullOrWhiteSpace(Token))
+        {
+            IsValidating = false;
+            return;
+        }
+
+        try
+        {
+            var authState = await AuthenticationState;
+
+            var command = new InviteRedeemCommand(authState.User, Token);
+            var result = await Mediator.Send(command);
+
+            if (result?.Successful == true)
+            {
+                NavigationManager.NavigateTo(RouteLinks.Organizations.List(), forceLoad: true);
+                return;
+            }
+        }
+        catch (NavigationException)
+        {
+            // NavigateTo under static SSR signals redirect via NavigationException
+            throw;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error redeeming invite token");
+        }
+        finally
+        {
+            IsValidating = false;
+        }
+    }
+}

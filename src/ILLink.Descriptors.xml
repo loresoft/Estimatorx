@@ -1,6 +1,0 @@
-<linker>
-  <assembly fullname="AutoMapper" preserve="all" />
-  <assembly fullname="System.Runtime">
-    <type fullname="System.Enum" preserve="all" />
-  </assembly>
-</linker>

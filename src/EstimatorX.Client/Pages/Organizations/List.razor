@@ -1,0 +1,142 @@
+@page "/organizations"
+@inherits ListPageBase<long, OrganizationReadModel>
+@attribute [Authorize]
+
+<PageTitle>Organizations - EstimatorX</PageTitle>
+
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb d-print-none">
+            <li class="breadcrumb-item">
+                <a href="@RouteLinks.Home()">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Organizations
+            </li>
+        </ol>
+    </nav>
+</div>
+<div class="container-xxl">
+    <div class="card shadow">
+        <div class="card-header">
+            <DataGridToolbar DataGrid="DataGrid"
+                             ExportName="Organizations"
+                             Title="Organizations">
+                <ActionTemplate>
+                    <a href="@RouteLinks.Organizations.Create()"
+                       title="Add Organization"
+                       class="btn btn-primary btn-sm mx-1">
+                        Add
+                    </a>
+                </ActionTemplate>
+            </DataGridToolbar>
+        </div>
+
+        <div class="card-body p-0">
+            <DataGrid TItem="OrganizationReadModel"
+                      DataProvider="LoadData"
+                      Filterable="true"
+                      Sortable="true"
+                      @ref="DataComponent">
+                <DataColumns>
+                    <DataColumn Property="x => x.Id"
+                                Width="150px"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.Name"
+                                Title="Name"
+                                Width="280px"
+                                SortIndex="0">
+                        <Template Context="item">
+                            <a id="edit-link-@item.Id"
+                               href="@RouteLinks.Organizations.Edit(item.Id)"
+                               class="d-block"
+                               title="Edit Organization @item.Name">
+                                @item.Name
+                            </a>
+                        </Template>
+                    </DataColumn>
+
+                    <DataColumn Property="x => x.Description"
+                                Title="Description" />
+
+                    <DataColumn Property="x => x.HostMatches"
+                                Title="Host Matches"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.CreatedBy"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.Created"
+                                Width="160px"
+                                Visible="false"
+                                Format="g">
+                        <Template Context="item">
+                            <LocalTime Value="item.Created"
+                                       DisplayFormat="g" />
+                        </Template>
+                    </DataColumn>
+
+                    <DataColumn Property="x => x.UpdatedBy"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.Updated"
+                                Width="160px"
+                                Format="g">
+                        <Template Context="item">
+                            <LocalTime Value="item.Updated"
+                                       DisplayFormat="g" />
+                        </Template>
+                    </DataColumn>
+
+                    <DataColumn Property="x => x.Id"
+                                Title="Action"
+                                Filterable="false"
+                                Sortable="false"
+                                Hideable="false"
+                                Width="100px">
+                        <Template Context="item">
+                            <div class="btn-actions btn-actions-sm" role="group" aria-label="Row Actions">
+                                <a href="@RouteLinks.Organizations.Edit(item.Id)"
+                                   class="btn-action btn-action-primary"
+                                   title="Edit Organization">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <AuthorizeView Roles="@RoleNames.Administrators">
+                                    <Authorized>
+                                        <BusyButton Trigger="() => HandleDelete(item)"
+                                                    BusyText="..."
+                                                    type="button"
+                                                    class="btn-action btn-action-danger"
+                                                    title="Delete Organization">
+                                            <i class="bi bi-trash3"></i>
+                                        </BusyButton>
+                                    </Authorized>
+                                </AuthorizeView>
+                            </div>
+                        </Template>
+                    </DataColumn>
+                </DataColumns>
+                <DataPagination Context="grid">
+                    <DataPager PageSize="10" class="mx-2" />
+                    <DataSizer />
+                    <div class="mx-2">@grid.Pager.StartItem - @grid.Pager.EndItem of @grid.Pager.Total</div>
+                </DataPagination>
+            </DataGrid>
+        </div>
+
+        <div class="card-footer">
+            <a class="btn btn-primary"
+               title="Add Organization"
+               href="@RouteLinks.Organizations.Create()">
+                Add Organization
+            </a>
+        </div>
+    </div>
+</div>
+
+@code
+{
+
+}
+

@@ -2,7 +2,7 @@
 
   <PropertyGroup Label="Package">
     <Product>EstimatorX</Product>
-    <Description>A simple project estimation application</Description>
+    <Description>Fast, consistent project estimates that account for uncertainty.</Description>
     <Copyright>Copyright © $([System.DateTime]::Now.ToString(yyyy)) LoreSoft</Copyright>
     <Authors>LoreSoft</Authors>
     <NeutralLanguage>en-US</NeutralLanguage>
@@ -36,29 +36,25 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
-    <NoWarn>1591</NoWarn>
+    <Nullable>enable</Nullable>
+    <NoWarn>$(NoWarn);IL2026;IL2091;IL2104;IL2110;IL2111;1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>
+    <MinVerSkip Condition="'$(Configuration)' == 'Debug'">true</MinVerSkip>
     <MinVerTagPrefix>v</MinVerTagPrefix>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AssemblyMetadata.Generators" Version="2.0.0" PrivateAssets="All" />
-    <PackageReference Include="Equatable.Generator" Version="1.0.0" PrivateAssets="all" />
-    <PackageReference Include="Injectio" Version="3.1.0" PrivateAssets="all" />
-    <PackageReference Include="MinVer" Version="6.0.0" PrivateAssets="All" />
+    <PackageReference Include="AssemblyMetadata.Generators" PrivateAssets="All" />
+    <PackageReference Include="Equatable.Generator" PrivateAssets="all" />
+    <PackageReference Include="Injectio" PrivateAssets="all" />
+    <PackageReference Include="MinVer" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="Equatable.Attributes" />
     <Using Include="Injectio.Attributes" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="./../ILLink.Descriptors.xml">
-      <LogicalName>ILLink.Descriptors.xml</LogicalName>
-    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

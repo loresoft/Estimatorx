@@ -1,0 +1,300 @@
+@if (Epic == null || Feature == null) return;
+
+<Accordion ParentGroup="@ParentCollapse">
+    <Header>
+        <div class="w-100 pe-2 d-flex justify-content-between">
+            <div class="accordion-header-item flex-grow-1">
+                @Feature.Name
+            </div>
+            <div class="accordion-header-item">
+                <span class="accordion-header-label">Estimate:</span>
+                <span class="text-nowrap">@(Feature.EstimatedTotal ?? 0) - @(Feature.WeightedTotal ?? 0)</span>
+            </div>
+            <div class="accordion-header-item">
+                <span class="accordion-header-label">Risk:</span>
+                <span class="text-nowrap">@Feature.RiskLevel</span>
+            </div>
+            <div class="accordion-header-item">
+                <span class="accordion-header-label">Effort:</span>
+                <span class="text-nowrap">@Feature.EffortLevel</span>
+            </div>
+        </div>
+    </Header>
+    <Body>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-2">
+                    <label for="@Identifier("name")" class="form-label">
+                        Feature Name: <span class="text-danger">*</span>
+                    </label>
+                    <InputText id="@Identifier("name")" @bind-Value="Feature.Name" class="form-control" />
+                    <ValidationMessage For="@(() => Feature.Name)" />
+                </div>
+                <div class="mb-2">
+                    <label for="@Identifier("description")" class="form-label">
+                        Feature Description:
+                    </label>
+                    <InputTextArea id="@Identifier("description")" @bind-Value="Feature.Description" class="form-control" rows="4" />
+                    <ValidationMessage For="@(() => Feature.Description)" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-2">
+                    <label for="@Identifier("assumptions")" class="form-label">
+                        Feature Assumptions:
+                    </label>
+                    <InputTextArea id="@Identifier("assumptions")" @bind-Value="Feature.Assumptions" class="form-control" rows="7" />
+                    <ValidationMessage For="@(() => Feature.Assumptions)" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="mb-2">
+                    <label for="@Identifier("estimate")" class="form-label">
+                        Estimate:
+                    </label>
+                    <InputSelect id="@Identifier("estimate")" @bind-Value="Feature.Estimate" class="form-select">
+                        <option value=""></option>
+                        @foreach (var item in ProjectSettings.EffortLevels)
+                        {
+                            <option @key="item" value="@item.Effort">@item.Effort</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="@(() => Feature.Estimate)" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="mb-2">
+                    <label for="@Identifier("clarity")" class="form-label">
+                        Clarity:
+                    </label>
+                    <InputSelect id="@Identifier("clarity")" @bind-Value="Feature.Clarity" class="form-select">
+                        <option value=""></option>
+                        @foreach (var item in Enum.GetNames<ClarityScale>())
+                        {
+                            <option @key="item" value="@item">@item.ToTitle()</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="@(() => Feature.Clarity)" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="mb-2">
+                    <label for="@Identifier("confidence")" class="form-label">
+                        Confidence:
+                    </label>
+                    <InputSelect id="@Identifier("confidence")" @bind-Value="Feature.Confidence" class="form-select">
+                        <option value=""></option>
+                        @foreach (var item in Enum.GetNames<ConfidenceScale>())
+                        {
+                            <option @key="item" value="@item">@item.ToTitle()</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="@(() => Feature.Confidence)" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="mb-2">
+                    <label for="@Identifier("criticality")" class="form-label">
+                        Criticality:
+                    </label>
+                    <InputSelect id="@Identifier("criticality")" @bind-Value="Feature.Criticality" class="form-select">
+                        <option value=""></option>
+                        @foreach (var item in Enum.GetNames<Criticality>())
+                        {
+                            <option @key="item" value="@item">@item.ToTitle()</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="@(() => Feature.Criticality)" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <label class="form-label">
+                    Weighted Estimate:
+                </label>
+                <div class="form-control-static">
+                    @Feature.WeightedEstimate
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">
+                    Multiplier:
+                </label>
+                <div class="form-control-static">
+                    @Feature.Multiplier
+                </div>
+            </div>
+            @if (ShowCost)
+            {
+                <div class="col-md-3">
+                    <label class="form-label">
+                        Estimated Cost:
+                    </label>
+                    <div class="form-control-static">
+                        @((Feature.EstimatedCost ?? 0).ToString("C"))
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">
+                        Weighted Cost:
+                    </label>
+                    <div class="form-control-static">
+                        @((Feature.WeightedCost ?? 0).ToString("C"))
+                    </div>
+                </div>
+            }
+        </div>
+        @if (ProjectSettings.Overhead.Count > 0)
+        {
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <table id="@Identifier("overhead-table")" class="table table-sm table-borderless">
+                        <colgroup>
+                            <col style="" />
+                            <col style="width: 130px" />
+                            <col style="width: 130px" />
+                            @if (ShowCost)
+                            {
+                                <col style="width: 140px" />
+                                <col style="width: 140px" />
+                            }                            
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Supporting Task</th>
+                                <th class="text-end">Estimated</th>
+                                <th class="text-end">Weighted</th>
+                                @if (ShowCost)
+                                {
+                                    <th class="text-end">Estimated Cost</th>
+                                    <th class="text-end">Weighted Cost</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ProjectSettings.Overhead)
+                            {
+                                <tr @key="item">
+                                    <td>@item.Name</td>
+                                    <td class="text-end">@(OverheadEstimate(item.Multiplier, Feature.Estimate))</td>
+                                    <td class="text-end">@(OverheadEstimate(item.Multiplier, Feature.WeightedEstimate))</td>
+                                    @if (ShowCost)
+                                    {
+                                        <td class="text-end">@(OverheadAmount(item.Multiplier, Feature.Estimate)?.ToString("C"))</td>
+                                        <td class="text-end">@(OverheadAmount(item.Multiplier, Feature.WeightedEstimate)?.ToString("C"))</td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        <div class="row pt-2">
+            <div class="col-sm-12 text-md-end">
+                <button type="button"
+                        id="@(Identifier("move-button"))"
+                        @onclick="FeatureMove"
+                        class="btn btn-outline-secondary btn-sm ms-2">
+                    <i class="bi bi-arrow-left-right"></i> Move Features
+                </button>
+                <button type="button"
+                        id="@(Identifier("duplicate-button"))"
+                        @onclick="FeatureDuplicate"
+                        class="btn btn-outline-secondary btn-sm ms-2">
+                    <i class="bi bi-copy"></i> Duplicate Feature
+                </button>
+                <button type="button"
+                        id="@(Identifier("delete-button"))"
+                        @onclick="FeatureDelete"
+                        class="btn btn-outline-danger btn-sm ms-2">
+                    <i class="bi bi-trash"></i> Delete Feature
+                </button>
+            </div>
+        </div>
+    </Body>
+</Accordion>
+
+@code
+{
+    [Parameter, EditorRequired]
+    public required string ParentCollapse { get; set; }
+
+    [CascadingParameter]
+    public required EstimateContext Context { get; set; }
+
+    [Parameter, EditorRequired]
+    public required EpicEstimate Epic { get; set; }
+
+    [Parameter, EditorRequired]
+    public required FeatureEstimate Feature { get; set; }
+
+    [Parameter]
+    public EventCallback FeaturesChanged { get; set; }
+
+    [Inject]
+    public IMapper Mapper { get; set; } = default!;
+
+    [Inject]
+    protected ModalService ModalService { get; set; } = default!;
+
+    public ProjectSettings ProjectSettings => Context.Settings;
+
+    public bool ShowCost => Context.Settings.ShowCost;
+
+    private string Identifier(string name) => $"feature-{name}-{Feature?.Id}";
+
+    private double? OverheadEstimate(double multiplier, double? estimate)
+    {
+        var value = (estimate * multiplier) - estimate;
+        return value.HasValue ? Math.Round(value.Value, 2) : null;
+    }
+
+    private double? OverheadAmount(double multiplier, double? estimate)
+    {
+        var value = OverheadEstimate(multiplier, estimate);
+        return value.HasValue ? value.Value * ProjectSettings.EstimateRate : null;
+    }
+
+    private async Task FeatureDelete()
+    {
+        var name = Feature.Name;
+
+        if (!await ModalService.ConfirmDelete($"feature '{name}'"))
+            return;
+
+        Epic.Features.Remove(Feature);
+
+        await FeaturesChanged.InvokeAsync();
+    }
+
+    private async Task FeatureDuplicate()
+    {
+        var clone = Mapper.Map<FeatureEstimate, FeatureEstimate>(Feature);
+
+        clone.Id = Snowflake.Default.NextId();
+        clone.Name += " - Copy";
+
+        Epic.Features.Add(clone);
+
+        await FeaturesChanged.InvokeAsync();
+    }
+
+    private async Task FeatureMove()
+    {
+        var name = Feature.Name;
+
+        var parameters = ModalParameters.Create()
+            .Title($"Move Feature '{name}'")
+            .Parameter(nameof(FeatureMoveModal.Project), Context.Model)
+            .Parameter(nameof(FeatureMoveModal.Feature), Feature);
+
+        var modal = await ModalService.Show<FeatureMoveModal>(parameters);
+        var result = await modal.Result;
+
+        await FeaturesChanged.InvokeAsync();
+    }
+}

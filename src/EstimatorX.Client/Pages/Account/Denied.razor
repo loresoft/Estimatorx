@@ -1,0 +1,30 @@
+@page "/account/denied"
+
+<PageTitle>Access Denied - EstimatorX</PageTitle>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-header bg-danger text-white">
+                    <h1 class="h4 mb-0">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>Access Denied
+                    </h1>
+                </div>
+                <div class="card-body p-5">
+                    <div class="display-1 fw-bold text-danger mb-3">403</div>
+                    <p class="lead mb-2">You do not have access to this resource.</p>
+                    <p class="text-muted mb-4">If you believe this is an error, contact your administrator or sign in with a different account.</p>
+                    <div class="d-flex flex-wrap justify-content-center gap-2">
+                        <a href="@RouteLinks.Projects.List()" class="btn btn-danger">Projects</a>
+                        <a href="@RouteLinks.Templates.List()" class="btn btn-outline-danger">Templates</a>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="@RouteLinks.Home()" class="text-decoration-none">Return to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

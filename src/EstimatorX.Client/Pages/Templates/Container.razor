@@ -1,0 +1,41 @@
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@RouteLinks.Home()">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="@RouteLinks.Templates.List()">Templates</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                @Label
+            </li>
+        </ol>
+    </nav>
+</div>
+<div class="container-xxl">
+    <div class="card shadow mb-5">
+        <div class="card-header d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-2">
+            <h5 class="m-0 me-lg-auto">
+                @Title
+            </h5>
+            <Tabs Id="@Id" />
+        </div>
+        <!-- Container -->
+        @ChildContent
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public required RenderFragment ChildContent { get; set; }
+
+    [Parameter, EditorRequired]
+    public required string Title { get; set; }
+
+    [Parameter, EditorRequired]
+    public required string Label { get; set; }
+
+    [Parameter, EditorRequired]
+    public required long Id { get; set; }
+}

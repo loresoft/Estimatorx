@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
+    <UserSecretsId>f19d3597-a1e5-4589-8c0e-242c2a064dbd</UserSecretsId>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Container">
+    <ContainerRepository>loresoft/estimatorx</ContainerRepository>
+    <RuntimeIdentifiers>linux-x64;linux-arm64</RuntimeIdentifiers>
+    <ContainerRuntimeIdentifiers>linux-x64;linux-arm64</ContainerRuntimeIdentifiers>
+  </PropertyGroup>
+
+  <ItemGroup Label="Container">
+    <!-- /app is read-only for the non-root 'app' user, so store data under its home directory -->
+    <ContainerEnvironmentVariable Include="Database__Provider" Value="sqlite" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Arbiter.CommandQuery.Endpoints" />
+    <PackageReference Include="Arbiter.Dispatcher.Server" />
+    <PackageReference Include="Arbiter.OpenTelemetry.Server" />
+    <PackageReference Include="AspNet.Security.OAuth.GitHub" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EstimatorX.Client\EstimatorX.Client.csproj" />
+    <ProjectReference Include="..\EstimatorX.Core\EstimatorX.Core.csproj" />
+    <ProjectReference Include="..\EstimatorX.Migrations.PostgreSql\EstimatorX.Migrations.PostgreSql.csproj" />
+    <ProjectReference Include="..\EstimatorX.Migrations.Sqlite\EstimatorX.Migrations.Sqlite.csproj" />
+    <ProjectReference Include="..\EstimatorX.Migrations.SqlServer\EstimatorX.Migrations.SqlServer.csproj" />
+  </ItemGroup>
+
+  <Target Name="SassCheck" BeforeTargets="PreBuild">
+    <Exec Command="sass --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCodeSass" />
+    </Exec>
+    <Error Condition="'$(ErrorCodeSass)' != '0'" Text="dart-sass is required for this project. install globally with 'npm i -g sass' " />
+  </Target>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="sass Styles/main.scss:wwwroot/main.css --style compressed --load-path=Styles" />
+  </Target>
+</Project>

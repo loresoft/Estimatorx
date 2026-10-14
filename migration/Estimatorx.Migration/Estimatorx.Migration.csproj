@@ -1,20 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>93107bc8-d1d7-46ab-b38c-c21cf80e4887</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
-    <PackageReference Include="Scrutor" Version="4.2.2" />
+    <PackageReference Include="Injectio" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Spectre.Console.Cli" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\EstimatorX.Core\EstimatorX.Core.csproj" />
-    <ProjectReference Include="..\Estimatorx.Data.Mongo\Estimatorx.Data.Mongo.csproj" />
+    <ProjectReference Include="..\..\src\EstimatorX.Migrations.PostgreSql\EstimatorX.Migrations.PostgreSql.csproj" />
+    <ProjectReference Include="..\..\src\EstimatorX.Migrations.Sqlite\EstimatorX.Migrations.Sqlite.csproj" />
+    <ProjectReference Include="..\..\src\EstimatorX.Migrations.SqlServer\EstimatorX.Migrations.SqlServer.csproj" />
+    <ProjectReference Include="..\Estimatorx.Data.Cosmos\Estimatorx.Data.Cosmos.csproj" />
   </ItemGroup>
 
   <ItemGroup>

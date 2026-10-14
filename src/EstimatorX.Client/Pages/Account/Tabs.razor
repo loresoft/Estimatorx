@@ -1,0 +1,29 @@
+<ul class="nav nav-tabs card-header-tabs">
+    <li class="nav-item">
+        <NavLink id="account-profile-tab-link"
+                 Match="NavLinkMatch.All"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@RouteLinks.Account.Profile()"
+                 title="User Profile">Profile</NavLink>
+    </li>
+    <li class="nav-item">
+        <NavLink id="account-logins-tab-link"
+                 Match="NavLinkMatch.All"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@RouteLinks.Account.Logins()"
+                 title="User Logins">Logins</NavLink>
+    </li>
+    <li class="nav-item">
+        <NavLink id="account-claims-tab-link"
+                 Match="NavLinkMatch.All"
+                 ActiveClass="active"
+                 class="nav-link"
+                 href="@RouteLinks.Account.Claims()"
+                 title="User Claims">Claims</NavLink>
+    </li>
+</ul>
+
+@code {
+}

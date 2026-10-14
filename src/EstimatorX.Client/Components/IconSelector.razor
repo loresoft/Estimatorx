@@ -1,0 +1,55 @@
+@switch (Name.ToLowerInvariant())
+{
+    case "warning":
+    case "degraded":
+    case "caution":
+        <i class="bi bi-exclamation-triangle-fill text-warning"
+           @attributes="Attributes"></i>
+        break;
+    case "error":
+    case "critical":
+    case "fatal":
+    case "failed":
+    case "unhealthy":
+    case "false":
+        <i class="bi bi-x-circle-fill text-danger"
+           @attributes="Attributes"></i>
+        break;
+    case "information":
+        <i class="bi bi-info-circle-fill text-primary"
+           @attributes="Attributes"></i>
+        break;
+    case "debug":
+    case "verbose":
+    case "trace":
+        <i class="bi bi-info-circle-fill text-secondary"
+           @attributes="Attributes"></i>
+        break;
+    case "success":
+    case "healthy":
+    case "true":
+        <i class="bi bi-check-circle-fill text-success"
+           @attributes="Attributes"></i>
+        break;
+    case "credit":
+        <i class="bi bi-arrow-down-circle text-success"></i>
+        break;
+    case "debit":
+        <i class="bi bi-arrow-up-circle text-danger"></i>
+        break;
+    case "status":
+        <i class="bi bi-arrow-left-right text-primary"></i>
+        break;
+    default:
+        <i class="bi bi-question-circle-fill text-secondary"
+           @attributes="Attributes"></i>
+        break;
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public required string Name { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? Attributes { get; set; }
+}
