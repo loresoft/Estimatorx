@@ -10,7 +10,7 @@
     <PackageVersion Include="Arbiter.Communication" Version="6.13.1" />
     <PackageVersion Include="Arbiter.Components" Version="6.13.1" />
     <PackageVersion Include="Arbiter.Dispatcher.Client" Version="6.13.1" />
-    <PackageVersion Include="Arbiter.Dispatcher.Server" Version="6.13.0" />
+    <PackageVersion Include="Arbiter.Dispatcher.Server" Version="6.13.1" />
     <PackageVersion Include="Arbiter.Health" Version="6.13.1" />
     <PackageVersion Include="Arbiter.OpenTelemetry.Server" Version="6.13.0" />
     <PackageVersion Include="AspNet.Security.OAuth.GitHub" Version="10.0.0" />
