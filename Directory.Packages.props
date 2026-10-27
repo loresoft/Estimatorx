@@ -21,7 +21,7 @@
     <PackageVersion Include="coverlet.MTP" Version="10.1.0" />
     <PackageVersion Include="Equatable.Generator" Version="3.0.0" />
     <PackageVersion Include="FluentValidation" Version="12.2.0" />
-    <PackageVersion Include="Injectio" Version="6.2.0" />
+    <PackageVersion Include="Injectio" Version="6.3.0" />
     <PackageVersion Include="LoreSoft.Blazor.Controls" Version="13.11.2" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.Facebook" Version="10.0.14" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.Google" Version="10.0.14" />
