@@ -4,7 +4,7 @@
     <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Arbiter.CommandQuery" Version="6.13.3" />
+    <PackageVersion Include="Arbiter.CommandQuery" Version="6.13.4" />
     <PackageVersion Include="Arbiter.CommandQuery.Endpoints" Version="6.13.3" />
     <PackageVersion Include="Arbiter.CommandQuery.EntityFramework" Version="6.13.3" />
     <PackageVersion Include="Arbiter.Communication" Version="6.13.3" />
