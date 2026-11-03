@@ -1,0 +1,97 @@
+@page "/administrative/logins"
+@inherits ListPageBase<long, UserLoginReadModel>
+@attribute [Authorize(Roles = RoleNames.Administrators)]
+
+<PageTitle>User Logins - EstimatorX</PageTitle>
+
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb d-print-none">
+            <li class="breadcrumb-item">
+                <a href="@RouteLinks.Home()">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Logins
+            </li>
+        </ol>
+    </nav>
+</div>
+<div class="container-xxl">
+    <div class="card shadow">
+        <div class="card-header">
+            <DataGridToolbar DataGrid="DataGrid"
+                             ExportName="Logins"
+                             Title="User Logins" />
+        </div>
+
+        <div class="card-body p-0">
+            <DataGrid TItem="UserLoginReadModel"
+                      DataProvider="LoadData"
+                      Filterable="true"
+                      Sortable="true"
+                      @ref="DataComponent">
+                <DataColumns>
+                    <DataColumn Property="x => x.Id"
+                                Width="150px"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.UserId"
+                                Title="User Id"
+                                Width="100px"
+                                Align="TextAlign.Right"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.UserName"
+                                Title="User Name" />
+
+                    <DataColumn Property="x => x.UserEmail"
+                                Title="User Email" />
+
+                    <DataColumn Property="x => x.IpAddress"
+                                Title="IP Address"
+                                Width="180px"/>
+
+                    <DataColumn Property="x => x.UserAgent"
+                                Title="User Agent" />
+
+                    <DataColumn Property="x => x.CreatedBy"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.Created"
+                                Width="160px"
+                                SortIndex="0"
+                                SortDescending="true"
+                                Format="g">
+                        <Template Context="item">
+                            <LocalTime Value="item.Created"
+                                       DisplayFormat="g" />
+                        </Template>
+                    </DataColumn>
+
+                    <DataColumn Property="x => x.UpdatedBy"
+                                Visible="false" />
+
+                    <DataColumn Property="x => x.Updated"
+                                Width="160px"
+                                Visible="false"
+                                Format="g">
+                        <Template Context="item">
+                            <LocalTime Value="item.Updated"
+                                       DisplayFormat="g" />
+                        </Template>
+                    </DataColumn>
+                </DataColumns>
+                <DataPagination Context="grid">
+                    <DataPager PageSize="10" class="mx-2" />
+                    <DataSizer />
+                    <div class="mx-2">@grid.Pager.StartItem - @grid.Pager.EndItem of @grid.Pager.Total</div>
+                </DataPagination>
+            </DataGrid>
+        </div>
+    </div>
+</div>
+
+@code
+{
+}
+

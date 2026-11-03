@@ -62,8 +62,6 @@ public static class RouteLinks
 
     public static class Administrative
     {
-        public static string Organizations() => "/administrative/organizations";
-        public static string Users() => "/administrative/users";
-        public static string Logs() => "/administrative/logs";
+        public static string Logins() => "/administrative/logins";
     }
 }

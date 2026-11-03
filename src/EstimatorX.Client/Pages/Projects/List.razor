@@ -57,8 +57,7 @@
 
                     <DataColumn Property="x => x.Name"
                                 Title="Name"
-                                Width="280px"
-                                SortIndex="0">
+                                Width="280px">
                         <Template Context="item">
                             <a id="edit-link-@item.Id"
                                href="@RouteLinks.Projects.Summary(item.Id)"
@@ -156,6 +155,8 @@
 
                     <DataColumn Property="x => x.Updated"
                                 Width="160px"
+                                SortIndex="0"
+                                SortDescending="true"
                                 Format="g">
                         <Template Context="item">
                             <LocalTime Value="item.Updated"
