@@ -133,27 +133,6 @@
     protected override string? GetRedirectLocation(RedirectReason reason, long id)
         => reason == RedirectReason.Created ? RouteLinks.Organizations.Edit(id) : RouteLinks.Organizations.List();
 
-    protected override async Task OnSavedAsync(CancellationToken cancellationToken)
-    {
-        await base.OnSavedAsync(cancellationToken);
-
-        if (!IsCreate || Store.Model == null || Store.Original == null)
-            return;
-
-        try
-        {
-            var userId = await base.GetUserId<long>();
-            var organizationId = Store.Original.Id;
-
-            var command = new UserOrganizationOwnerCommand(userId, organizationId, true);
-            await Dispatcher.Send(command, cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            Notification.ShowError(ex);
-        }
-    }
-
     protected override async Task OnLoadedAsync(CancellationToken cancellationToken)
     {
         await base.OnLoadedAsync(cancellationToken);
