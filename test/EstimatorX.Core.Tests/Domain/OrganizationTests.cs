@@ -78,4 +78,52 @@ public class OrganizationTests(DatabaseFixture fixture) : TestHostBase<DatabaseF
         deleteResult.Should().NotBeNull();
         deleteResult.Id.Should().Be(createResult.Id);
     }
+
+    [Fact]
+    public async Task EntityUpdateCommand_UpsertNewEntity_GeneratesIdAndReturnsCreated()
+    {
+        var mediator = Services.GetRequiredService<IMediator>();
+        mediator.Should().NotBeNull();
+
+        var userName = MockClaimsPrincipal.Default.Identity?.Name;
+        userName.Should().NotBeNullOrEmpty();
+
+        var testValue = $"TEST-{DateTime.UtcNow.Ticks}";
+
+        var upsertModel = new OrganizationUpdateModel
+        {
+            Name = testValue,
+            Description = "Test Upsert Organization",
+        };
+
+        // default id, the Snowflake generator should assign a new id on insert
+        var upsertCommand = new EntityUpdateCommand<long, OrganizationUpdateModel, OrganizationReadModel>(
+            MockClaimsPrincipal.Default,
+            default,
+            upsertModel,
+            upsert: true);
+
+        var upsertResult = await mediator.Send(upsertCommand, TestCancellation);
+        upsertResult.Should().NotBeNull();
+        upsertResult.Id.Should().BeGreaterThan(0);
+        upsertResult.Name.Should().Be(testValue);
+        upsertResult.Description.Should().Be(upsertModel.Description);
+        upsertResult.Created.Should().BeCloseTo(DateTimeOffset.UtcNow, TimeSpan.FromMinutes(1));
+        upsertResult.CreatedBy.Should().Be(userName);
+        upsertResult.Updated.Should().BeCloseTo(DateTimeOffset.UtcNow, TimeSpan.FromMinutes(1));
+        upsertResult.UpdatedBy.Should().Be(userName);
+        upsertResult.Owners.Should().Contain(MockClaimsPrincipal.DefaultUserId);
+
+        // verify entity was persisted with the generated id
+        var identifierQuery = new EntityIdentifierQuery<long, OrganizationReadModel>(MockClaimsPrincipal.Default, upsertResult.Id, PipelineNames.System);
+        var identifierResult = await mediator.Send(identifierQuery, TestCancellation);
+        identifierResult.Should().NotBeNull();
+        identifierResult.Id.Should().Be(upsertResult.Id);
+        identifierResult.Name.Should().Be(testValue);
+
+        // cleanup
+        var deleteCommand = new EntityDeleteCommand<long, OrganizationReadModel>(MockClaimsPrincipal.Default, upsertResult.Id, PipelineNames.System);
+        var deleteResult = await mediator.Send(deleteCommand, TestCancellation);
+        deleteResult.Should().NotBeNull();
+    }
 }
