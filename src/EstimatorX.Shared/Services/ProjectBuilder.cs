@@ -28,19 +28,34 @@ public class ProjectBuilder : IProjectBuilder
 
         var epic = new EpicEstimate
         {
-            Name = "Sample Epic Estimate"
+            Name = "Sample Epic Estimate",
+            Description = "This is a sample epic estimate. You can edit or delete this epic and add your own epics to the project.",
+            Assumptions = "Document the assumptions for this epic estimate.",
         };
 
-        var feature = new FeatureEstimate
+        var featureOne = new FeatureEstimate
         {
-            Name = "Sample Feature Estimate",
+            Name = "Sample Feature One",
+            Description = "This is a sample feature estimate. You can edit or delete this feature and add your own features to the epic.",
+            Assumptions = "Document the assumptions for this feature estimate.",
             Estimate = project.Settings.EffortLevels.Select(e => e.Effort).FirstOrDefault(),
             Clarity = ClarityScale.High,
             Confidence = ConfidenceScale.High,
             Criticality = Criticality.Required,
         };
+        epic.Features.Add(featureOne);
 
-        epic.Features.Add(feature);
+        var featureTwo = new FeatureEstimate
+        {
+            Name = "Sample Feature Two",
+            Description = "Clarity and Confidence are used for weighting the estimate.",
+            Assumptions = "Assumptions document things you believe to be true at time of estimate.",
+            Estimate = project.Settings.EffortLevels.Skip(1).Select(e => e.Effort).FirstOrDefault(),
+            Clarity = ClarityScale.MediumHigh,
+            Confidence = ConfidenceScale.High,
+            Criticality = Criticality.Required,
+        };
+        epic.Features.Add(featureTwo);
 
         project.Epics.Add(epic);
     }
@@ -112,7 +127,7 @@ public class ProjectBuilder : IProjectBuilder
             settings.Overhead.Add(new ProjectOverhead { Name = "Quality Assurance", Multiplier = 1.1, Description = "Quality assurance testing" });
             settings.Overhead.Add(new ProjectOverhead { Name = "Project Management", Multiplier = 1.1, Description = "Project management activities" });
             settings.Overhead.Add(new ProjectOverhead { Name = "Meetings", Multiplier = 1.05, Description = "Team meetings" });
-            settings.Overhead.Add(new ProjectOverhead { Name = "Documentation", Multiplier = 1.016, Description = "Create documentation for the proejct" });
+            settings.Overhead.Add(new ProjectOverhead { Name = "Documentation", Multiplier = 1.016, Description = "Create documentation for the project" });
         }
 
         return settings;

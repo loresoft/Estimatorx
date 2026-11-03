@@ -19,6 +19,7 @@ public class ProjectBase : EditPageBase<long, ProjectReadModel, ProjectUpdateMod
     [Inject]
     protected IProjectCalculator ProjectCalculator { get; set; } = default!;
 
+    protected bool IncludeSamples { get; set; }
 
     protected ProjectSettings? ProjectSettings => Store.Model?.Settings;
 
@@ -59,7 +60,7 @@ public class ProjectBase : EditPageBase<long, ProjectReadModel, ProjectUpdateMod
             Model.UserId = null;
 
         // ensure the project is updated with the latest calculations
-        ProjectBuilder.UpdateProject(Model);
+        ProjectBuilder.UpdateProject(Model, IncludeSamples);
         ProjectCalculator.UpdateProject(Model);
 
         return await base.OnSavingAsync(cancellationToken);

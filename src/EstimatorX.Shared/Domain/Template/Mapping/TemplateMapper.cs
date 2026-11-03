@@ -32,5 +32,8 @@ internal sealed partial class TemplateUpdateModelToTemplateCreateModelMapper
     protected override void ConfigureMapping(MappingBuilder<Models.TemplateUpdateModel, Models.TemplateCreateModel> mapping)
     {
         // custom mapping here
+        mapping.Property(p => p.Id).Ignore();
+        mapping.Property(p => p.Settings).From(source => EstimateMapper.CloneSettings(source.Settings));
+        mapping.Property(p => p.Epics).From(source => source.Epics.ConvertAll(EstimateMapper.CloneEpic));
     }
 }

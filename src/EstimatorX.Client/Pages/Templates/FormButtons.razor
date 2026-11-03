@@ -1,0 +1,101 @@
+<div class="card-footer">
+    <div class="row">
+        <div class="col-sm-6">
+            <BusyButton id="save-button"
+                        type="submit"
+                        Busy="IsBusy"
+                        Disabled="IsClean"
+                        class="btn btn-primary">
+                Save
+            </BusyButton>
+        </div>
+        <div class="col-sm-6 text-sm-end">
+            @if (ShowDelete)
+            {
+                <div class="dropdown">
+                    <button id="template-action-button"
+                            type="button"
+                            class="btn btn-secondary dropdown-toggle"
+                            disabled="@IsBusy"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        Actions
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="template-action-button">
+                        <li>
+                            <button type="button" class="dropdown-item" @onclick="HandleDuplicate">
+                                <i class="bi bi-copy me-2"></i>Duplicate Template
+                            </button>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <button type="button" class="dropdown-item" @onclick="OnDelete">
+                                <i class="bi bi-trash me-2"></i>Delete Template
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code
+{
+    [Parameter, EditorRequired]
+    public TemplateUpdateModel Model { get; set; } = default!;
+
+    [Parameter]
+    public bool IsBusy { get; set; }
+
+    [Parameter]
+    public bool IsClean { get; set; }
+
+    [Parameter]
+    public bool ShowDelete { get; set; } = true;
+
+    [Parameter]
+    public EventCallback OnDelete { get; set; }
+
+
+    [Inject]
+    protected IMapper Mapper { get; set; } = default!;
+
+    [Inject]
+    protected INotificationService NotificationService { get; set; } = default!;
+
+    [Inject]
+    protected NavigationManager Navigation { get; set; } = default!;
+
+    [Inject]
+    protected IDispatcherDataService DataService { get; set; } = default!;
+
+
+    private async Task HandleDuplicate()
+    {
+        try
+        {
+            var name = Model.Name;
+
+            var clone = Mapper.Map<TemplateUpdateModel, TemplateCreateModel>(Model);
+            clone.Name += " - Copy";
+
+            var result = await DataService.Create<TemplateCreateModel, TemplateReadModel>(clone);
+
+            if (result == null)
+            {
+                NotificationService.ShowError($"Failed to duplicate template '{name}'");
+                return;
+            }
+
+            NotificationService.ShowSuccess($"Template '{name}' duplicated successfully");
+
+            var url = RouteLinks.Templates.General(result.Id);
+            Navigation.NavigateTo(url);
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowError(ex);
+        }
+    }
+}
