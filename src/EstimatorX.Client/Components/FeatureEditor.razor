@@ -26,6 +26,14 @@
                 <div class="mb-2">
                     <label for="@Identifier("name")" class="form-label">
                         Feature Name: <span class="text-danger">*</span>
+                        <Tooltip Position="TooltipPosition.TopLeft">
+                            <ChildContent>
+                                <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                            </ChildContent>
+                            <TipContent>
+                                A short name for this feature, a distinct piece of functionality within the epic. The name is shown in the feature header, summary and report.
+                            </TipContent>
+                        </Tooltip>
                     </label>
                     <InputText id="@Identifier("name")" @bind-Value="Feature.Name" class="form-control" />
                     <ValidationMessage For="@(() => Feature.Name)" />
@@ -33,6 +41,14 @@
                 <div class="mb-2">
                     <label for="@Identifier("description")" class="form-label">
                         Feature Description:
+                        <Tooltip Position="TooltipPosition.TopLeft">
+                            <ChildContent>
+                                <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                            </ChildContent>
+                            <TipContent>
+                                Describe what this feature does and the work needed to deliver it.
+                            </TipContent>
+                        </Tooltip>
                     </label>
                     <InputTextArea id="@Identifier("description")" @bind-Value="Feature.Description" class="form-control" rows="4" />
                     <ValidationMessage For="@(() => Feature.Description)" />
@@ -42,6 +58,14 @@
                 <div class="mb-2">
                     <label for="@Identifier("assumptions")" class="form-label">
                         Feature Assumptions:
+                        <Tooltip>
+                            <ChildContent>
+                                <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                            </ChildContent>
+                            <TipContent>
+                                List the assumptions this feature's estimate depends on, such as dependencies, available resources or excluded work. If an assumption changes, the estimate may need to be revisited.
+                            </TipContent>
+                        </Tooltip>
                     </label>
                     <InputTextArea id="@Identifier("assumptions")" @bind-Value="Feature.Assumptions" class="form-control" rows="7" />
                     <ValidationMessage For="@(() => Feature.Assumptions)" />
@@ -53,6 +77,14 @@
                 <div class="mb-2">
                     <label for="@Identifier("estimate")" class="form-label">
                         Estimate:
+                        <Tooltip Position="TooltipPosition.TopLeft">
+                            <ChildContent>
+                                <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                            </ChildContent>
+                            <TipContent>
+                                The base estimate for this feature, chosen from the effort levels in the project settings, typically in hours. The effort level is the one whose effort value is closest to the estimate.
+                            </TipContent>
+                        </Tooltip>
                     </label>
                     <InputSelect id="@Identifier("estimate")" @bind-Value="Feature.Estimate" class="form-select">
                         <option value=""></option>
@@ -68,6 +100,14 @@
                 <div class="mb-2">
                     <label for="@Identifier("clarity")" class="form-label">
                         Clarity:
+                        <Tooltip>
+                            <ChildContent>
+                                <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                            </ChildContent>
+                            <TipContent>
+                                How well the requirements for this feature are understood. Together with confidence, clarity selects the multiplier used to calculate the weighted estimate. Lower clarity results in a higher multiplier.
+                            </TipContent>
+                        </Tooltip>
                     </label>
                     <InputSelect id="@Identifier("clarity")" @bind-Value="Feature.Clarity" class="form-select">
                         <option value=""></option>
@@ -83,6 +123,14 @@
                 <div class="mb-2">
                     <label for="@Identifier("confidence")" class="form-label">
                         Confidence:
+                        <Tooltip>
+                            <ChildContent>
+                                <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                            </ChildContent>
+                            <TipContent>
+                                How confident you are in the estimate for this feature. Together with clarity, confidence selects the multiplier used to calculate the weighted estimate. Lower confidence results in a higher multiplier.
+                            </TipContent>
+                        </Tooltip>
                     </label>
                     <InputSelect id="@Identifier("confidence")" @bind-Value="Feature.Confidence" class="form-select">
                         <option value=""></option>
@@ -98,6 +146,14 @@
                 <div class="mb-2">
                     <label for="@Identifier("criticality")" class="form-label">
                         Criticality:
+                        <Tooltip Position="TooltipPosition.TopRight">
+                            <ChildContent>
+                                <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                            </ChildContent>
+                            <TipContent>
+                                Whether this feature is required for the project or a stretch goal that can be dropped if needed. Criticality is informational and does not change the calculated totals.
+                            </TipContent>
+                        </Tooltip>
                     </label>
                     <InputSelect id="@Identifier("criticality")" @bind-Value="Feature.Criticality" class="form-select">
                         <option value=""></option>
@@ -114,6 +170,14 @@
             <div class="col-md-3">
                 <label class="form-label">
                     Weighted Estimate:
+                    <Tooltip Position="TooltipPosition.TopLeft">
+                        <ChildContent>
+                            <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                        </ChildContent>
+                        <TipContent>
+                            The estimate adjusted for uncertainty, calculated by multiplying the estimate by the multiplier and rounding to the nearest whole number. Supporting tasks are not included.
+                        </TipContent>
+                    </Tooltip>
                 </label>
                 <div class="form-control-static">
                     @Feature.WeightedEstimate
@@ -122,6 +186,14 @@
             <div class="col-md-3">
                 <label class="form-label">
                     Multiplier:
+                    <Tooltip>
+                        <ChildContent>
+                            <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                        </ChildContent>
+                        <TipContent>
+                            The multiplier from the project settings that matches this feature's clarity and confidence. It is never less than 1, and it also determines the risk level.
+                        </TipContent>
+                    </Tooltip>
                 </label>
                 <div class="form-control-static">
                     @Feature.Multiplier
@@ -132,6 +204,14 @@
                 <div class="col-md-3">
                     <label class="form-label">
                         Estimated Cost:
+                        <Tooltip>
+                            <ChildContent>
+                                <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                            </ChildContent>
+                            <TipContent>
+                                The estimated total, including supporting tasks, multiplied by the unit rate.
+                            </TipContent>
+                        </Tooltip>
                     </label>
                     <div class="form-control-static">
                         @((Feature.EstimatedCost ?? 0).ToString("C"))
@@ -140,6 +220,14 @@
                 <div class="col-md-3">
                     <label class="form-label">
                         Weighted Cost:
+                        <Tooltip Position="TooltipPosition.TopRight">
+                            <ChildContent>
+                                <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                            </ChildContent>
+                            <TipContent>
+                                The weighted total, including supporting tasks, multiplied by the unit rate.
+                            </TipContent>
+                        </Tooltip>
                     </label>
                     <div class="form-control-static">
                         @((Feature.WeightedCost ?? 0).ToString("C"))
@@ -164,7 +252,17 @@
                         </colgroup>
                         <thead>
                             <tr>
-                                <th>Supporting Task</th>
+                                <th>
+                                    Supporting Task
+                                    <Tooltip Position="TooltipPosition.TopLeft">
+                                        <ChildContent>
+                                            <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                                        </ChildContent>
+                                        <TipContent>
+                                            The extra effort each supporting task adds to this feature, calculated from the estimate and weighted estimate using the task's multiplier. Supporting tasks and their multipliers are configured in the project Settings. Each task applies to the base estimate only, and these amounts are included in the feature totals.
+                                        </TipContent>
+                                    </Tooltip>
+                                </th>
                                 <th class="text-end">Estimated</th>
                                 <th class="text-end">Weighted</th>
                                 @if (ShowCost)

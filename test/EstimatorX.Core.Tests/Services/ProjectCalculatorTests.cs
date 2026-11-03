@@ -133,22 +133,122 @@ public class ProjectCalculatorTests
     }
 
     [Fact]
-    public void UpdateFeature_AppliesOverheadMultipliers()
+    public void UpdateFeature_AppliesOverheadToBaseWithoutCompounding()
     {
         var project = CreateProject(s => s.Overhead =
         [
             new ProjectOverhead { Name = "Testing", Multiplier = 1.2 },
-            new ProjectOverhead { Name = "Management", Multiplier = 1.5 },
+            new ProjectOverhead { Name = "Management", Multiplier = 1.3 },
         ]);
-        var feature = new FeatureEstimate { Name = "Feature", Estimate = 10, Clarity = ClarityScale.High, Confidence = ConfidenceScale.High };
+        var feature = new FeatureEstimate { Name = "Feature", Estimate = 20, Clarity = ClarityScale.High, Confidence = ConfidenceScale.High };
 
         _calculator.UpdateFeature(project, feature);
 
-        // 10 * 1.2 * 1.5 = 18 ; 15 * 1.2 * 1.5 = 27
-        feature.EstimatedTotal.Should().Be(18);
-        feature.WeightedTotal.Should().Be(27);
-        feature.EstimatedCost.Should().Be(1800);
-        feature.WeightedCost.Should().Be(2700);
+        // 20 + (20 * 0.2) + (20 * 0.3) = 30 ; 30 + (30 * 0.2) + (30 * 0.3) = 45
+        feature.EstimatedTotal.Should().Be(30);
+        feature.WeightedTotal.Should().Be(45);
+        feature.EstimatedCost.Should().Be(3000);
+        feature.WeightedCost.Should().Be(4500);
+    }
+
+    [Fact]
+    public void UpdateFeature_WithSampleOverhead_MatchesSumOfOverheadBreakdown()
+    {
+        var project = CreateProject(s => s.Overhead =
+        [
+            new ProjectOverhead { Name = "Unit Tests", Multiplier = 1.1 },
+            new ProjectOverhead { Name = "Quality Assurance", Multiplier = 1.1 },
+            new ProjectOverhead { Name = "Project Management", Multiplier = 1.1 },
+            new ProjectOverhead { Name = "Meetings", Multiplier = 1.05 },
+            new ProjectOverhead { Name = "Documentation", Multiplier = 1.016 },
+        ]);
+        var feature = new FeatureEstimate { Name = "Feature", Estimate = 100, Clarity = ClarityScale.Medium, Confidence = ConfidenceScale.Medium };
+
+        _calculator.UpdateFeature(project, feature);
+
+        // 100 + 10 + 10 + 10 + 5 + 1.6 = 136.6 => 137 (compounding would be 142)
+        feature.EstimatedTotal.Should().Be(137);
+        feature.WeightedTotal.Should().Be(137);
+    }
+
+    [Fact]
+    public void UpdateFeature_WithStoriesAndOverhead_IncludesStoryOverheadInTotals()
+    {
+        var project = CreateProject(s => s.Overhead = [new ProjectOverhead { Name = "Testing", Multiplier = 2 }]);
+        var story = CreateStory(10);
+        var feature = new FeatureEstimate { Name = "Feature", Stories = [story] };
+
+        _calculator.UpdateFeature(project, feature);
+
+        story.EstimatedTotal.Should().Be(20);
+        story.WeightedTotal.Should().Be(30);
+
+        feature.EstimatedTotal.Should().Be(20);
+        feature.WeightedTotal.Should().Be(30);
+        feature.EstimatedCost.Should().Be(2000);
+        feature.WeightedCost.Should().Be(3000);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData(0)]
+    public void UpdateFeature_WithEmptyStory_KeepsTotals(int? estimate)
+    {
+        var project = CreateProject();
+        var feature = new FeatureEstimate
+        {
+            Name = "Feature",
+            Stories = [CreateStory(10), CreateStory(estimate)],
+        };
+
+        _calculator.UpdateFeature(project, feature);
+
+        feature.Stories[1].EstimatedTotal.Should().Be(0);
+        feature.Stories[1].WeightedTotal.Should().Be(0);
+
+        feature.EstimatedTotal.Should().Be(10);
+        feature.WeightedTotal.Should().Be(15);
+        feature.EstimatedCost.Should().Be(1000);
+        feature.WeightedCost.Should().Be(1500);
+    }
+
+    [Fact]
+    public void UpdateFeature_RoundsWeightedTotalOnceFromUnroundedValue()
+    {
+        var project = CreateProject(s =>
+        {
+            s.Multipliers = [new EstimateMultiplier { Clarity = ClarityScale.High, Confidence = ConfidenceScale.High, Value = 1.25 }];
+            s.Overhead = [new ProjectOverhead { Name = "Testing", Multiplier = 1.3 }];
+        });
+        var feature = new FeatureEstimate { Name = "Feature", Estimate = 1, Clarity = ClarityScale.High, Confidence = ConfidenceScale.High };
+
+        _calculator.UpdateFeature(project, feature);
+
+        // weighted estimate 1.25 => 1 for display, but total uses 1 * 1.25 * 1.3 = 1.625 => 2 (not 1 * 1.3 = 1.3 => 1)
+        feature.WeightedEstimate.Should().Be(1);
+        feature.WeightedTotal.Should().Be(2);
+    }
+
+    [Fact]
+    public void UpdateEpic_RoundsAfterRollingUpUnroundedTotals()
+    {
+        var project = CreateProject(s => s.Overhead = [new ProjectOverhead { Name = "Testing", Multiplier = 1.4 }]);
+        var features = Enumerable.Range(0, 10)
+            .Select(i => new FeatureEstimate { Name = $"F{i}", Estimate = 1, Clarity = ClarityScale.High, Confidence = ConfidenceScale.High })
+            .ToList();
+        var epic = new EpicEstimate { Name = "Epic", Features = features };
+
+        _calculator.UpdateEpic(project, epic);
+
+        // each feature: 1 * 1.4 = 1.4 => 1 ; 1 * 1.5 * 1.4 = 2.1 => 2
+        features[0].EstimatedTotal.Should().Be(1);
+        features[0].WeightedTotal.Should().Be(2);
+
+        // epic: 10 * 1.4 = 14 ; 10 * 2.1 = 21
+        epic.EstimatedTotal.Should().Be(14);
+        epic.WeightedTotal.Should().Be(21);
+        epic.EstimatedCost.Should().Be(1400);
+        epic.WeightedCost.Should().Be(2100);
     }
 
     [Fact]

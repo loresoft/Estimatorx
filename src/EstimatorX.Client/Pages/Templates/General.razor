@@ -79,32 +79,11 @@
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
-                <!-- Form Buttons -->
-                <div class="row">
-                    <div class="col-sm-6">
-                        <BusyButton id="save-button"
-                                    type="submit"
-                                    Busy="Store.IsBusy"
-                                    Disabled="Store.IsClean"
-                                    class="btn btn-primary">
-                            Save
-                        </BusyButton>
-                    </div>
-                    <div class="col-sm-6 text-sm-end">
-                        @if (!IsCreate)
-                        {
-                            <BusyButton id="delete-button"
-                                        type="button"
-                                        Trigger="HandleDelete"
-                                        Disabled="@Store.IsBusy"
-                                        class="btn btn-danger">
-                                Delete
-                            </BusyButton>
-                        }
-                    </div>
-                </div>
-            </div>
+            <FormButtons Model="Model"
+                         IsBusy="IsBusy"
+                         IsClean="IsClean"
+                         ShowDelete="!IsCreate"
+                         OnDelete="HandleDelete" />
         </EditForm>
     </LoadingBlock>
 </Container>

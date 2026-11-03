@@ -93,6 +93,19 @@
                                     The template to apply to the project.
                                 </div>
                             </div>
+                            <div class="mb-3">
+                                <label for="IncludeSamples" class="form-label">
+                                    Samples:
+                                </label>
+                                <BooleanSelect Placeholder="- select -"
+                                               @bind-Value="IncludeSamples"
+                                               id="IncludeSamples"
+                                               name="IncludeSamples"
+                                               class="form-select" />
+                                <div class="form-text">
+                                    Whether to include sample data in the project.
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -104,7 +117,7 @@
                                                id="Description"
                                                name="Description"
                                                class="form-control"
-                                               rows="10"
+                                               rows="15"
                                                placeholder="Description" />
                                 <ValidationMessage For="@(() => Store.Model.Description)" />
                                 <div class="form-text">

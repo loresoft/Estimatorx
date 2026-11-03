@@ -87,7 +87,10 @@
                                            name="HostMatches" />
                                 <ValidationMessage For="@(() => Store.Model.HostMatches)" />
                                 <div class="form-text">
-                                    Host names used to automatically match users to this organization.
+                                    Email domains used to automatically add new users to this organization, for example <code>example.com</code>.
+                                    (after the <code>@@</code>)
+                                    If it matches, the user is automatically added as a member of this organization.
+                                    Matching is exact and not case sensitive, so subdomains such as <code>mail.example.com</code> must be added separately.
                                 </div>
                             </div>
                         </div>
