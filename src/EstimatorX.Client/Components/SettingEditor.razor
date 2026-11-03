@@ -3,12 +3,22 @@
 <div class="row">
     <div class="col-md-12">
         <fieldset class="standard">
-            <legend>Settings</legend>
+            <legend>
+                Settings
+            </legend>
             <div class="row">
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label for="ShowCost" class="form-label">
                             Show Cost:
+                            <Tooltip Position="TooltipPosition.TopLeft">
+                                <ChildContent>
+                                    <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                                </ChildContent>
+                                <TipContent>
+                                    Show the cost of the project in the summary and report. The cost is calculated by multiplying the total estimate by the unit rate.
+                                </TipContent>
+                            </Tooltip>
                         </label>
                         <BooleanSelect DisplayName="Show Cost"
                                        @bind-Value="ProjectSettings.ShowCost"
@@ -22,6 +32,14 @@
                     <div class="mb-3">
                         <label for="EstimateRate" class="form-label">
                             Unit Rate:
+                            <Tooltip>
+                                <ChildContent>
+                                    <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                                </ChildContent>
+                                <TipContent>
+                                    The cost per estimate unit, for example an hourly rate. The estimated cost is calculated by multiplying the total estimate by the unit rate.
+                                </TipContent>
+                            </Tooltip>
                         </label>
                         <InputNumber DisplayName="Unit Rate"
                                      @bind-Value="ProjectSettings.EstimateRate"
@@ -35,6 +53,14 @@
                     <div class="mb-3">
                         <label for="UnitsPerWeek" class="form-label">
                             Units Per Week:
+                            <Tooltip>
+                                <ChildContent>
+                                    <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                                </ChildContent>
+                                <TipContent>
+                                    The number of estimate units completed per week, for example hours worked per week. The estimated duration in weeks is calculated by dividing the total estimate by the units per week.
+                                </TipContent>
+                            </Tooltip>
                         </label>
                         <InputNumber DisplayName="Units Per Week"
                                      @bind-Value="ProjectSettings.UnitsPerWeek"
@@ -52,7 +78,17 @@
 <div class="row">
     <div class="col-md-12">
         <fieldset class="standard">
-            <legend>Multiplier Matrix</legend>
+            <legend>
+                Multiplier Matrix
+                <Tooltip Position="TooltipPosition.TopLeft">
+                    <ChildContent>
+                        <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                    </ChildContent>
+                    <TipContent>
+                        The multiplier applied to an estimate based on its clarity (rows) and confidence (columns). The weighted estimate is calculated by multiplying the estimate by the matching multiplier. Multipliers less than 1 are treated as 1.
+                    </TipContent>
+                </Tooltip>
+            </legend>
             <table class="table table-borderless table-sm">
                 <tbody>
                     <tr>
@@ -93,7 +129,17 @@
 <div class="row">
     <div class="col-md-6">
         <fieldset class="standard">
-            <legend>Risk Level</legend>
+            <legend>
+                Risk Level
+                <Tooltip Position="TooltipPosition.TopLeft">
+                    <ChildContent>
+                        <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                    </ChildContent>
+                    <TipContent>
+                        The risk labels assigned to estimates. Each estimate is given the risk whose multiplier is closest to the estimate's clarity and confidence multiplier.
+                    </TipContent>
+                </Tooltip>
+            </legend>
             <table class="table table-borderless table-sm">
                 <colgroup>
                     <col style="" />
@@ -148,7 +194,17 @@
     </div>
     <div class="col-md-6">
         <fieldset class="standard">
-            <legend>Effort Values</legend>
+            <legend>
+                Effort Values
+                <Tooltip>
+                    <ChildContent>
+                        <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                    </ChildContent>
+                    <TipContent>
+                        The estimate values available to choose from, typically in hours, and their effort level labels. For example, 8 hours could be labeled Medium Low and 16 hours Medium. Values can also represent story points, such as 1, 2, 3, 5 and 8, or t-shirt sizes by using labels like S, M and L with a numeric value for each size. Each estimate is given the level whose effort value is closest to the estimate.
+                    </TipContent>
+                </Tooltip>
+            </legend>
             <table class="table table-borderless table-sm">
                 <colgroup>
                     <col style="" />
@@ -205,7 +261,17 @@
 <div class="row">
     <div class="col-md-12">
         <fieldset class="standard">
-            <legend>Supporting Tasks</legend>
+            <legend>
+                Supporting Tasks
+                <Tooltip Position="TooltipPosition.TopLeft">
+                    <ChildContent>
+                        <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                    </ChildContent>
+                    <TipContent>
+                        Each task's multiplier is applied to the base estimate and weighted estimate to calculate the totals. Set the multiplier to 1 plus the percentage of extra effort the task adds, for example 1.1 adds 10% and 1.05 adds 5%. A multiplier of 1 adds no effort. Multipliers do not compound; each is applied to the base only, so 1.1 and 1.1 together add 20%.
+                    </TipContent>
+                </Tooltip>
+            </legend>
             <table class="table table-borderless table-sm">
                 <colgroup>
                     <col style="" />

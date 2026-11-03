@@ -29,6 +29,14 @@
                 <div class="mb-2">
                     <label for="@Identifier("name")" class="form-label">
                         Epic Name: <span class="text-danger">*</span>
+                        <Tooltip Position="TooltipPosition.TopLeft">
+                            <ChildContent>
+                                <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                            </ChildContent>
+                            <TipContent>
+                                A short name for this epic, a large body of work that groups related features. The name is shown in the epic header, summary and report.
+                            </TipContent>
+                        </Tooltip>
                     </label>
                     <InputText id="@Identifier("name")" @bind-Value="Epic.Name" class="form-control" />
                     <ValidationMessage For="@(() => Epic.Name)" />
@@ -36,6 +44,14 @@
                 <div class="mb-2">
                     <label for="@Identifier("description")" class="form-label">
                         Epic Description:
+                        <Tooltip Position="TooltipPosition.TopLeft">
+                            <ChildContent>
+                                <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                            </ChildContent>
+                            <TipContent>
+                                Describe the goal and scope of this epic, including what it delivers and why it is needed.
+                            </TipContent>
+                        </Tooltip>
                     </label>
                     <InputTextArea id="@Identifier("description")" @bind-Value="Epic.Description" class="form-control" rows="4" />
                     <ValidationMessage For="@(() => Epic.Description)" />
@@ -45,6 +61,14 @@
                 <div class="mb-2">
                     <label for="@Identifier("assumptions")" class="form-label">
                         Epic Assumptions:
+                        <Tooltip>
+                            <ChildContent>
+                                <i class="bi bi-question-circle-fill text-primary ms-2"></i>
+                            </ChildContent>
+                            <TipContent>
+                                List the assumptions the estimates for this epic depend on, such as dependencies, available resources or excluded work. If an assumption changes, the estimates may need to be revisited.
+                            </TipContent>
+                        </Tooltip>
                     </label>
                     <InputTextArea id="@Identifier("assumptions")" @bind-Value="Epic.Assumptions" class="form-control" rows="7" />
                     <ValidationMessage For="@(() => Epic.Assumptions)" />
