@@ -15,7 +15,7 @@ namespace EstimatorX.Migrations.Sqlite.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "10.0.13");
+            modelBuilder.HasAnnotation("ProductVersion", "10.0.14");
 
             modelBuilder.Entity("EstimatorX.Data.Entities.Invite", b =>
                 {
@@ -147,6 +147,10 @@ namespace EstimatorX.Migrations.Sqlite.Migrations
                     b.Property<long>("Id")
                         .HasColumnType("INTEGER")
                         .HasColumnName("Id");
+
+                    b.Property<string>("Assumptions")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Assumptions");
 
                     b.Property<long>("Created")
                         .HasColumnType("INTEGER")

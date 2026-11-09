@@ -31,10 +31,28 @@
                                        id="Name"
                                        name="Name"
                                        class="form-control"
-                                       placeholder="Name" />
+                                       placeholder="e.g. Customer Portal Redesign"
+                                       aria-describedby="NameHelp" />
                             <ValidationMessage For="@(() => Store.Model.Name)" />
-                            <div class="form-text">
-                                The display name of the project.
+                            <div id="NameHelp" class="form-text">
+                                A short, recognizable name shown in project lists and on the estimate report.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Description" class="form-label">
+                                Description:
+                            </label>
+                            <InputTextArea DisplayName="Description"
+                                           @bind-Value="Store.Model!.Description"
+                                           id="Description"
+                                           name="Description"
+                                           class="form-control"
+                                           rows="5"
+                                           placeholder="Describe the goals and scope of the project"
+                                           aria-describedby="DescriptionHelp" />
+                            <ValidationMessage For="@(() => Store.Model.Description)" />
+                            <div id="DescriptionHelp" class="form-text">
+                                Summarize what the project delivers and what is in scope for this estimate.
                             </div>
                         </div>
                         <div class="mb-3">
@@ -53,28 +71,30 @@
                                           @bind-Value="Store.Model!.OrganizationId"
                                           id="OrganizationId"
                                           name="OrganizationId"
-                                          class="form-select" />
+                                          class="form-select"
+                                          aria-describedby="OrganizationIdHelp" />
                             <ValidationMessage For="@(() => Store.Model.OrganizationId)" />
-                            <div class="form-text">
-                                The owning organization. Leave blank to keep the project private.
+                            <div id="OrganizationIdHelp" class="form-text">
+                                Share with an organization, or leave <em>- private -</em> for only you.
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="Description" class="form-label">
-                                Description:
+                            <label for="Assumptions" class="form-label">
+                                Assumptions:
                             </label>
-                            <InputTextArea DisplayName="Description"
-                                           @bind-Value="Store.Model!.Description"
-                                           id="Description"
-                                           name="Description"
+                            <InputTextArea DisplayName="Assumptions"
+                                           @bind-Value="Store.Model!.Assumptions"
+                                           id="Assumptions"
+                                           name="Assumptions"
                                            class="form-control"
-                                           rows="10"
-                                           placeholder="Description" />
-                            <ValidationMessage For="@(() => Store.Model.Description)" />
-                            <div class="form-text">
-                                A brief description of the project.
+                                           rows="15"
+                                           placeholder="e.g. Client provides test environments; existing APIs are documented"
+                                           aria-describedby="AssumptionsHelp" />
+                            <ValidationMessage For="@(() => Store.Model.Assumptions)" />
+                            <div id="AssumptionsHelp" class="form-text">
+                                List the project conditions the estimate depends on. These are included with the estimate so changes in scope or risk can be traced back to them.
                             </div>
                         </div>
                     </div>

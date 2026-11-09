@@ -13,6 +13,8 @@ public partial class ProjectReadModel : EntityReadModel, IProjectEstimate, ISupp
 
     public string? Description { get; set; }
 
+    public string? Assumptions { get; set; }
+
     public long? OrganizationId { get; set; }
 
     [Column("Organization.Name")]

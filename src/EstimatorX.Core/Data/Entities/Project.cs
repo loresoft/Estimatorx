@@ -13,6 +13,8 @@ public class Project : IHaveIdentifier<long>, ITrackCreated, ITrackUpdated, IPro
 
     public string? Description { get; set; }
 
+    public string? Assumptions { get; set; }
+
     public long? OrganizationId { get; set; }
 
     public long? UserId { get; set; }

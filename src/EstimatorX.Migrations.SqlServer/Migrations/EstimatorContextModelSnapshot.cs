@@ -18,7 +18,7 @@ namespace EstimatorX.Migrations.SqlServer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.13")
+                .HasAnnotation("ProductVersion", "10.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -155,6 +155,10 @@ namespace EstimatorX.Migrations.SqlServer.Migrations
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
                         .HasColumnName("Id");
+
+                    b.Property<string>("Assumptions")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Assumptions");
 
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset")
