@@ -32,6 +32,9 @@ public class ProjectMap : IEntityTypeConfiguration<Entities.Project>
             .HasColumnName(Columns.Description)
             .HasMaxLength(2000);
 
+        builder.Property(t => t.Assumptions)
+            .HasColumnName(Columns.Assumptions);
+
         builder.Property(t => t.OrganizationId)
             .HasColumnName(Columns.OrganizationId);
 
@@ -121,6 +124,7 @@ public class ProjectMap : IEntityTypeConfiguration<Entities.Project>
         public const string Id = "Id";
         public const string Name = "Name";
         public const string Description = "Description";
+        public const string Assumptions = "Assumptions";
         public const string OrganizationId = "OrganizationId";
         public const string UserId = "UserId";
         public const string Settings = "Settings";

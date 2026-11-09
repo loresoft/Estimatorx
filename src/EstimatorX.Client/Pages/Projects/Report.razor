@@ -50,6 +50,13 @@
                 {
                     <p class="report-text mt-3 mb-0">@Model.Description</p>
                 }
+                @if (!string.IsNullOrWhiteSpace(Model.Assumptions))
+                {
+                    <div class="report-assumptions mt-3">
+                        <div class="report-assumptions-label">Assumptions</div>
+                        <div class="report-text">@Model.Assumptions</div>
+                    </div>
+                }
             </header>
 
             <section class="report-totals mb-4">

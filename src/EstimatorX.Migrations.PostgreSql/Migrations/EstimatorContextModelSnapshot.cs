@@ -18,7 +18,7 @@ namespace EstimatorX.Migrations.PostgreSql.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.13")
+                .HasAnnotation("ProductVersion", "10.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -153,6 +153,10 @@ namespace EstimatorX.Migrations.PostgreSql.Migrations
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
                         .HasColumnName("Id");
+
+                    b.Property<string>("Assumptions")
+                        .HasColumnType("text")
+                        .HasColumnName("Assumptions");
 
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone")

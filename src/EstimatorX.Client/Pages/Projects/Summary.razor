@@ -13,9 +13,21 @@
             <FluentValidator />
 
             <div class="card-body">
-                <h3>Project Summary</h3>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3>Project Summary</h3>
+                    @if (Store.Model != null && Store.Model.SecurityKey.HasValue())
+                    {
+                        <a href="@RouteLinks.Projects.Report(Store.Model.SecurityKey)"
+                           class="text-decoration-none"
+                           target="_blank">
+                            <i class="bi bi-file-earmark-bar-graph me-1"></i>View Report
+                        </a>
+                    }
+                </div>
+
                 <div class="table-responsive">
-                    <table class="table table-borderless" style="min-width: 680px">
+                    <table class="table table-borderless"
+                           style="min-width: 680px">
                         <colgroup>
                             <col style="width: 30px" />
                             <col style="" />
@@ -78,7 +90,8 @@
                                 {
                                     foreach (var feature in epic.Features)
                                     {
-                                        <tr @key="feature.Id" class="table-row-muted">
+                                        <tr @key="feature.Id"
+                                            class="table-row-muted">
                                             <td></td>
                                             <td style="padding-left: 1.5em">@feature.Name</td>
                                             <td class="text-end">@feature.EstimatedTotal</td>
@@ -97,7 +110,8 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th colspan="2" class="text-end">Grand Total:</th>
+                                <th colspan="2"
+                                    class="text-end">Grand Total:</th>
                                 <th class="text-end">@Model.EstimatedTotal</th>
                                 <th class="text-end">@Model.WeightedTotal</th>
                                 <th class="text-end">@Model.EstimatedWeeks?.ToString("N1")</th>
