@@ -16,7 +16,7 @@
     <PackageVersion Include="AspNet.Security.OAuth.GitHub" Version="10.1.0" />
     <PackageVersion Include="AssemblyMetadata.Generators" Version="2.2.0" />
     <PackageVersion Include="AwesomeAssertions" Version="9.6.0" />
-    <PackageVersion Include="Blazilla" Version="2.4.3" />
+    <PackageVersion Include="Blazilla" Version="3.0.0" />
     <PackageVersion Include="Cosmos.Abstracts" Version="7.0.0" />
     <PackageVersion Include="coverlet.MTP" Version="10.1.0" />
     <PackageVersion Include="Equatable.Generator" Version="3.0.0" />
