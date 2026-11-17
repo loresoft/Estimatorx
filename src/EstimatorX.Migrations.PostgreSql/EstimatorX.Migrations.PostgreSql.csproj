@@ -15,8 +15,4 @@
     <ProjectReference Include="..\EstimatorX.Core\EstimatorX.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>
