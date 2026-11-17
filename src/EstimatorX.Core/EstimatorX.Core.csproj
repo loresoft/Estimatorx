@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net11.0</TargetFramework>
     <RootNamespace>EstimatorX</RootNamespace>
@@ -8,6 +8,10 @@
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net11.0'">
+    <Features>runtime-async=on</Features>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Arbiter.CommandQuery.EntityFramework" />
     <PackageReference Include="Arbiter.Communication" />
