@@ -1,9 +1,5 @@
 #pragma warning disable IDE0130 // Namespace does not match folder structure
 
-using System.Diagnostics.CodeAnalysis;
-
-using EstimatorX.Domain.Models;
-
 namespace EstimatorX.Domain.Mapping;
 
 [GenerateMapper]

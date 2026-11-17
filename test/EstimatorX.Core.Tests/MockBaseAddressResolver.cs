@@ -1,5 +1,5 @@
 using Arbiter.CommandQuery.Definitions;
-using Arbiter.CommandQuery.Extensions;
+using Arbiter.Services.Extensions;
 
 namespace EstimatorX.Core.Tests;
 

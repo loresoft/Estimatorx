@@ -2,6 +2,7 @@ using System.Security.Claims;
 
 using Arbiter.CommandQuery.Services;
 using Arbiter.Mediation;
+using Arbiter.Services;
 
 using EstimatorX.Data;
 using EstimatorX.Domain.Commands;

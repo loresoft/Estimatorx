@@ -5,7 +5,7 @@ namespace EstimatorX.Templates;
 public static class TemplateNames
 {
     public static readonly Assembly TemplateAssembly = typeof(TemplateNames).Assembly;
-    public static readonly string TemplateResourceFormat =  $"{typeof(TemplateNames).Namespace}.{{0}}.yml";
+    public static readonly string TemplateResourceFormat = $"{typeof(TemplateNames).Namespace}.{{0}}.yml";
 
     public const string InviteTemplate = "InviteEmail";
 

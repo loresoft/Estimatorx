@@ -1,7 +1,6 @@
 using Arbiter.CommandQuery.EntityFramework.Handlers;
 using Arbiter.CommandQuery.Extensions;
 using Arbiter.CommandQuery.Models;
-using Arbiter.Mapping;
 using Arbiter.Services;
 
 using EstimatorX.Data;

@@ -3,6 +3,7 @@ using System.Text.Json;
 using Arbiter.CommandQuery.Options;
 using Arbiter.Components;
 using Arbiter.Dispatcher;
+using Arbiter.Services.Extensions;
 
 using EstimatorX.Extensions;
 

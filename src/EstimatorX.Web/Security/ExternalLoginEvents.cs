@@ -4,6 +4,8 @@ using Arbiter.CommandQuery.Endpoints;
 using Arbiter.CommandQuery.Extensions;
 using Arbiter.CommandQuery.Services;
 using Arbiter.Mediation;
+using Arbiter.Services;
+using Arbiter.Services.Extensions;
 
 using EstimatorX.Domain.Commands;
 using EstimatorX.Security;

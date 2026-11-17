@@ -3,7 +3,6 @@ using System.Text.Json.Serialization;
 
 using Arbiter.CommandQuery.Commands;
 using Arbiter.CommandQuery.Models;
-using Arbiter.Mediation;
 
 namespace EstimatorX.Domain.Commands;
 

@@ -1,10 +1,8 @@
 using Arbiter.CommandQuery.Definitions;
 using Arbiter.CommandQuery.EntityFramework.Handlers;
-using Arbiter.CommandQuery.Extensions;
 using Arbiter.CommandQuery.Models;
 using Arbiter.CommandQuery.Options;
 using Arbiter.Communication.Email;
-using Arbiter.Mapping;
 using Arbiter.Services;
 
 using EstimatorX.Data;

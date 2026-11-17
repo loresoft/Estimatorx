@@ -1,9 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-using Arbiter.CommandQuery.Converters;
-using Arbiter.Mediation;
-
 namespace EstimatorX.Extensions;
 
 public static class JsonSerializerExtensions

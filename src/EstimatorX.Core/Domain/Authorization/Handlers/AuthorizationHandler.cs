@@ -1,6 +1,5 @@
 #pragma warning disable IDE0130 // Namespace does not match folder structure
 
-using Arbiter.CommandQuery.Extensions;
 using Arbiter.CommandQuery.Handlers;
 using Arbiter.Mediation;
 

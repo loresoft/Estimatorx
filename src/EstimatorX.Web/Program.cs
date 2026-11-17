@@ -162,11 +162,7 @@ public static class Program
         // Needed due to load balancer and reverse proxy in front of the app
         app.UseForwardedHeaders();
 
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseWebAssemblyDebugging();
-        }
-        else
+        if (!app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Error");
             app.UseHsts();

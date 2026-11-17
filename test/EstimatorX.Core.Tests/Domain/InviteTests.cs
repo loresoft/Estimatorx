@@ -245,7 +245,7 @@ public class InviteTests(DatabaseFixture fixture) : TestHostBase<DatabaseFixture
 
         var principal = MockClaimsPrincipal.CreatePrincipal(userEmail, "Authenticated User");
         ((System.Security.Claims.ClaimsIdentity)principal.Identity!).AddClaim(
-            new System.Security.Claims.Claim(Arbiter.CommandQuery.Services.ClaimNames.UserId, userId.ToString()));
+            new System.Security.Claims.Claim(ClaimNames.UserId, userId.ToString()));
 
         InviteRedeemCommand redeemRequest = new(principal, token);
         var redeemResult = await mediator.Send(redeemRequest, TestCancellation);
