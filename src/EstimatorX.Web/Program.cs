@@ -112,6 +112,10 @@ public static class Program
             .PersistKeysToDbContext<EstimatorContext>();
 
         services
+            .AddOptions<SeoOptions>()
+            .BindConfiguration(SeoOptions.SectionName);
+
+        services
             .AddAntiforgery();
 
         services

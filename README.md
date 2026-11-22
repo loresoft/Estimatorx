@@ -260,6 +260,27 @@ docker run -d -p 8080:8080 \
   ghcr.io/loresoft/estimatorx:latest
 ```
 
+#### SEO
+
+Metadata used for the page title, meta description and social sharing (Open Graph/Twitter) tags.
+
+| Variable            | Description                                            | Default                                                            |
+| ------------------- | ------------------------------------------------------ | ------------------------------------------------------------------ |
+| `Seo__CanonicalUrl` | Public canonical URL used by SEO and social image tags | `https://estimatorx.com/`                                          |
+| `Seo__SiteName`     | Site name used in SEO and social sharing tags          | `EstimatorX`                                                       |
+| `Seo__Description`  | Site description used in SEO and social sharing tags   | `Fast, consistent project estimates that account for uncertainty.` |
+
+Set `Seo__CanonicalUrl` to the public HTTPS URL when hosting the container on another domain.
+
+```shell
+docker run -d -p 8080:8080 \
+  -v estimatorx-data:/home/app \
+  -e Seo__CanonicalUrl=https://estimator.example.com/ \
+  -e Seo__SiteName="My EstimatorX" \
+  -e Seo__Description="Custom description for my site." \
+  ghcr.io/loresoft/estimatorx:latest
+```
+
 ### HTTPS
 
 The container listens on HTTP only. Authentication cookies require a secure connection, so run the container behind a TLS terminating reverse proxy (nginx, Traefik, Caddy, Azure Container Apps, etc.). Forwarded headers from the proxy are honored. Plain HTTP works only when browsing to `localhost`.

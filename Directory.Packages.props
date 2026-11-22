@@ -4,15 +4,15 @@
     <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Arbiter.CommandQuery" Version="7.0.0-beta.2" />
-    <PackageVersion Include="Arbiter.CommandQuery.Endpoints" Version="7.0.0-beta.2" />
-    <PackageVersion Include="Arbiter.CommandQuery.EntityFramework" Version="7.0.0-beta.2" />
-    <PackageVersion Include="Arbiter.Communication" Version="7.0.0-beta.2" />
-    <PackageVersion Include="Arbiter.Components" Version="7.0.0-beta.2" />
-    <PackageVersion Include="Arbiter.Dispatcher.Client" Version="7.0.0-beta.2" />
-    <PackageVersion Include="Arbiter.Dispatcher.Server" Version="7.0.0-beta.2" />
-    <PackageVersion Include="Arbiter.Health" Version="7.0.0-beta.2" />
-    <PackageVersion Include="Arbiter.OpenTelemetry.Server" Version="7.0.0-beta.2" />
+    <PackageVersion Include="Arbiter.CommandQuery" Version="7.0.0-beta.4" />
+    <PackageVersion Include="Arbiter.CommandQuery.Endpoints" Version="7.0.0-beta.4" />
+    <PackageVersion Include="Arbiter.CommandQuery.EntityFramework" Version="7.0.0-beta.4" />
+    <PackageVersion Include="Arbiter.Communication" Version="7.0.0-beta.4" />
+    <PackageVersion Include="Arbiter.Components" Version="7.0.0-beta.4" />
+    <PackageVersion Include="Arbiter.Dispatcher.Client" Version="7.0.0-beta.4" />
+    <PackageVersion Include="Arbiter.Dispatcher.Server" Version="7.0.0-beta.4" />
+    <PackageVersion Include="Arbiter.Health" Version="7.0.0-beta.4" />
+    <PackageVersion Include="Arbiter.OpenTelemetry.Server" Version="7.0.0-beta.4" />
     <PackageVersion Include="AspNet.Security.OAuth.GitHub" Version="11.0.0" />
     <PackageVersion Include="AssemblyMetadata.Generators" Version="2.2.0" />
     <PackageVersion Include="AwesomeAssertions" Version="9.6.0" />
@@ -34,11 +34,11 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="11.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="11.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="11.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Caching.Hybrid" Version="11.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.Hybrid" Version="11.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="11.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.13" />
     <PackageVersion Include="MinVer" Version="8.0.0" />
-    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="11.0.0-rc.3" />
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="11.0.0" />
     <PackageVersion Include="Spectre.Console.Cli" Version="0.57.2" />
     <PackageVersion Include="Testcontainers.MsSql" Version="4.17.0" />
     <PackageVersion Include="Testcontainers.Postgresql" Version="4.17.0" />
